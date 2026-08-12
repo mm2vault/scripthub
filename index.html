@@ -2,31 +2,33 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="google-site-verification" content="52VeMEzmkVrq_n6suS8E8Bx_D4dcoQXphroDEAa1FRU">
     <title>ScriptHub | Roblox Premium Scripts</title>
     <style>
         /* =============================================
-           RESET & TEMEL
+           RESET & TEMEL - MOR/MAVİ TEMA
            ============================================= */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px;
             overflow-x: hidden;
-            color: #e8edf5;
-            background-image: url('https://i.ibb.co/4gWNxkwR/67ca190d-3654-4838-bd87-3d22e4e84d95.jpg');
+            color: #f0ecff;
+            background-image: url('https://i.ibb.co/tpDD2CGT/Gemini-Generated-mage-kd9s24kd9s24kd9s.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
             position: relative;
+            -webkit-font-smoothing: antialiased;
         }
 
         body::before {
@@ -36,8 +38,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(11, 13, 21, 0.70);
-            z-index: -1;
+            background: 
+                linear-gradient(180deg, rgba(10, 11, 30, 0.70) 0%, rgba(20, 15, 50, 0.60) 50%, rgba(10, 11, 30, 0.70) 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 70% 30%, rgba(160, 80, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 20% 70%, rgba(80, 130, 255, 0.06) 0%, transparent 35%),
+                radial-gradient(circle at 90% 80%, rgba(200, 100, 255, 0.05) 0%, transparent 30%);
+            z-index: 0;
+            pointer-events: none;
         }
 
         .container {
@@ -45,37 +64,34 @@
             margin: 0 auto;
             position: relative;
             z-index: 1;
+            padding: 0 4px;
         }
 
         /* =============================================
            ANİMASYONLAR
            ============================================= */
         @keyframes fadeSlideDown {
-            0% { opacity: 0; transform: translateY(-30px); }
+            0% { opacity: 0; transform: translateY(-20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeSlideUp {
-            0% { opacity: 0; transform: translateY(30px); }
+            0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeSlideLeft {
-            0% { opacity: 0; transform: translateX(-30px); }
+            0% { opacity: 0; transform: translateX(-20px); }
             100% { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-4px); }
         }
         @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
-            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.5); }
+            0%, 100% { box-shadow: 0 0 15px rgba(130, 80, 255, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(130, 80, 255, 0.5); }
         }
         @keyframes modalZoom {
-            0% { opacity: 0; transform: scale(0.8) translateY(30px); }
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
         @keyframes gradientMove {
@@ -83,103 +99,139 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
 
         /* =============================================
-           HEADER
+           HEADER - LOGO ARKASI GÖRSELLİ
            ============================================= */
         .header {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
-            padding: 18px 28px;
-            background: rgba(16, 18, 36, 0.65);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            animation: fadeSlideDown 0.8s ease forwards;
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            background: rgba(16, 14, 45, 0.70);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 18px;
+            border: 1px solid rgba(130, 80, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(130, 80, 255, 0.1);
+            animation: fadeSlideDown 0.6s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* LOGO ARKASI GÖRSEL */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 200%;
+            height: 200%;
+            background-image: url('https://i.ibb.co/tpDD2CGT/Gemini-Generated-mage-kd9s24kd9s24kd9s.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 0;
+            filter: blur(2px);
+            transform: scale(0.8);
+        }
+
+        /* Logo ve diğer içerikler görselin üstünde */
+        .header .logo,
+        .header .header-right {
+            position: relative;
+            z-index: 1;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
         }
 
         .logo-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             object-fit: cover;
-            border: 2px solid #6366f1;
-            animation: float 3s ease-in-out infinite;
+            border: 2px solid #8b6cf7;
+            flex-shrink: 0;
+            box-shadow: 0 0 25px rgba(130, 80, 255, 0.25);
             transition: 0.3s;
+            position: relative;
+            z-index: 2;
         }
+
         .logo-img:hover {
-            transform: scale(1.05) rotate(-3deg);
-            border-color: #a855f7;
+            border-color: #a78bfa;
+            box-shadow: 0 0 40px rgba(130, 80, 255, 0.4);
+            transform: scale(1.05);
         }
 
         .logo h1 {
-            font-size: 28px;
-            background: linear-gradient(135deg, #a855f7, #6366f1, #a855f7);
-            background-size: 200% 200%;
+            font-size: 22px;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed, #6d28d9, #7c3aed);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientMove 4s ease infinite;
-            letter-spacing: -0.5px;
-            text-shadow: 0 0 40px rgba(99, 102, 241, 0.15);
-            transition: all 0.3s ease;
-        }
-        .logo h1:hover {
-            transform: scale(1.02);
-            text-shadow: 0 0 60px rgba(99, 102, 241, 0.3);
+            animation: gradientMove 5s ease infinite;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+            position: relative;
+            z-index: 2;
         }
 
         .logo span {
-            font-size: 14px;
-            color: #9aa8c5;
+            font-size: 11px;
+            color: #a5b4fc;
             display: block;
-            margin-top: 2px;
-            transition: all 0.3s ease;
-        }
-        .logo span:hover {
-            color: #b0c8e8;
+            margin-top: 1px;
             letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-box {
+            width: 100%;
         }
 
         .search-box input {
-            padding: 12px 20px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(10, 12, 24, 0.7);
+            padding: 10px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(130, 80, 255, 0.15);
+            background: rgba(10, 8, 30, 0.6);
             color: #e8edf5;
-            font-size: 15px;
-            width: 260px;
+            font-size: 14px;
+            width: 100%;
             outline: none;
-            transition: 0.4s;
+            transition: 0.3s;
+            -webkit-appearance: none;
             backdrop-filter: blur(4px);
         }
+
         .search-box input:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
-            background: rgba(10, 12, 24, 0.9);
+            border-color: #8b6cf7;
+            box-shadow: 0 0 0 3px rgba(130, 80, 255, 0.15), 0 0 20px rgba(130, 80, 255, 0.05);
+            background: rgba(10, 8, 30, 0.8);
         }
+
         .search-box input::placeholder {
-            color: #6a7f9c;
+            color: #6d7a9e;
+            font-size: 13px;
         }
 
         /* =============================================
@@ -187,66 +239,65 @@
            ============================================= */
         .filters {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 36px;
-            padding: 14px 20px;
-            background: rgba(16, 18, 34, 0.55);
-            backdrop-filter: blur(12px);
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            animation: fadeSlideLeft 0.6s ease forwards;
+            flex-wrap: nowrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 10px 12px;
+            background: rgba(16, 14, 45, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 14px;
+            border: 1px solid rgba(130, 80, 255, 0.08);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            animation: fadeSlideLeft 0.5s ease forwards;
+        }
+
+        .filters::-webkit-scrollbar {
+            display: none;
         }
 
         .filter-btn {
-            padding: 10px 22px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 8px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(130, 80, 255, 0.1);
             background: transparent;
-            color: #9aa8c5;
+            color: #a5b4fc;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            transition: all 0.25s ease;
+            font-size: 12px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
+            gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
         }
-        .filter-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            animation: rotateGlow 6s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s;
+
+        .filter-btn:active {
+            transform: scale(0.95);
         }
-        .filter-btn:hover::after {
-            opacity: 1;
-        }
+
         .filter-btn:hover {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(130, 80, 255, 0.08);
             color: #fff;
-            border-color: #6366f1;
-            transform: scale(1.04);
+            border-color: #8b6cf7;
         }
+
         .filter-btn.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
             border-color: transparent;
             color: #fff;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
-            animation: glowPulse 2s infinite;
+            box-shadow: 0 2px 20px rgba(130, 80, 255, 0.35);
         }
+
         .filter-btn .cat-icon {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
-            border-radius: 4px;
+            border-radius: 3px;
             object-fit: cover;
         }
 
@@ -255,99 +306,68 @@
            ============================================= */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+            grid-template-columns: 1fr;
+            gap: 16px;
         }
 
         /* =============================================
-           KARTLAR - RENKLİ KENARLIK + GRADIENT + SOLUK İKON
+           KARTLAR - ARKA PLAN GÖRSELLİ (DAHA BELİRGİN)
            ============================================= */
         .card {
-            background: rgba(18, 20, 40, 0.65);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 16px;
+            padding: 18px 16px;
+            border: 1px solid rgba(130, 80, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            animation: fadeSlideUp 0.6s ease forwards;
+            animation: fadeSlideUp 0.5s ease forwards;
             opacity: 0;
-            border-left-width: 6px;
+            border-left-width: 4px;
             border-left-style: solid;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 170px;
+            background-size: cover;
+            background-position: center;
         }
 
+        /* Karartma katmanı - DAHA AZ KARARTMA */
         .card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg,
-                    transparent,
-                    rgba(99, 102, 241, 0.04),
-                    transparent,
-                    rgba(139, 92, 246, 0.04),
-                    transparent);
-            animation: rotateGlow 10s linear infinite;
-            opacity: 0;
-            transition: opacity 0.6s;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 11, 30, 0.30);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             z-index: 0;
+            transition: 0.4s ease;
         }
 
         .card:hover::before {
-            opacity: 1;
+            background: rgba(10, 11, 30, 0.15);
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
         }
 
-        .card:hover {
-            transform: translateY(-10px) scale(1.01);
-            border-color: rgba(99, 102, 241, 0.25);
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(99, 102, 241, 0.06),
-                inset 0 0 40px rgba(99, 102, 241, 0.02);
-            background: rgba(22, 24, 48, 0.85);
+        /* Tüm içerikler karartmanın üstünde */
+        .card .badge,
+        .card h3,
+        .card .desc,
+        .card .meta {
+            position: relative;
+            z-index: 1;
         }
 
-        /* Kategori Renkleri ve Gradient */
-        .card[data-category="mm2"] {
-            border-left-color: #ff4757;
-            background: linear-gradient(135deg, rgba(255, 71, 87, 0.08), rgba(18, 20, 40, 0.65));
-        }
-        .card[data-category="bloxfruits"] {
-            border-left-color: #ff6348;
-            background: linear-gradient(135deg, rgba(255, 99, 72, 0.08), rgba(18, 20, 40, 0.65));
-        }
-        .card[data-category="petsim"] {
-            border-left-color: #feca57;
-            background: linear-gradient(135deg, rgba(254, 202, 87, 0.08), rgba(18, 20, 40, 0.65));
-        }
-        .card[data-category="dahood"] {
-            border-left-color: #2ed573;
-            background: linear-gradient(135deg, rgba(46, 213, 115, 0.08), rgba(18, 20, 40, 0.65));
-        }
-        .card[data-category="bladeball"] {
-            border-left-color: #ff4757;
-            background: linear-gradient(135deg, rgba(255, 71, 87, 0.08), rgba(18, 20, 40, 0.65));
-        }
-        .card[data-category="brookhaven"] {
-            border-left-color: #1e90ff;
-            background: linear-gradient(135deg, rgba(30, 144, 255, 0.08), rgba(18, 20, 40, 0.65));
-        }
-        .card[data-category="other"] {
-            border-left-color: #a29bfe;
-            background: linear-gradient(135deg, rgba(162, 155, 254, 0.08), rgba(18, 20, 40, 0.65));
-        }
-
-        /* Soluk Oyun İkonu */
+        /* Soluk Oyun İkonu - artık çok daha soluk */
         .card::after {
             position: absolute;
-            bottom: 10px;
-            right: 16px;
-            font-size: 80px;
+            bottom: 8px;
+            right: 12px;
+            font-size: 55px;
             opacity: 0.04;
             pointer-events: none;
             z-index: 0;
@@ -361,134 +381,162 @@
         .card[data-category="brookhaven"]::after { content: '🏡'; }
         .card[data-category="other"]::after { content: '📦'; }
 
-        /* Kart içeriği z-index */
-        .card .badge,
-        .card h3,
-        .card .desc,
-        .card .meta {
+        /* =============================================
+           KATEGORİ BAZINDA ARKA PLAN GÖRSELLERİ
+           ============================================= */
+        .card[data-category="mm2"] {
+            background-image: url('https://i.ibb.co/fYR9C82Q/Gemini-Generated-mage-wlp9gswlp9gswlp9.png');
+            border-left-color: #f472b6;
+        }
+
+        .card[data-category="bloxfruits"] {
+            background-image: url('https://i.ibb.co/RKxvJTs/Gemini-Generated-mage-cl63rlcl63rlcl63.png');
+            border-left-color: #fb923c;
+        }
+
+        .card[data-category="petsim"] {
+            background-image: url('https://i.ibb.co/CsBz9wFV/Gemini-Generated-mage-549tgp549tgp549t.png');
+            border-left-color: #fbbf24;
+        }
+
+        .card[data-category="dahood"] {
+            background-image: url('https://i.ibb.co/TxwXPYXh/Gemini-Generated-mage-j704gnj704gnj704.png');
+            border-left-color: #34d399;
+        }
+
+        .card[data-category="bladeball"] {
+            background-image: url('https://i.ibb.co/d0Bd6hcT/Gemini-Generated-mage-rva68wrva68wrva6.png');
+            border-left-color: #f472b6;
+        }
+
+        .card[data-category="brookhaven"] {
+            background-image: url('https://i.ibb.co/HLqdSYZH/Gemini-Generated-mage-8d82748d82748d82.png');
+            border-left-color: #60a5fa;
+        }
+
+        .card[data-category="other"] {
+            background-image: url('https://i.ibb.co/fVpH74rC/Gemini-Generated-mage-6s79f36s79f36s79.png');
+            border-left-color: #a78bfa;
+        }
+
+        /* Kart hover */
+        .card:hover {
+            transform: translateY(-3px) scale(1.01);
+            border-color: rgba(130, 80, 255, 0.25);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card .badge {
+            background: rgba(0, 0, 0, 0.40);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #c4b5fd;
+            align-self: flex-end;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             z-index: 1;
         }
 
+        .card .badge img {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
         .card h3 {
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 700;
-            margin: 14px 0 8px;
-            color: #f0f4fe;
-            letter-spacing: -0.3px;
-            transition: all 0.3s ease;
+            margin: 10px 0 6px;
+            color: #ffffff;
+            letter-spacing: -0.2px;
             position: relative;
-            display: inline-block;
+            z-index: 1;
+            transition: 0.3s;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
         }
-        .card h3::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #a855f7, #6366f1);
-            transition: width 0.4s ease;
-        }
-        .card:hover h3::after {
-            width: 100%;
-        }
+
         .card:hover h3 {
-            background: linear-gradient(135deg, #a855f7, #6366f1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transform: translateX(4px);
+            color: #c4b5fd;
         }
 
         .card .desc {
-            color: #9aa8c5;
-            font-size: 14px;
-            line-height: 1.7;
+            color: #d4c8ff;
+            font-size: 13px;
+            line-height: 1.6;
             flex: 1;
-            margin-bottom: 18px;
-            transition: all 0.3s ease;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
         }
-        .card:hover .desc {
-            color: #b8c8e8;
+
+        .card .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card .meta .category-tag {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            color: #d4c8ff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .card .meta .category-tag img {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            object-fit: cover;
         }
 
         .card .get-btn {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
             border: none;
             color: #fff;
             font-weight: 600;
-            padding: 10px 22px;
-            border-radius: 40px;
+            padding: 8px 16px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.4s;
-            font-size: 14px;
+            transition: all 0.3s ease;
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             position: relative;
             z-index: 2;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 2px 15px rgba(130, 80, 255, 0.2);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .card:hover .get-btn {
-            background: linear-gradient(135deg, #8b5cf6, #a855f7);
-            transform: scale(1.04) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-        }
+
         .card .get-btn:active {
             transform: scale(0.95);
         }
 
-        .card .meta .category-tag {
-            background: rgba(26, 37, 56, 0.5);
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 12px;
-            color: #9ab0d0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-        .card:hover .meta .category-tag {
-            background: rgba(99, 102, 241, 0.1);
-            color: #b0d0f0;
-            border-color: rgba(99, 102, 241, 0.15);
-            transform: scale(1.02);
-        }
-
-        .card .badge {
-            background: rgba(45, 55, 80, 0.5);
-            backdrop-filter: blur(4px);
-            padding: 4px 16px;
-            border-radius: 40px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #b0c8e8;
-            align-self: flex-end;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all 0.3s ease;
-        }
-        .card:hover .badge {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.2);
-            color: #fff;
-        }
-
-        .card .badge img,
-        .card .meta .category-tag img {
-            transition: all 0.3s ease;
-            border-radius: 4px;
-        }
-        .card:hover .badge img {
-            transform: scale(1.1) rotate(-3deg);
-            filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.3));
-        }
-        .card:hover .meta .category-tag img {
-            transform: scale(1.1);
+        .card:hover .get-btn {
+            background: linear-gradient(135deg, #8b6cf7, #7c3aed);
+            box-shadow: 0 4px 25px rgba(130, 80, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         /* =============================================
@@ -497,254 +545,370 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(14px);
+            background: rgba(5, 4, 20, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 999;
-            padding: 20px;
+            padding: 16px;
         }
+
         .modal-overlay.active {
             display: flex;
         }
 
         .modal {
-            background: #181a2e;
-            max-width: 500px;
+            background: rgba(16, 14, 45, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            max-width: 480px;
             width: 100%;
-            border-radius: 28px;
-            padding: 32px 28px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
-            animation: modalZoom 0.4s cubic-bezier(0.21, 1.02, 0.73, 1);
+            border-radius: 22px;
+            padding: 24px 20px;
+            border: 1px solid rgba(130, 80, 255, 0.1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            animation: modalZoom 0.35s cubic-bezier(0.21, 1.02, 0.73, 1);
+            max-height: 90vh;
+            overflow-y: auto;
         }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 4px;
         }
+
         .modal-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            background: linear-gradient(135deg, #a855f7, #6366f1);
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
         }
+
         .close-modal {
             background: transparent;
             border: none;
-            color: #6a7a94;
-            font-size: 28px;
+            color: #6d7a9e;
+            font-size: 26px;
             cursor: pointer;
             transition: 0.3s;
+            padding: 4px 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .close-modal:active {
+            transform: scale(0.9);
         }
         .close-modal:hover {
-            color: #fff;
-            transform: rotate(90deg);
+            color: #c4b5fd;
         }
+
         .modal-sub {
-            color: #9aa8c5;
-            font-size: 15px;
-            margin-bottom: 24px;
+            color: #a5b4fc;
+            font-size: 14px;
+            margin-bottom: 18px;
         }
 
         .task-item {
-            background: rgba(10, 12, 24, 0.5);
-            border-radius: 16px;
-            padding: 16px 18px;
-            margin-bottom: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(10, 8, 30, 0.5);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(130, 80, 255, 0.06);
             transition: 0.3s;
         }
+
         .task-item:hover {
-            border-color: rgba(99, 102, 241, 0.15);
-            transform: translateX(4px);
+            border-color: rgba(130, 80, 255, 0.12);
         }
+
         .task-item .task-header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
         }
+
         .task-item .task-name {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 14px;
+            color: #f0ecff;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
+            gap: 8px;
         }
-        .task-item:hover .task-name {
-            color: #b0d0f0;
-        }
+
         .task-item .task-name svg {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             flex-shrink: 0;
-            animation: float 3s ease-in-out infinite;
         }
+
         .task-btn {
-            background: rgba(30, 35, 55, 0.8);
+            background: rgba(130, 80, 255, 0.12);
             border: none;
             color: #e8edf5;
-            padding: 8px 22px;
-            border-radius: 40px;
-            font-size: 14px;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            white-space: nowrap;
+        }
+
+        .task-btn:active {
+            transform: scale(0.95);
         }
         .task-btn:hover {
-            background: #2a3344;
-            transform: scale(1.02);
+            background: rgba(130, 80, 255, 0.2);
         }
+
         .task-btn.completed {
             background: #22c55e;
             color: #fff;
         }
+        .task-btn.completed:hover {
+            background: #16a34a;
+        }
+
         .task-btn .timer {
             font-weight: 400;
             background: rgba(0, 0, 0, 0.25);
-            padding: 0 10px;
-            border-radius: 40px;
-            font-size: 13px;
+            padding: 0 8px;
+            border-radius: 30px;
+            font-size: 12px;
         }
+
         .task-btn:disabled {
             opacity: 0.5;
             pointer-events: none;
         }
 
         .unlock-btn {
-            background: #2a3344;
+            background: rgba(130, 80, 255, 0.08);
             border: none;
-            color: #6a7f9c;
-            padding: 14px;
-            border-radius: 40px;
+            color: #6d7a9e;
+            padding: 12px;
+            border-radius: 30px;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
             cursor: not-allowed;
             transition: 0.3s;
             width: 100%;
-            margin-top: 6px;
+            margin-top: 4px;
+            -webkit-tap-highlight-color: transparent;
         }
+
         .unlock-btn.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
             color: #fff;
             cursor: pointer;
+            box-shadow: 0 2px 20px rgba(130, 80, 255, 0.3);
+        }
+
+        .unlock-btn.active:active {
+            transform: scale(0.97);
         }
         .unlock-btn.active:hover {
-            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4);
-            transform: scale(1.02);
+            box-shadow: 0 4px 30px rgba(130, 80, 255, 0.4);
         }
 
         .code-box {
-            background: #0a0f18;
-            border-radius: 16px;
-            padding: 16px;
-            font-family: monospace;
-            font-size: 13px;
-            color: #b0d0f0;
+            background: rgba(10, 8, 30, 0.9);
+            border-radius: 14px;
+            padding: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #c4b5fd;
             word-break: break-all;
-            border: 1px solid #1f2a3a;
-            max-height: 120px;
+            border: 1px solid rgba(130, 80, 255, 0.1);
+            max-height: 100px;
             overflow-y: auto;
             display: none;
-            margin-top: 14px;
+            margin-top: 12px;
         }
+
         .code-box.show {
             display: block;
             animation: fadeSlideUp 0.3s ease forwards;
         }
 
         .copy-btn {
-            background: #1f2a3a;
+            background: rgba(130, 80, 255, 0.1);
             border: none;
             color: #e8edf5;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12px;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 6px;
             transition: 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            width: 100%;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.97);
         }
         .copy-btn:hover {
-            background: #2d3b52;
-            transform: scale(1.02);
+            background: rgba(130, 80, 255, 0.2);
         }
 
         /* =============================================
            SCROLLBAR
            ============================================= */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 4px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(11, 13, 21, 0.5);
+            background: rgba(10, 8, 30, 0.3);
         }
         ::-webkit-scrollbar-thumb {
-            background: #2a3344;
-            border-radius: 12px;
+            background: #4c3b7a;
+            border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #3f5170;
+            background: #6d4fa8;
         }
 
         /* =============================================
-           RESPONSIVE
+           TABLET & BÜYÜK EKRAN
            ============================================= */
-        @media (max-width: 768px) {
-            body { padding: 12px; }
+        @media (min-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 20px;
+            }
+
             .header {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 16px 18px;
-            }
-            .header-right {
-                flex-direction: column;
-                width: 100%;
-            }
-            .search-box input {
-                width: 100%;
-            }
-            .filters {
+                padding: 18px 24px;
                 flex-wrap: nowrap;
-                overflow-x: auto;
-                padding: 12px 16px;
-                gap: 8px;
-                -webkit-overflow-scrolling: touch;
             }
-            .filter-btn {
-                white-space: nowrap;
-                padding: 8px 16px;
+
+            .header-right {
+                width: auto;
+                margin-top: 0;
+                flex: 0 0 260px;
+            }
+
+            .search-box input {
+                font-size: 15px;
+            }
+
+            .logo h1 {
+                font-size: 28px;
+            }
+
+            .logo span {
                 font-size: 13px;
             }
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .modal {
-                padding: 24px 18px;
-            }
-            .logo h1 {
-                font-size: 22px;
-            }
+
             .logo-img {
-                width: 42px;
-                height: 42px;
+                width: 50px;
+                height: 50px;
             }
-            .card::after {
-                font-size: 60px;
+
+            .card {
+                padding: 22px 20px;
+                border-left-width: 6px;
+                min-height: 200px;
+            }
+
+            .card h3 {
+                font-size: 19px;
+            }
+
+            .card .desc {
+                font-size: 14px;
+            }
+
+            .filters {
+                padding: 12px 18px;
+                gap: 10px;
+                flex-wrap: wrap;
+                overflow-x: visible;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .modal {
+                padding: 32px 28px;
             }
         }
-        @media (max-width: 480px) {
-            .logo h1 { font-size: 19px; }
-            .logo span { font-size: 12px; }
-            .card h3 { font-size: 18px; }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 24px;
+            }
+
+            .card:hover {
+                transform: translateY(-6px) scale(1.01);
+                border-color: rgba(130, 80, 255, 0.25);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            }
+
+            .card .get-btn:hover {
+                background: linear-gradient(135deg, #8b6cf7, #7c3aed);
+                transform: scale(1.04);
+                box-shadow: 0 4px 25px rgba(130, 80, 255, 0.4);
+            }
         }
+
+        /* =============================================
+           PERFORMANS İYİLEŞTİRMELERİ
+           ============================================= */
+        .card,
+        .filter-btn,
+        .task-btn,
+        .unlock-btn,
+        .copy-btn {
+            will-change: transform;
+        }
+
+        img {
+            content-visibility: auto;
+        }
+
+        /* Yükleme animasyonu için */
+        .card:nth-child(1) { animation-delay: 0.02s; }
+        .card:nth-child(2) { animation-delay: 0.04s; }
+        .card:nth-child(3) { animation-delay: 0.06s; }
+        .card:nth-child(4) { animation-delay: 0.08s; }
+        .card:nth-child(5) { animation-delay: 0.10s; }
+        .card:nth-child(6) { animation-delay: 0.12s; }
+        .card:nth-child(7) { animation-delay: 0.14s; }
+        .card:nth-child(8) { animation-delay: 0.16s; }
+        .card:nth-child(9) { animation-delay: 0.18s; }
+        .card:nth-child(10) { animation-delay: 0.20s; }
+        .card:nth-child(11) { animation-delay: 0.22s; }
+        .card:nth-child(12) { animation-delay: 0.24s; }
+        .card:nth-child(13) { animation-delay: 0.26s; }
+        .card:nth-child(14) { animation-delay: 0.28s; }
+        .card:nth-child(15) { animation-delay: 0.30s; }
+        .card:nth-child(16) { animation-delay: 0.32s; }
+        .card:nth-child(17) { animation-delay: 0.34s; }
+        .card:nth-child(18) { animation-delay: 0.36s; }
+        .card:nth-child(19) { animation-delay: 0.38s; }
+        .card:nth-child(20) { animation-delay: 0.40s; }
     </style>
 </head>
 <body>
@@ -752,23 +916,24 @@
     <div class="container">
 
         <!-- =============================================
-        HEADER
+        HEADER - LOGO ARKASI GÖRSELLİ
         ============================================= -->
         <header class="header">
             <div class="logo">
-                <a href="https://ibb.co/PGKZr4rf" target="_blank">
+                <a href="https://ibb.co/PGKZr4rf" target="_blank" style="display:contents;">
                     <img class="logo-img"
                     src="https://i.ibb.co/yFtnN5Nb/f64b860d-192a-45e6-b63e-c2ba73beb560.jpg"
-                    alt="ScriptHub Logo">
+                    alt="ScriptHub Logo"
+                    loading="lazy">
                 </a>
                 <div>
                     <h1>ScriptHub</h1>
-                    <span>Roblox premium script arşivi</span>
+                    <span>✦ Roblox premium script arşivi</span>
                 </div>
             </div>
             <div class="header-right">
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="🔍 Script ara...">
+                    <input type="text" id="searchInput" placeholder="🔍 Script ara..." inputmode="search">
                 </div>
             </div>
         </header>
@@ -782,31 +947,31 @@
                 Tümü
             </button>
             <button class="filter-btn" data-category="mm2">
-                <img class="cat-icon" src="https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png" alt="MM2">
+                <img class="cat-icon" src="https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png" alt="MM2" loading="lazy">
                 MM2
             </button>
             <button class="filter-btn" data-category="bloxfruits">
-                <img class="cat-icon" src="https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png" alt="Blox Fruits">
+                <img class="cat-icon" src="https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png" alt="Blox Fruits" loading="lazy">
                 Blox Fruits
             </button>
             <button class="filter-btn" data-category="petsim">
-                <img class="cat-icon" src="https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png" alt="Pet Sim 99">
+                <img class="cat-icon" src="https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png" alt="Pet Sim 99" loading="lazy">
                 Pet Sim 99
             </button>
             <button class="filter-btn" data-category="dahood">
-                <img class="cat-icon" src="https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png" alt="Da Hood">
+                <img class="cat-icon" src="https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png" alt="Da Hood" loading="lazy">
                 Da Hood
             </button>
             <button class="filter-btn" data-category="bladeball">
-                <img class="cat-icon" src="https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png" alt="Blade Ball">
+                <img class="cat-icon" src="https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png" alt="Blade Ball" loading="lazy">
                 Blade Ball
             </button>
             <button class="filter-btn" data-category="brookhaven">
-                <img class="cat-icon" src="https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg" alt="Brookhaven">
+                <img class="cat-icon" src="https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg" alt="Brookhaven" loading="lazy">
                 Brookhaven
             </button>
             <button class="filter-btn" data-category="other">
-                <img class="cat-icon" src="https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg" alt="Diğer">
+                <img class="cat-icon" src="https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg" alt="Diğer" loading="lazy">
                 Diğer
             </button>
         </div>
@@ -824,7 +989,7 @@
         <div class="modal">
             <div class="modal-header">
                 <span class="modal-title">🔓 Script'i Aç</span>
-                <button class="close-modal" id="closeModalBtn">✕</button>
+                <button class="close-modal" id="closeModalBtn" aria-label="Kapat">✕</button>
             </div>
             <div class="modal-sub">Görevleri tamamla, script koduna eriş.</div>
 
@@ -872,38 +1037,48 @@
     ============================================= -->
     <script>
         // =============================================
-        // SCRİPT LİSTESİ (33 ADET)
+        // SCRİPT LİSTESİ (46 ADET)
         // =============================================
         const scripts = [
-            // ---- MM2 ----
+            // ---- MM2 (Mevcut 5 + Yeni 2) ----
             { id: 1, name: "Premium MM2 Hub", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "ESP, Aimbot, Auto Farm, Kill All.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/jovskirt/Premium_Mm2Hub/refs/heads/main/Premium_mm2_script'))()" },
             { id: 2, name: "Kirkiblox MM2", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Hızlı ve stabil, tüm özellikler tek yerde.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/overdrivehubmm2/kirkiblox/refs/heads/main/best'))()" },
             { id: 3, name: "MM2 LLLL.HUB", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Auto Farm, Silent Aim, Aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/mm2-llll'))()" },
             { id: 4, name: "MM2 Custom Script 4", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Gelişmiş ESP, Silent Aim, Kill Aura.", link: "loadstring(game:HttpGet('https://cdn.sourceb.in/bins/jbH6babzL6/0'))()" },
             { id: 31, name: "Hydro Hub", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Aimbot, ESP, Silent Aim, Kill All (MM2/Arsenal).", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/HydroScripts/HydroHub/main/Main.lua'))()" },
+            { id: 34, name: "MM2 Veloxide", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Autofarm, Silent Aim, Aimbot, ESP, Freecam, Teleport, Fling", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/veloxides/MM2/refs/heads/main/VeloxideV1'))()" },
+            { id: 35, name: "MM2 Keyless Script", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Auto Farm, Auto Value, Auto Win, ESP", link: "loadstring(game:HttpGet('https://pastebin.com/raw/xixMasnJ', true))()" },
 
-            // ---- Blox Fruits ----
+            // ---- Blox Fruits (Mevcut 3 + Yeni 2) ----
             { id: 5, name: "Redz Hub v2", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Keyless GUI with Auto Farm, Devil Fruits.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-redz'))()" },
             { id: 6, name: "Monster Hub", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Farm, Events, Items, Fruits, Teleport.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-monster'))()" },
             { id: 29, name: "Owl Hub", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Auto Farm, Auto Raid, Auto Sea.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Rukiri/OwlHub/master/OwlHub.lua'))()" },
+            { id: 36, name: "Blox Fruits Volt Hub", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Auto Farm, Auto Raid, Auto Awaken, Kill Aura, Auto Random Fruit", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Dev-VoltHub/Blox-fruits/main/volt.lua'))()" },
+            { id: 37, name: "Blox Fruits Easy Farm", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Auto Farm, Auto Collect, Teleport, ESP", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/twistedxblox/EasyFarm/main/EasyFarm.lua'))()" },
 
-            // ---- Pet Sim 99 ----
+            // ---- Pet Sim 99 (Mevcut 2 + Yeni 2) ----
             { id: 7, name: "Pet Sim 99 Auto Farm", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Otomatik coin kasma, yumurta açma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-autofarm'))()" },
             { id: 8, name: "Pet Sim 99 Diamond Farm", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Elmas toplama ve otomatik satış.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-diamond'))()" },
+            { id: 38, name: "Pet Sim 99 Brainrot Hub", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Full Auto, Auto Open Packs, Auto Place Cards, Auto Rebirth", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/diepedyt/bui/refs/heads/main/BrainrotHub.lua'))()" },
+            { id: 39, name: "Pet Sim 99 Diamond Farm Pro", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Auto Farm, Auto Diamond Collect, Auto Hatch, Auto Trade", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/SimpleScripts/PetSim99/main/DiamondFarm.lua'))()" },
 
-            // ---- Da Hood ----
+            // ---- Da Hood (Mevcut 2 + Yeni 2) ----
             { id: 9, name: "Da Hood Auto Farm", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Otomatik para kasma, aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-autofarm'))()" },
             { id: 10, name: "Da Hood Silent Aim", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Sessiz nişan, otomatik ateş.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-silentaim'))()" },
+            { id: 40, name: "Da Hood Egorware", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Auto Taunt, ESP, Teleport Behind Keeper, Auto Farm", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/egorware/scripts/refs/heads/main/ZOOOROOF.lua'))()" },
+            { id: 41, name: "Da Hood Ecrxks Hub", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Animal ESP, NoClip, Fly, Speed, Auto Kill", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/ecrxks271/zoo/main/Zoo_or_off.lua'))()" },
 
-            // ---- Blade Ball ----
+            // ---- Blade Ball (Mevcut 2 + Yeni 1) ----
             { id: 11, name: "Dryx Hub", category: "bladeball", img: "https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png", desc: "Auto Parry, Auto Spam, Detection, Skin Changer.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-dryx'))()" },
             { id: 12, name: "Blade Ball Speed Hack", category: "bladeball", img: "https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png", desc: "Hızlandırma, otomatik yön değiştirme.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-speed'))()" },
+            { id: 42, name: "Blade Ball Nova Hub", category: "bladeball", img: "https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png", desc: "Auto Parry, Auto Dodge, Auto Spam, Speed Hack, No Cooldown", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/NovaScripts/BladeBall/main/NovaHub.lua'))()" },
 
-            // ---- Brookhaven ----
+            // ---- Brookhaven (Mevcut 2 + Yeni 1) ----
             { id: 13, name: "Brookhaven Admin Panel", category: "brookhaven", img: "https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg", desc: "Admin komutları, uçma, ışınlanma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-admin'))()" },
             { id: 14, name: "Brookhaven Car Spawner", category: "brookhaven", img: "https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg", desc: "İstediğin aracı spawnla.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-carspawn'))()" },
+            { id: 43, name: "Brookhaven Ultra Admin", category: "brookhaven", img: "https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg", desc: "Admin Panel, Fly, Noclip, Teleport, Spawn All, Infinite Money", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/UltraAdminRBX/Brookhaven/main/UltraAdmin.lua'))()" },
 
-            // ---- Diğer ----
+            // ---- Diğer (Mevcut 17 + Yeni 3) ----
             { id: 15, name: "Vertex Script", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Genel amaçlı güçlü script.", link: "loadstring(game:HttpGet('https://raw.smokingscripts.org/vertex.lua'))()" },
             { id: 16, name: "Overflow Loader", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Universal script loader.", link: "loadstring(game:HttpGet('https://overflow.cx/loader.lua'))()" },
             { id: 17, name: "GAG2 Skibidi", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Grow a Garden 2 - Auto Farm, Auto Steal.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FN_GAG2_skibidi.lua'))()" },
@@ -920,7 +1095,10 @@
             { id: 28, name: "Vape V4", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Silent Aim, ESP, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/MainScript'))()" },
             { id: 30, name: "Zen Hub", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Admin Commands, Fly, Noclip, ESP.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/scriptblox/ZenHub/main/ZenHub.lua'))()" },
             { id: 32, name: "Void Hub", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Auto Farm, Auto Hatch, Auto Collect.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/VoidScripts/VoidHub/main/VoidHub.lua'))()" },
-            { id: 33, name: "Nebula Hub", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "ESP, Aimbot, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/NebulaScripts/NebulaHub/main/Nebula.lua'))()" }
+            { id: 33, name: "Nebula Hub", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "ESP, Aimbot, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/NebulaScripts/NebulaHub/main/Nebula.lua'))()" },
+            { id: 44, name: "Keyboard Escape Luxy Hub", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Auto Farm Wins, Auto Treadmill, Auto Rebirth, Aura Shop, Anti-AFK", link: "loadstring(game:HttpGet('https://www.luxyhub.space/api/loader/luxyhub'))()" },
+            { id: 45, name: "ZOO or OOF Hengi", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Auto Kill, Aimbot, ESP, NoClip, Rapid Fire", link: "loadstring(game:HttpGet('https://pastebin.com/raw/2i28aD7e'))()" },
+            { id: 46, name: "Slap Battles Aura Hub", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Auto Farm, Auto Slap, Auto Glove, Kill Aura, ESP", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/AuraScripts/SlapBattles/main/AuraHub.lua'))()" }
         ];
 
         // =============================================
@@ -954,30 +1132,31 @@
 
             if (filtered.length === 0) {
                 grid.innerHTML =
-                    `<p style="grid-column:1/-1; text-align:center; color:#6a7f9c; padding:60px 0; font-size:16px;">🔍 Sonuç bulunamadı.</p>`;
+                    `<p style="grid-column:1/-1; text-align:center; color:#a5b4fc; padding:40px 0; font-size:15px;">🔍 Sonuç bulunamadı.</p>`;
                 return;
             }
 
-            grid.innerHTML = filtered.map((s, index) => `
-                    <div class="card animate-card" data-category="${s.category}" style="animation-delay: ${index * 0.04}s">
+            grid.innerHTML = filtered.map((s) => `
+                    <div class="card" data-category="${s.category}">
                         <span class="badge">
-                            <img src="${s.img}" alt="${s.category}" style="width:20px; height:20px; border-radius:4px; object-fit:cover; margin-right:6px;">
+                            <img src="${s.img}" alt="${s.category}" loading="lazy">
                             ${s.category.toUpperCase()}
                         </span>
                         <h3>${s.name}</h3>
                         <div class="desc">${s.desc}</div>
                         <div class="meta">
                             <span class="category-tag">
-                                <img src="${s.img}" alt="${s.category}" style="width:16px; height:16px; border-radius:3px; object-fit:cover; margin-right:4px;">
+                                <img src="${s.img}" alt="${s.category}" loading="lazy">
                                 #${s.category}
                             </span>
-                            <button class="get-btn" data-link="${s.link}">📥 GET SCRIPT</button>
+                            <button class="get-btn" data-link="${s.link}">📥 GET</button>
                         </div>
                     </div>
                 `).join('');
 
             document.querySelectorAll('.get-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
                     currentScriptLink = this.dataset.link;
                     openModal();
                 });
@@ -993,10 +1172,12 @@
             unlockBtn.classList.remove('active');
             unlockBtn.textContent = '🔒 Görevleri Tamamla';
             modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
             ['discord', 'youtube', 'tiktok'].forEach(task => {
                 if (taskState[task].timer) {
                     clearInterval(taskState[task].timer);
@@ -1018,7 +1199,7 @@
                     if (timerSpan) timerSpan.remove();
                 }
                 const taskDiv = document.getElementById(`task${task.charAt(0).toUpperCase() + task.slice(1)}`);
-                if (taskDiv) taskDiv.style.borderColor = 'rgba(255,255,255,0.04)';
+                if (taskDiv) taskDiv.style.borderColor = 'rgba(130, 80, 255, 0.06)';
             });
             unlockBtn.disabled = true;
             unlockBtn.classList.remove('active');
@@ -1026,7 +1207,8 @@
         }
 
         document.querySelectorAll('.task-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
                 const task = this.dataset.task;
                 if (taskState[task].completed) return;
 
@@ -1078,7 +1260,7 @@
             if (this.disabled) return;
             codeBox.textContent = currentScriptLink;
             codeBox.classList.add('show');
-            copyBtn.style.display = 'inline-block';
+            copyBtn.style.display = 'block';
             this.textContent = '✅ Kod Hazır';
             this.disabled = true;
         });
@@ -1086,20 +1268,33 @@
         copyBtn.addEventListener('click', function() {
             const code = codeBox.textContent;
             if (!code) return;
-            navigator.clipboard.writeText(code).then(() => {
-                this.textContent = '✅ Kopyalandı!';
-                setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = code;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                this.textContent = '✅ Kopyalandı!';
-                setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
-            });
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => {
+                    this.textContent = '✅ Kopyalandı!';
+                    setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
+                }).catch(() => fallbackCopy(code, this));
+            } else {
+                fallbackCopy(code, this);
+            }
         });
+
+        function fallbackCopy(code, btn) {
+            const textarea = document.createElement('textarea');
+            textarea.value = code;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                btn.textContent = '✅ Kopyalandı!';
+                setTimeout(() => { btn.textContent = '📋 Kodu Kopyala'; }, 2000);
+            } catch (err) {
+                btn.textContent = '❌ Hata!';
+                setTimeout(() => { btn.textContent = '📋 Kodu Kopyala'; }, 2000);
+            }
+            document.body.removeChild(textarea);
+        }
 
         closeModalBtn.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', function(e) {
@@ -1119,11 +1314,20 @@
             renderCards(activeFilter, this.value);
         });
 
+        // ESC tuşu ile modal kapatma
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
         // =============================================
         // SAYFA AÇILINCA
         // =============================================
         renderCards('all', '');
-        console.log('🔥 ScriptHub yüklendi! Keyifli kullanımlar!');
+        console.log('🔥 ScriptHub yüklendi! Toplam 46 script mevcut.');
+        console.log('🎨 Kart arka planları: Kategoriye özel görseller (daha az karartma)');
+        console.log('✨ Logo arkasına görsel eklendi');
     </script>
 
 </body>
