@@ -4,115 +4,290 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="52VeMEzmkVrq_n6suS8E8Bx_D4dcoQXphroDEAa1FRU">
-    <title>ScriptHub | Premium Roblox Scripts</title>
+    <title>ScriptHub | Roblox Premium Scripts</title>
     <style>
+        /* =============================================
+           RESET & TEMEL
+           ============================================= */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        body {
-            background: #0a0c12;
-            color: #e8edf5;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
         }
 
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            color: #e8edf5;
+            background-image: url('https://i.ibb.co/4gWNxkwR/67ca190d-3654-4838-bd87-3d22e4e84d95.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 13, 21, 0.70);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =============================================
+           ANİMASYONLAR
+           ============================================= */
+        @keyframes fadeSlideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeSlideLeft {
+            0% { opacity: 0; transform: translateX(-30px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.5); }
+        }
+        @keyframes modalZoom {
+            0% { opacity: 0; transform: scale(0.8) translateY(30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* =============================================
+           HEADER
+           ============================================= */
         .header {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            gap: 16px;
+            margin-bottom: 40px;
+            padding: 18px 28px;
+            background: rgba(16, 18, 36, 0.65);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            animation: fadeSlideDown 0.8s ease forwards;
         }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 2px solid #6366f1;
+            animation: float 3s ease-in-out infinite;
+            transition: 0.3s;
+        }
+        .logo-img:hover {
+            transform: scale(1.05) rotate(-3deg);
+            border-color: #a855f7;
+        }
+
         .logo h1 {
             font-size: 28px;
-            background: linear-gradient(135deg, #a855f7, #6366f1);
+            background: linear-gradient(135deg, #a855f7, #6366f1, #a855f7);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: gradientMove 4s ease infinite;
+            letter-spacing: -0.5px;
         }
         .logo span {
             font-size: 14px;
-            color: #8b9bb5;
+            color: #9aa8c5;
             display: block;
+            margin-top: 2px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
         }
 
         .search-box input {
-            padding: 12px 18px;
+            padding: 12px 20px;
             border-radius: 40px;
-            border: 1px solid #2a3344;
-            background: #131a24;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 12, 24, 0.7);
             color: #e8edf5;
             font-size: 15px;
-            width: 300px;
+            width: 260px;
             outline: none;
+            transition: 0.4s;
+            backdrop-filter: blur(4px);
         }
         .search-box input:focus {
             border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background: rgba(10, 12, 24, 0.9);
+        }
+        .search-box input::placeholder {
+            color: #6a7f9c;
         }
 
+        /* =============================================
+           FİLTRELER
+           ============================================= */
         .filters {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 32px;
+            margin-bottom: 36px;
+            padding: 14px 20px;
+            background: rgba(16, 18, 34, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            animation: fadeSlideLeft 0.6s ease forwards;
         }
+
         .filter-btn {
-            padding: 8px 22px;
+            padding: 10px 22px;
             border-radius: 40px;
-            border: 1px solid #2a3344;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             background: transparent;
-            color: #b0c0d8;
+            color: #9aa8c5;
             cursor: pointer;
-            transition: 0.25s;
+            transition: all 0.3s ease;
             font-size: 14px;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            animation: rotateGlow 6s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .filter-btn:hover::after {
+            opacity: 1;
         }
         .filter-btn:hover {
-            background: #1e2736;
+            background: rgba(99, 102, 241, 0.1);
             color: #fff;
+            border-color: #6366f1;
+            transform: scale(1.02);
         }
         .filter-btn.active {
-            background: #6366f1;
-            border-color: #6366f1;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
             color: #fff;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+            animation: glowPulse 2s infinite;
         }
         .filter-btn .cat-icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
         }
 
+        /* =============================================
+           GRİD
+           ============================================= */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 24px;
         }
 
+        /* =============================================
+           KARTLAR
+           ============================================= */
         .card {
-            background: #131b26;
+            background: rgba(18, 20, 40, 0.65);
+            backdrop-filter: blur(12px);
             border-radius: 20px;
-            padding: 20px;
-            border: 1px solid #1f2a3a;
-            transition: 0.3s;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            animation: fadeSlideUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(99, 102, 241, 0.04), transparent, rgba(139, 92, 246, 0.04), transparent);
+            animation: rotateGlow 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+        .card:hover::before {
+            opacity: 1;
         }
         .card:hover {
-            transform: translateY(-6px);
-            border-color: #3f5170;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px);
+            border-color: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(99, 102, 241, 0.05);
+            background: rgba(22, 24, 48, 0.8);
         }
+
         .card .badge {
-            background: #2d3b52;
-            padding: 4px 14px;
+            background: rgba(45, 55, 80, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 4px 16px;
             border-radius: 40px;
             font-size: 11px;
             font-weight: 600;
@@ -121,31 +296,38 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .card .badge svg {
-            width: 16px;
-            height: 16px;
+        .card .badge img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            object-fit: cover;
         }
+
         .card h3 {
             font-size: 20px;
-            margin: 10px 0 6px;
+            font-weight: 700;
+            margin: 14px 0 8px;
             color: #f0f4fe;
+            letter-spacing: -0.3px;
         }
         .card .desc {
-            color: #8b9bb5;
+            color: #9aa8c5;
             font-size: 14px;
+            line-height: 1.6;
             flex: 1;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
         .card .meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #1f2a3a;
-            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
         }
         .card .meta .category-tag {
-            background: #1a2538;
+            background: rgba(26, 37, 56, 0.5);
             padding: 4px 14px;
             border-radius: 30px;
             font-size: 12px;
@@ -154,30 +336,42 @@
             align-items: center;
             gap: 6px;
         }
-        .card .meta .category-tag svg {
+        .card .meta .category-tag img {
             width: 16px;
             height: 16px;
+            border-radius: 3px;
+            object-fit: cover;
         }
+
         .get-btn {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             border: none;
             color: #fff;
             font-weight: 600;
-            padding: 10px 18px;
+            padding: 10px 22px;
             border-radius: 40px;
             cursor: pointer;
-            transition: 0.25s;
+            transition: 0.3s;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            z-index: 2;
         }
         .get-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+            transform: scale(1.04);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
         }
 
+        /* =============================================
+           MODAL
+           ============================================= */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(14px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -189,56 +383,57 @@
         }
 
         .modal {
-            background: #141e2b;
+            background: #181a2e;
             max-width: 500px;
             width: 100%;
             border-radius: 28px;
             padding: 32px 28px;
-            border: 1px solid #2d3b52;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-            animation: modalIn 0.35s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+            animation: modalZoom 0.4s cubic-bezier(0.21, 1.02, 0.73, 1);
         }
-        @keyframes modalIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.92) translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .modal-title {
             font-size: 24px;
             font-weight: 700;
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .close-modal {
             background: transparent;
             border: none;
-            color: #8b9bb5;
+            color: #6a7a94;
             font-size: 28px;
             cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-modal:hover {
+            color: #fff;
+            transform: rotate(90deg);
         }
         .modal-sub {
-            color: #8b9bb5;
+            color: #9aa8c5;
             font-size: 15px;
             margin-bottom: 24px;
         }
 
         .task-item {
-            background: #0e1622;
+            background: rgba(10, 12, 24, 0.5);
             border-radius: 16px;
-            padding: 16px;
+            padding: 16px 18px;
             margin-bottom: 14px;
-            border: 1px solid #1f2a3a;
-            transition: 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: 0.3s;
+        }
+        .task-item:hover {
+            border-color: rgba(99, 102, 241, 0.15);
+            transform: translateX(4px);
         }
         .task-item .task-header {
             display: flex;
@@ -256,20 +451,25 @@
             width: 28px;
             height: 28px;
             flex-shrink: 0;
+            animation: float 3s ease-in-out infinite;
         }
         .task-btn {
-            background: #1f2a3a;
+            background: rgba(30, 35, 55, 0.8);
             border: none;
             color: #e8edf5;
-            padding: 8px 20px;
+            padding: 8px 22px;
             border-radius: 40px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: 0.2s;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .task-btn:hover {
-            background: #2d3b52;
+            background: #2a3344;
+            transform: scale(1.02);
         }
         .task-btn.completed {
             background: #22c55e;
@@ -281,7 +481,6 @@
             padding: 0 10px;
             border-radius: 40px;
             font-size: 13px;
-            margin-left: 8px;
         }
         .task-btn:disabled {
             opacity: 0.5;
@@ -297,9 +496,9 @@
             font-weight: 700;
             font-size: 16px;
             cursor: not-allowed;
-            transition: 0.25s;
+            transition: 0.3s;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 6px;
         }
         .unlock-btn.active {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
@@ -307,7 +506,8 @@
             cursor: pointer;
         }
         .unlock-btn.active:hover {
-            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4);
+            transform: scale(1.02);
         }
 
         .code-box {
@@ -326,6 +526,7 @@
         }
         .code-box.show {
             display: block;
+            animation: fadeSlideUp 0.3s ease forwards;
         }
 
         .copy-btn {
@@ -337,19 +538,58 @@
             font-size: 13px;
             cursor: pointer;
             margin-top: 8px;
-            transition: 0.2s;
+            transition: 0.3s;
         }
         .copy-btn:hover {
             background: #2d3b52;
+            transform: scale(1.02);
         }
 
-        @media (max-width: 640px) {
+        /* =============================================
+           SCROLLBAR
+           ============================================= */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(11, 13, 21, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a3344;
+            border-radius: 12px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f5170;
+        }
+
+        /* =============================================
+           RESPONSIVE
+           ============================================= */
+        @media (max-width: 768px) {
+            body { padding: 12px; }
             .header {
                 flex-direction: column;
                 align-items: stretch;
+                padding: 16px 18px;
+            }
+            .header-right {
+                flex-direction: column;
+                width: 100%;
             }
             .search-box input {
                 width: 100%;
+            }
+            .filters {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding: 12px 16px;
+                gap: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .filter-btn {
+                white-space: nowrap;
+                padding: 8px 16px;
+                font-size: 13px;
             }
             .grid {
                 grid-template-columns: 1fr;
@@ -357,42 +597,50 @@
             .modal {
                 padding: 24px 18px;
             }
+            .logo h1 {
+                font-size: 22px;
+            }
+            .logo-img {
+                width: 42px;
+                height: 42px;
+            }
+        }
+        @media (max-width: 480px) {
+            .logo h1 { font-size: 19px; }
+            .logo span { font-size: 12px; }
+            .card h3 { font-size: 18px; }
         }
     </style>
-    <!-- ===== GOOGLE SEO ===== -->
-
-<!-- 1. SİTE BAŞLIĞI (Google'da görünen) -->
-<title>ScriptHub | Roblox Premium Script Arşivi</title>
-
-<!-- 2. SİTE AÇIKLAMASI (Başlığın altında görünen) -->
-<meta name="description" content="Roblox için en iyi ve güncel premium script'ler tek yerde! MM2, Blox Fruits, Pet Sim 99, Arsenal ve daha fazlası.">
-
-<!-- 3. SİTE LOGOSU (Tarayıcı sekmesinde) -->
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABOUlEQVR4nO2WwUoDQQxGvyyCIN566UuIvkB9sPUhFOzFhxDE1xa8+CB+gKAgvZVe6qWXHkUQoSCIFvFgQaZk3CTd7M7u7E1r5pCPkJlJ5j9kknR3RERERBofC2AZucIDpMYDaAEYARhFZqzRYkdkIJDKo/LA9Ww5s/uhQaDKg6vaA1YhUCgPBD22vgsM5eG3d38iwypDAKTHJDRfBvJQcC/kZIV11iJgG8DDb/Dfw9mF8XVxP09e8g3+Xag8PIJfIzw2Wj/8z0AeLsGDpQL1gyFgHxxcpxp+3ZEOuFow/4qCPBTRm7IEV4FgH85UoKbqgF2AHFh5o5LgE8Ap2FjrxF4xEGcDquBx0wuxA3AWuQIG4rRRErkC5kz3kStgTv8KlQfJqA5R9iKXhmRUDxARERFxwRerMvYc4WNAIwAAAABJRU5ErkJggg==">
-
-<!-- 4. GOOGLE SİTE DOĞRULAMA (Senin verdiğin) -->
-<meta name="google-site-verification" content="52VeMEzmkVrq_n6suS8E8Bx_D4dcoQXphroDEAa1FRU">
-
-<!-- 5. SOSYAL MEDYA GÖRSELLERİ (Paylaşımda çıkan görsel) -->
-<meta property="og:title" content="ScriptHub | Roblox Premium Script Arşivi">
-<meta property="og:description" content="Roblox için en iyi ve güncel premium script'ler tek yerde!">
-<meta property="og:image" content="https://i.ibb.co/MD37VzbP/a726bade-6679-40fc-ba33-e10c5283e106">
-<meta property="og:url" content="https://kullaniciadin.github.io/scripthub/">
-<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
     <div class="container">
+
+        <!-- =============================================
+        HEADER
+        ============================================= -->
         <header class="header">
             <div class="logo">
-                <h1>🎮 ScriptHub</h1>
-                <span>Roblox premium script arşivi</span>
+                <a href="https://ibb.co/PGKZr4rf" target="_blank">
+                    <img class="logo-img"
+                    src="https://i.ibb.co/yFtnN5Nb/f64b860d-192a-45e6-b63e-c2ba73beb560.jpg"
+                    alt="ScriptHub Logo">
+                </a>
+                <div>
+                    <h1>ScriptHub</h1>
+                    <span>Roblox premium script arşivi</span>
+                </div>
             </div>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Script ara...">
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Script ara...">
+                </div>
             </div>
         </header>
 
+        <!-- =============================================
+        FİLTRELER
+        ============================================= -->
         <div class="filters" id="filterContainer">
             <button class="filter-btn active" data-category="all">
                 <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -428,10 +676,15 @@
             </button>
         </div>
 
+        <!-- =============================================
+        GRİD
+        ============================================= -->
         <div class="grid" id="scriptGrid"></div>
     </div>
 
-    <!-- Modal -->
+    <!-- =============================================
+    MODAL
+    ============================================= -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <div class="modal-header">
@@ -440,30 +693,33 @@
             </div>
             <div class="modal-sub">Görevleri tamamla, script koduna eriş.</div>
 
+            <!-- Discord -->
             <div class="task-item" id="taskDiscord">
                 <div class="task-header">
                     <span class="task-name">
-                        <svg width="28" height="28" viewBox="0 0 127.14 96.36" fill="#5865F2"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83,97.68,97.68,0,0,0-29.11,0A72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2.05a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2.05a67.87,67.87,0,0,1-10.87,5.19,77.11,77.11,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S53.92,46,53.92,53,48.74,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.2,60,73.2,53s5-12.74,11.43-12.74S96.16,46,96.16,53,91,65.69,84.69,65.69Z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" fill="#5865F2"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83,97.68,97.68,0,0,0-29.11,0A72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2.05a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2.05a67.87,67.87,0,0,1-10.87,5.19,77.11,77.11,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S53.92,46,53.92,53,48.74,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.2,60,73.2,53s5-12.74,11.43-12.74S96.16,46,96.16,53,91,65.69,84.69,65.69Z"/></svg>
                         Discord Sunucusuna Katıl
                     </span>
                     <button class="task-btn" data-task="discord">Katıl</button>
                 </div>
             </div>
 
+            <!-- YouTube -->
             <div class="task-item" id="taskYoutube">
                 <div class="task-header">
                     <span class="task-name">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                         YouTube Abone Ol
                     </span>
                     <button class="task-btn" data-task="youtube">Abone Ol</button>
                 </div>
             </div>
 
+            <!-- TikTok -->
             <div class="task-item" id="taskTiktok">
                 <div class="task-header">
                     <span class="task-name">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="#000000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.3-.67.31-1.06.02-2.39-.01-4.78.01-7.17.01-1.36.03-2.72.04-4.08.01-.21.02-.42.02-.63z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#000000"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.3-.67.31-1.06.02-2.39-.01-4.78.01-7.17.01-1.36.03-2.72.04-4.08.01-.21.02-.42.02-.63z"/></svg>
                         TikTok Takip Et
                     </span>
                     <button class="task-btn" data-task="tiktok">Takip Et</button>
@@ -476,243 +732,264 @@
         </div>
     </div>
 
+    <!-- =============================================
+    JAVASCRIPT
+    ============================================= -->
     <script>
-        (function() {
-            const scripts = [
-                { id: 1, name: "Premium MM2 Hub", category: "mm2", desc: "ESP, Aimbot, Auto Farm, Kill All.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/jovskirt/Premium_Mm2Hub/refs/heads/main/Premium_mm2_script'))()" },
-                { id: 2, name: "Kirkiblox MM2", category: "mm2", desc: "Hızlı ve stabil, tüm özellikler tek yerde.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/overdrivehubmm2/kirkiblox/refs/heads/main/best'))()" },
-                { id: 3, name: "MM2 LLLL.HUB", category: "mm2", desc: "Auto Farm, Silent Aim, Aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/mm2-llll'))()" },
-                { id: 4, name: "MM2 Custom Script 4", category: "mm2", desc: "Gelişmiş ESP, Silent Aim, Kill Aura.", link: "loadstring(game:HttpGet('https://cdn.sourceb.in/bins/jbH6babzL6/0'))()" },
-                { id: 5, name: "Redz Hub v2", category: "bloxfruits", desc: "Keyless GUI with Auto Farm, Devil Fruits.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-redz'))()" },
-                { id: 6, name: "Monster Hub", category: "bloxfruits", desc: "Farm, Events, Items, Fruits, Teleport.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-monster'))()" },
-                { id: 7, name: "Pet Sim 99 Auto Farm", category: "petsim", desc: "Otomatik coin kasma, yumurta açma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-autofarm'))()" },
-                { id: 8, name: "Pet Sim 99 Diamond Farm", category: "petsim", desc: "Elmas toplama ve otomatik satış.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-diamond'))()" },
-                { id: 9, name: "Da Hood Auto Farm", category: "dahood", desc: "Otomatik para kasma, aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-autofarm'))()" },
-                { id: 10, name: "Da Hood Silent Aim", category: "dahood", desc: "Sessiz nişan, otomatik ateş.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-silentaim'))()" },
-                { id: 11, name: "Dryx Hub", category: "bladeball", desc: "Auto Parry, Auto Spam, Detection, Skin Changer.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-dryx'))()" },
-                { id: 12, name: "Blade Ball Speed Hack", category: "bladeball", desc: "Hızlandırma, otomatik yön değiştirme.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-speed'))()" },
-                { id: 13, name: "Brookhaven Admin Panel", category: "brookhaven", desc: "Admin komutları, uçma, ışınlanma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-admin'))()" },
-                { id: 14, name: "Brookhaven Car Spawner", category: "brookhaven", desc: "İstediğin aracı spawnla.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-carspawn'))()" },
-                { id: 15, name: "Vertex Script", category: "other", desc: "Genel amaçlı güçlü script.", link: "loadstring(game:HttpGet('https://raw.smokingscripts.org/vertex.lua'))()" },
-                { id: 16, name: "Overflow Loader", category: "other", desc: "Universal script loader.", link: "loadstring(game:HttpGet('https://overflow.cx/loader.lua'))()" },
-                { id: 17, name: "GAG2 Skibidi", category: "other", desc: "Grow a Garden 2 - Auto Farm, Auto Steal.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FN_GAG2_skibidi.lua'))()" },
-                { id: 18, name: "Grow A Garden 2", category: "other", desc: "Grow a Garden 2 - Auto Farm, Auto Harvest.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Kenniel123/Grow-A-Garden-2/refs/heads/main/Grow%20A%20Garden%202'))()" },
-                { id: 19, name: "Stellar Loader", category: "other", desc: "Universal script loader with key system.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Dalkoski/Stellar/refs/heads/main/Loader'))()" },
-                { id: 20, name: "Animal Hospital FN", category: "other", desc: "Auto Farm, Infinite Sanity, Auto Tasks.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FN_AnimalHospital.lua'))()" },
-                { id: 21, name: "Voidware Script", category: "other", desc: "99 Nights - Bring Any Item, Godmode.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/99nights-voidware'))()" },
-                { id: 22, name: "Phantasm HUB", category: "other", desc: "TSB - Combat, Reach, Infinite Stamina.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/tsb-phantasm'))()" },
-                { id: 23, name: "CACTUS HUB PRO", category: "other", desc: "Keyboard Escape - Auto Farm, Auto Win.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/keyboard-cactus'))()" },
-                { id: 24, name: "Skull Hub", category: "other", desc: "Anime Expeditions - Auto Play, Macro.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/anime-skull'))()" },
-                { id: 25, name: "Slap Aura", category: "other", desc: "Slap Battles - Unlock All, Auto Farm.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/slap-aura'))()" },
-                { id: 26, name: "Infinite Yield", category: "other", desc: "Universal Admin Commands.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/infinite-yield'))()" },
-                { id: 27, name: "Hoho Hub", category: "other", desc: "Auto Farm, ESP, Aimbot, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/acxies/HohoHub/main/HohoHub.lua'))()" },
-                { id: 28, name: "Vape V4", category: "other", desc: "Silent Aim, ESP, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/MainScript'))()" },
-                { id: 29, name: "Owl Hub", category: "bloxfruits", desc: "Auto Farm, Auto Raid, Auto Sea.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Rukiri/OwlHub/master/OwlHub.lua'))()" },
-                { id: 30, name: "Zen Hub", category: "other", desc: "Admin Commands, Fly, Noclip, ESP.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/scriptblox/ZenHub/main/ZenHub.lua'))()" },
-                { id: 31, name: "Hydro Hub", category: "mm2", desc: "Aimbot, ESP, Silent Aim, Kill All (MM2/Arsenal).", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/HydroScripts/HydroHub/main/Main.lua'))()" },
-                { id: 32, name: "Void Hub", category: "other", desc: "Auto Farm, Auto Hatch, Auto Collect.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/VoidScripts/VoidHub/main/VoidHub.lua'))()" },
-                { id: 33, name: "Nebula Hub", category: "other", desc: "ESP, Aimbot, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/NebulaScripts/NebulaHub/main/Nebula.lua'))()" }
-            ];
+        // =============================================
+        // SCRİPT LİSTESİ (33 ADET) - GÖRSELLİ
+        // =============================================
+        const scripts = [
+            // ---- MM2 (Kırmızı Bıçak) ----
+            { id: 1, name: "Premium MM2 Hub", category: "mm2", img: "https://i.ibb.co/G38tS54g/c5910684-1c28-4f90-88a3-80b16cfdc172.jpg", desc: "ESP, Aimbot, Auto Farm, Kill All.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/jovskirt/Premium_Mm2Hub/refs/heads/main/Premium_mm2_script'))()" },
+            { id: 2, name: "Kirkiblox MM2", category: "mm2", img: "https://i.ibb.co/G38tS54g/c5910684-1c28-4f90-88a3-80b16cfdc172.jpg", desc: "Hızlı ve stabil, tüm özellikler tek yerde.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/overdrivehubmm2/kirkiblox/refs/heads/main/best'))()" },
+            { id: 3, name: "MM2 LLLL.HUB", category: "mm2", img: "https://i.ibb.co/G38tS54g/c5910684-1c28-4f90-88a3-80b16cfdc172.jpg", desc: "Auto Farm, Silent Aim, Aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/mm2-llll'))()" },
+            { id: 4, name: "MM2 Custom Script 4", category: "mm2", img: "https://i.ibb.co/G38tS54g/c5910684-1c28-4f90-88a3-80b16cfdc172.jpg", desc: "Gelişmiş ESP, Silent Aim, Kill Aura.", link: "loadstring(game:HttpGet('https://cdn.sourceb.in/bins/jbH6babzL6/0'))()" },
+            { id: 31, name: "Hydro Hub", category: "mm2", img: "https://i.ibb.co/G38tS54g/c5910684-1c28-4f90-88a3-80b16cfdc172.jpg", desc: "Aimbot, ESP, Silent Aim, Kill All (MM2/Arsenal).", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/HydroScripts/HydroHub/main/Main.lua'))()" },
 
-            const grid = document.getElementById('scriptGrid');
-            const searchInput = document.getElementById('searchInput');
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const modalOverlay = document.getElementById('modalOverlay');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const unlockBtn = document.getElementById('unlockBtn');
-            const codeBox = document.getElementById('codeBox');
-            const copyBtn = document.getElementById('copyCodeBtn');
+            // ---- Blox Fruits (Turuncu Meyve) ----
+            { id: 5, name: "Redz Hub v2", category: "bloxfruits", img: "https://i.ibb.co/gFMRqKg1/c5910684-1c28-4f90-88a3-80b16cfdc172-1.png", desc: "Keyless GUI with Auto Farm, Devil Fruits.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-redz'))()" },
+            { id: 6, name: "Monster Hub", category: "bloxfruits", img: "https://i.ibb.co/gFMRqKg1/c5910684-1c28-4f90-88a3-80b16cfdc172-1.png", desc: "Farm, Events, Items, Fruits, Teleport.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-monster'))()" },
+            { id: 29, name: "Owl Hub", category: "bloxfruits", img: "https://i.ibb.co/gFMRqKg1/c5910684-1c28-4f90-88a3-80b16cfdc172-1.png", desc: "Auto Farm, Auto Raid, Auto Sea.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Rukiri/OwlHub/master/OwlHub.lua'))()" },
 
-            const taskState = {
-                discord: { completed: false, timer: null },
-                youtube: { completed: false, timer: null },
-                tiktok: { completed: false, timer: null }
-            };
+            // ---- Pet Sim 99 (Sarı Pati) ----
+            { id: 7, name: "Pet Sim 99 Auto Farm", category: "petsim", img: "https://i.ibb.co/hFrmkQbV/de66ef41-b20c-49d2-a142-04ee511a9e1b.png", desc: "Otomatik coin kasma, yumurta açma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-autofarm'))()" },
+            { id: 8, name: "Pet Sim 99 Diamond Farm", category: "petsim", img: "https://i.ibb.co/hFrmkQbV/de66ef41-b20c-49d2-a142-04ee511a9e1b.png", desc: "Elmas toplama ve otomatik satış.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-diamond'))()" },
 
-            let currentScriptLink = '';
-            let activeFilter = 'all';
+            // ---- Da Hood (Yeşil Şehir) ----
+            { id: 9, name: "Da Hood Auto Farm", category: "dahood", img: "https://i.ibb.co/MDW95ZP4/d5c346a2-587f-48c3-abcd-2d4e92dc7b78.png", desc: "Otomatik para kasma, aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-autofarm'))()" },
+            { id: 10, name: "Da Hood Silent Aim", category: "dahood", img: "https://i.ibb.co/MDW95ZP4/d5c346a2-587f-48c3-abcd-2d4e92dc7b78.png", desc: "Sessiz nişan, otomatik ateş.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-silentaim'))()" },
 
-            const categoryIcons = {
-                mm2: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/><circle cx="12" cy="12" r="3"/></svg>`,
-                bloxfruits: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6348" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><circle cx="12" cy="12" r="4"/></svg>`,
-                petsim: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#feca57" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><circle cx="9" cy="9" r="1.5"/><circle cx="15" cy="9" r="1.5"/><path d="M5 5l2 2M19 5l-2 2"/></svg>`,
-                dahood: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2ed573" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/><rect x="7" y="15" width="10" height="6" rx="1"/></svg>`,
-                bladeball: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M2 12h20"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="3"/></svg>`,
-                brookhaven: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/><rect x="8" y="14" width="8" height="6" rx="1"/><circle cx="12" cy="8" r="2"/></svg>`,
-                other: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a29bfe" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="21" x2="9" y2="9"/><circle cx="12" cy="12" r="2"/></svg>`
-            };
+            // ---- Blade Ball (Kırmızı Kılıç+Top) ----
+            { id: 11, name: "Dryx Hub", category: "bladeball", img: "https://i.ibb.co/0j78BBpZ/15b06b80-4a92-44ba-b8c2-fce06ab03338.png", desc: "Auto Parry, Auto Spam, Detection, Skin Changer.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-dryx'))()" },
+            { id: 12, name: "Blade Ball Speed Hack", category: "bladeball", img: "https://i.ibb.co/0j78BBpZ/15b06b80-4a92-44ba-b8c2-fce06ab03338.png", desc: "Hızlandırma, otomatik yön değiştirme.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-speed'))()" },
 
-            function renderCards(filter, query) {
-                const filtered = scripts.filter(s => {
-                    const matchCategory = filter === 'all' || s.category === filter;
-                    const matchQuery = s.name.toLowerCase().includes(query.toLowerCase()) ||
-                        s.desc.toLowerCase().includes(query.toLowerCase());
-                    return matchCategory && matchQuery;
-                });
+            // ---- Brookhaven (Mavi Ev) ----
+            { id: 13, name: "Brookhaven Admin Panel", category: "brookhaven", img: "https://i.ibb.co/HDkYDYWL/20120e87-168e-488e-9701-ba6c994795e8.png", desc: "Admin komutları, uçma, ışınlanma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-admin'))()" },
+            { id: 14, name: "Brookhaven Car Spawner", category: "brookhaven", img: "https://i.ibb.co/HDkYDYWL/20120e87-168e-488e-9701-ba6c994795e8.png", desc: "İstediğin aracı spawnla.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-carspawn'))()" },
 
-                if (filtered.length === 0) {
-                    grid.innerHTML =
-                        `<p style="grid-column:1/-1; text-align:center; color:#5a6a82; padding:60px 0;">🔍 Sonuç bulunamadı.</p>`;
-                    return;
-                }
+            // ---- Diğer (Mor Yıldız) ----
+            { id: 15, name: "Vertex Script", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Genel amaçlı güçlü script.", link: "loadstring(game:HttpGet('https://raw.smokingscripts.org/vertex.lua'))()" },
+            { id: 16, name: "Overflow Loader", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Universal script loader.", link: "loadstring(game:HttpGet('https://overflow.cx/loader.lua'))()" },
+            { id: 17, name: "GAG2 Skibidi", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Grow a Garden 2 - Auto Farm, Auto Steal.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FN_GAG2_skibidi.lua'))()" },
+            { id: 18, name: "Grow A Garden 2", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Grow a Garden 2 - Auto Farm, Auto Harvest.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Kenniel123/Grow-A-Garden-2/refs/heads/main/Grow%20A%20Garden%202'))()" },
+            { id: 19, name: "Stellar Loader", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Universal script loader with key system.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Dalkoski/Stellar/refs/heads/main/Loader'))()" },
+            { id: 20, name: "Animal Hospital FN", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Auto Farm, Infinite Sanity, Auto Tasks.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FN_AnimalHospital.lua'))()" },
+            { id: 21, name: "Voidware Script", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "99 Nights - Bring Any Item, Godmode.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/99nights-voidware'))()" },
+            { id: 22, name: "Phantasm HUB", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "TSB - Combat, Reach, Infinite Stamina.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/tsb-phantasm'))()" },
+            { id: 23, name: "CACTUS HUB PRO", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Keyboard Escape - Auto Farm, Auto Win.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/keyboard-cactus'))()" },
+            { id: 24, name: "Skull Hub", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Anime Expeditions - Auto Play, Macro.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/anime-skull'))()" },
+            { id: 25, name: "Slap Aura", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Slap Battles - Unlock All, Auto Farm.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/slap-aura'))()" },
+            { id: 26, name: "Infinite Yield", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Universal Admin Commands.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/infinite-yield'))()" },
+            { id: 27, name: "Hoho Hub", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Auto Farm, ESP, Aimbot, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/acxies/HohoHub/main/HohoHub.lua'))()" },
+            { id: 28, name: "Vape V4", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Silent Aim, ESP, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/MainScript'))()" },
+            { id: 30, name: "Zen Hub", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Admin Commands, Fly, Noclip, ESP.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/scriptblox/ZenHub/main/ZenHub.lua'))()" },
+            { id: 32, name: "Void Hub", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "Auto Farm, Auto Hatch, Auto Collect.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/VoidScripts/VoidHub/main/VoidHub.lua'))()" },
+            { id: 33, name: "Nebula Hub", category: "other", img: "https://i.ibb.co/k2TmdfBm/520b6d66-7377-4144-b651-2c3a09b3f05e.png", desc: "ESP, Aimbot, Fly, Speed, Kill Aura.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/NebulaScripts/NebulaHub/main/Nebula.lua'))()" }
+        ];
 
-                grid.innerHTML = filtered.map(s => `
-                        <div class="card">
-                            <span class="badge">${categoryIcons[s.category] || ''} ${s.category.toUpperCase()}</span>
-                            <h3>${s.name}</h3>
-                            <div class="desc">${s.desc}</div>
-                            <div class="meta">
-                                <span class="category-tag">${categoryIcons[s.category] || ''} #${s.category}</span>
-                                <button class="get-btn" data-link="${s.link}">📥 GET SCRIPT</button>
-                            </div>
+        // =============================================
+        // DOM İŞLEMLERİ
+        // =============================================
+        const grid = document.getElementById('scriptGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const codeBox = document.getElementById('codeBox');
+        const copyBtn = document.getElementById('copyCodeBtn');
+
+        const taskState = {
+            discord: { completed: false, timer: null },
+            youtube: { completed: false, timer: null },
+            tiktok: { completed: false, timer: null }
+        };
+
+        let currentScriptLink = '';
+        let activeFilter = 'all';
+
+        function renderCards(filter, query) {
+            const filtered = scripts.filter(s => {
+                const matchCategory = filter === 'all' || s.category === filter;
+                const matchQuery = s.name.toLowerCase().includes(query.toLowerCase()) ||
+                    s.desc.toLowerCase().includes(query.toLowerCase());
+                return matchCategory && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML =
+                    `<p style="grid-column:1/-1; text-align:center; color:#6a7f9c; padding:60px 0; font-size:16px;">🔍 Sonuç bulunamadı.</p>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map((s, index) => `
+                    <div class="card animate-card" style="animation-delay: ${index * 0.04}s">
+                        <span class="badge">
+                            <img src="${s.img}" alt="${s.category}" style="width:20px; height:20px; border-radius:4px; object-fit:cover; margin-right:6px;">
+                            ${s.category.toUpperCase()}
+                        </span>
+                        <h3>${s.name}</h3>
+                        <div class="desc">${s.desc}</div>
+                        <div class="meta">
+                            <span class="category-tag">
+                                <img src="${s.img}" alt="${s.category}" style="width:16px; height:16px; border-radius:3px; object-fit:cover; margin-right:4px;">
+                                #${s.category}
+                            </span>
+                            <button class="get-btn" data-link="${s.link}">📥 GET SCRIPT</button>
                         </div>
-                    `).join('');
+                    </div>
+                `).join('');
 
-                document.querySelectorAll('.get-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        currentScriptLink = this.dataset.link;
-                        openModal();
-                    });
-                });
-            }
-
-            function openModal() {
-                resetTasks();
-                codeBox.classList.remove('show');
-                codeBox.textContent = '';
-                copyBtn.style.display = 'none';
-                unlockBtn.disabled = true;
-                unlockBtn.classList.remove('active');
-                unlockBtn.textContent = '🔒 Görevleri Tamamla';
-                modalOverlay.classList.add('active');
-            }
-
-            function closeModal() {
-                modalOverlay.classList.remove('active');
-                ['discord', 'youtube', 'tiktok'].forEach(task => {
-                    if (taskState[task].timer) {
-                        clearInterval(taskState[task].timer);
-                        taskState[task].timer = null;
-                    }
-                });
-            }
-
-            function resetTasks() {
-                ['discord', 'youtube', 'tiktok'].forEach(task => {
-                    taskState[task].completed = false;
-                    const btn = document.querySelector(`.task-btn[data-task="${task}"]`);
-                    if (btn) {
-                        btn.classList.remove('completed');
-                        btn.disabled = false;
-                        const names = { discord: 'Katıl', youtube: 'Abone Ol', tiktok: 'Takip Et' };
-                        btn.innerHTML = names[task];
-                        const timerSpan = btn.querySelector('.timer');
-                        if (timerSpan) timerSpan.remove();
-                    }
-                    const taskDiv = document.getElementById(`task${task.charAt(0).toUpperCase() + task.slice(1)}`);
-                    if (taskDiv) taskDiv.style.borderColor = '#1f2a3a';
-                });
-                unlockBtn.disabled = true;
-                unlockBtn.classList.remove('active');
-                unlockBtn.textContent = '🔒 Görevleri Tamamla';
-            }
-
-            document.querySelectorAll('.task-btn').forEach(btn => {
+            document.querySelectorAll('.get-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const task = this.dataset.task;
-                    if (taskState[task].completed) return;
-
-                    const urls = {
-                        discord: 'https://discord.gg/JJmEGx9mN3',
-                        youtube: 'https://www.youtube.com/@mm2_ultimatehub',
-                        tiktok: 'https://www.tiktok.com/@mm2_ultimatehub'
-                    };
-                    window.open(urls[task], '_blank');
-
-                    const btnEl = this;
-                    btnEl.disabled = true;
-                    let count = 40;
-                    const timerSpan = document.createElement('span');
-                    timerSpan.className = 'timer';
-                    timerSpan.textContent = `⏳ ${count}s`;
-                    btnEl.appendChild(timerSpan);
-
-                    const timerId = setInterval(() => {
-                        count--;
-                        timerSpan.textContent = `⏳ ${count}s`;
-                        if (count <= 0) {
-                            clearInterval(timerId);
-                            taskState[task].completed = true;
-                            btnEl.classList.add('completed');
-                            btnEl.disabled = false;
-                            const doneNames = { discord: '✅ Katıldın!', youtube: '✅ Abone Oldun!',
-                                tiktok: '✅ Takip Ettin!' };
-                            btnEl.innerHTML = doneNames[task];
-                            const taskDiv = document.getElementById(`task${task.charAt(0).toUpperCase() + task.slice(1)}`);
-                            if (taskDiv) taskDiv.style.borderColor = '#22c55e';
-                            checkUnlock();
-                        }
-                    }, 1000);
-
-                    taskState[task].timer = timerId;
+                    currentScriptLink = this.dataset.link;
+                    openModal();
                 });
             });
+        }
 
-            function checkUnlock() {
-                if (taskState.discord.completed && taskState.youtube.completed && taskState.tiktok.completed) {
-                    unlockBtn.disabled = false;
-                    unlockBtn.classList.add('active');
-                    unlockBtn.textContent = '🔓 Kodu Göster';
+        function openModal() {
+            resetTasks();
+            codeBox.classList.remove('show');
+            codeBox.textContent = '';
+            copyBtn.style.display = 'none';
+            unlockBtn.disabled = true;
+            unlockBtn.classList.remove('active');
+            unlockBtn.textContent = '🔒 Görevleri Tamamla';
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            ['discord', 'youtube', 'tiktok'].forEach(task => {
+                if (taskState[task].timer) {
+                    clearInterval(taskState[task].timer);
+                    taskState[task].timer = null;
                 }
+            });
+        }
+
+        function resetTasks() {
+            ['discord', 'youtube', 'tiktok'].forEach(task => {
+                taskState[task].completed = false;
+                const btn = document.querySelector(`.task-btn[data-task="${task}"]`);
+                if (btn) {
+                    btn.classList.remove('completed');
+                    btn.disabled = false;
+                    const names = { discord: 'Katıl', youtube: 'Abone Ol', tiktok: 'Takip Et' };
+                    btn.innerHTML = names[task];
+                    const timerSpan = btn.querySelector('.timer');
+                    if (timerSpan) timerSpan.remove();
+                }
+                const taskDiv = document.getElementById(`task${task.charAt(0).toUpperCase() + task.slice(1)}`);
+                if (taskDiv) taskDiv.style.borderColor = 'rgba(255,255,255,0.04)';
+            });
+            unlockBtn.disabled = true;
+            unlockBtn.classList.remove('active');
+            unlockBtn.textContent = '🔒 Görevleri Tamamla';
+        }
+
+        document.querySelectorAll('.task-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const task = this.dataset.task;
+                if (taskState[task].completed) return;
+
+                const urls = {
+                    discord: 'https://discord.gg/JJmEGx9mN3',
+                    youtube: 'https://www.youtube.com/@mm2_ultimatehub',
+                    tiktok: 'https://www.tiktok.com/@mm2_ultimatehub'
+                };
+                window.open(urls[task], '_blank');
+
+                const btnEl = this;
+                btnEl.disabled = true;
+                let count = 40;
+                const timerSpan = document.createElement('span');
+                timerSpan.className = 'timer';
+                timerSpan.textContent = `⏳ ${count}s`;
+                btnEl.appendChild(timerSpan);
+
+                const timerId = setInterval(() => {
+                    count--;
+                    timerSpan.textContent = `⏳ ${count}s`;
+                    if (count <= 0) {
+                        clearInterval(timerId);
+                        taskState[task].completed = true;
+                        btnEl.classList.add('completed');
+                        btnEl.disabled = false;
+                        const doneNames = { discord: '✅ Katıldın!', youtube: '✅ Abone Oldun!',
+                            tiktok: '✅ Takip Ettin!' };
+                        btnEl.innerHTML = doneNames[task];
+                        const taskDiv = document.getElementById(`task${task.charAt(0).toUpperCase() + task.slice(1)}`);
+                        if (taskDiv) taskDiv.style.borderColor = '#22c55e';
+                        checkUnlock();
+                    }
+                }, 1000);
+
+                taskState[task].timer = timerId;
+            });
+        });
+
+        function checkUnlock() {
+            if (taskState.discord.completed && taskState.youtube.completed && taskState.tiktok.completed) {
+                unlockBtn.disabled = false;
+                unlockBtn.classList.add('active');
+                unlockBtn.textContent = '🔓 Kodu Göster';
             }
+        }
 
-            unlockBtn.addEventListener('click', function() {
-                if (this.disabled) return;
-                codeBox.textContent = currentScriptLink;
-                codeBox.classList.add('show');
-                copyBtn.style.display = 'inline-block';
-                this.textContent = '✅ Kod Hazır';
-                this.disabled = true;
+        unlockBtn.addEventListener('click', function() {
+            if (this.disabled) return;
+            codeBox.textContent = currentScriptLink;
+            codeBox.classList.add('show');
+            copyBtn.style.display = 'inline-block';
+            this.textContent = '✅ Kod Hazır';
+            this.disabled = true;
+        });
+
+        copyBtn.addEventListener('click', function() {
+            const code = codeBox.textContent;
+            if (!code) return;
+            navigator.clipboard.writeText(code).then(() => {
+                this.textContent = '✅ Kopyalandı!';
+                setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = code;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                this.textContent = '✅ Kopyalandı!';
+                setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
             });
+        });
 
-            copyBtn.addEventListener('click', function() {
-                const code = codeBox.textContent;
-                if (!code) return;
-                navigator.clipboard.writeText(code).then(() => {
-                    this.textContent = '✅ Kopyalandı!';
-                    setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
-                }).catch(() => {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = code;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    this.textContent = '✅ Kopyalandı!';
-                    setTimeout(() => { this.textContent = '📋 Kodu Kopyala'; }, 2000);
-                });
+        closeModalBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeFilter = this.dataset.category;
+                renderCards(activeFilter, searchInput.value);
             });
+        });
 
-            closeModalBtn.addEventListener('click', closeModal);
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
+        searchInput.addEventListener('input', function() {
+            renderCards(activeFilter, this.value);
+        });
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    activeFilter = this.dataset.category;
-                    renderCards(activeFilter, searchInput.value);
-                });
-            });
-
-            searchInput.addEventListener('input', function() {
-                renderCards(activeFilter, this.value);
-            });
-
-            renderCards('all', '');
-        })();
+        // =============================================
+        // SAYFA AÇILINCA
+        // =============================================
+        renderCards('all', '');
+        console.log('🔥 ScriptHub yüklendi! Keyifli kullanımlar!');
     </script>
+
 </body>
 </html>
