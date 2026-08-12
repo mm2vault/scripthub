@@ -110,39 +110,49 @@
             align-items: center;
             margin-bottom: 20px;
             padding: 14px 16px;
-            background: rgba(16, 14, 45, 0.70);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(16, 14, 45, 0.40);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 18px;
-            border: 1px solid rgba(130, 80, 255, 0.15);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(130, 80, 255, 0.1);
+            border: 1px solid rgba(130, 80, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(130, 80, 255, 0.2);
             animation: fadeSlideDown 0.6s ease forwards;
             position: relative;
             overflow: hidden;
         }
 
-        /* LOGO ARKASI GÖRSEL */
         .header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -20%;
-            width: 200%;
-            height: 200%;
-            background-image: url('https://i.ibb.co/tpDD2CGT/Gemini-Generated-mage-kd9s24kd9s24kd9s.png');
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/jvHH2Cbh/Gemini-Generated-mage-3nz6w3nz6w3nz6w3.png');
             background-size: cover;
             background-position: center;
-            opacity: 0.08;
+            opacity: 0.45;
             z-index: 0;
-            filter: blur(2px);
-            transform: scale(0.8);
+            filter: blur(0px);
+            transition: opacity 0.3s ease;
         }
 
-        /* Logo ve diğer içerikler görselin üstünde */
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(10, 8, 30, 0.75) 0%, rgba(10, 8, 30, 0.35) 50%, rgba(10, 8, 30, 0.75) 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
         .header .logo,
         .header .header-right {
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .logo {
@@ -160,7 +170,7 @@
             object-fit: cover;
             border: 2px solid #8b6cf7;
             flex-shrink: 0;
-            box-shadow: 0 0 25px rgba(130, 80, 255, 0.25);
+            box-shadow: 0 0 25px rgba(130, 80, 255, 0.35);
             transition: 0.3s;
             position: relative;
             z-index: 2;
@@ -168,13 +178,13 @@
 
         .logo-img:hover {
             border-color: #a78bfa;
-            box-shadow: 0 0 40px rgba(130, 80, 255, 0.4);
+            box-shadow: 0 0 40px rgba(130, 80, 255, 0.6);
             transform: scale(1.05);
         }
 
         .logo h1 {
             font-size: 22px;
-            background: linear-gradient(135deg, #a78bfa, #7c3aed, #6d28d9, #7c3aed);
+            background: linear-gradient(135deg, #ffffff, #c4b5fd, #a78bfa);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -183,16 +193,18 @@
             white-space: nowrap;
             position: relative;
             z-index: 2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .logo span {
             font-size: 11px;
-            color: #a5b4fc;
+            color: #d4c8ff;
             display: block;
             margin-top: 1px;
             letter-spacing: 0.5px;
             position: relative;
             z-index: 2;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.8);
         }
 
         .header-right {
@@ -212,8 +224,8 @@
         .search-box input {
             padding: 10px 16px;
             border-radius: 30px;
-            border: 1px solid rgba(130, 80, 255, 0.15);
-            background: rgba(10, 8, 30, 0.6);
+            border: 1px solid rgba(130, 80, 255, 0.3);
+            background: rgba(10, 8, 30, 0.7);
             color: #e8edf5;
             font-size: 14px;
             width: 100%;
@@ -225,28 +237,28 @@
 
         .search-box input:focus {
             border-color: #8b6cf7;
-            box-shadow: 0 0 0 3px rgba(130, 80, 255, 0.15), 0 0 20px rgba(130, 80, 255, 0.05);
-            background: rgba(10, 8, 30, 0.8);
+            box-shadow: 0 0 0 3px rgba(130, 80, 255, 0.25), 0 0 20px rgba(130, 80, 255, 0.2);
+            background: rgba(10, 8, 30, 0.9);
         }
 
         .search-box input::placeholder {
-            color: #6d7a9e;
+            color: #94a3b8;
             font-size: 13px;
         }
 
         /* =============================================
-           FİLTRELER
+           FİLTRELER (BÜYÜTÜLDÜ)
            ============================================= */
         .filters {
             display: flex;
             flex-wrap: nowrap;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 20px;
-            padding: 10px 12px;
+            padding: 12px 14px;
             background: rgba(16, 14, 45, 0.55);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-radius: 14px;
+            border-radius: 16px;
             border: 1px solid rgba(130, 80, 255, 0.08);
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -259,18 +271,18 @@
         }
 
         .filter-btn {
-            padding: 8px 14px;
+            padding: 10px 18px; /* Buton içi boşluğu büyütüldü */
             border-radius: 30px;
-            border: 1px solid rgba(130, 80, 255, 0.1);
-            background: transparent;
+            border: 1px solid rgba(130, 80, 255, 0.15);
+            background: rgba(10, 8, 30, 0.4);
             color: #a5b4fc;
             cursor: pointer;
             transition: all 0.25s ease;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 14px; /* Yazı boyutu 12px'den 14px'e çıkarıldı */
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px; /* İkon ve yazı arası mesafe artırıldı */
             white-space: nowrap;
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
@@ -281,7 +293,7 @@
         }
 
         .filter-btn:hover {
-            background: rgba(130, 80, 255, 0.08);
+            background: rgba(130, 80, 255, 0.15);
             color: #fff;
             border-color: #8b6cf7;
         }
@@ -290,14 +302,14 @@
             background: linear-gradient(135deg, #7c3aed, #6d28d9);
             border-color: transparent;
             color: #fff;
-            box-shadow: 0 2px 20px rgba(130, 80, 255, 0.35);
+            box-shadow: 0 4px 20px rgba(130, 80, 255, 0.4);
         }
 
         .filter-btn .cat-icon {
-            width: 18px;
-            height: 18px;
+            width: 22px; /* İkonlar 18px'den 22px'e büyütüldü */
+            height: 22px;
             flex-shrink: 0;
-            border-radius: 3px;
+            border-radius: 4px;
             object-fit: cover;
         }
 
@@ -311,7 +323,7 @@
         }
 
         /* =============================================
-           KARTLAR - ARKA PLAN GÖRSELLİ (DAHA BELİRGİN)
+           KARTLAR - ARKA PLAN GÖRSELLİ
            ============================================= */
         .card {
             border-radius: 16px;
@@ -332,7 +344,6 @@
             background-position: center;
         }
 
-        /* Karartma katmanı - DAHA AZ KARARTMA */
         .card::before {
             content: '';
             position: absolute;
@@ -353,7 +364,6 @@
             -webkit-backdrop-filter: blur(1px);
         }
 
-        /* Tüm içerikler karartmanın üstünde */
         .card .badge,
         .card h3,
         .card .desc,
@@ -362,7 +372,6 @@
             z-index: 1;
         }
 
-        /* Soluk Oyun İkonu - artık çok daha soluk */
         .card::after {
             position: absolute;
             bottom: 8px;
@@ -381,9 +390,6 @@
         .card[data-category="brookhaven"]::after { content: '🏡'; }
         .card[data-category="other"]::after { content: '📦'; }
 
-        /* =============================================
-           KATEGORİ BAZINDA ARKA PLAN GÖRSELLERİ
-           ============================================= */
         .card[data-category="mm2"] {
             background-image: url('https://i.ibb.co/fYR9C82Q/Gemini-Generated-mage-wlp9gswlp9gswlp9.png');
             border-left-color: #f472b6;
@@ -419,7 +425,6 @@
             border-left-color: #a78bfa;
         }
 
-        /* Kart hover */
         .card:hover {
             transform: translateY(-3px) scale(1.01);
             border-color: rgba(130, 80, 255, 0.25);
@@ -838,15 +843,20 @@
             }
 
             .filters {
-                padding: 12px 18px;
-                gap: 10px;
+                padding: 14px 20px;
+                gap: 12px;
                 flex-wrap: wrap;
                 overflow-x: visible;
             }
 
             .filter-btn {
-                padding: 10px 20px;
-                font-size: 14px;
+                padding: 12px 22px; /* Masaüstünde bir tık daha geniş */
+                font-size: 15px;
+            }
+
+            .filter-btn .cat-icon {
+                width: 24px;
+                height: 24px;
             }
 
             .modal {
@@ -939,7 +949,7 @@
         </header>
 
         <!-- =============================================
-        FİLTRELER
+        FİLTRELER (BÜYÜTÜLEN BÖLÜM)
         ============================================= -->
         <div class="filters" id="filterContainer">
             <button class="filter-btn active" data-category="all">
@@ -1040,7 +1050,7 @@
         // SCRİPT LİSTESİ (46 ADET)
         // =============================================
         const scripts = [
-            // ---- MM2 (Mevcut 5 + Yeni 2) ----
+            // ---- MM2 ----
             { id: 1, name: "Premium MM2 Hub", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "ESP, Aimbot, Auto Farm, Kill All.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/jovskirt/Premium_Mm2Hub/refs/heads/main/Premium_mm2_script'))()" },
             { id: 2, name: "Kirkiblox MM2", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Hızlı ve stabil, tüm özellikler tek yerde.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/overdrivehubmm2/kirkiblox/refs/heads/main/best'))()" },
             { id: 3, name: "MM2 LLLL.HUB", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Auto Farm, Silent Aim, Aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/mm2-llll'))()" },
@@ -1049,36 +1059,36 @@
             { id: 34, name: "MM2 Veloxide", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Autofarm, Silent Aim, Aimbot, ESP, Freecam, Teleport, Fling", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/veloxides/MM2/refs/heads/main/VeloxideV1'))()" },
             { id: 35, name: "MM2 Keyless Script", category: "mm2", img: "https://i.ibb.co/VYk608N7/Gemini-Generated-mage-i0yha8i0yha8i0yh.png", desc: "Auto Farm, Auto Value, Auto Win, ESP", link: "loadstring(game:HttpGet('https://pastebin.com/raw/xixMasnJ', true))()" },
 
-            // ---- Blox Fruits (Mevcut 3 + Yeni 2) ----
+            // ---- Blox Fruits ----
             { id: 5, name: "Redz Hub v2", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Keyless GUI with Auto Farm, Devil Fruits.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-redz'))()" },
             { id: 6, name: "Monster Hub", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Farm, Events, Items, Fruits, Teleport.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bloxfruits-monster'))()" },
             { id: 29, name: "Owl Hub", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Auto Farm, Auto Raid, Auto Sea.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Rukiri/OwlHub/master/OwlHub.lua'))()" },
             { id: 36, name: "Blox Fruits Volt Hub", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Auto Farm, Auto Raid, Auto Awaken, Kill Aura, Auto Random Fruit", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Dev-VoltHub/Blox-fruits/main/volt.lua'))()" },
             { id: 37, name: "Blox Fruits Easy Farm", category: "bloxfruits", img: "https://i.ibb.co/Bbk905G/Gemini-Generated-mage-civ8kcciv8kcciv8.png", desc: "Auto Farm, Auto Collect, Teleport, ESP", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/twistedxblox/EasyFarm/main/EasyFarm.lua'))()" },
 
-            // ---- Pet Sim 99 (Mevcut 2 + Yeni 2) ----
+            // ---- Pet Sim 99 ----
             { id: 7, name: "Pet Sim 99 Auto Farm", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Otomatik coin kasma, yumurta açma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-autofarm'))()" },
             { id: 8, name: "Pet Sim 99 Diamond Farm", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Elmas toplama ve otomatik satış.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/petsim99-diamond'))()" },
             { id: 38, name: "Pet Sim 99 Brainrot Hub", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Full Auto, Auto Open Packs, Auto Place Cards, Auto Rebirth", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/diepedyt/bui/refs/heads/main/BrainrotHub.lua'))()" },
             { id: 39, name: "Pet Sim 99 Diamond Farm Pro", category: "petsim", img: "https://i.ibb.co/KxR0TQFc/Gemini-Generated-mage-y1bl6ay1bl6ay1bl.png", desc: "Auto Farm, Auto Diamond Collect, Auto Hatch, Auto Trade", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/SimpleScripts/PetSim99/main/DiamondFarm.lua'))()" },
 
-            // ---- Da Hood (Mevcut 2 + Yeni 2) ----
+            // ---- Da Hood ----
             { id: 9, name: "Da Hood Auto Farm", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Otomatik para kasma, aimbot, ESP.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-autofarm'))()" },
             { id: 10, name: "Da Hood Silent Aim", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Sessiz nişan, otomatik ateş.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/dahood-silentaim'))()" },
             { id: 40, name: "Da Hood Egorware", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Auto Taunt, ESP, Teleport Behind Keeper, Auto Farm", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/egorware/scripts/refs/heads/main/ZOOOROOF.lua'))()" },
             { id: 41, name: "Da Hood Ecrxks Hub", category: "dahood", img: "https://i.ibb.co/67tgbc10/Gemini-Generated-mage-wme57uwme57uwme5.png", desc: "Animal ESP, NoClip, Fly, Speed, Auto Kill", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/ecrxks271/zoo/main/Zoo_or_off.lua'))()" },
 
-            // ---- Blade Ball (Mevcut 2 + Yeni 1) ----
+            // ---- Blade Ball ----
             { id: 11, name: "Dryx Hub", category: "bladeball", img: "https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png", desc: "Auto Parry, Auto Spam, Detection, Skin Changer.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-dryx'))()" },
             { id: 12, name: "Blade Ball Speed Hack", category: "bladeball", img: "https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png", desc: "Hızlandırma, otomatik yön değiştirme.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/bladeball-speed'))()" },
             { id: 42, name: "Blade Ball Nova Hub", category: "bladeball", img: "https://i.ibb.co/s0Q13RY/Gemini-Generated-mage-4c1cmo4c1cmo4c1c.png", desc: "Auto Parry, Auto Dodge, Auto Spam, Speed Hack, No Cooldown", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/NovaScripts/BladeBall/main/NovaHub.lua'))()" },
 
-            // ---- Brookhaven (Mevcut 2 + Yeni 1) ----
+            // ---- Brookhaven ----
             { id: 13, name: "Brookhaven Admin Panel", category: "brookhaven", img: "https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg", desc: "Admin komutları, uçma, ışınlanma.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-admin'))()" },
             { id: 14, name: "Brookhaven Car Spawner", category: "brookhaven", img: "https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg", desc: "İstediğin aracı spawnla.", link: "loadstring(game:HttpGet('https://rblxscripts.net/scripts/brookhaven-carspawn'))()" },
             { id: 43, name: "Brookhaven Ultra Admin", category: "brookhaven", img: "https://i.ibb.co/ycfxvJW0/5e348428-d6c5-49c4-af69-e1dae3d31b21.jpg", desc: "Admin Panel, Fly, Noclip, Teleport, Spawn All, Infinite Money", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/UltraAdminRBX/Brookhaven/main/UltraAdmin.lua'))()" },
 
-            // ---- Diğer (Mevcut 17 + Yeni 3) ----
+            // ---- Diğer ----
             { id: 15, name: "Vertex Script", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Genel amaçlı güçlü script.", link: "loadstring(game:HttpGet('https://raw.smokingscripts.org/vertex.lua'))()" },
             { id: 16, name: "Overflow Loader", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Universal script loader.", link: "loadstring(game:HttpGet('https://overflow.cx/loader.lua'))()" },
             { id: 17, name: "GAG2 Skibidi", category: "other", img: "https://i.ibb.co/Zpdy6k1y/cab13a4f-2952-4880-b092-0e8bf76d64df.jpg", desc: "Grow a Garden 2 - Auto Farm, Auto Steal.", link: "loadstring(game:HttpGet('https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FN_GAG2_skibidi.lua'))()" },
@@ -1314,20 +1324,13 @@
             renderCards(activeFilter, this.value);
         });
 
-        // ESC tuşu ile modal kapatma
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
                 closeModal();
             }
         });
 
-        // =============================================
-        // SAYFA AÇILINCA
-        // =============================================
         renderCards('all', '');
-        console.log('🔥 ScriptHub yüklendi! Toplam 46 script mevcut.');
-        console.log('🎨 Kart arka planları: Kategoriye özel görseller (daha az karartma)');
-        console.log('✨ Logo arkasına görsel eklendi');
     </script>
 
 </body>
