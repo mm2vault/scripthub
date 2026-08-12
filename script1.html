@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MM2 Script - ScriptHub</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: #fff; margin: 20px; }
+        .container { max-width: 800px; margin: auto; background: #2a2a2a; padding: 20px; border-radius: 10px; }
+        .btn { display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 5px 0; cursor: pointer; border: none; }
+        .btn-success { background: #28a745; }
+        .gorev-box { border: 2px dashed #ff9900; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0; }
+        textarea { width: 100%; height: 100px; background: #111; color: #00ff00; border: 1px solid #444; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 1. BÖLÜM: SCRIPT DETAYI -->
+    <h1>MM2 Ultimate Hub</h1>
+    <p>Aimbot, ESP, Auto Farm ve daha fazlasını içeren en güncel Murder Mystery 2 scripti.</p>
+
+    <hr style="border-color: #444;">
+
+    <!-- 2. BÖLÜM: GÖREV / LİNK KİLİDİ -->
+    <div class="gorev-box">
+        <h3>🔓 Scripti Almak İçin Görevi Yap</h3>
+        <p>Aşağıdaki adımları tamamladıktan sonra script açılacaktır:</p>
+        
+        <!-- Sosyal Medya Görev Linklerin -->
+        <a href="https://youtube.com" target="_blank" class="btn">1. YouTube Kanalına Abone Ol</a><br>
+        <a href="https://discord.gg" target="_blank" class="btn">2. Discord Sunucusuna Katıl</a><br><br>
+        
+        <!-- Görev Tamamlama Butonu -->
+        <button class="btn btn-success" onclick="scriptiGoster()">Görevleri Yaptım, Kodu Göster</button>
+
+        <!-- Kilitli Script Alanı -->
+        <div id="script-alani" style="display: none; margin-top: 15px;">
+            <p><strong>Script Kodun:</strong></p>
+            <textarea readonly>loadstring(game:HttpGet("https://raw.githubusercontent.com/ornek-script-kodu"))()</textarea>
+        </div>
+    </div>
+
+    <hr style="border-color: #444;">
+
+    <!-- 3. BÖLÜM: DISQUS YORUM ALANI -->
+    <h3>Yorumlar ve Destek</h3>
+    
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = window.location.href;  
+            this.page.identifier = 'script1'; // Bu sayfaya özel benzersiz ID
+        };
+        (function() { 
+            var d = document, s = d.createElement('script');
+            s.src = 'https://scripthub-1.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Yorumları görmek için lütfen JavaScript'i etkinleştirin.</noscript>
+</div>
+
+<script>
+    // Görev Butonu Tıklanınca Script Kutusu Açılır
+    function scriptiGoster() {
+        document.getElementById('script-alani').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
