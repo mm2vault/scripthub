@@ -90,10 +90,14 @@
         .cat-btn.active{background:var(--accent-gradient);color:white;border-color:var(--accent-light);box-shadow:0 0 25px rgba(124,58,237,0.35)}
         .cat-btn .game-badge{background:rgba(34,197,94,0.15);color:#4ade80;font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:20px;margin-left:0.2rem}
         .script-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin:1rem 0}
-        .script-card{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:var(--radius-card);border:1px solid var(--border-color);box-shadow:0 12px 32px -8px rgba(0,0,0,0.6);transition:0.3s;display:flex;flex-direction:column;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s}
+        .script-card{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:var(--radius-card);border:1px solid var(--border-color);box-shadow:0 12px 32px -8px rgba(0,0,0,0.6);transition:0.3s;display:flex;flex-direction:column;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;position:relative}
         .script-card:hover{transform:translateY(-6px);border-color:rgba(124,58,237,0.25)}
-        .card-image{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,#1a1a3a,#2a1f55);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--accent-light)}
-        .card-image img{width:100%;height:100%;object-fit:cover}
+        .script-card::after{content:'';position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;background:linear-gradient(135deg,rgba(124,58,237,0.1),transparent,rgba(167,139,250,0.1));border-radius:var(--radius-card);z-index:-1;opacity:0;transition:opacity 0.4s ease}
+        .script-card:hover::after{opacity:1}
+        .card-image{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,#1a1a3a,#2a1f55);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--accent-light);overflow:hidden;transition:transform 0.6s ease}
+        .script-card:hover .card-image{transform:scale(1.05)}
+        .card-image img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+        .script-card:hover .card-image img{transform:scale(1.08)}
         .card-body{padding:1.2rem 1.3rem 1.4rem;display:flex;flex-direction:column;flex:1}
         .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem}
         .card-header h3{color:var(--text-primary);font-size:1.1rem;flex:1;display:flex;align-items:center;gap:0.3rem}
@@ -117,7 +121,7 @@
         .delete-btn{background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.2);padding:0.2rem 0.7rem;border-radius:40px;color:#ff6b6b;cursor:pointer;font-size:0.65rem;transition:0.2s;display:flex;align-items:center;gap:0.3rem;min-height:36px}
         .delete-btn:hover{background:rgba(255,0,0,0.2)}
         .delete-btn img{width:16px;height:16px;border-radius:3px}
-        .script-owner{font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;display:flex;align-items:center;gap:0.3rem}
+        .script-owner{font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;display:flex;align-items:center;gap:0.3rem;flex-wrap:wrap}
         .script-owner img{width:14px;height:14px}
         .modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:1rem;z-index:999999}
         .modal-overlay.open{display:flex}
@@ -434,6 +438,192 @@
         .badge-item .progress-bar{width:100%;height:3px;background:rgba(255,255,255,0.05);border-radius:10px;margin-top:0.3rem;overflow:hidden}
         .badge-item .progress-bar .fill{height:100%;background:var(--accent-gradient);border-radius:10px;transition:0.3s}
         
+        /* ===== YENİ ÖZELLİKLER ===== */
+        .featured-script {
+            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(167,139,250,0.05));
+            border: 2px solid rgba(124,58,237,0.3);
+            border-radius: var(--radius-card);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            animation: featuredPulse 3s ease-in-out infinite;
+            grid-column: 1/-1;
+        }
+        .featured-script::before {
+            content: '⭐ HAFTANIN SCRİPTİ';
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 0.2rem 2rem;
+            font-size: 0.6rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(124,58,237,0.3);
+        }
+        .featured-script .featured-content {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .featured-script .featured-content .featured-info {
+            flex: 1;
+        }
+        .featured-script .featured-content .featured-info h2 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .featured-script .featured-content .featured-info h2 img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .featured-script .featured-content .featured-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .featured-script .featured-content .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .featured-script .featured-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .featured-script .featured-badges span {
+            background: rgba(167,139,250,0.15);
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--accent-light);
+        }
+        .featured-script .featured-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .featured-script .featured-actions .get-btn {
+            background: var(--accent-gradient);
+            border: none;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .featured-script .featured-actions .get-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(124,58,237,0.4);
+        }
+        @keyframes featuredPulse {
+            0%, 100% { border-color: rgba(124,58,237,0.3); }
+            50% { border-color: rgba(167,139,250,0.6); }
+        }
+        
+        .follow-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.65rem;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .follow-btn:hover {
+            background: rgba(124,58,237,0.15);
+            border-color: var(--accent);
+        }
+        .follow-btn.following {
+            background: rgba(124,58,237,0.2);
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+        .follow-btn.following:hover {
+            background: rgba(255,0,0,0.1);
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        .follow-btn .follow-count {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-left: 0.2rem;
+        }
+        
+        .scroll-loader {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+        .scroll-loader .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1rem;
+        }
+        
+        .follow-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .follow-list .follow-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .follow-list .follow-item img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .follow-list .follow-item .follow-name {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+        }
+        .follow-list .follow-item .follow-actions {
+            display: flex;
+            gap: 0.3rem;
+        }
+        
+        .loading-skeleton {
+            animation: skeletonPulse 1.5s ease-in-out infinite;
+            background: linear-gradient(90deg, var(--bg-card) 25%, rgba(255,255,255,0.05) 50%, var(--bg-card) 75%);
+            background-size: 200% 100%;
+            border-radius: 12px;
+        }
+        @keyframes skeletonPulse {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
         /* ===== MOBİL OPTİMİZASYON ===== */
         @media (max-width: 768px) {
             .app{padding:0.8rem !important;border-radius:16px !important}
@@ -509,9 +699,11 @@
             .profile-edit-avatar{width:80px !important;height:80px !important}
             .social-links-edit .social-row{flex-direction:column !important;align-items:stretch !important}
             .social-links-edit .social-row label{min-width:unset !important;font-size:0.7rem !important}
+            .featured-script .featured-content{flex-direction:column;text-align:center}
+            .featured-script .featured-content .featured-image{width:140px;height:140px}
+            .featured-script .featured-actions{justify-content:center}
+            .featured-script::before{font-size:0.5rem;padding:0.1rem 1.5rem;top:5px;right:-25px}
         }
-        
-        /* Telefon için küçük ekranlar */
         @media (max-width: 480px) {
             .app{padding:0.5rem !important;border-radius:12px !important}
             .script-grid{gap:0.8rem !important}
@@ -522,8 +714,6 @@
             .admin-stats{grid-template-columns:1fr 1fr !important}
             .admin-stats .admin-stat-card .number{font-size:1.2rem !important}
         }
-        
-        /* Touch için daha büyük tıklama alanları */
         @media (pointer: coarse) {
             .fav-btn,.get-btn,.delete-btn,.report-btn,.edit-script-btn{min-width:44px !important;min-height:44px !important}
             button,.auth-btn,.add-btn,.cat-btn,.sort-btn{min-height:40px !important}
@@ -610,10 +800,12 @@
         </label>
         <button class="backup-btn" onclick="backupUserData()">💾 Yedekle</button>
         <button class="backup-btn" onclick="openLeaderboard()" style="background:rgba(251,191,36,0.15);color:#fbbf24">🏆 Liderlik</button>
+        <button class="backup-btn" onclick="adminSelectFeatured()" style="background:rgba(124,58,237,0.15);color:var(--accent-light)">⭐ Haftanın Scripti</button>
     </div>
 
     <div class="categories" id="categoryFilter">
         <button class="cat-btn active" data-cat="all"><img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Hepsi" class="cat-icon"> Hepsi</button>
+        <button class="cat-btn" data-cat="featured" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2)">⭐ Haftanın</button>
         <button class="cat-btn" data-cat="mm2"><img src="https://i.postimg.cc/rFhbs0Xg/images.jpg" alt="MM2" class="cat-icon"> MM2</button>
         <button class="cat-btn" data-cat="bloxfruits"><img src="https://i.postimg.cc/jScztNGG/no-Filter.jpg" alt="Blox Fruits" class="cat-icon"> Blox Fruits</button>
         <button class="cat-btn" data-cat="petsim"><img src="https://i.postimg.cc/28fvW2mz/PS99Icon.webp" alt="Pet Sim" class="cat-icon"> Pet Sim 99</button>
@@ -874,7 +1066,7 @@
 
 <script>
 // ==========================================
-// TAM KOD - 90+ GERÇEK VE İŞLEVLİ SCRIPT
+// TAM KOD - TÜM ÖZELLİKLER İLE
 // ==========================================
 (function(){
     'use strict';
@@ -1063,6 +1255,14 @@
     let currentAdminTab = 'scripts';
     let adminSearchTerm = '';
     let adminFilterType = 'all';
+
+    // Infinite Scroll
+    let isLoading = false;
+    let hasMore = true;
+    let allFilteredScripts = [];
+
+    // Takip
+    let following = JSON.parse(localStorage.getItem('scriptHubFollowing')) || {};
 
     // ==========================================
     // BADGES (Rozetler)
@@ -1824,7 +2024,7 @@
     }
 
     // ==========================================
-    // YORUM SİSTEMİ - SADECE TOPLULUK SCRIPTLERİNE
+    // YORUM SİSTEMİ
     // ==========================================
     async function addComment(scriptId, text) {
         if (!currentUser) {
@@ -1837,7 +2037,6 @@
             return;
         }
         
-        // ★★★ PREMIUM KONTROLÜ ★★★
         const all = getAllScripts();
         const script = all.find(s => s.id === scriptId);
         if (script && script.isPremium) {
@@ -1910,7 +2109,6 @@
         const script = all.find(s => s.id === scriptId);
         if (!script) return;
         
-        // ★★★ PREMIUM KONTROLÜ ★★★
         if (script.isPremium) {
             showToast('❌ Premium scriptlere yorum yapılamaz!');
             return;
@@ -2342,9 +2540,6 @@
         }
     }
 
-    // ==========================================
-    // ★★★ ADMIN HER SCRIPTİ SİLEBİLİR ★★★
-    // ==========================================
     window.adminDeleteAnyScript = async function(scriptId) {
         if (!requireAdmin()) return;
         
@@ -2395,7 +2590,6 @@
         }
     };
 
-    // ★★★ RAPORLANAN SCRIPTİ HIZLA SİL ★★★
     window.adminDeleteReportedScript = async function(reportId, scriptId) {
         if (!requireAdmin()) return;
         if (!confirm('Bu raporu ve scripti silmek istediğine emin misin?')) return;
@@ -2615,7 +2809,168 @@
     };
 
     // ==========================================
-    // ★★★ ADMIN PANELİ ★★★
+    // KULLANICI TAKİP SİSTEMİ
+    // ==========================================
+    function isFollowingUser(userId) {
+        if (!userId || !currentUser) return false;
+        return following[userId] === true;
+    }
+
+    function getFollowCount(userId) {
+        if (!userId) return 0;
+        const count = localStorage.getItem(`followCount_${userId}`);
+        return count ? parseInt(count) : 0;
+    }
+
+    function updateFollowCount(userId, increment) {
+        const current = getFollowCount(userId);
+        const newCount = Math.max(0, current + increment);
+        localStorage.setItem(`followCount_${userId}`, newCount);
+        return newCount;
+    }
+
+    function followHandler(e) {
+        const btn = this;
+        const targetId = btn.dataset.target;
+        const targetName = btn.dataset.name || 'Kullanıcı';
+        
+        if (!currentUser) {
+            showToast('❌ Takip etmek için giriş yapın!');
+            openAuthModal();
+            return;
+        }
+        
+        if (targetId === currentUser.uid) {
+            showToast('❌ Kendini takip edemezsin!');
+            return;
+        }
+        
+        const isFollowing = isFollowingUser(targetId);
+        
+        if (isFollowing) {
+            delete following[targetId];
+            updateFollowCount(targetId, -1);
+            btn.classList.remove('following');
+            btn.innerHTML = `➕ Takip Et <span class="follow-count">(${getFollowCount(targetId)})</span>`;
+            showToast(`❌ ${targetName} takipten çıkarıldı`);
+            addNotification(`❌ ${targetName} takibinden çıktın`, 'follow');
+        } else {
+            following[targetId] = true;
+            updateFollowCount(targetId, 1);
+            btn.classList.add('following');
+            btn.innerHTML = `✅ Takip Ediliyor <span class="follow-count">(${getFollowCount(targetId)})</span>`;
+            showToast(`✅ ${targetName} takip ediliyor!`);
+            addNotification(`➕ ${targetName} kullanıcısını takip ettin`, 'follow');
+            
+            const followCount = Object.keys(following).length;
+            if (followCount === 1) {
+                addNotification('🏆 Başarım kazandın: İlk Takip!', 'achievement');
+            } else if (followCount === 10) {
+                addNotification('🏆 Başarım kazandın: Takip Ustası!', 'achievement');
+            } else if (followCount === 50) {
+                addNotification('🏆 Başarım kazandın: Takip Efsanesi!', 'achievement');
+            }
+        }
+        
+        localStorage.setItem('scriptHubFollowing', JSON.stringify(following));
+    }
+
+    function getFollowingScripts() {
+        const followIds = Object.keys(following);
+        if (followIds.length === 0) return [];
+        return communityScripts.filter(s => followIds.includes(s.userId));
+    }
+
+    // ==========================================
+    // HAFTANIN SCRİPTİ
+    // ==========================================
+    let featuredScriptId = null;
+
+    function setFeaturedScript(scriptId) {
+        if (!currentUser || !isAdmin(currentUser)) {
+            showToast('❌ Admin yetkisi gerekli!');
+            return;
+        }
+        featuredScriptId = scriptId;
+        localStorage.setItem('scriptHubFeatured', scriptId);
+        showToast('⭐ Haftanın scripti güncellendi!');
+        render();
+    }
+
+    function getFeaturedScript() {
+        const id = localStorage.getItem('scriptHubFeatured');
+        if (!id) return null;
+        const all = getAllScripts();
+        return all.find(s => s.id === id);
+    }
+
+    function renderFeaturedScript() {
+        const script = getFeaturedScript();
+        if (!script) return '';
+        
+        const imageUrl = script.image || getImageForCategory(script.category);
+        const rating = ratings[script.id] || { avg: 0, count: 0 };
+        const views = viewCounts[script.id] || 0;
+        
+        return `
+            <div class="featured-script">
+                <div class="featured-content">
+                    <div class="featured-info">
+                        <h2>
+                            <img src="${imageUrl}" alt="${escapeHtml(script.name)}" onerror="this.src='${DEFAULT_IMAGE}'">
+                            ${escapeHtml(script.name)}
+                            ${script.isPremium ? '⭐' : ''}
+                        </h2>
+                        <div style="color:var(--text-secondary);margin:0.3rem 0">${escapeHtml(script.desc)}</div>
+                        <div class="featured-badges">
+                            <span>📂 ${script.category.toUpperCase()}</span>
+                            <span>⭐ ${rating.avg > 0 ? rating.avg.toFixed(1) : 'Puan yok'}</span>
+                            <span>👁️ ${views}</span>
+                            ${script.isCommunity ? '<span>🌍 Topluluk</span>' : '<span>⭐ Premium</span>'}
+                        </div>
+                        <div class="featured-actions">
+                            <button class="get-btn" data-id="${script.id}"><img src="${IMG.get}" alt="GET"> Hemen Dene</button>
+                            ${isAdmin(currentUser) ? `<button class="edit-script-btn" onclick="setFeaturedScript(null)" style="background:rgba(255,0,0,0.1);color:#ff6b6b">❌ Kaldır</button>` : ''}
+                        </div>
+                    </div>
+                    <div class="featured-image">
+                        <img src="${imageUrl}" alt="${escapeHtml(script.name)}" onerror="this.src='${DEFAULT_IMAGE}'">
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    window.adminSelectFeatured = function() {
+        if (!requireAdmin()) return;
+        
+        const all = getAllScripts();
+        if (all.length === 0) {
+            showToast('❌ Hiç script yok!');
+            return;
+        }
+        
+        let list = '⭐ Haftanın Scripti Seç\n\n';
+        all.forEach((s, i) => {
+            list += `${i+1}. ${s.name} (${s.category.toUpperCase()}) ${s.isPremium ? '⭐' : '🌍'}\n`;
+        });
+        list += '\n📌 Bir numara girin (örn: 5) veya "iptal" yazın:';
+        
+        const input = prompt(list);
+        if (!input || input.toLowerCase() === 'iptal') return;
+        
+        const num = parseInt(input);
+        if (isNaN(num) || num < 1 || num > all.length) {
+            showToast('❌ Geçersiz numara!');
+            return;
+        }
+        
+        const selected = all[num - 1];
+        setFeaturedScript(selected.id);
+    };
+
+    // ==========================================
+    // ADMIN PANELİ
     // ==========================================
     function openAdminModal() {
         if (!currentUser) {
@@ -2718,7 +3073,6 @@
         }
     }
 
-    // ★★★ ADMIN SCRIPT LİSTESİ ★★★
     async function renderAdminScripts() {
         try {
             const snap = await db.collection('scripts').orderBy('createdAt', 'desc').get();
@@ -2847,15 +3201,6 @@
         adminFilterType = 'all';
         renderAdminPanel();
     };
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const searchInput = document.getElementById('adminSearchInput');
-            if (searchInput && document.getElementById('adminModal').classList.contains('open')) {
-                adminSearchScripts();
-            }
-        }
-    });
 
     async function renderAdminUsers() {
         try {
@@ -3005,7 +3350,6 @@
         `;
     }
 
-    // Admin Fonksiyonları
     window.adminApproveScript = async function(scriptId) {
         if (!requireAdmin()) return;
         if (!confirm('Bu scripti onaylamak istediğine emin misin?')) return;
@@ -3084,149 +3428,249 @@
     };
 
     // ==========================================
-    // RENDER
+    // INFINITE SCROLL
     // ==========================================
-    function renderPagination(totalItems){
-        const totalPages=Math.ceil(totalItems/ITEMS_PER_PAGE);
-        if(totalPages<=1){paginationControls.innerHTML='';return;}
-        let html=`<button class="page-btn" data-page="prev" ${currentPage<=1?'disabled':''}>‹ Önceki</button>`;
-        for(let i=1;i<=totalPages;i++){
-            if(i===1||i===totalPages||(i>=currentPage-2&&i<=currentPage+2))
-                html+=`<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
-            else if(i===currentPage-3||i===currentPage+3) html+=`<button class="page-btn" disabled>…</button>`;
+    let scrollObserver = null;
+
+    function setupInfiniteScroll() {
+        if (scrollObserver) scrollObserver.disconnect();
+        
+        const loader = document.getElementById('scrollLoader');
+        if (!loader) {
+            const newLoader = document.createElement('div');
+            newLoader.className = 'scroll-loader';
+            newLoader.id = 'scrollLoader';
+            newLoader.innerHTML = `<div class="loading-spinner"></div><div style="color:var(--text-muted);font-size:0.8rem">Daha fazla yükleniyor...</div>`;
+            grid.appendChild(newLoader);
         }
-        html+=`<button class="page-btn" data-page="next" ${currentPage>=totalPages?'disabled':''}>Sonraki ›</button>`;
-        paginationControls.innerHTML=html;
-        document.querySelectorAll('.page-btn[data-page]').forEach(b=>{
-            b.addEventListener('click', function(){
-                const p=this.dataset.page; const total=Math.ceil(totalItems/ITEMS_PER_PAGE);
-                if(p==='prev'&&currentPage>1)currentPage--; else if(p==='next'&&currentPage<total)currentPage++; else if(p!=='prev'&&p!=='next')currentPage=parseInt(p);
-                render(); window.scrollTo({top:0,behavior:'smooth'});
-            });
-        });
+        
+        const loaderEl = document.getElementById('scrollLoader');
+        if (!loaderEl) return;
+        
+        if (hasMore && allFilteredScripts.length > ITEMS_PER_PAGE) {
+            scrollObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !isLoading && hasMore) {
+                    loadMoreScripts();
+                }
+            }, { rootMargin: '200px' });
+            scrollObserver.observe(loaderEl);
+        } else {
+            loaderEl.innerHTML = `<div style="color:var(--text-muted);font-size:0.8rem">✨ Tüm scriptler yüklendi</div>`;
+        }
     }
 
-    function render(){
-        updateGameBadge();
-        if(currentCategory==='games'){
-            const total=7+communityGames.length; totalCount.textContent=total; favCount.textContent=favorites.length; communityCount.textContent=communityScripts.length;
-            grid.innerHTML=renderGames(); paginationControls.innerHTML='';
-            document.querySelectorAll('[data-gameid]').forEach(b=>b.addEventListener('click', gameDeleteHandler));
-            return;
+    function loadMoreScripts() {
+        if (isLoading || !hasMore) return;
+        isLoading = true;
+        
+        const loader = document.getElementById('scrollLoader');
+        if (loader) {
+            loader.innerHTML = `<div class="loading-spinner"></div><div style="color:var(--text-muted);font-size:0.8rem">Yükleniyor...</div>`;
         }
-        const all=getAllScripts();
-        let filtered=all.filter(s=>{
-            let catMatch=currentCategory==='all'?true:(currentCategory==='favorites'?favorites.includes(s.id):(currentCategory==='community'?s.isCommunity===true:s.category===currentCategory));
-            let typeMatch=filterType==='all'?true:(filterType==='premium'?s.isPremium:filterType==='community'?s.isCommunity:true);
-            let searchMatch=s.name.toLowerCase().includes(searchTerm.toLowerCase())||s.desc.toLowerCase().includes(searchTerm.toLowerCase())||(s.features&&s.features.some(f=>f.toLowerCase().includes(searchTerm.toLowerCase())));
-            let ratingMatch=true;
-            if(filterRating>0){
-                const r=ratings[s.id]; if(r) ratingMatch=r.avg>=filterRating;
-                else ratingMatch=false;
-            }
-            return catMatch&&typeMatch&&searchMatch&&ratingMatch;
-        });
-
-        const sortVal=filterSort.value||sortMode;
-        if(sortVal==='az') filtered.sort((a,b)=>a.name.localeCompare(b.name));
-        else if(sortVal==='za') filtered.sort((a,b)=>b.name.localeCompare(a.name));
-        else if(sortVal==='popular') filtered.sort((a,b)=>(viewCounts[b.id]||0)-(viewCounts[a.id]||0));
-        else if(sortVal==='newest') filtered.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-        else if(sortVal==='default') filtered.sort((a,b)=>{ if(a.isPremium&&!b.isPremium)return -1; if(!a.isPremium&&b.isPremium)return 1; return 0; });
-
-        const totalItems=filtered.length; const totalPages=Math.ceil(totalItems/ITEMS_PER_PAGE);
-        if(currentPage>totalPages) currentPage=Math.max(1,totalPages);
-        const start=(currentPage-1)*ITEMS_PER_PAGE;
-        const paginated=filtered.slice(start,start+ITEMS_PER_PAGE);
-        totalCount.textContent=filtered.length; favCount.textContent=favorites.length; communityCount.textContent=communityScripts.length;
-
-        if(!paginated.length){ grid.innerHTML=`<div class="empty"><div style="font-size:2.5rem">🔍</div><h3 style="color:var(--text-secondary)">Sonuç bulunamadı</h3><p style="color:var(--text-muted);font-size:0.85rem">Farklı bir kategori veya arama terimi dene.</p></div>`; paginationControls.innerHTML=''; return; }
-
-        grid.innerHTML=paginated.map(s=>{
-            const isFav=favorites.includes(s.id); const isCommunity=s.isCommunity||false; const isPremium=s.isPremium||false;
-            const isOwner=currentUser&&isCommunity&&s.userId===currentUser.uid;
-            const canDelete=isCommunity&&isOwner;
-            const imageUrl=s.image||getImageForCategory(s.category);
-            const badgeImg=isCommunity?IMG.community:IMG.premium; const badgeText=isCommunity?'Topluluk':'Premium'; const badgeClass=isCommunity?'community':'';
-            const rating=ratings[s.id]||{avg:0,count:0}; const views=viewCounts[s.id]||0;
-            const scriptComments=comments[s.id]||[];
-            const downloads = s.downloads || 0;
-            const status = s.status || 'active';
-            const version = s.version || '';
+        
+        setTimeout(() => {
+            currentPage++;
+            const total = allFilteredScripts.length;
+            const paginated = allFilteredScripts.slice(0, currentPage * ITEMS_PER_PAGE);
+            hasMore = paginated.length < total;
             
-            return `
-                <div class="script-card">
-                    <div class="card-image"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(s.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'"></div>
-                    <div class="card-body">
-                        <div class="card-header">
-                            <h3><img src="${getImageForCategory(s.category)}" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(s.name)} ${isPremium?'⭐':''}</h3>
-                            <button class="fav-btn ${isFav?'active':''}" data-id="${s.id}">♥</button>
+            const newCards = allFilteredScripts.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+            const html = newCards.map(s => renderScriptCard(s)).join('');
+            
+            const loaderEl = document.getElementById('scrollLoader');
+            if (loaderEl) {
+                loaderEl.insertAdjacentHTML('beforebegin', html);
+            }
+            
+            document.querySelectorAll('.fav-btn').forEach(b => b.addEventListener('click', favHandler));
+            document.querySelectorAll('.get-btn').forEach(b => b.addEventListener('click', getHandler));
+            document.querySelectorAll('.delete-btn').forEach(b => b.addEventListener('click', deleteHandler));
+            document.querySelectorAll('.follow-btn').forEach(b => b.addEventListener('click', followHandler));
+            
+            isLoading = false;
+            setupInfiniteScroll();
+        }, 500);
+    }
+
+    // ==========================================
+    // SCRIPT KARTI RENDER
+    // ==========================================
+    function renderScriptCard(s) {
+        const isFav = favorites.includes(s.id);
+        const isCommunity = s.isCommunity || false;
+        const isPremium = s.isPremium || false;
+        const isOwner = currentUser && isCommunity && s.userId === currentUser.uid;
+        const canDelete = isCommunity && isOwner;
+        const imageUrl = s.image || getImageForCategory(s.category);
+        const badgeImg = isCommunity ? IMG.community : IMG.premium;
+        const badgeText = isCommunity ? 'Topluluk' : 'Premium';
+        const badgeClass = isCommunity ? 'community' : '';
+        const rating = ratings[s.id] || { avg: 0, count: 0 };
+        const views = viewCounts[s.id] || 0;
+        const scriptComments = comments[s.id] || [];
+        const downloads = s.downloads || 0;
+        const status = s.status || 'active';
+        const version = s.version || '';
+        
+        const isFollowing = currentUser && s.userId && isFollowingUser(s.userId);
+        const followCount = getFollowCount(s.userId);
+        
+        return `
+            <div class="script-card">
+                <div class="card-image"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(s.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'"></div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3><img src="${getImageForCategory(s.category)}" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(s.name)} ${isPremium ? '⭐' : ''}</h3>
+                        <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${s.id}">♥</button>
+                    </div>
+                    <span class="card-category">${s.category.toUpperCase()} ${isCommunity ? '· 🌍' : ''}</span>
+                    <div class="card-desc">${escapeHtml(s.desc)}</div>
+                    <div class="rating-stars">
+                        ${[1,2,3,4,5].map(i => `<span class="star ${i <= Math.round(rating.avg) ? 'active' : ''}" onclick="rateScript('${s.id}',${i})">★</span>`).join('')}
+                        <span class="rating-avg">${rating.avg > 0 ? rating.avg.toFixed(1) + ' (' + rating.count + ')' : 'Puan yok'}</span>
+                        <span style="color:var(--text-muted);font-size:0.6rem;margin-left:0.3rem">👁️ ${views}</span>
+                    </div>
+                    <div class="card-features">${s.features ? s.features.map(f => `<span class="tag">${escapeHtml(f)}</span>`).join('') : ''}</div>
+                    ${s.userName ? `
+                        <div class="script-owner">
+                            <img src="${IMG.users}" style="width:14px;height:14px">
+                            ${escapeHtml(s.userName)}
+                            ${isOwner ? ' <span class="badge owner-badge">👑 Sahibim</span>' : ''}
+                            ${s.userId && s.userId !== currentUser?.uid ? `
+                                <button class="follow-btn ${isFollowing ? 'following' : ''}" data-target="${s.userId}" data-name="${escapeHtml(s.userName)}">
+                                    ${isFollowing ? '✅ Takip Ediliyor' : '➕ Takip Et'}
+                                    <span class="follow-count">(${followCount})</span>
+                                </button>
+                            ` : ''}
                         </div>
-                        <span class="card-category">${s.category.toUpperCase()} ${isCommunity?'· 🌍':''}</span>
-                        <div class="card-desc">${escapeHtml(s.desc)}</div>
-                        <div class="rating-stars">
-                            ${[1,2,3,4,5].map(i=>`<span class="star ${i<=Math.round(rating.avg)?'active':''}" onclick="rateScript('${s.id}',${i})">★</span>`).join('')}
-                            <span class="rating-avg">${rating.avg>0?rating.avg.toFixed(1)+' ('+rating.count+')':'Puan yok'}</span>
-                            <span style="color:var(--text-muted);font-size:0.6rem;margin-left:0.3rem">👁️ ${views}</span>
-                        </div>
-                        <div class="card-features">${s.features?s.features.map(f=>`<span class="tag">${escapeHtml(f)}</span>`).join(''):''}</div>
-                        ${s.userName?`<div class="script-owner"><img src="${IMG.users}" style="width:14px;height:14px">${escapeHtml(s.userName)}${isOwner?' <span class="badge owner-badge">👑 Sahibim</span>':''}</div>`:''}
-                        
-                        <!-- ★★★ YORUM BÖLÜMÜ - SADECE TOPLULUK SCRIPTLERİNDE ★★★ -->
-                        <div class="comment-section">
-                            ${isPremium ? `
-                                <div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.3rem;border-top:1px solid var(--border-color);margin-top:0.3rem">
-                                    ⭐ Premium scriptlere yorum yapılamaz
-                                </div>
-                            ` : `
-                                <div style="max-height:80px;overflow-y:auto;margin-bottom:0.3rem">
-                                    ${scriptComments.length === 0 ? 
-                                        '<div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.2rem">💬 İlk yorumu sen yap!</div>' :
-                                        scriptComments.slice(0,3).map(c => `
-                                            <div class="comment-item">
-                                                <span class="cmt-user">${escapeHtml(c.user)}</span>
-                                                <span style="color:var(--text-secondary);font-size:0.7rem">${escapeHtml(c.text)}</span>
-                                                <span class="cmt-time">${c.time ? new Date(c.time.seconds * 1000).toLocaleString('tr-TR') : ''}</span>
-                                                <span style="color:var(--text-muted);font-size:0.55rem;margin-left:0.3rem">❤️ ${c.likes || 0}</span>
-                                            </div>
-                                        `).join('')
-                                    }
-                                </div>
-                                ${scriptComments.length > 3 ? 
-                                    `<div style="color:var(--text-muted);font-size:0.6rem;text-align:right;cursor:pointer" onclick="showAllComments('${s.id}')">+${scriptComments.length - 3} yorum daha...</div>` : 
-                                    ''}
-                                <div class="comment-input">
-                                    <input type="text" placeholder="Yorum yaz..." id="cmt_${s.id}" 
-                                           onkeypress="if(event.key==='Enter') addComment('${s.id}', this.value)">
-                                    <button onclick="addComment('${s.id}', document.getElementById('cmt_${s.id}').value)">
-                                        💬 Gönder
-                                    </button>
-                                </div>
-                            `}
-                        </div>
-                        
-                        <div class="card-footer">
-                            <div style="display:flex;gap:0.3rem;flex-wrap:wrap;align-items:center">
-                                <span class="badge ${badgeClass}"><img src="${badgeImg}" style="width:14px;height:14px">${badgeText}</span>
-                                ${status ? `<span class="script-status-badge ${status}">${status === 'active' ? '✅' : status === 'beta' ? '🔬' : '📅'} ${status}</span>` : ''}
-                                ${version ? `<span class="script-version">📌 ${version}</span>` : ''}
-                                <span class="script-downloads">⬇️ ${downloads || 0}</span>
+                    ` : ''}
+                    
+                    <div class="comment-section">
+                        ${isPremium ? `
+                            <div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.3rem;border-top:1px solid var(--border-color);margin-top:0.3rem">
+                                ⭐ Premium scriptlere yorum yapılamaz
                             </div>
-                            <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
-                                ${isOwner ? `<button class="edit-script-btn" onclick="openEditScriptModal('${s.id}')">✏️ Düzenle</button>` : ''}
-                                ${canDelete ? `<button class="delete-btn" data-id="${s.id}"><img src="${IMG.delete}" alt="Sil"> Sil</button>` : ''}
-                                ${!isOwner ? `<button class="report-btn" onclick="reportScript('${s.id}')">🚨 Raporla</button>` : ''}
-                                <button class="get-btn" data-id="${s.id}"><img src="${IMG.get}" alt="GET"> GET</button>
+                        ` : `
+                            <div style="max-height:80px;overflow-y:auto;margin-bottom:0.3rem">
+                                ${scriptComments.length === 0 ? 
+                                    '<div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.2rem">💬 İlk yorumu sen yap!</div>' :
+                                    scriptComments.slice(0,3).map(c => `
+                                        <div class="comment-item">
+                                            <span class="cmt-user">${escapeHtml(c.user)}</span>
+                                            <span style="color:var(--text-secondary);font-size:0.7rem">${escapeHtml(c.text)}</span>
+                                            <span class="cmt-time">${c.time ? new Date(c.time.seconds * 1000).toLocaleString('tr-TR') : ''}</span>
+                                            <span style="color:var(--text-muted);font-size:0.55rem;margin-left:0.3rem">❤️ ${c.likes || 0}</span>
+                                        </div>
+                                    `).join('')
+                                }
                             </div>
+                            ${scriptComments.length > 3 ? 
+                                `<div style="color:var(--text-muted);font-size:0.6rem;text-align:right;cursor:pointer" onclick="showAllComments('${s.id}')">+${scriptComments.length - 3} yorum daha...</div>` : 
+                                ''}
+                            <div class="comment-input">
+                                <input type="text" placeholder="Yorum yaz..." id="cmt_${s.id}" 
+                                       onkeypress="if(event.key==='Enter') addComment('${s.id}', this.value)">
+                                <button onclick="addComment('${s.id}', document.getElementById('cmt_${s.id}').value)">
+                                    💬 Gönder
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;align-items:center">
+                            <span class="badge ${badgeClass}"><img src="${badgeImg}" style="width:14px;height:14px">${badgeText}</span>
+                            ${status ? `<span class="script-status-badge ${status}">${status === 'active' ? '✅' : status === 'beta' ? '🔬' : '📅'} ${status}</span>` : ''}
+                            ${version ? `<span class="script-version">📌 ${version}</span>` : ''}
+                            <span class="script-downloads">⬇️ ${downloads || 0}</span>
+                        </div>
+                        <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
+                            ${isOwner ? `<button class="edit-script-btn" onclick="openEditScriptModal('${s.id}')">✏️ Düzenle</button>` : ''}
+                            ${canDelete ? `<button class="delete-btn" data-id="${s.id}"><img src="${IMG.delete}" alt="Sil"> Sil</button>` : ''}
+                            ${!isOwner ? `<button class="report-btn" onclick="reportScript('${s.id}')">🚨 Raporla</button>` : ''}
+                            <button class="get-btn" data-id="${s.id}"><img src="${IMG.get}" alt="GET"> GET</button>
                         </div>
                     </div>
                 </div>
-            `;
-        }).join('');
-        renderPagination(totalItems);
-        document.querySelectorAll('.fav-btn').forEach(b=>b.addEventListener('click', favHandler));
-        document.querySelectorAll('.get-btn').forEach(b=>b.addEventListener('click', getHandler));
-        document.querySelectorAll('.delete-btn').forEach(b=>b.addEventListener('click', deleteHandler));
+            </div>
+        `;
+    }
+
+    // ==========================================
+    // RENDER (ANA)
+    // ==========================================
+    function render() {
+        updateGameBadge();
+        
+        if (currentCategory === 'games') {
+            const total = 7 + communityGames.length;
+            totalCount.textContent = total;
+            favCount.textContent = favorites.length;
+            communityCount.textContent = communityScripts.length;
+            grid.innerHTML = renderGames();
+            paginationControls.innerHTML = '';
+            document.querySelectorAll('[data-gameid]').forEach(b => b.addEventListener('click', gameDeleteHandler));
+            return;
+        }
+        
+        let featuredHtml = '';
+        if (currentCategory === 'all' || currentCategory === 'featured') {
+            featuredHtml = renderFeaturedScript();
+        }
+        
+        const all = getAllScripts();
+        let filtered = all.filter(s => {
+            let catMatch = currentCategory === 'all' ? true : 
+                          (currentCategory === 'favorites' ? favorites.includes(s.id) : 
+                          (currentCategory === 'community' ? s.isCommunity === true : 
+                          (currentCategory === 'featured' ? s.id === featuredScriptId : s.category === currentCategory)));
+            let typeMatch = filterType === 'all' ? true : 
+                           (filterType === 'premium' ? s.isPremium : 
+                           (filterType === 'community' ? s.isCommunity : true));
+            let searchMatch = s.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                             s.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                             (s.features && s.features.some(f => f.toLowerCase().includes(searchTerm.toLowerCase())));
+            let ratingMatch = true;
+            if(filterRating > 0) {
+                const r = ratings[s.id];
+                if(r) ratingMatch = r.avg >= filterRating;
+                else ratingMatch = false;
+            }
+            return catMatch && typeMatch && searchMatch && ratingMatch;
+        });
+
+        const sortVal = filterSort.value || sortMode;
+        if(sortVal === 'az') filtered.sort((a,b) => a.name.localeCompare(b.name));
+        else if(sortVal === 'za') filtered.sort((a,b) => b.name.localeCompare(a.name));
+        else if(sortVal === 'popular') filtered.sort((a,b) => (viewCounts[b.id]||0) - (viewCounts[a.id]||0));
+        else if(sortVal === 'newest') filtered.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+        else if(sortVal === 'default') filtered.sort((a,b) => { if(a.isPremium && !b.isPremium) return -1; if(!a.isPremium && b.isPremium) return 1; return 0; });
+
+        allFilteredScripts = filtered;
+        totalCount.textContent = filtered.length;
+        favCount.textContent = favorites.length;
+        communityCount.textContent = communityScripts.length;
+
+        const paginated = filtered.slice(0, currentPage * ITEMS_PER_PAGE);
+        
+        if(!paginated.length && !featuredHtml) {
+            grid.innerHTML = `<div class="empty"><div style="font-size:2.5rem">🔍</div><h3 style="color:var(--text-secondary)">Sonuç bulunamadı</h3><p style="color:var(--text-muted);font-size:0.85rem">Farklı bir kategori veya arama terimi dene.</p></div>`;
+            paginationControls.innerHTML = '';
+            return;
+        }
+
+        hasMore = paginated.length < filtered.length;
+        
+        const gridHtml = paginated.map(s => renderScriptCard(s)).join('');
+        grid.innerHTML = featuredHtml + gridHtml;
+        
+        document.querySelectorAll('.fav-btn').forEach(b => b.addEventListener('click', favHandler));
+        document.querySelectorAll('.get-btn').forEach(b => b.addEventListener('click', getHandler));
+        document.querySelectorAll('.delete-btn').forEach(b => b.addEventListener('click', deleteHandler));
+        document.querySelectorAll('.follow-btn').forEach(b => b.addEventListener('click', followHandler));
+        document.querySelectorAll('.featured-script .get-btn').forEach(b => b.addEventListener('click', getHandler));
+        
+        setupInfiniteScroll();
     }
 
     // ==========================================
@@ -3442,6 +3886,8 @@
     window.openEditScriptModal = openEditScriptModal;
     window.openLeaderboard = openLeaderboard;
     window.openAdminModal = openAdminModal;
+    window.adminSelectFeatured = adminSelectFeatured;
+    window.setFeaturedScript = setFeaturedScript;
 
     async function init(){
         sanitizeFavorites();
@@ -3460,4 +3906,4 @@
 })();
 </script>
 </body>
-</html>
+    </html>
