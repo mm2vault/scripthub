@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
-    <!-- ⭐ ADSENSE DOĞRULAMA META ETİKETİ (BURAYA EKLE) -->
     <meta name="google-adsense-account" content="ca-pub-1079812363517680">
     <!-- Firebase Compat SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -20,7 +19,6 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
     <style>
-        /* ===== TÜM STILLER ===== */
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
         :root{
             --bg-primary:#070816;
@@ -1255,6 +1253,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <button class="scroll-top" id="scrollTopBtn">↑</button>
 <div class="toast" id="toast"><span id="toastMessage"></span><button class="toast-close" id="toastClose">✕</button></div>
 
+<!-- ============================================ -->
+<!-- AI ASİSTAN (DEEPSEEK) -->
+<!-- ============================================ -->
+
 <!-- AI Asistan Butonu -->
 <button class="ai-toggle-btn" onclick="toggleAI()" title="🤖 AI Asistan">
     <img src="https://i.postimg.cc/020SXJZW/1787779892547.png" alt="AI Asistan" onerror="this.style.display='none';this.parentElement.textContent='🤖'">
@@ -1275,10 +1277,111 @@ document.addEventListener('DOMContentLoaded', function() {
         <button onclick="sendAIMessage()">📤</button>
     </div>
     <div class="ai-footer">
-        ⚡ Gemini AI ile güçlendirilmiştir
+        ⚡ DeepSeek AI ile güçlendirilmiştir
     </div>
 </div>
 
+<script>
+// ★★★ DEEPSEEK API ANAHTARI ★★★
+const DEEPSEEK_API_KEY = 'sk-e2c71a047bf349f980082b58c4739222';
+
+let aiOpen = false;
+
+function toggleAI() {
+    aiOpen = !aiOpen;
+    document.getElementById('aiModal').classList.toggle('open', aiOpen);
+    if (aiOpen) document.getElementById('aiInput').focus();
+}
+
+function escapeHtmlAI(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+async function askDeepSeek(question) {
+    const systemPrompt = `
+        Sen bir ScriptHub asistanısın. Görevin kullanıcılara şu konularda yardım etmek:
+        1. Hangi scriptin hangi oyuna uygun olduğu (MM2, Blox Fruits, Pet Sim 99, Da Hood, Blade Ball, Brookhaven)
+        2. Scriptlerin nasıl çalıştırılacağı (loadstring ile)
+        3. Roblox ve scriptler hakkında genel bilgi
+        4. Sorun giderme ve çözüm önerileri
+        
+        Kısa, net ve Türkçe cevap ver. 
+        Eğer bilmiyorsan "Bilmiyorum" de.
+        Samimi ve yardımsever ol.
+    `;
+    
+    try {
+        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'deepseek-chat',
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: question }
+                ],
+                max_tokens: 500,
+                temperature: 0.7
+            })
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('API Hatası:', errorData);
+            if (response.status === 401) {
+                return '❌ API anahtarı geçersiz! Lütfen platform.deepseek.com adresinden yeni bir anahtar alın.';
+            }
+            if (response.status === 429) {
+                return '⏳ Çok fazla istek gönderildi. Lütfen biraz bekleyip tekrar deneyin.';
+            }
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        return data.choices[0].message.content;
+        
+    } catch(e) {
+        console.error('DeepSeek Hatası:', e);
+        return '❌ Bağlantı hatası: ' + e.message;
+    }
+}
+
+async function sendAIMessage() {
+    const input = document.getElementById('aiInput');
+    const messages = document.getElementById('aiMessages');
+    const question = input.value.trim();
+    if (!question) return;
+    
+    // Kullanıcı mesajını ekle
+    messages.innerHTML += `<div class="msg-user">👤 ${escapeHtmlAI(question)}</div>`;
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+    
+    // Yükleniyor mesajı
+    messages.innerHTML += `<div class="msg-loading" id="aiLoading">🤖 Düşünüyor...</div>`;
+    messages.scrollTop = messages.scrollHeight;
+    
+    // API'den cevap al
+    const response = await askDeepSeek(question);
+    
+    // Yükleniyor mesajını kaldır
+    const loading = document.getElementById('aiLoading');
+    if (loading) loading.remove();
+    
+    // Cevabı ekle
+    messages.innerHTML += `<div class="msg-bot">🤖 ${escapeHtmlAI(response)}</div>`;
+    messages.scrollTop = messages.scrollHeight;
+}
+</script>
+
+<!-- ============================================ -->
+<!-- ANA SCRİPT (Firebase, Scriptler, vs.) -->
+<!-- ============================================ -->
 <script>
 // ==========================================
 // TAM KOD - 90+ GERÇEK VE İŞLEVLİ SCRIPT
@@ -3863,128 +3966,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     init();
-<!-- AI Asistan Butonu -->
-<button class="ai-toggle-btn" onclick="toggleAI()" title="🤖 AI Asistan">
-    <img src="https://i.postimg.cc/020SXJZW/1787779892547.png" alt="AI Asistan" onerror="this.style.display='none';this.parentElement.textContent='🤖'">
-    <span class="badge">AI</span>
-</button>
 
-<!-- AI Sohbet Modal -->
-<div id="aiModal">
-    <div class="ai-header">
-        <span>🤖 ScriptHub Asistan</span>
-        <button onclick="toggleAI()">✕</button>
-    </div>
-    <div class="ai-messages" id="aiMessages">
-        <div class="welcome-msg">👋 Merhaba! Scriptler hakkında sana nasıl yardımcı olabilirim?</div>
-    </div>
-    <div class="ai-input-area">
-        <input type="text" id="aiInput" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter') sendAIMessage()">
-        <button onclick="sendAIMessage()">📤</button>
-    </div>
-    <div class="ai-footer">
-        ⚡ DeepSeek AI ile güçlendirilmiştir
-    </div>
-</div>
-
-<script>
-// ★★★ DEEPSEEK API ANAHTARI (GÜNCELLENDİ) ★★★
-const DEEPSEEK_API_KEY = 'sk-e2c71a047bf349f980082b58c4739222';
-
-let aiOpen = false;
-
-function toggleAI() {
-    aiOpen = !aiOpen;
-    document.getElementById('aiModal').classList.toggle('open', aiOpen);
-    if (aiOpen) document.getElementById('aiInput').focus();
-}
-
-function escapeHtmlAI(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-async function askDeepSeek(question) {
-    const systemPrompt = `
-        Sen bir ScriptHub asistanısın. Görevin kullanıcılara şu konularda yardım etmek:
-        1. Hangi scriptin hangi oyuna uygun olduğu (MM2, Blox Fruits, Pet Sim 99, Da Hood, Blade Ball, Brookhaven)
-        2. Scriptlerin nasıl çalıştırılacağı (loadstring ile)
-        3. Roblox ve scriptler hakkında genel bilgi
-        4. Sorun giderme ve çözüm önerileri
-        
-        Kısa, net ve Türkçe cevap ver. 
-        Eğer bilmiyorsan "Bilmiyorum" de.
-        Samimi ve yardımsever ol.
-    `;
-    
-    try {
-        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'deepseek-chat',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: question }
-                ],
-                max_tokens: 500,
-                temperature: 0.7
-            })
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('API Hatası:', errorData);
-            if (response.status === 401) {
-                return '❌ API anahtarı geçersiz! Lütfen platform.deepseek.com adresinden yeni bir anahtar alın.';
-            }
-            if (response.status === 429) {
-                return '⏳ Çok fazla istek gönderildi. Lütfen biraz bekleyip tekrar deneyin.';
-            }
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        return data.choices[0].message.content;
-        
-    } catch(e) {
-        console.error('DeepSeek Hatası:', e);
-        return '❌ Bağlantı hatası: ' + e.message;
-    }
-}
-
-async function sendAIMessage() {
-    const input = document.getElementById('aiInput');
-    const messages = document.getElementById('aiMessages');
-    const question = input.value.trim();
-    if (!question) return;
-    
-    // Kullanıcı mesajını ekle
-    messages.innerHTML += `<div class="msg-user">👤 ${escapeHtmlAI(question)}</div>`;
-    input.value = '';
-    messages.scrollTop = messages.scrollHeight;
-    
-    // Yükleniyor mesajı
-    messages.innerHTML += `<div class="msg-loading" id="aiLoading">🤖 Düşünüyor...</div>`;
-    messages.scrollTop = messages.scrollHeight;
-    
-    // API'den cevap al
-    const response = await askDeepSeek(question);
-    
-    // Yükleniyor mesajını kaldır
-    const loading = document.getElementById('aiLoading');
-    if (loading) loading.remove();
-    
-    // Cevabı ekle
-    messages.innerHTML += `<div class="msg-bot">🤖 ${escapeHtmlAI(response)}</div>`;
-    messages.scrollTop = messages.scrollHeight;
-}
+})();
 </script>
 
-</script>
 </body>
     </html>
