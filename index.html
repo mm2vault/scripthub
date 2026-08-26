@@ -585,6 +585,245 @@
         #cookieConsent .cookie-btn.details:hover {
             background: rgba(124,58,237,0.15);
         }
+
+        /* ===== AI ASİSTAN STİLLERİ ===== */
+        #aiModal {
+            display: none;
+            position: fixed;
+            bottom: 180px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: var(--bg-modal);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            z-index: 99999;
+            overflow: hidden;
+            flex-direction: column;
+            backdrop-filter: blur(24px);
+        }
+        #aiModal.open {
+            display: flex;
+        }
+        .ai-header {
+            padding: 0.8rem 1rem;
+            background: var(--accent-gradient);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .ai-header span {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .ai-header button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .ai-header button:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .ai-messages {
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            min-height: 180px;
+            flex: 1;
+            background: var(--bg-primary);
+        }
+        .ai-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        .ai-messages::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        .ai-messages .msg-user {
+            text-align: right;
+            margin: 0.4rem 0;
+            color: var(--accent-light);
+            background: rgba(124,58,237,0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            border-bottom-right-radius: 0;
+            display: inline-block;
+            max-width: 85%;
+            float: right;
+            clear: both;
+            font-size: 0.85rem;
+            word-break: break-word;
+        }
+        .ai-messages .msg-bot {
+            color: var(--text-secondary);
+            margin: 0.4rem 0;
+            background: var(--bg-card);
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            border-bottom-left-radius: 0;
+            display: inline-block;
+            max-width: 85%;
+            float: left;
+            clear: both;
+            font-size: 0.85rem;
+            word-break: break-word;
+        }
+        .ai-messages .msg-loading {
+            color: var(--text-muted);
+            margin: 0.4rem 0;
+            float: left;
+            clear: both;
+            font-size: 0.8rem;
+        }
+        .ai-messages .msg-error {
+            color: #ff6b6b;
+            margin: 0.4rem 0;
+            float: left;
+            clear: both;
+            font-size: 0.8rem;
+        }
+        .ai-messages .welcome-msg {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            clear: both;
+        }
+        .ai-messages::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .ai-input-area {
+            padding: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            background: var(--bg-card);
+        }
+        .ai-input-area input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            outline: none;
+            min-height: 40px;
+            font-size: 0.85rem;
+        }
+        .ai-input-area input:focus {
+            border-color: var(--accent);
+        }
+        .ai-input-area input::placeholder {
+            color: var(--text-muted);
+        }
+        .ai-input-area button {
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            transition: 0.3s;
+        }
+        .ai-input-area button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(124,58,237,0.3);
+        }
+        .ai-footer {
+            padding: 0.3rem;
+            text-align: center;
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            flex-shrink: 0;
+            background: var(--bg-card);
+        }
+        .ai-toggle-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+            z-index: 99998;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .ai-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(124,58,237,0.5);
+        }
+        .ai-toggle-btn img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .ai-toggle-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #4ade80;
+            color: #0a0b1e;
+            font-size: 0.5rem;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: 2px solid var(--bg-modal);
+        }
+        @media (max-width: 480px) {
+            #aiModal {
+                width: 90%;
+                right: 5%;
+                bottom: 170px;
+                max-height: 450px;
+            }
+            .ai-messages {
+                max-height: 220px;
+                min-height: 140px;
+            }
+            .ai-toggle-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 80px;
+                right: 15px;
+            }
+            .ai-toggle-btn img {
+                width: 26px;
+                height: 26px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1015,6 +1254,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <button class="scroll-top" id="scrollTopBtn">↑</button>
 <div class="toast" id="toast"><span id="toastMessage"></span><button class="toast-close" id="toastClose">✕</button></div>
+
+<!-- AI Asistan Butonu -->
+<button class="ai-toggle-btn" onclick="toggleAI()" title="🤖 AI Asistan">
+    <img src="https://i.postimg.cc/020SXJZW/1787779892547.png" alt="AI Asistan" onerror="this.style.display='none';this.parentElement.textContent='🤖'">
+    <span class="badge">AI</span>
+</button>
+
+<!-- AI Sohbet Modal -->
+<div id="aiModal">
+    <div class="ai-header">
+        <span>🤖 ScriptHub Asistan</span>
+        <button onclick="toggleAI()">✕</button>
+    </div>
+    <div class="ai-messages" id="aiMessages">
+        <div class="welcome-msg">👋 Merhaba! Scriptler hakkında sana nasıl yardımcı olabilirim?</div>
+    </div>
+    <div class="ai-input-area">
+        <input type="text" id="aiInput" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+        <button onclick="sendAIMessage()">📤</button>
+    </div>
+    <div class="ai-footer">
+        ⚡ Gemini AI ile güçlendirilmiştir
+    </div>
+</div>
 
 <script>
 // ==========================================
@@ -3441,7 +3704,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // TASK SİSTEMİ
     // ==========================================
     document.querySelectorAll('.task-btn').forEach(btn=>{
-        btn.addEventListener('click', function(e){
+        btn.addEventListener('click', function(){
             const task=this.dataset.task;
             if(modalState.taskStatus[task]){showToast('⚠️ Zaten tamamlandı.');return;}
             if(modalState.timers[task])return;
@@ -3600,6 +3863,88 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     init();
+
+    // ==========================================
+    // AI ASİSTAN
+    // ==========================================
+    // ★★★ SENİN API ANAHTARIN ★★★
+    const GEMINI_API_KEY = 'AIzaSyAb8RN6KzX1-cRreTg21FalYV1yoaNCo5McIEioB8YRVJMdATbQ';
+    
+    let aiOpen = false;
+    
+    window.toggleAI = function() {
+        aiOpen = !aiOpen;
+        document.getElementById('aiModal').classList.toggle('open', aiOpen);
+        if (aiOpen) document.getElementById('aiInput').focus();
+    };
+    
+    function escapeHtmlAI(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    async function askGemini(question) {
+        const context = `
+            Sen bir ScriptHub asistanısın. Görevin kullanıcılara şu konularda yardım etmek:
+            1. Hangi scriptin hangi oyuna uygun olduğu (MM2, Blox Fruits, Pet Sim 99, Da Hood, Blade Ball, Brookhaven)
+            2. Scriptlerin nasıl çalıştırılacağı (loadstring ile)
+            3. Roblox ve scriptler hakkında genel bilgi
+            4. Sorun giderme ve çözüm önerileri
+            5. Sitede hangi scriptlerin olduğu
+            
+            Kısa, net ve Türkçe cevap ver. 
+            Eğer bilmiyorsan "Bilmiyorum" de.
+            Samimi ve yardımsever ol.
+            Kullanıcının sorusu: ${question}
+        `;
+        
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: context }]
+                    }]
+                })
+            });
+            
+            if (!response.ok) throw new Error('API yanıt vermedi');
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        } catch(e) {
+            console.error('AI Hatası:', e);
+            return 'Üzgünüm, şu anda cevap veremiyorum. Lütfen daha sonra tekrar dene.';
+        }
+    }
+    
+    window.sendAIMessage = async function() {
+        const input = document.getElementById('aiInput');
+        const messages = document.getElementById('aiMessages');
+        const question = input.value.trim();
+        if (!question) return;
+        
+        // Kullanıcı mesajını ekle
+        messages.innerHTML += `<div class="msg-user">👤 ${escapeHtmlAI(question)}</div>`;
+        input.value = '';
+        messages.scrollTop = messages.scrollHeight;
+        
+        // Yükleniyor mesajı
+        messages.innerHTML += `<div class="msg-loading" id="aiLoading">🤖 Düşünüyor...</div>`;
+        messages.scrollTop = messages.scrollHeight;
+        
+        // API'den cevap al
+        const response = await askGemini(question);
+        
+        // Yükleniyor mesajını kaldır
+        const loading = document.getElementById('aiLoading');
+        if (loading) loading.remove();
+        
+        // Cevabı ekle
+        messages.innerHTML += `<div class="msg-bot">🤖 ${escapeHtmlAI(response)}</div>`;
+        messages.scrollTop = messages.scrollHeight;
+    };
 
 })();
 </script>
