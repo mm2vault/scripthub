@@ -1254,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="toast" id="toast"><span id="toastMessage"></span><button class="toast-close" id="toastClose">✕</button></div>
 
 <!-- ============================================ -->
-<!-- AI ASİSTAN (DEEPSEEK) -->
+<!-- AI ASİSTAN (CLOUDFLARE) - ÇALIŞAN SÜRÜM -->
 <!-- ============================================ -->
 
 <!-- AI Asistan Butonu -->
@@ -1277,13 +1277,14 @@ document.addEventListener('DOMContentLoaded', function() {
         <button onclick="sendAIMessage()">📤</button>
     </div>
     <div class="ai-footer">
-        ⚡ DeepSeek AI ile güçlendirilmiştir
+        ⚡ Cloudflare AI ile güçlendirilmiştir
     </div>
 </div>
 
 <script>
-// ★★★ DEEPSEEK API ANAHTARI ★★★
-const DEEPSEEK_API_KEY = 'sk-e2c71a047bf349f980082b58c4739222';
+// ★★★ CLOUDFLARE AI - ÇALIŞAN SÜRÜM ★★★
+const CLOUDFLARE_API_KEY = 'cfut_BviPZ8UMbgplEzCEgxec4xD4PFnPLb4KWiT1RZTc7ca2dd2a';
+const CLOUDFLARE_ACCOUNT_ID = 'ba387f04a46b90964beba598de5daf42';
 
 let aiOpen = false;
 
@@ -1299,54 +1300,57 @@ function escapeHtmlAI(text) {
     return div.innerHTML;
 }
 
-async function askDeepSeek(question) {
-    const systemPrompt = `
-        Sen bir ScriptHub asistanısın. Görevin kullanıcılara şu konularda yardım etmek:
-        1. Hangi scriptin hangi oyuna uygun olduğu (MM2, Blox Fruits, Pet Sim 99, Da Hood, Blade Ball, Brookhaven)
-        2. Scriptlerin nasıl çalıştırılacağı (loadstring ile)
-        3. Roblox ve scriptler hakkında genel bilgi
-        4. Sorun giderme ve çözüm önerileri
-        
-        Kısa, net ve Türkçe cevap ver. 
-        Eğer bilmiyorsan "Bilmiyorum" de.
-        Samimi ve yardımsever ol.
-    `;
+async function askCloudflareAI(question) {
+    const systemPrompt = `Sen bir ScriptHub asistanısın. Görevin kullanıcılara şu konularda yardım etmek:
+1. Hangi scriptin hangi oyuna uygun olduğu (MM2, Blox Fruits, Pet Sim 99, Da Hood, Blade Ball, Brookhaven)
+2. Scriptlerin nasıl çalıştırılacağı (loadstring ile)
+3. Roblox ve scriptler hakkında genel bilgi
+4. Sorun giderme ve çözüm önerileri
+
+Kısa, net ve Türkçe cevap ver. Eğer bilmiyorsan "Bilmiyorum" de. Samimi ve yardımsever ol.`;
     
     try {
-        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'deepseek-chat',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: question }
-                ],
-                max_tokens: 500,
-                temperature: 0.7
-            })
-        });
+        const response = await fetch(
+            `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3-8b-instruct`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${CLOUDFLARE_API_KEY}`
+                },
+                body: JSON.stringify({
+                    messages: [
+                        { role: 'system', content: systemPrompt },
+                        { role: 'user', content: question }
+                    ],
+                    max_tokens: 500
+                })
+            }
+        );
         
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('API Hatası:', errorData);
+            const errorText = await response.text();
+            console.error('API Hatası:', response.status, errorText);
+            
             if (response.status === 401) {
-                return '❌ API anahtarı geçersiz! Lütfen platform.deepseek.com adresinden yeni bir anahtar alın.';
+                return '❌ API token geçersiz! Lütfen Cloudflare Dashboard\'dan yeni bir token alın.';
             }
             if (response.status === 429) {
                 return '⏳ Çok fazla istek gönderildi. Lütfen biraz bekleyip tekrar deneyin.';
             }
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            return `❌ API hatası: ${response.status} - ${response.statusText}`;
         }
         
         const data = await response.json();
-        return data.choices[0].message.content;
+        
+        if (data.errors && data.errors.length > 0) {
+            return `❌ Hata: ${data.errors[0].message}`;
+        }
+        
+        return data.result.response;
         
     } catch(e) {
-        console.error('DeepSeek Hatası:', e);
+        console.error('Cloudflare AI Hatası:', e);
         return '❌ Bağlantı hatası: ' + e.message;
     }
 }
@@ -1367,7 +1371,7 @@ async function sendAIMessage() {
     messages.scrollTop = messages.scrollHeight;
     
     // API'den cevap al
-    const response = await askDeepSeek(question);
+    const response = await askCloudflareAI(question);
     
     // Yükleniyor mesajını kaldır
     const loading = document.getElementById('aiLoading');
@@ -3971,4 +3975,4 @@ async function sendAIMessage() {
 </script>
 
 </body>
-    </html>
+                                                          </html>
