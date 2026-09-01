@@ -10,16 +10,17 @@
     box-sizing: border-box;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
+/* <--- BURADA FAZLADAN } YOK! */
 
 /* ===== DEĞİŞKENLER ===== */
 :root {
     --bg-primary: #070816;
-    --bg-card: rgba(255, 255, 255, 0.03);
-    --bg-modal: rgba(16, 18, 40, 0.96);
+    --bg-card: rgba(255, 255, 255, 0.03);    /* rgba kullan! */
+    --bg-modal: rgba(16, 18, 40, 0.96);      /* rgba kullan! */
     --text-primary: #f0eeff;
     --text-secondary: #b5b3d6;
     --text-muted: #6b6b92;
-    --border-color: rgba(167, 139, 250, 0.15);
+    --border-color: rgba(167, 139, 250, 0.15); /* rgba kullan! */
     --accent: #7c3aed;
     --accent-light: #a78bfa;
     --accent-gradient: linear-gradient(135deg, #7c3aed, #6d28d9);
