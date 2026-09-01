@@ -11,15 +11,13 @@ const firebaseConfig = {
     measurementId: "G-ZNQK09DBRQ"
 };
 
-// Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 
-// Global değişkenler
 const db = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
 
-// Admin UID
+// Admin UID (kendi UID'ni buraya yaz)
 const ADMIN_UID = 'WAtZhXqj2KUEib0RaRXMTOAgYpc2';
 
-console.log('🔥 Firebase başarıyla başlatıldı!');
+console.log('🔥 Firebase başlatıldı!');
