@@ -3,761 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ScriptHub · 90+ Script & Oyunlar</title>
+    <title>ScriptHub · 120+ Script & Oyunlar</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
     
-    <style>
-        /* ===== SADECE TEMEL STİLLER ===== */
-        *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-        body{background:#070816;color:#f0eeff;padding:1rem}
-        .app{max-width:1200px;margin:0 auto;background:rgba(16,18,40,0.96);border-radius:20px;padding:2rem;border:1px solid rgba(167,139,250,0.15)}
-        .header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem}
-        .logo h1{font-size:1.8rem;background:linear-gradient(135deg,#7c3aed,#6d28d9);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .search-box{background:rgba(255,255,255,0.04);border-radius:60px;padding:0.5rem 1.4rem;border:1px solid rgba(167,139,250,0.15);flex:1;max-width:400px}
-        .search-box input{background:transparent;border:none;outline:none;color:#f0eeff;width:100%}
-        .stats{display:flex;gap:0.8rem;font-size:0.8rem;flex-wrap:wrap}
-        .stats span{background:rgba(255,255,255,0.03);padding:0.3rem 1rem;border-radius:40px;border:1px solid rgba(167,139,250,0.15)}
-        .stats strong{color:#a78bfa}
-        .coin-display{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#0a0b1e!important;padding:0.2rem 0.8rem;border-radius:40px;display:flex;align-items:center;gap:0.3rem}
-        .coin-display strong{color:#0a0b1e!important}
-        .add-btn{background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;padding:0.5rem 1.5rem;border-radius:60px;color:white;font-weight:600;cursor:pointer}
-        .script-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;margin:1rem 0}
-        .script-card{background:rgba(255,255,255,0.03);border-radius:16px;border:1px solid rgba(167,139,250,0.15);padding:1rem;transition:0.3s}
-        .script-card:hover{transform:translateY(-4px);border-color:rgba(124,58,237,0.3)}
-        .card-image{width:100%;height:140px;background:linear-gradient(135deg,#1a1a3a,#2a1f55);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:3rem}
-        .card-body{padding:0.8rem 0}
-        .card-header{display:flex;justify-content:space-between;align-items:center}
-        .card-header h3{font-size:1rem}
-        .fav-btn{background:none;border:none;font-size:1.3rem;cursor:pointer}
-        .fav-btn.active{color:#f472b6}
-        .card-desc{color:#b5b3d6;font-size:0.85rem;margin:0.3rem 0}
-        .get-btn{background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;padding:0.3rem 1rem;border-radius:60px;color:white;font-weight:600;cursor:pointer;font-size:0.8rem}
-        .get-btn:hover{transform:scale(1.03)}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(16,18,40,0.96);padding:0.8rem 2rem;border-radius:60px;border:1px solid rgba(167,139,250,0.15);z-index:9999;display:none}
-        .toast.show{display:block}
-        .modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;z-index:999999}
-        .modal-overlay.open{display:flex}
-        .modal-card{background:#0a0b1e;max-width:500px;width:100%;border-radius:20px;padding:2rem;border:1px solid rgba(167,139,250,0.15)}
-        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-        .modal-close{background:none;border:none;color:#6b6b92;font-size:1.5rem;cursor:pointer}
-        .modal-close:hover{color:white}
-        .code-area{background:#0a0b1e;padding:0.7rem 1rem;border-radius:12px;border:1px solid rgba(75,59,122,0.4);color:#c4b5fd;font-size:0.7rem;word-break:break-all;margin:1rem 0}
-        .copy-btn{background:#7c3aed;border:none;padding:0.3rem 1rem;border-radius:40px;color:white;cursor:pointer}
-        
-        /* AI ASİSTAN */
-        .ai-container{position:fixed;bottom:30px;right:30px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
-        .ai-btn{height:56px;padding:0 24px;border-radius:30px;background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;box-shadow:0 8px 30px rgba(124,58,237,0.45);cursor:pointer;display:flex;align-items:center;gap:12px;color:white;font-weight:600;font-size:0.95rem}
-        .ai-btn .icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:18px}
-        .ai-btn .badge{background:#ef4444;color:white;font-size:0.6rem;font-weight:700;padding:2px 8px;border-radius:20px}
-        .ai-btn.collapsed{width:56px;height:56px;padding:0;border-radius:50%}
-        .ai-btn.collapsed .text,.ai-btn.collapsed .badge{display:none}
-        .ai-window{width:420px;max-width:calc(100vw-40px);height:600px;max-height:calc(100vh-140px);background:#0a0b1e;border-radius:24px;border:1px solid rgba(167,139,250,0.15);box-shadow:0 25px 60px rgba(0,0,0,0.7);display:none;flex-direction:column;overflow:hidden}
-        .ai-window.open{display:flex}
-        .ai-header{padding:14px 20px;background:rgba(0,0,0,0.4);border-bottom:1px solid rgba(167,139,250,0.1);display:flex;align-items:center;justify-content:space-between}
-        .ai-header .title{display:flex;align-items:center;gap:10px;color:#f0eeff;font-weight:600}
-        .ai-header .title .dot{width:10px;height:10px;border-radius:50%;background:#4ade80;animation:pulse-dot 1.5s infinite}
-        @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:0.5}}
-        .ai-close{background:none;border:none;color:#6b6b92;font-size:1.2rem;cursor:pointer}
-        .ai-close:hover{color:white}
-        .ai-messages{flex:1;padding:16px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-        .ai-messages::-webkit-scrollbar{width:4px}
-        .ai-messages::-webkit-scrollbar-thumb{background:#7c3aed;border-radius:10px}
-        .ai-msg{max-width:85%;padding:10px 16px;border-radius:16px;font-size:0.9rem;line-height:1.5;animation:fadeIn 0.3s ease}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-        .ai-msg.user{align-self:flex-end;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white;border-bottom-right-radius:4px}
-        .ai-msg.bot{align-self:flex-start;background:rgba(255,255,255,0.05);color:#b5b3d6;border:1px solid rgba(167,139,250,0.1);border-bottom-left-radius:4px}
-        .ai-msg .time{font-size:0.55rem;color:#6b6b92;display:block;margin-top:4px}
-        .ai-input-area{display:flex;gap:8px;padding:12px 16px;border-top:1px solid rgba(167,139,250,0.08);background:rgba(0,0,0,0.2);border-radius:0 0 24px 24px}
-        .ai-input-area input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:30px;padding:10px 18px;color:#f0eeff;font-size:0.9rem;outline:none;min-height:44px}
-        .ai-input-area input:focus{border-color:#7c3aed}
-        .ai-input-area button{background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;border-radius:30px;padding:10px 20px;color:white;font-weight:600;cursor:pointer}
-        .ai-input-area button:hover{transform:scale(1.03)}
-        @media(max-width:500px){.ai-btn{height:48px;padding:0 16px;font-size:0.8rem}.ai-btn .icon{width:28px;height:28px;font-size:15px}.ai-btn.collapsed{width:48px;height:48px}.ai-window{width:calc(100vw-32px);height:calc(100vh-140px)}}
-        
-        .loading{text-align:center;padding:3rem;color:#a78bfa}
-        .empty{text-align:center;padding:3rem;color:#6b6b92}
-        .footer{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(167,139,250,0.15);text-align:center;color:#6b6b92;font-size:0.75rem}
-        .categories{display:flex;gap:0.5rem;overflow-x:auto;padding-bottom:1rem;margin-bottom:1rem}
-        .cat-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);padding:0.3rem 1rem;border-radius:40px;color:#b5b3d6;cursor:pointer;white-space:nowrap;font-size:0.85rem}
-        .cat-btn.active{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white}
-        .pagination-controls{display:flex;justify-content:center;gap:0.5rem;margin-top:1rem;flex-wrap:wrap}
-        .pagination-controls button{background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);padding:0.3rem 0.8rem;border-radius:30px;color:#b5b3d6;cursor:pointer}
-        .pagination-controls button.active{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:white}
-        .auth-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);padding:0.3rem 1rem;border-radius:60px;color:#b5b3d6;cursor:pointer}
-        .filter-bar{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem}
-        .filter-bar select{background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);border-radius:20px;padding:0.2rem 0.8rem;color:#f0eeff}
-        .daily-tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0.5rem;margin:0.5rem 0}
-        .daily-task{background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem;display:flex;align-items:center;gap:0.5rem}
-        .daily-task .task-info{flex:1}
-        .daily-task .task-name{font-size:0.75rem;color:#f0eeff}
-        .daily-task .task-desc{font-size:0.6rem;color:#6b6b92}
-        .daily-task .task-reward{font-size:0.6rem;color:#fbbf24}
-        .daily-task.completed{opacity:0.5}
-        .daily-task .task-status{font-size:0.8rem}
-        .daily-task.completed .task-status{color:#4ade80}
-    </style>
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-1079812363517680">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Scripts - SIRALI YÜKLEME -->
+    <script src="firebase-config.js" defer></script>
+    <script src="scripts.js" defer></script>
+    <script src="utils.js" defer></script>
+    <script src="modals.js" defer></script>
+    <script src="admin.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
 
+<!-- ANA UYGULAMA -->
 <div class="app" id="app">
     <!-- HEADER -->
     <header class="header">
         <div class="logo">
-            <h1>⚡ ScriptHub</h1>
-            <span style="font-size:0.75rem;color:#a78bfa;opacity:0.7">90+ Script & Oyunlar</span>
+            <img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="ScriptHub Logo">
+            <div>
+                <h1>ScriptHub</h1>
+                <span>🔥 120+ Script & 🎮 Oyunlar</span>
+            </div>
         </div>
         <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center">
+            <!-- Search -->
             <div class="search-box">
+                <img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Ara" class="search-icon">
                 <input type="text" id="searchInput" placeholder="Script veya oyun ara..." autocomplete="off">
             </div>
+            
+            <!-- Sort -->
+            <div class="sort-group">
+                <button class="sort-btn active" data-sort="default">Varsayılan</button>
+                <button class="sort-btn" data-sort="az">A-Z</button>
+                <button class="sort-btn" data-sort="za">Z-A</button>
+                <button class="sort-btn" data-sort="popular">⭐ Popüler</button>
+                <button class="sort-btn" data-sort="newest">🕐 Yeni</button>
+            </div>
+            
+            <!-- Stats -->
             <div class="stats">
-                <span class="coin-display">
-                    <strong id="coinAmount">0</strong> 🪙 Coin
-                </span>
-                <span>📜 <strong id="totalCount">0</strong></span>
-                <span>❤️ <strong id="favCount">0</strong></span>
+                <span><img src="https://i.postimg.cc/4N6JK1Ns/f34b5473-fea8-40e9-a4af-f26a66b92534.jpg" alt="Toplam"> <strong id="totalCount">0</strong></span>
+                <span><img src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favori"> <strong id="favCount">0</strong></span>
+                <span><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk"> <strong id="communityCount">0</strong></span>
             </div>
+            
+            <!-- Auth -->
             <div class="auth-section" id="authSection">
-                <button class="auth-btn" id="loginBtn">🔑 Giriş Yap</button>
+                <button class="auth-btn" id="loginBtn"><img src="https://i.postimg.cc/xdgmwFsB/7ed5b6f5-a917-4d66-975c-4b78e8183462.jpg" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>
             </div>
-            <button class="add-btn" id="addScriptBtn">➕ Script Ekle</button>
+            
+            <!-- Theme -->
+            <div class="theme-controls">
+                <button class="theme-btn dark active" data-theme="dark" title="Karanlık Tema">🌙</button>
+                <button class="theme-btn light" data-theme="light" title="Açık Tema">☀️</button>
+                <button class="theme-btn blue" data-theme="blue" title="Mavi Tema">💙</button>
+                <button class="theme-btn green" data-theme="green" title="Yeşil Tema">💚</button>
+            </div>
+            
+            <!-- Lang -->
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="tr" onclick="setLanguage('tr')">TR</button>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+            </div>
+            
+            <!-- Notifications -->
+            <div style="position:relative">
+                <span class="notification-bell" id="notificationBell">🔔<span class="dot" id="notifDot"></span></span>
+                <div class="notification-list" id="notificationList"></div>
+            </div>
+            
+            <!-- Buttons -->
+            <button class="add-btn" id="addScriptBtn"><img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> Script Ekle</button>
+            <button class="add-game-btn" id="addGameBtn">🎮 Oyun Ekle</button>
+            <button class="auth-btn admin-btn" id="adminBtn" style="display:none" onclick="openAdminModal()">🔧 Admin</button>
         </div>
     </header>
 
-    <!-- FİLTRE -->
+    <!-- FILTER BAR -->
     <div class="filter-bar">
-        <select id="filterSort">
-            <option value="default">Varsayılan</option>
-            <option value="az">A-Z</option>
-            <option value="za">Z-A</option>
-        </select>
-        <select id="filterType">
-            <option value="all">Tümü</option>
-            <option value="premium">Premium</option>
-            <option value="community">Topluluk</option>
-        </select>
+        <label>📅 Sırala: 
+            <select id="filterSort">
+                <option value="default">Varsayılan</option>
+                <option value="az">A-Z</option>
+                <option value="za">Z-A</option>
+                <option value="popular">⭐ Popüler</option>
+                <option value="newest">🕐 Yeni</option>
+            </select>
+        </label>
+        <label>📂 Tip: 
+            <select id="filterType">
+                <option value="all">Tümü</option>
+                <option value="premium">Premium</option>
+                <option value="community">Topluluk</option>
+            </select>
+        </label>
+        <label>⭐ Puan: 
+            <select id="filterRating">
+                <option value="0">Tümü</option>
+                <option value="4">4+ Yıldız</option>
+                <option value="3">3+ Yıldız</option>
+            </select>
+        </label>
+        <button class="backup-btn" onclick="backupUserData()">💾 Yedekle</button>
+        <button class="backup-btn" onclick="openLeaderboard()" style="background:rgba(251,191,36,0.15);color:#fbbf24">🏆 Liderlik</button>
     </div>
 
-    <!-- KATEGORİLER -->
+    <!-- CATEGORIES -->
     <div class="categories" id="categoryFilter">
-        <button class="cat-btn active" data-cat="all">📂 Hepsi</button>
-        <button class="cat-btn" data-cat="mm2">🗡️ MM2</button>
-        <button class="cat-btn" data-cat="bloxfruits">🍉 Blox Fruits</button>
-        <button class="cat-btn" data-cat="petsim">🐾 Pet Sim</button>
-        <button class="cat-btn" data-cat="favorites">❤️ Favorilerim</button>
-        <button class="cat-btn" data-cat="games">🎮 Oyunlar</button>
+        <button class="cat-btn active" data-cat="all"><img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Hepsi" class="cat-icon"> Hepsi</button>
+        <button class="cat-btn" data-cat="mm2"><img src="https://i.postimg.cc/rFhbs0Xg/images.jpg" alt="MM2" class="cat-icon"> MM2</button>
+        <button class="cat-btn" data-cat="bloxfruits"><img src="https://i.postimg.cc/jScztNGG/no-Filter.jpg" alt="Blox Fruits" class="cat-icon"> Blox Fruits</button>
+        <button class="cat-btn" data-cat="petsim"><img src="https://i.postimg.cc/28fvW2mz/PS99Icon.webp" alt="Pet Sim" class="cat-icon"> Pet Sim 99</button>
+        <button class="cat-btn" data-cat="dahood"><img src="https://i.postimg.cc/s28GgJwX/no-Filter.webp" alt="Da Hood" class="cat-icon"> Da Hood</button>
+        <button class="cat-btn" data-cat="bladeball"><img src="https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp" alt="Blade Ball" class="cat-icon"> Blade Ball</button>
+        <button class="cat-btn" data-cat="brookhaven"><img src="https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp" alt="Brookhaven" class="cat-icon"> Brookhaven</button>
+        <button class="cat-btn" data-cat="other"><img src="https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png" alt="Diğer" class="cat-icon"> Diğer</button>
+        <button class="cat-btn" data-cat="community"><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk" class="cat-icon"> Topluluk</button>
+        <button class="cat-btn" data-cat="favorites"><img src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favoriler" class="cat-icon"> Favorilerim</button>
+        <button class="cat-btn" data-cat="games" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2)">
+            <span style="font-size:1.1rem">🎮</span> Oyunlar
+            <span class="game-badge" id="gameCountBadge">7 OYUN</span>
+        </button>
+        <button class="cat-btn" data-cat="leaderboard" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2)" onclick="openLeaderboard()">🏆 Liderlik</button>
     </div>
 
-    <!-- GÜNLÜK GÖREVLER -->
-    <div id="dailyTasksContainer" style="margin-bottom:1rem;">
-        <div style="font-size:1rem;font-weight:600;margin-bottom:0.3rem">🎯 Günlük Görevler <span style="font-size:0.7rem;color:#fbbf24;font-weight:400">(+10 Coin)</span></div>
+    <!-- DAILY TASKS -->
+    <div id="dailyTasksContainer" style="margin-bottom:1rem;display:none">
+        <div class="section-title" style="font-size:1rem">🎯 Günlük Görevler</div>
         <div class="daily-tasks" id="dailyTasksList"></div>
     </div>
 
-    <!-- SCRİPT GRİD -->
-    <div id="scriptGrid" class="script-grid"><div class="loading">⏳ Yükleniyor...</div></div>
+    <!-- SCRIPT GRID -->
+    <div id="scriptGrid" class="script-grid"><div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div></div>
     <div class="pagination-controls" id="paginationControls"></div>
 
     <!-- FOOTER -->
-    <footer class="footer">© 2026 ScriptHub · 90+ Script & Oyunlar</footer>
+    <footer class="footer">
+        <span>© 2026 ScriptHub · 🔥 120+ Script & 🎮 Oyunlar</span>
+        <div class="social-links">
+            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank"><img src="https://i.postimg.cc/PNHNpXLz/a726bade-6679-40fc-ba33-e10c5283e106.jpg" alt="Discord"><span class="social-label">Discord</span></a>
+            <a href="https://youtube.com/@mm2_ultimatehub" target="_blank"><img src="https://i.postimg.cc/Jt8tDryy/Gemini-Generated-Image-nj6ud2nj6ud2nj6u.png" alt="YouTube"><span class="social-label">YouTube</span></a>
+            <a href="https://www.tiktok.com/@mm2_ultimatehub" target="_blank"><img src="https://i.postimg.cc/HjmjcYJb/Gemini-Generated-Image-nj6ud2nj6ud2nj6u(1).png" alt="TikTok"><span class="social-label">TikTok</span></a>
+        </div>
+        <div style="width:100%;text-align:center;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--border-color)">
+            <a href="#" onclick="document.getElementById('privacyModal').classList.add('open');document.body.style.overflow='hidden';return false;" style="color:var(--text-muted);font-size:0.7rem;text-decoration:none;margin:0 0.5rem">🔐 Gizlilik Politikası</a>
+            <span style="color:var(--text-muted);font-size:0.7rem">|</span>
+            <a href="#" onclick="document.getElementById('cookieConsent').style.display='block';return false;" style="color:var(--text-muted);font-size:0.7rem;text-decoration:none;margin:0 0.5rem">🍪 Çerez Ayarları</a>
+        </div>
+    </footer>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"><span id="toastMessage"></span></div>
+<!-- MODALLAR -->
+<!-- (Tüm modal HTML'leri burada olacak) -->
 
-<!-- SCRIPT EKLEME MODAL -->
-<div class="modal-overlay" id="addModal">
-    <div class="modal-card">
-        <div class="modal-header"><h2>➕ Yeni Script Ekle</h2><button class="modal-close" id="closeAddModal">✕</button></div>
-        <form id="addScriptForm">
-            <div style="margin-bottom:0.8rem">
-                <label style="color:#b5b3d6;font-size:0.8rem;display:block;margin-bottom:0.2rem">Script Adı *</label>
-                <input type="text" id="scriptName" placeholder="Örn: God Mode" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem 1rem;color:#f0eeff">
-            </div>
-            <div style="margin-bottom:0.8rem">
-                <label style="color:#b5b3d6;font-size:0.8rem;display:block;margin-bottom:0.2rem">Kategori *</label>
-                <select id="scriptCategory" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem 1rem;color:#f0eeff">
-                    <option value="mm2">MM2</option>
-                    <option value="bloxfruits">Blox Fruits</option>
-                    <option value="petsim">Pet Sim</option>
-                    <option value="other">Diğer</option>
-                </select>
-            </div>
-            <div style="margin-bottom:0.8rem">
-                <label style="color:#b5b3d6;font-size:0.8rem;display:block;margin-bottom:0.2rem">Açıklama *</label>
-                <input type="text" id="scriptDesc" placeholder="Script ne işe yarıyor?" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem 1rem;color:#f0eeff">
-            </div>
-            <div style="margin-bottom:0.8rem">
-                <label style="color:#b5b3d6;font-size:0.8rem;display:block;margin-bottom:0.2rem">Script Kodu *</label>
-                <textarea id="scriptCodeInput" placeholder="loadstring(game:HttpGet('https://...'))()" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem 1rem;color:#f0eeff;min-height:60px"></textarea>
-            </div>
-            <button type="submit" style="width:100%;background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;padding:0.8rem;border-radius:60px;color:white;font-weight:700;cursor:pointer">🚀 Ekle</button>
-        </form>
-    </div>
-</div>
-
-<!-- TASK MODAL -->
-<div class="modal-overlay" id="taskModal">
-    <div class="modal-card">
-        <div class="modal-header"><h2>🔓 Script Kilidi</h2><button class="modal-close" id="closeModal">✕</button></div>
-        <div style="color:#a78bfa;margin-bottom:1rem">3 görevi tamamla, kodu al.</div>
-        <div style="margin:0.5rem 0;color:#b5b3d6">📜 <strong id="modalScriptName" style="color:#a78bfa">—</strong></div>
-        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank" class="task-btn" data-task="discord" style="flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);border-radius:60px;padding:0.5rem;text-align:center;color:#b5b3d6;text-decoration:none;cursor:pointer">🎮 Discord</a>
-            <a href="https://youtube.com/@mm2_ultimatehub" target="_blank" class="task-btn" data-task="youtube" style="flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);border-radius:60px;padding:0.5rem;text-align:center;color:#b5b3d6;text-decoration:none;cursor:pointer">▶️ YouTube</a>
-            <a href="https://www.tiktok.com/@mm2_ultimatehub" target="_blank" class="task-btn" data-task="tiktok" style="flex:1;background:rgba(255,255,255,0.03);border:1px solid rgba(167,139,250,0.15);border-radius:60px;padding:0.5rem;text-align:center;color:#b5b3d6;text-decoration:none;cursor:pointer">🎵 TikTok</a>
-        </div>
-        <div style="display:flex;align-items:center;gap:0.8rem;margin:0.5rem 0">
-            <span id="taskStatus">0/3</span>
-            <div style="flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden">
-                <div id="progressFill" style="height:100%;background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:10px;width:0%"></div>
-            </div>
-        </div>
-        <button class="reveal-btn" id="revealCodeBtn" style="width:100%;background:#7c3aed;border:none;padding:0.8rem;border-radius:60px;color:white;font-weight:700;cursor:not-allowed;opacity:0.4">🔐 Kodu Göster</button>
-        <div class="code-container" id="codeContainer" style="display:none;margin-top:0.5rem">
-            <div class="code-area"><pre id="scriptCode" style="margin:0;white-space:pre-wrap">loadstring("scripthub")()</pre></div>
-            <button class="copy-btn" id="copyCodeBtn">📋 Kopyala</button>
+<!-- GİZLİLİK MODALI -->
+<div class="modal-overlay" id="privacyModal">
+    <div class="modal-card wide">
+        <div class="modal-header"><h2>🔐 Gizlilik Politikası</h2><button class="modal-close" onclick="document.getElementById('privacyModal').classList.remove('open');document.body.style.overflow=''">✕</button></div>
+        <div style="color:var(--text-secondary);font-size:0.85rem;line-height:1.8;padding:0.5rem 0">
+            <p><strong>📌 Son Güncelleme:</strong> 26 Ağustos 2026</p><br>
+            <p><strong>1. Toplanan Veriler</strong></p>
+            <p>ScriptHub, kullanıcı deneyimini iyileştirmek için aşağıdaki bilgileri toplayabilir:</p>
+            <ul style="padding-left:1.5rem;margin:0.5rem 0">
+                <li>📧 E-posta adresi (kayıt sırasında)</li>
+                <li>👤 Kullanıcı adı</li>
+                <li>🖼️ Profil fotoğrafı</li>
+                <li>📊 Kullanım istatistikleri</li>
+                <li>🍪 Çerezler</li>
+            </ul>
+            <br>
+            <p><strong>2. Verilerin Kullanımı</strong></p>
+            <p>Toplanan veriler şu amaçlarla kullanılır:</p>
+            <ul style="padding-left:1.5rem;margin:0.5rem 0">
+                <li>✅ Hesap yönetimi ve kimlik doğrulama</li>
+                <li>📈 Hizmet kalitesini artırma</li>
+                <li>🔔 Bildirim ve güncellemeler gönderme</li>
+                <li>🛡️ Güvenlik ve dolandırıcılık önleme</li>
+            </ul>
+            <br>
+            <p><strong>3. Çerezler (Cookies)</strong></p>
+            <p>Bu site, kullanıcı deneyimini iyileştirmek ve Google AdSense reklamlarını göstermek için çerezler kullanır.</p>
         </div>
     </div>
 </div>
 
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal">
-    <div class="modal-card">
-        <div class="modal-header"><h2>🔐 Giriş Yap</h2><button class="modal-close" id="closeAuthModal">✕</button></div>
-        <div style="margin-bottom:1rem">
-            <label style="color:#b5b3d6;font-size:0.8rem;display:block;margin-bottom:0.2rem">E-posta</label>
-            <input type="email" id="loginEmail" placeholder="ornek@email.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem 1rem;color:#f0eeff">
-        </div>
-        <div style="margin-bottom:1rem">
-            <label style="color:#b5b3d6;font-size:0.8rem;display:block;margin-bottom:0.2rem">Şifre</label>
-            <input type="password" id="loginPassword" placeholder="••••••••" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(167,139,250,0.15);border-radius:12px;padding:0.5rem 1rem;color:#f0eeff">
-        </div>
-        <button class="submit-btn" id="loginSubmitBtn" style="width:100%;background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;padding:0.8rem;border-radius:60px;color:white;font-weight:700;cursor:pointer">🚀 Giriş Yap</button>
-        <div style="text-align:center;margin-top:0.5rem;color:#6b6b92;font-size:0.8rem">Hesabın yok mu? <span id="switchToRegister" style="color:#a78bfa;cursor:pointer">Kayıt Ol</span></div>
+<!-- ÇEREZ BİLDİRİMİ -->
+<div id="cookieConsent">
+    <p>🍪 Bu site, size daha iyi bir deneyim sunmak için çerezler kullanır.</p>
+    <div class="cookie-buttons">
+        <button class="cookie-btn accept" onclick="acceptCookies()">✅ Kabul Et</button>
+        <button class="cookie-btn details" onclick="document.getElementById('privacyModal').classList.add('open');document.body.style.overflow='hidden'">📋 Detaylar</button>
     </div>
 </div>
 
-<!-- ============================================ -->
-<!-- 🤖 AI ASİSTAN -->
-<!-- ============================================ -->
+<!-- DİĞER MODALLAR (Profil, Auth, Add Script, Add Game, Task, Edit, Admin, Leaderboard) -->
+<!-- ... tüm modal HTML'leri burada devam eder ... -->
 
-<div class="ai-container" id="aiContainer">
-    <div class="ai-window" id="aiWindow">
-        <div class="ai-header">
-            <div class="title"><span class="dot"></span>🤖 ScriptHub AI</div>
-            <button class="ai-close" id="aiCloseBtn">✕</button>
-        </div>
-        <div class="ai-messages" id="aiMessages">
-            <div class="ai-msg bot">Merhaba! 👋 Ben ScriptHub AI asistanıyım.<br>Sana nasıl yardımcı olabilirim?<span class="time">Şimdi</span></div>
-        </div>
-        <div class="ai-input-area">
-            <input type="text" id="aiInput" placeholder="Mesajını yaz..." autocomplete="off">
-            <button id="aiSendBtn">Gönder</button>
-        </div>
-    </div>
-    <button class="ai-btn" id="aiBtn">
-        <span class="icon">🤖</span>
-        <span class="text">AI Asistan</span>
-        <span class="badge">● Canlı</span>
-    </button>
-</div>
+<!-- SOHBET WIDGET -->
+<button class="chat-toggle-btn" id="chatToggleBtn" aria-label="Sohbeti Aç">💬</button>
+<iframe class="chat-frame" id="chatFrame" src="https://scripthub.mm2ultimatehub.workers.dev/"></iframe>
 
-<script>
-// ==========================================
-// ÇALIŞAN TAM SCRIPT
-// ==========================================
-
-(function(){
-    'use strict';
-
-    // ========== STATE ==========
-    let scripts = [
-        {id:"p1",name:"Zen X MM2",category:"mm2",desc:"Otomatik kasa ve aimbot",features:["Aimbot","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",isPremium:true},
-        {id:"p2",name:"MM2 Sniper",category:"mm2",desc:"Otomatik bıçak toplama",features:["Auto Collect","Aimbot"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",isPremium:true},
-        {id:"p3",name:"Blox Fruit God",category:"bloxfruits",desc:"Otomatik meyve bulucu",features:["Auto Farm","Fruit Finder"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/BloxGod/script/main/fruit.lua'))()",isPremium:true},
-        {id:"p4",name:"Pet Sim 99 Pro",category:"petsim",desc:"Sınırsız mücevher",features:["Auto Farm","Dupe"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/PetSimPro/script/main/pet.lua'))()",isPremium:true},
-        {id:"p5",name:"MM2 Auto Farm",category:"mm2",desc:"Otomatik coin farm",features:["Auto Farm","Anti AFK"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2AutoFarm/script/main/farm.lua'))()",isPremium:true},
-    ];
-
-    let communityScripts = [];
-    let favorites = [];
-    let currentCategory = 'all';
-    let searchTerm = '';
-    let sortMode = 'default';
-    let currentUser = null;
-    let currentPage = 1;
-    let filterType = 'all';
-    const ITEMS_PER_PAGE = 10;
-
-    // ========== COIN SİSTEMİ ==========
-    function getCoins() {
-        if (!currentUser) return 0;
-        return parseInt(localStorage.getItem(`coins_${currentUser.uid}`)) || 0;
-    }
-    function setCoins(amount) {
-        if (!currentUser) return;
-        localStorage.setItem(`coins_${currentUser.uid}`, amount.toString());
-        updateCoinUI();
-    }
-    function addCoins(amount) {
-        if (!currentUser) return;
-        const current = getCoins();
-        setCoins(current + amount);
-        showToast(`💰 +${amount} Coin kazandın! Toplam: ${current + amount} Coin`);
-    }
-    function spendCoins(amount) {
-        if (!currentUser) return false;
-        const current = getCoins();
-        if (current < amount) {
-            showToast(`❌ Yetersiz Coin! ${amount} Coin gerekli. (Mevcut: ${current})`);
-            return false;
-        }
-        setCoins(current - amount);
-        showToast(`💰 ${amount} Coin harcandı. Kalan: ${current - amount} Coin`);
-        return true;
-    }
-    function updateCoinUI() {
-        const el = document.getElementById('coinAmount');
-        if (el) el.textContent = getCoins();
-    }
-
-    // ========== GÜNLÜK GÖREVLER ==========
-    const dailyTasks = [
-        { id: 'daily_login', name: 'Günlük Giriş', desc: 'Bugün giriş yap', icon: '✅' },
-        { id: 'daily_view', name: 'Script İncele', desc: '5 script görüntüle', icon: '👁️' },
-        { id: 'daily_comment', name: 'Yorum Yap', desc: '1 scripte yorum yap', icon: '💬' },
-        { id: 'daily_fav', name: 'Favori Ekle', desc: '1 script favorilere ekle', icon: '❤️' }
-    ];
-
-    function getDailyProgress(){
-        if(!currentUser) return { date: new Date().toDateString(), tasks: {} };
-        const today = new Date().toDateString();
-        const progress = JSON.parse(localStorage.getItem(`daily_${currentUser.uid}`)) || {};
-        if (progress.date !== today) return { date: today, tasks: {} };
-        return progress;
-    }
-
-    function completeDailyTask(taskId){
-        if(!currentUser) return;
-        const progress = getDailyProgress();
-        if (progress.tasks[taskId]) return;
-        progress.tasks[taskId] = true;
-        progress.date = new Date().toDateString();
-        localStorage.setItem(`daily_${currentUser.uid}`, JSON.stringify(progress));
-        addCoins(10);
-        showToast(`✅ ${dailyTasks.find(t=>t.id===taskId)?.name} tamamlandı! +10 Coin`);
-        renderDailyTasks();
-        updateCoinUI();
-    }
-
-    function renderDailyTasks(){
-        if(!currentUser) return;
-        const progress = getDailyProgress();
-        const container = document.getElementById('dailyTasksList');
-        if (!container) return;
-        container.innerHTML = dailyTasks.map(task => `
-            <div class="daily-task ${progress.tasks[task.id] ? 'completed' : ''}">
-                <span style="font-size:1.2rem">${task.icon}</span>
-                <div class="task-info">
-                    <div class="task-name">${task.name}</div>
-                    <div class="task-desc">${task.desc}</div>
-                    <div class="task-reward">🎁 10 Coin</div>
-                </div>
-                <span class="task-status">${progress.tasks[task.id] ? '✅' : '⬜'}</span>
-            </div>
-        `).join('');
-    }
-
-    // ========== DOM ==========
-    const grid = document.getElementById('scriptGrid');
-    const searchInput = document.getElementById('searchInput');
-    const catBtns = document.querySelectorAll('.cat-btn');
-    const totalCount = document.getElementById('totalCount');
-    const favCount = document.getElementById('favCount');
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-    const modal = document.getElementById('taskModal');
-    const addModal = document.getElementById('addModal');
-    const authModal = document.getElementById('authModal');
-    const closeModalBtn = document.getElementById('closeModal');
-    const closeAddModal = document.getElementById('closeAddModal');
-    const closeAuthModal = document.getElementById('closeAuthModal');
-    const addScriptBtn = document.getElementById('addScriptBtn');
-    const addForm = document.getElementById('addScriptForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const authSection = document.getElementById('authSection');
-    const filterSort = document.getElementById('filterSort');
-    const filterTypeEl = document.getElementById('filterType');
-    const paginationControls = document.getElementById('paginationControls');
-
-    // ========== AI ASİSTAN ==========
-    const aiBtn = document.getElementById('aiBtn');
-    const aiWindow = document.getElementById('aiWindow');
-    const aiCloseBtn = document.getElementById('aiCloseBtn');
-    const aiMessages = document.getElementById('aiMessages');
-    const aiInput = document.getElementById('aiInput');
-    const aiSendBtn = document.getElementById('aiSendBtn');
-    let aiOpen = false;
-    let aiWaiting = false;
-
-    function aiAddMessage(text, sender = 'bot') {
-        const time = new Date().toLocaleTimeString('tr-TR', { hour:'2-digit', minute:'2-digit' });
-        const div = document.createElement('div');
-        div.className = `ai-msg ${sender}`;
-        div.textContent = text;
-        const span = document.createElement('span');
-        span.className = 'time';
-        span.textContent = time;
-        div.appendChild(span);
-        aiMessages.appendChild(div);
-        aiMessages.scrollTop = aiMessages.scrollHeight;
-    }
-
-    function aiGenerateResponse(text) {
-        const t = text.toLowerCase().trim();
-        if (t.includes('script') && (t.includes('oluştur') || t.includes('yap') || t.includes('ver'))) {
-            return '📜 Script Kodu:\n\nloadstring(game:HttpGet("https://raw.githubusercontent.com/scripthub/main/script.lua"))()\n\n✅ Kodu kopyala ve Roblox\'ta çalıştır!';
-        }
-        if (t.includes('oyun') && t.includes('öner')) {
-            const games = ['🔫 Murder Mystery 2', '🍉 Blox Fruits', '🐾 Pet Simulator 99', '🔫 Da Hood', '⚡ Blade Ball'];
-            return '🎮 Oyun Önerisi:\n\n' + games[Math.floor(Math.random() * games.length)] + '\n\n🔄 Başka istersen "başka oyun öner" yaz!';
-        }
-        if (t.includes('yardım') || t.includes('help')) {
-            return '❓ Yardım Menüsü\n\n• 📜 "script oluştur" - Script kodu üretirim\n• 🎮 "oyun öner" - Oyun öneririm\n• 🪙 "coin" - Coin bilgini gösteririm\n• ❓ "yardım" - Bu menüyü gösteririm';
-        }
-        if (t.includes('coin') || t.includes('para')) {
-            return '🪙 Coin Bilgilerin\n\nMevcut Coin: ' + getCoins() + ' Coin\n\n💡 Günlük görevleri tamamlayarak +10 Coin kazanabilirsin!';
-        }
-        return '🤔 Anlamadım. Şunları deneyebilirsin:\n• 📜 "script oluştur"\n• 🎮 "oyun öner"\n• 🪙 "coin"\n• ❓ "yardım"';
-    }
-
-    async function aiSendMessage() {
-        if (aiWaiting || !aiInput.value.trim()) return;
-        const msg = aiInput.value.trim();
-        aiAddMessage(msg, 'user');
-        aiInput.value = '';
-        aiSendBtn.disabled = true;
-        aiWaiting = true;
-        await new Promise(r => setTimeout(r, 500 + Math.random() * 400));
-        const response = aiGenerateResponse(msg);
-        aiAddMessage(response, 'bot');
-        aiWaiting = false;
-        aiSendBtn.disabled = false;
-        aiInput.focus();
-    }
-
-    aiBtn.addEventListener('click', function() {
-        aiOpen = !aiOpen;
-        aiWindow.classList.toggle('open', aiOpen);
-        if (aiOpen) {
-            this.classList.add('collapsed');
-            this.innerHTML = '<span class="icon">✕</span>';
-            this.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
-            setTimeout(() => aiInput.focus(), 200);
-        } else {
-            this.classList.remove('collapsed');
-            this.innerHTML = '<span class="icon">🤖</span><span class="text">AI Asistan</span><span class="badge">● Canlı</span>';
-            this.style.background = 'linear-gradient(135deg, #7c3aed, #6d28d9)';
-        }
-    });
-
-    aiCloseBtn.addEventListener('click', function() {
-        if (aiOpen) aiBtn.click();
-    });
-
-    aiSendBtn.addEventListener('click', aiSendMessage);
-    aiInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') { e.preventDefault(); aiSendMessage(); }
-    });
-
-    document.addEventListener('click', function(e) {
-        if (aiOpen) {
-            const container = document.getElementById('aiContainer');
-            if (!container.contains(e.target)) {
-                aiOpen = false;
-                aiWindow.classList.remove('open');
-                aiBtn.classList.remove('collapsed');
-                aiBtn.innerHTML = '<span class="icon">🤖</span><span class="text">AI Asistan</span><span class="badge">● Canlı</span>';
-                aiBtn.style.background = 'linear-gradient(135deg, #7c3aed, #6d28d9)';
-            }
-        }
-    });
-
-    // ========== TOAST ==========
-    function showToast(msg) {
-        toastMessage.textContent = msg;
-        toast.classList.add('show');
-        clearTimeout(toast._timer);
-        toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // ========== SCRİPT FONKSİYONLARI ==========
-    function getAllScripts() { return [...scripts, ...communityScripts]; }
-
-    function renderPagination(totalItems) {
-        const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-        if (totalPages <= 1) { paginationControls.innerHTML = ''; return; }
-        let html = `<button class="page-btn" data-page="prev" ${currentPage<=1?'disabled':''}>‹ Önceki</button>`;
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
-                html += `<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
-            }
-        }
-        html += `<button class="page-btn" data-page="next" ${currentPage>=totalPages?'disabled':''}>Sonraki ›</button>`;
-        paginationControls.innerHTML = html;
-        document.querySelectorAll('.page-btn[data-page]').forEach(b => {
-            b.addEventListener('click', function() {
-                const p = this.dataset.page;
-                const total = Math.ceil(totalItems / ITEMS_PER_PAGE);
-                if (p === 'prev' && currentPage > 1) currentPage--;
-                else if (p === 'next' && currentPage < total) currentPage++;
-                else if (p !== 'prev' && p !== 'next') currentPage = parseInt(p);
-                render();
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            });
-        });
-    }
-
-    function render() {
-        const all = getAllScripts();
-        let filtered = all.filter(s => {
-            const catMatch = currentCategory === 'all' ? true : 
-                (currentCategory === 'favorites' ? favorites.includes(s.id) : s.category === currentCategory);
-            const typeMatch = filterType === 'all' ? true : 
-                (filterType === 'premium' ? s.isPremium : !s.isPremium);
-            const searchMatch = s.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                s.desc.toLowerCase().includes(searchTerm.toLowerCase());
-            return catMatch && typeMatch && searchMatch;
-        });
-
-        if (sortMode === 'az') filtered.sort((a, b) => a.name.localeCompare(b.name));
-        else if (sortMode === 'za') filtered.sort((a, b) => b.name.localeCompare(a.name));
-        else filtered.sort((a, b) => a.isPremium && !b.isPremium ? -1 : 1);
-
-        const totalItems = filtered.length;
-        const start = (currentPage - 1) * ITEMS_PER_PAGE;
-        const paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
-
-        totalCount.textContent = filtered.length;
-        favCount.textContent = favorites.length;
-        updateCoinUI();
-
-        if (!paginated.length) {
-            grid.innerHTML = `<div class="empty">🔍 Sonuç bulunamadı</div>`;
-            paginationControls.innerHTML = '';
-            return;
-        }
-
-        grid.innerHTML = paginated.map(s => {
-            const isFav = favorites.includes(s.id);
-            const isPremium = s.isPremium || false;
-            const coinCost = isPremium ? 50 : 20;
-            return `
-                <div class="script-card">
-                    <div class="card-image">${isPremium ? '⭐' : '📜'}</div>
-                    <div class="card-body">
-                        <div class="card-header">
-                            <h3>${s.name}</h3>
-                            <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${s.id}">♥</button>
-                        </div>
-                        <div style="font-size:0.7rem;color:#a78bfa">${s.category.toUpperCase()} ${isPremium ? '· Premium' : '· Topluluk'}</div>
-                        <div class="card-desc">${s.desc}</div>
-                        <div style="font-size:0.7rem;color:#b5b3d6;margin:0.2rem 0">${s.features ? s.features.join(' · ') : ''}</div>
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.3rem">
-                            <span style="font-size:0.7rem;color:#fbbf24">🪙 ${coinCost} Coin</span>
-                            <button class="get-btn" data-id="${s.id}">🔓 Aç</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        renderPagination(totalItems);
-
-        document.querySelectorAll('.fav-btn').forEach(b => {
-            b.addEventListener('click', function() {
-                const id = this.dataset.id;
-                const idx = favorites.indexOf(id);
-                if (idx > -1) favorites.splice(idx, 1);
-                else favorites.push(id);
-                localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
-                render();
-                completeDailyTask('daily_fav');
-            });
-        });
-
-        document.querySelectorAll('.get-btn').forEach(b => {
-            b.addEventListener('click', function() {
-                const id = this.dataset.id;
-                const script = getAllScripts().find(s => s.id === id);
-                if (!script) return;
-                const cost = script.isPremium ? 50 : 20;
-                if (!spendCoins(cost)) return;
-                showToast(`✅ "${script.name}" açıldı!`);
-                // Script kodunu göster
-                document.getElementById('modalScriptName').textContent = script.name;
-                document.getElementById('scriptCode').textContent = script.code;
-                document.getElementById('codeContainer').style.display = 'block';
-                document.getElementById('revealCodeBtn').style.display = 'none';
-                modal.classList.add('open');
-            });
-        });
-
-        // Günlük görevleri kontrol et
-        if (currentUser) {
-            const viewed = parseInt(localStorage.getItem(`daily_views_${currentUser.uid}`)) || 0;
-            if (viewed >= 5) completeDailyTask('daily_view');
-        }
-    }
-
-    // ========== FAVORİLER ==========
-    function loadFavorites() {
-        try {
-            const data = JSON.parse(localStorage.getItem('scriptHubFavs'));
-            if (Array.isArray(data)) favorites = data;
-        } catch(e) { favorites = []; }
-    }
-
-    // ========== AUTH ==========
-    function updateAuthUI(user) {
-        currentUser = user;
-        if (user) {
-            authSection.innerHTML = `<button class="auth-btn" id="profileBtn">👤 ${user.displayName || user.email || 'Kullanıcı'}</button>`;
-            document.getElementById('profileBtn')?.addEventListener('click', function() {
-                showToast(`👤 ${user.displayName || user.email}\n🪙 ${getCoins()} Coin`);
-            });
-            renderDailyTasks();
-            updateCoinUI();
-        } else {
-            authSection.innerHTML = `<button class="auth-btn" id="loginBtn">🔑 Giriş Yap</button>`;
-            document.getElementById('loginBtn')?.addEventListener('click', function() {
-                authModal.classList.add('open');
-            });
-            document.getElementById('dailyTasksList').innerHTML = '';
-            document.getElementById('coinAmount').textContent = '0';
-        }
-    }
-
-    // ========== AUTH MODAL ==========
-    document.getElementById('loginSubmitBtn')?.addEventListener('click', function() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
-        if (!email || !password) { showToast('❌ E-posta ve şifre girin!'); return; }
-        // Simüle giriş
-        const user = { uid: 'user_' + Date.now(), displayName: email.split('@')[0], email: email };
-        localStorage.setItem('scriptHubUser', JSON.stringify(user));
-        updateAuthUI(user);
-        authModal.classList.remove('open');
-        showToast('✅ Hoş geldin, ' + user.displayName + '!');
-        completeDailyTask('daily_login');
-        render();
-    });
-
-    document.getElementById('switchToRegister')?.addEventListener('click', function() {
-        showToast('📝 Kayıt olma özelliği yakında!');
-    });
-
-    closeAuthModal?.addEventListener('click', function() {
-        authModal.classList.remove('open');
-    });
-
-    // ========== MODAL KONTROLLERİ ==========
-    closeModalBtn?.addEventListener('click', function() {
-        modal.classList.remove('open');
-    });
-
-    closeAddModal?.addEventListener('click', function() {
-        addModal.classList.remove('open');
-    });
-
-    addScriptBtn?.addEventListener('click', function() {
-        if (!currentUser) { showToast('❌ Lütfen giriş yapın!'); authModal.classList.add('open'); return; }
-        addModal.classList.add('open');
-    });
-
-    // ========== SCRIPT EKLE ==========
-    addForm?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const name = document.getElementById('scriptName').value.trim();
-        const category = document.getElementById('scriptCategory').value;
-        const desc = document.getElementById('scriptDesc').value.trim();
-        const code = document.getElementById('scriptCodeInput').value.trim();
-        if (!name || !desc || !code) { showToast('❌ Tüm alanları doldurun!'); return; }
-        const newScript = {
-            id: 'c' + Date.now(),
-            name: name,
-            category: category,
-            desc: desc,
-            features: [],
-            code: code,
-            isPremium: false,
-            isCommunity: true
-        };
-        communityScripts.push(newScript);
-        addModal.classList.remove('open');
-        addForm.reset();
-        render();
-        showToast('✅ Script eklendi!');
-    });
-
-    // ========== FİLTRE ==========
-    catBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            catBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentCategory = this.dataset.cat;
-            currentPage = 1;
-            render();
-        });
-    });
-
-    searchInput?.addEventListener('input', function() {
-        searchTerm = this.value;
-        currentPage = 1;
-        render();
-    });
-
-    filterSort?.addEventListener('change', function() {
-        sortMode = this.value;
-        render();
-    });
-
-    filterTypeEl?.addEventListener('change', function() {
-        filterType = this.value;
-        render();
-    });
-
-    // ========== KEYBOARD ==========
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            if (modal.classList.contains('open')) modal.classList.remove('open');
-            if (addModal.classList.contains('open')) addModal.classList.remove('open');
-            if (authModal.classList.contains('open')) authModal.classList.remove('open');
-        }
-    });
-
-    // ========== BAŞLAT ==========
-    loadFavorites();
-    
-    // Auth kontrolü
-    const savedUser = localStorage.getItem('scriptHubUser');
-    if (savedUser) {
-        try {
-            const user = JSON.parse(savedUser);
-            updateAuthUI(user);
-        } catch(e) {}
-    }
-
-    render();
-    renderDailyTasks();
-    updateCoinUI();
-
-    console.log('🚀 ScriptHub başarıyla yüklendi!');
-    console.log('🤖 AI Asistan: Sağ alt köşede');
-    console.log('🪙 Coin sistemi aktif! Günlük görevlerden +10 Coin kazan!');
-
-})();
-</script>
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTopBtn">↑</button>
+<div class="toast" id="toast"><span id="toastMessage"></span><button class="toast-close" id="toastClose">✕</button></div>
 
 </body>
 </html>
