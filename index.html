@@ -9,8 +9,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
-    
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-1079812363517680">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
 
@@ -597,6 +595,7 @@
 <body>
 
 <div class="app" id="app">
+    <!-- HEADER -->
     <header class="header">
         <div class="logo">
             <img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="ScriptHub Logo">
@@ -649,6 +648,7 @@
         </div>
     </header>
 
+    <!-- FİLTRELEME -->
     <div class="filter-bar">
         <label>📅 Sırala: 
             <select id="filterSort">
@@ -677,6 +677,7 @@
         <button class="backup-btn" onclick="openLeaderboard()" style="background:rgba(251,191,36,0.15);color:#fbbf24">🏆 Liderlik</button>
     </div>
 
+    <!-- KATEGORİLER -->
     <div class="categories" id="categoryFilter">
         <button class="cat-btn active" data-cat="all"><img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Hepsi" class="cat-icon"> Hepsi</button>
         <button class="cat-btn" data-cat="mm2"><img src="https://i.postimg.cc/rFhbs0Xg/images.jpg" alt="MM2" class="cat-icon"> MM2</button>
@@ -697,14 +698,20 @@
         </button>
     </div>
 
+    <!-- GÜNLÜK GÖREVLER -->
     <div id="dailyTasksContainer" style="margin-bottom:1rem;display:none">
-        <div class="section-title" style="font-size:1rem">🎯 Günlük Görevler <span style="font-size:0.7rem;color:#fbbf24;font-weight:400">(+10 Coin her görev)</span></div>
+        <div class="section-title" style="font-size:1rem">
+            🎯 Günlük Görevler 
+            <span style="font-size:0.7rem;color:#fbbf24;font-weight:400">(+10 Coin her görev)</span>
+        </div>
         <div class="daily-tasks" id="dailyTasksList"></div>
     </div>
 
+    <!-- SCRİPT GRİD -->
     <div id="scriptGrid" class="script-grid"><div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div></div>
     <div class="pagination-controls" id="paginationControls"></div>
 
+    <!-- FOOTER -->
     <footer class="footer">
         <span>© 2026 ScriptHub · 🔥 90+ Script & 🎮 Oyunlar</span>
         <div class="social-links">
@@ -720,7 +727,11 @@
     </footer>
 </div>
 
-<!-- TÜM MODALLAR (Gizlilik, Profil, Auth, vb.) -->
+<!-- ============================================ -->
+<!-- TÜM MODALLAR -->
+<!-- ============================================ -->
+
+<!-- GİZLİLİK POLİTİKASI -->
 <div class="modal-overlay" id="privacyModal">
     <div class="modal-card wide">
         <div class="modal-header">
@@ -773,6 +784,7 @@
     </div>
 </div>
 
+<!-- ÇEREZ BİLDİRİMİ -->
 <div id="cookieConsent">
     <p>🍪 Bu site, size daha iyi bir deneyim sunmak, trafiği analiz etmek ve Google AdSense reklamlarını göstermek için çerezler kullanır. Devam ederek çerez kullanımını kabul etmiş sayılırsınız.</p>
     <div class="cookie-buttons">
@@ -995,6 +1007,10 @@
     </div>
 </div>
 
+<!-- ============================================ -->
+<!-- 🤖 AI ASİSTAN + SCROLL TOP + TOAST -->
+<!-- ============================================ -->
+
 <button class="scroll-top" id="scrollTopBtn">↑</button>
 <div class="toast" id="toast"><span id="toastMessage"></span><button class="toast-close" id="toastClose">✕</button></div>
 
@@ -1020,9 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 (function(){
     'use strict';
 
-    // ==========================================
     // FIREBASE CONFIG
-    // ==========================================
     const firebaseConfig = {
         apiKey: "AIzaSyB8xU0CUXkzl1AbOBusUxr3J77TU5d6Mlg",
         authDomain: "scripthub-b7b7b.firebaseapp.com",
@@ -1038,9 +1052,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const auth = firebase.auth();
     const storage = firebase.storage();
 
-    // ==========================================
     // RESİMLER
-    // ==========================================
     const IMG = {
         login:'https://i.postimg.cc/xdgmwFsB/7ed5b6f5-a917-4d66-975c-4b78e8183462.jpg',
         logout:'https://i.postimg.cc/PJmpX3fH/Gemini-Generated-Image-bnwgx9bnwgx9bnwg.png',
@@ -1068,20 +1080,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!currentUser) return 0;
         return parseInt(localStorage.getItem(`coins_${currentUser.uid}`)) || 0;
     }
-
     function setCoins(amount) {
         if (!currentUser) return;
         localStorage.setItem(`coins_${currentUser.uid}`, amount.toString());
         updateCoinUI();
     }
-
     function addCoins(amount) {
         if (!currentUser) return;
         const current = getCoins();
         setCoins(current + amount);
         showToast(`💰 +${amount} Coin kazandın! Toplam: ${current + amount} Coin`);
     }
-
     function spendCoins(amount) {
         if (!currentUser) return false;
         const current = getCoins();
@@ -1093,7 +1102,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast(`💰 ${amount} Coin harcandı. Kalan: ${current - amount} Coin`);
         return true;
     }
-
     function updateCoinUI() {
         const coinAmount = document.getElementById('coinAmount');
         if (coinAmount) {
@@ -1102,7 +1110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // 95+ GERÇEK SCRIPT (Kısaltılmış)
+    // SCRIPTS (Kısaltılmış)
     // ==========================================
     const premiumScripts = [
         {id:"p1",name:"Zen X MM2",category:"mm2",desc:"Otomatik kasa, aimbot ve bıçak toplama.",features:["Aimbot","Auto Farm","ESP","God Mode"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",isPremium:true},
@@ -1120,12 +1128,10 @@ document.addEventListener('DOMContentLoaded', function() {
         {id:"p13",name:"MM2 Silent Aim",category:"mm2",desc:"Silent aim ve otomatik bıçak.",features:["Silent Aim","Auto Knife","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2SilentAim/script/main/silent.lua'))()",isPremium:true},
         {id:"p14",name:"MM2 Speed Hack",category:"mm2",desc:"Hız hack ve koşma.",features:["Speed Hack","Walk Speed","Jump Power"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Speed/script/main/speed.lua'))()",isPremium:true},
         {id:"p15",name:"MM2 Fly Hack",category:"mm2",desc:"Uçma ve teleport.",features:["Fly","Teleport","No Clip"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Fly/script/main/fly.lua'))()",isPremium:true},
-        // ... devamı gelir
+        // ... devamında daha fazla script var
     ];
 
-    // ==========================================
     // STATE
-    // ==========================================
     let communityScripts = [];
     let communityGames = [];
     let favorites = [];
@@ -1139,7 +1145,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let filterType = 'all';
     let filterRating = 0;
     const ITEMS_PER_PAGE = 20;
-
     let ratings = {};
     let comments = {};
     let viewCounts = {};
@@ -1165,7 +1170,9 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'premium_user', name: 'Premium Kullanıcı', icon: '💎', desc: 'Premium script kullan' }
     ];
 
+    // ==========================================
     // DOM REFERANSLARI
+    // ==========================================
     const grid = document.getElementById('scriptGrid');
     const searchInput = document.getElementById('searchInput');
     const catBtns = document.querySelectorAll('.cat-btn');
@@ -1888,13 +1895,908 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // DİĞER FONKSİYONLAR (Kısaltıldı)
+    // DİĞER FONKSİYONLAR
     // ==========================================
-    // ... (rateScript, addComment, showAllComments, likeComment, deleteComment, incrementView, addNotification, updateNotificationUI, openEditScriptModal, reportScript, adminDeleteAnyScript, backupUserData, renderGames, openLeaderboard, renderLeaderboard, openAdminModal, renderAdminPanel, vb. fonksiyonlar burada devam eder)
+    async function rateScript(scriptId, rating){
+        if(!currentUser){showToast('❌ Puan vermek için giriş yapın!'); openAuthModal(); return;}
+        try {
+            const docRef=db.collection('scripts').doc(scriptId).collection('ratings').doc('stats');
+            const userRef=db.collection('scripts').doc(scriptId).collection('ratings').doc(currentUser.uid);
+            await userRef.set({rating, user:currentUser.uid, name:currentUser.displayName||'Anonim'});
+            const all=await db.collection('scripts').doc(scriptId).collection('ratings').get();
+            let total=0, count=0;
+            all.forEach(d=>{ if(d.id!=='stats'){ total+=d.data().rating; count++; }});
+            const avg=count>0?total/count:0;
+            await docRef.set({avg, count});
+            ratings[scriptId]={avg,count};
+            render();
+            showToast(`⭐ Puan verildi! Ortalama: ${avg.toFixed(1)}`);
+        } catch(e) {
+            console.error('Puan hatası:', e);
+            showToast('❌ Puan verilirken hata oluştu!');
+        }
+    }
 
-    // ==========================================
-    // RENDER
-    // ==========================================
+    async function addComment(scriptId, text) {
+        if (!currentUser) { showToast('❌ Yorum yapmak için giriş yapın!'); openAuthModal(); return; }
+        if (!text || !text.trim()) { showToast('❌ Yorum boş olamaz!'); return; }
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (script && script.isPremium) { showToast('❌ Premium scriptlere yorum yapılamaz!'); return; }
+        const filteredText = filterContent(text.trim());
+        const input = document.getElementById(`cmt_${scriptId}`);
+        const btn = input?.nextElementSibling;
+        try {
+            if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+            const docRef = await db.collection('scripts').doc(scriptId).collection('comments').add({
+                user: currentUser.displayName || 'Anonim',
+                userId: currentUser.uid,
+                userPhoto: currentUser.photoURL || IMG.users,
+                text: filteredText,
+                time: firebase.firestore.FieldValue.serverTimestamp(),
+                likes: 0
+            });
+            try {
+                const scriptDoc = await db.collection('scripts').doc(scriptId).get();
+                if (scriptDoc.exists) {
+                    if (scriptDoc.data().commentCount === undefined) {
+                        await db.collection('scripts').doc(scriptId).set({ commentCount: 0 }, { merge: true });
+                    }
+                    await db.collection('scripts').doc(scriptId).update({
+                        commentCount: firebase.firestore.FieldValue.increment(1)
+                    });
+                }
+            } catch(e) { console.log('commentCount güncelleme hatası:', e); }
+            if (!comments[scriptId]) comments[scriptId] = [];
+            comments[scriptId].unshift({
+                id: docRef.id,
+                user: currentUser.displayName || 'Anonim',
+                userId: currentUser.uid,
+                userPhoto: currentUser.photoURL || IMG.users,
+                text: filteredText,
+                time: { seconds: Date.now() / 1000 },
+                likes: 0
+            });
+            if (input) input.value = '';
+            completeDailyTask('daily_comment');
+            addNotification(`💬 ${currentUser.displayName} bir yorum yazdı`, 'comment');
+            render();
+            showToast('✅ Yorum eklendi!');
+            await loadCommunityScripts();
+            render();
+        } catch (error) {
+            console.error('Yorum hatası:', error);
+            showToast('❌ Yorum eklenirken hata oluştu: ' + error.message);
+            render();
+        } finally {
+            if (btn) { btn.disabled = false; btn.textContent = 'Gönder'; }
+        }
+    }
+
+    function showAllComments(scriptId) {
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) return;
+        if (script.isPremium) { showToast('❌ Premium scriptlere yorum yapılamaz!'); return; }
+        const commentList = comments[scriptId] || [];
+        if (commentList.length === 0) { showToast('💬 Henüz yorum yok!'); return; }
+        const modalHtml = `
+            <div class="modal-overlay open" id="commentsModal" onclick="if(event.target===this)this.classList.remove('open')">
+                <div class="modal-card" style="max-width:500px">
+                    <div class="modal-header">
+                        <h2>💬 ${escapeHtml(script.name)} - Yorumlar (${commentList.length})</h2>
+                        <button class="modal-close" onclick="document.getElementById('commentsModal').classList.remove('open')">✕</button>
+                    </div>
+                    <div style="max-height:400px;overflow-y:auto;padding:0.5rem 0">
+                        ${commentList.map(c => `
+                            <div style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.5rem;border-bottom:1px solid var(--border-color)">
+                                <img src="${c.userPhoto || IMG.users}" style="width:32px;height:32px;border-radius:50%;object-fit:cover" onerror="this.src='${IMG.users}'">
+                                <div style="flex:1">
+                                    <div style="display:flex;gap:0.5rem;align-items:center">
+                                        <span style="color:var(--accent-light);font-weight:500;font-size:0.85rem">${escapeHtml(c.user)}</span>
+                                        <span style="color:var(--text-muted);font-size:0.6rem">${c.time ? new Date(c.time.seconds * 1000).toLocaleString('tr-TR') : ''}</span>
+                                    </div>
+                                    <div style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.1rem">${escapeHtml(c.text)}</div>
+                                    <div style="display:flex;gap:0.5rem;margin-top:0.2rem">
+                                        <span style="color:var(--text-muted);font-size:0.6rem;cursor:pointer" onclick="likeComment('${c.id}','${scriptId}')">❤️ ${c.likes || 0}</span>
+                                        ${c.userId === currentUser?.uid ? `<span style="color:#ff6b6b;font-size:0.6rem;cursor:pointer" onclick="deleteComment('${c.id}','${scriptId}')">🗑️ Sil</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        const existing = document.getElementById('commentsModal');
+        if (existing) existing.remove();
+        const div = document.createElement('div');
+        div.innerHTML = modalHtml;
+        document.body.appendChild(div.firstElementChild);
+    }
+
+    async function likeComment(commentId, scriptId) {
+        if (!currentUser) { showToast('❌ Giriş yapın!'); return; }
+        try {
+            await db.collection('scripts').doc(scriptId).collection('comments').doc(commentId).update({
+                likes: firebase.firestore.FieldValue.increment(1)
+            });
+            if (comments[scriptId]) {
+                const comment = comments[scriptId].find(c => c.id === commentId);
+                if (comment) comment.likes = (comment.likes || 0) + 1;
+            }
+            render();
+            showAllComments(scriptId);
+        } catch(e) { showToast('❌ Beğeni hatası: ' + e.message); }
+    }
+
+    async function deleteComment(commentId, scriptId) {
+        if (!currentUser) { showToast('❌ Giriş yapın!'); return; }
+        if (!confirm('Yorumu silmek istediğine emin misin?')) return;
+        try {
+            await db.collection('scripts').doc(scriptId).collection('comments').doc(commentId).delete();
+            await db.collection('scripts').doc(scriptId).update({
+                commentCount: firebase.firestore.FieldValue.increment(-1)
+            });
+            if (comments[scriptId]) {
+                comments[scriptId] = comments[scriptId].filter(c => c.id !== commentId);
+            }
+            render();
+            showToast('🗑️ Yorum silindi!');
+            const modal = document.getElementById('commentsModal');
+            if (modal) modal.classList.remove('open');
+        } catch(e) { showToast('❌ Silme hatası: ' + e.message); }
+    }
+
+    async function incrementView(scriptId){
+        if(!scriptId) return;
+        try {
+            const viewRef=db.collection('scripts').doc(scriptId).collection('views').doc('stats');
+            await viewRef.set({count:firebase.firestore.FieldValue.increment(1)}, {merge:true});
+            viewCounts[scriptId]=(viewCounts[scriptId]||0)+1;
+            const views = JSON.parse(localStorage.getItem(`daily_views_${currentUser?.uid}`)) || 0;
+            localStorage.setItem(`daily_views_${currentUser?.uid}`, views + 1);
+            if (views + 1 >= 5) { completeDailyTask('daily_view'); }
+        } catch(e) { console.error('Görüntülenme hatası:', e); }
+    }
+
+    function addNotification(msg, type='info'){
+        const notif={id:Date.now(), msg, type, time:new Date().toLocaleString('tr-TR'), read:false};
+        notifications.unshift(notif);
+        if(notifications.length>50) notifications.pop();
+        localStorage.setItem('scriptHubNotifs', JSON.stringify(notifications));
+        updateNotificationUI();
+        if(!document.hidden) showToast('🔔 '+msg, 3000);
+    }
+
+    function updateNotificationUI(){
+        const unread=notifications.filter(n=>!n.read).length;
+        notifDot.classList.toggle('show', unread>0);
+        notifCount=unread;
+        notificationList.innerHTML=notifications.length===0?'<div class="notif-item" style="color:var(--text-muted)">Bildirim yok</div>':
+            notifications.slice(0,15).map(n=>`<div class="notif-item" style="${n.read?'opacity:0.6':''}">${n.msg}<span class="notif-time">${n.time}</span></div>`).join('');
+    }
+
+    notificationBell.addEventListener('click', function(e){
+        e.stopPropagation();
+        notificationList.classList.toggle('show');
+        if(notificationList.classList.contains('show')){
+            notifications.forEach(n=>n.read=true);
+            localStorage.setItem('scriptHubNotifs', JSON.stringify(notifications));
+            updateNotificationUI();
+        }
+    });
+    document.addEventListener('click', ()=>notificationList.classList.remove('show'));
+
+    async function openEditScriptModal(scriptId){
+        if(!currentUser){showToast('❌ Lütfen giriş yapın!'); return;}
+        const all=getAllScripts(); const script=all.find(s=>s.id===scriptId);
+        if(!script){showToast('❌ Script bulunamadı!'); return;}
+        if(!script.isCommunity || script.userId !== currentUser.uid){showToast('❌ Sadece kendi scriptlerini düzenleyebilirsin!'); return;}
+        document.getElementById('editScriptId').value=script.id;
+        document.getElementById('editScriptName').value=script.name;
+        document.getElementById('editScriptCategory').value=script.category;
+        document.getElementById('editScriptDesc').value=script.desc;
+        document.getElementById('editScriptFeatures').value=script.features ? script.features.join(', ') : '';
+        document.getElementById('editScriptCode').value=script.code;
+        document.getElementById('editScriptImage').value=script.image||'';
+        document.getElementById('editScriptStatus').value=script.status||'active';
+        document.getElementById('editScriptVersion').value=script.version||'v1.0.0';
+        const preview=document.getElementById('editImagePreview');
+        const imgUrl=script.image||'';
+        preview.innerHTML=imgUrl ? `<img src="${imgUrl}" alt="Script Resmi" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='❌ Geçersiz resim URL\\'si'">` : '🖼️ Resim önizlemesi';
+        editScriptModal.classList.add('open');
+        document.body.style.overflow='hidden';
+    }
+
+    document.getElementById('editScriptForm')?.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const id=document.getElementById('editScriptId').value;
+        const name=document.getElementById('editScriptName').value.trim();
+        const category=document.getElementById('editScriptCategory').value;
+        const desc=document.getElementById('editScriptDesc').value.trim();
+        const featuresRaw=document.getElementById('editScriptFeatures').value.trim();
+        const code=document.getElementById('editScriptCode').value.trim();
+        const image=document.getElementById('editScriptImage').value.trim();
+        const status=document.getElementById('editScriptStatus').value;
+        const version=document.getElementById('editScriptVersion').value.trim();
+        if(!name||!desc||!code){showToast('❌ Tüm zorunlu alanları doldurun!');return;}
+        const features=featuresRaw?featuresRaw.split(',').map(f=>f.trim()).filter(f=>f):[];
+        try{
+            await db.collection('scripts').doc(id).update({
+                name, category, desc, features, code,
+                image: image||null, status, version: version||'v1.0.0',
+                updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+            });
+            editScriptModal.classList.remove('open'); document.body.style.overflow='';
+            await loadCommunityScripts(); render();
+            showToast('✅ Script başarıyla güncellendi!');
+            addNotification(`✏️ Script güncellendi: ${name}`, 'update');
+        }catch(error){showToast('❌ Güncelleme hatası: '+error.message);}
+    });
+
+    closeEditScriptModal?.addEventListener('click', ()=>{editScriptModal.classList.remove('open'); document.body.style.overflow='';});
+    editScriptModal?.addEventListener('click', e=>{if(e.target===editScriptModal){editScriptModal.classList.remove('open'); document.body.style.overflow='';}});
+
+    window.adminEditScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        document.getElementById('adminEditScriptId').value = script.id;
+        document.getElementById('adminEditScriptName').value = script.name || '';
+        document.getElementById('adminEditScriptCategory').value = script.category || 'mm2';
+        document.getElementById('adminEditScriptDesc').value = script.desc || '';
+        document.getElementById('adminEditScriptFeatures').value = script.features ? script.features.join(', ') : '';
+        document.getElementById('adminEditScriptCode').value = script.code || '';
+        document.getElementById('adminEditScriptImage').value = script.image || '';
+        document.getElementById('adminEditScriptStatus').value = script.status || 'active';
+        document.getElementById('adminEditScriptVersion').value = script.version || 'v1.0.0';
+        document.getElementById('adminEditIsPremium').value = script.isPremium ? 'true' : 'false';
+        document.getElementById('adminEditPremiumGroup').style.display = script.isPremium ? 'block' : 'none';
+        const preview = document.getElementById('adminEditImagePreview');
+        const imgUrl = script.image || '';
+        preview.innerHTML = imgUrl ? `<img src="${imgUrl}" alt="Script Resmi" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='❌ Geçersiz resim URL\\'si'">` : '🖼️ Resim önizlemesi';
+        adminEditScriptModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    document.getElementById('adminEditScriptForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const id = document.getElementById('adminEditScriptId').value;
+        const name = document.getElementById('adminEditScriptName').value.trim();
+        const category = document.getElementById('adminEditScriptCategory').value;
+        const desc = document.getElementById('adminEditScriptDesc').value.trim();
+        const featuresRaw = document.getElementById('adminEditScriptFeatures').value.trim();
+        const code = document.getElementById('adminEditScriptCode').value.trim();
+        const image = document.getElementById('adminEditScriptImage').value.trim();
+        const status = document.getElementById('adminEditScriptStatus').value;
+        const version = document.getElementById('adminEditScriptVersion').value.trim();
+        const isPremium = document.getElementById('adminEditIsPremium').value === 'true';
+        if (!name || !desc || !code) { showToast('❌ Tüm zorunlu alanları doldurun!'); return; }
+        const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+        try {
+            const all = getAllScripts();
+            const script = all.find(s => s.id === id);
+            if (!script) { showToast('❌ Script bulunamadı!'); return; }
+            if (script.isCommunity) {
+                await db.collection('scripts').doc(id).update({
+                    name, category, desc, features, code,
+                    image: image || null,
+                    status: status,
+                    version: version || 'v1.0.0',
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                await loadCommunityScripts();
+                showToast('✅ Topluluk scripti güncellendi!');
+            } else if (script.isPremium) {
+                const index = premiumScripts.findIndex(s => s.id === id);
+                if (index !== -1) {
+                    premiumScripts[index] = {
+                        ...premiumScripts[index],
+                        name, category, desc, features, code,
+                        image: image || null,
+                        status: status,
+                        version: version || 'v1.0.0'
+                    };
+                    showToast('✅ Premium script güncellendi!');
+                } else { showToast('❌ Premium script bulunamadı!'); return; }
+            }
+            adminEditScriptModal.classList.remove('open');
+            document.body.style.overflow = '';
+            render();
+            renderAdminPanel();
+            addNotification(`✏️ Admin "${name}" scriptini düzenledi`, 'admin');
+        } catch(error) {
+            console.error('Güncelleme hatası:', error);
+            showToast('❌ Güncelleme hatası: ' + error.message);
+        }
+    });
+
+    closeAdminEditScriptModal?.addEventListener('click', ()=>{
+        adminEditScriptModal.classList.remove('open');
+        document.body.style.overflow = '';
+    });
+    adminEditScriptModal?.addEventListener('click', e=>{
+        if(e.target === adminEditScriptModal) {
+            adminEditScriptModal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+
+    async function reportScript(scriptId) {
+        if (!currentUser) { showToast('❌ Raporlamak için giriş yapın!'); openAuthModal(); return; }
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        const scriptName = script.name || 'İsimsiz Script';
+        const scriptCategory = script.category || 'bilinmiyor';
+        const scriptType = script.isPremium ? 'Premium' : 'Topluluk';
+        const reasons = [
+            '❌ Çalışmıyor / Hatalı',
+            '⚠️ Uygunsuz İçerik',
+            '🔞 Yetişkin İçeriği',
+            '💰 Sahte / Dolandırıcı',
+            '📋 Kopya / Çalıntı',
+            '🔗 Spam / Reklam',
+            '📌 Diğer'
+        ];
+        let reasonText = '📌 Rapor nedeni:\n\n';
+        reasons.forEach((r, i) => { reasonText += `${i+1}. ${r}\n`; });
+        reasonText += '\n🔢 Seçenek numarasını veya kendi açıklamanı yaz:';
+        const input = prompt(reasonText);
+        if (!input || !input.trim()) return;
+        let selectedReason = input.trim();
+        let reasonType = 'Diğer';
+        const num = parseInt(input);
+        if (!isNaN(num) && num >= 1 && num <= reasons.length) {
+            reasonType = reasons[num-1].replace(/^[0-9]+\.\s*/, '');
+            selectedReason = reasons[num-1].replace(/^[0-9]+\.\s*/, '');
+        }
+        try {
+            const reportData = {
+                scriptId: scriptId,
+                scriptName: scriptName,
+                scriptCategory: scriptCategory,
+                scriptType: scriptType,
+                userId: currentUser.uid,
+                userName: currentUser.displayName || 'Anonim',
+                userEmail: currentUser.email || '',
+                reason: filterContent(selectedReason),
+                reasonType: reasonType,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'pending',
+                viewed: false
+            };
+            await db.collection('reports').add(reportData);
+            showToast(`✅ "${scriptName}" raporlandı! Teşekkürler.`);
+            addNotification(`🚨 ${currentUser.displayName} "${scriptName}" scriptini raporladı`, 'report');
+        } catch (error) {
+            console.error('❌ Rapor hatası:', error);
+            showToast('❌ Rapor gönderilirken hata oluştu: ' + error.message);
+        }
+    }
+
+    window.adminDeleteAnyScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        const scriptName = script.name || 'İsimsiz Script';
+        const scriptType = script.isPremium ? '⭐ Premium' : '🌍 Topluluk';
+        if (!confirm(`⚠️ "${scriptName}" (${scriptType}) scriptini SİLMEK istediğine emin misin?\n\nBu işlem GERİ ALINAMAZ!`)) return;
+        if (!confirm(`🔥 SON ŞANS! "${scriptName}" GERÇEKTEN SİLİNSİN Mİ?`)) return;
+        try {
+            if (script.isPremium) {
+                const index = premiumScripts.findIndex(s => s.id === scriptId);
+                if (index !== -1) {
+                    premiumScripts.splice(index, 1);
+                    showToast(`🗑️ "${scriptName}" premium scripti silindi!`);
+                    addNotification(`🗑️ Admin "${scriptName}" premium scriptini sildi`, 'admin');
+                    render();
+                    renderAdminPanel();
+                } else { showToast('❌ Premium script bulunamadı!'); }
+            } else {
+                await db.collection('scripts').doc(scriptId).delete();
+                showToast(`🗑️ "${scriptName}" topluluk scripti silindi!`);
+                addNotification(`🗑️ Admin "${scriptName}" topluluk scriptini sildi`, 'admin');
+                const favIndex = favorites.indexOf(scriptId);
+                if (favIndex > -1) {
+                    favorites.splice(favIndex, 1);
+                    localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
+                }
+                await loadCommunityScripts();
+                render();
+                renderAdminPanel();
+            }
+        } catch(e) {
+            console.error('Silme hatası:', e);
+            showToast('❌ Script silinirken hata oluştu: ' + e.message);
+        }
+    };
+
+    window.adminDeleteReportedScript = async function(reportId, scriptId) {
+        if (!requireAdmin()) return;
+        if (!confirm('Bu raporu ve scripti silmek istediğine emin misin?')) return;
+        try {
+            await db.collection('reports').doc(reportId).delete();
+            await adminDeleteAnyScript(scriptId);
+            showToast('✅ Rapor ve script silindi!');
+            renderAdminPanel();
+        } catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    async function backupUserData(){
+        if(!currentUser){showToast('❌ Yedekleme için giriş yapın!'); return;}
+        try{
+            const data={ user:currentUser.uid, favorites:favorites, notifications:notifications, userData:localStorage.getItem(`user_${currentUser.uid}`), date:new Date().toISOString() };
+            const blob=new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+            const url=URL.createObjectURL(blob);
+            const a=document.createElement('a');
+            a.href=url;
+            a.download=`scripthub_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('✅ Veriler yedeklendi!');
+        }catch(e){showToast('❌ Yedekleme hatası: '+e.message);}
+    }
+    window.backupUserData = backupUserData;
+
+    function renderGames(){
+        const defaultGameKeys=['mm2','bloxfruits','petsim','dahood','bladeball','brookhaven','other'];
+        const allGameKeys=[...defaultGameKeys]; const gameData={};
+        defaultGameKeys.forEach(key=>{ gameData[key]={name:DEFAULT_GAME_NAMES[key], link:GAME_LINKS[key], image:IMG[key]||IMG.other, isCustom:false}; });
+        communityGames.forEach(game=>{ const id=`custom_${game.id}`; allGameKeys.push(id); gameData[id]={name:game.name, link:game.link, image:game.image, desc:game.desc||'', author:game.userName||'Anonim', isCustom:true, gameId:game.id, userId:game.userId}; });
+        return `
+            <div style="grid-column:1/-1;margin-bottom:0.5rem">
+                <div class="section-title"><span>🎮</span> OYUNLAR <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:0.5rem">Toplam ${allGameKeys.length} oyun</span></div>
+            </div>
+            ${allGameKeys.map(key=>{
+                const game=gameData[key]; if(!game)return '';
+                const isOwner=currentUser&&game.isCustom&&game.userId===currentUser.uid;
+                return `
+                    <div class="game-card script-card">
+                        <div class="card-image"><img src="${escapeHtml(game.image)}" alt="${escapeHtml(game.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'"></div>
+                        <div class="card-body">
+                            <div class="card-header"><h3><img src="${escapeHtml(game.image)}" alt="${escapeHtml(game.name)}" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(game.name)}${game.isCustom?'<span class="game-owner-tag">👤 Topluluk</span>':''}</h3><span style="font-size:1.2rem">▶️</span></div>
+                            <div style="color:var(--text-muted);font-size:0.75rem;margin:0.2rem 0 0.5rem">${escapeHtml(game.desc||(game.isCustom?'Topluluk tarafından eklendi':'Roblox oyununa gitmek için tıkla'))}</div>
+                            ${game.isCustom?`<div class="script-owner"><img src="${IMG.users}" style="width:14px;height:14px">${escapeHtml(game.author)}${isOwner?' <span class="badge owner-badge">👑 Sahibim</span>':''}</div>`:''}
+                            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.3rem">
+                                <span style="background:rgba(34,197,94,0.1);color:#4ade80;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px">🎮 Oyun</span>
+                                <span style="background:rgba(167,139,250,0.1);color:var(--accent-light);font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px">🟢 Açık</span>
+                                ${game.isCustom?'<span style="background:rgba(251,191,36,0.1);color:#fbbf24;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px">👥 Topluluk</span>':''}
+                            </div>
+                            <div class="card-footer">
+                                <span class="badge ${game.isCustom?'game-badge-custom':''}" style="${game.isCustom?'background:rgba(251,191,36,0.15);color:#fbbf24':''}">▶️ Oyna</span>
+                                <div style="display:flex;gap:0.5rem">${isOwner?`<button class="delete-btn" data-gameid="${game.gameId}"><img src="${IMG.delete}" alt="Sil"> Sil</button>`:''}<a href="${escapeHtml(game.link)}" target="_blank" class="game-play-btn">🚀 Oyuna Git</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+        `;
+    }
+
+    function openLeaderboard() {
+        document.getElementById('leaderboardModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        renderLeaderboard();
+    }
+
+    function closeLeaderboardFn() {
+        document.getElementById('leaderboardModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    async function renderLeaderboard() {
+        const container = document.getElementById('leaderboardContent');
+        let html = `
+            <div class="admin-tabs">
+                <button class="${leaderboardFilter === 'scripts' ? 'active' : ''}" onclick="setLeaderboardFilter('scripts')">📜 Script</button>
+                <button class="${leaderboardFilter === 'rating' ? 'active' : ''}" onclick="setLeaderboardFilter('rating')">⭐ Puan</button>
+                <button class="${leaderboardFilter === 'comments' ? 'active' : ''}" onclick="setLeaderboardFilter('comments')">💬 Yorum</button>
+                <button class="${leaderboardFilter === 'games' ? 'active' : ''}" onclick="setLeaderboardFilter('games')">🎮 Oyun</button>
+            </div>
+        `;
+        let leaderboardData = [];
+        try {
+            if (leaderboardFilter === 'scripts') {
+                const userScriptCounts = {};
+                communityScripts.forEach(s => {
+                    if (s.userId) {
+                        userScriptCounts[s.userId] = userScriptCounts[s.userId] || { count: 0, name: s.userName || 'Anonim' };
+                        userScriptCounts[s.userId].count++;
+                    }
+                });
+                leaderboardData = Object.entries(userScriptCounts).map(([userId, data]) => ({
+                    id: userId, name: data.name, score: data.count, type: 'scripts'
+                }));
+            } else if (leaderboardFilter === 'rating') {
+                const userRating = {};
+                communityScripts.forEach(s => {
+                    if (s.userId && ratings[s.id]) {
+                        userRating[s.userId] = userRating[s.userId] || { total: 0, count: 0, name: s.userName || 'Anonim' };
+                        userRating[s.userId].total += ratings[s.id].avg || 0;
+                        userRating[s.userId].count++;
+                    }
+                });
+                leaderboardData = Object.entries(userRating).map(([userId, data]) => ({
+                    id: userId, name: data.name, score: data.count > 0 ? (data.total / data.count) : 0, type: 'rating'
+                }));
+            } else if (leaderboardFilter === 'comments') {
+                const userCommentCounts = {};
+                Object.values(comments).forEach(commentList => {
+                    if (Array.isArray(commentList)) {
+                        commentList.forEach(c => {
+                            if (c && c.userId) {
+                                userCommentCounts[c.userId] = userCommentCounts[c.userId] || { count: 0, name: c.user || 'Anonim' };
+                                userCommentCounts[c.userId].count++;
+                            }
+                        });
+                    }
+                });
+                leaderboardData = Object.entries(userCommentCounts).map(([userId, data]) => ({
+                    id: userId, name: data.name, score: data.count, type: 'comments'
+                }));
+            } else if (leaderboardFilter === 'games') {
+                const userGameCounts = {};
+                communityGames.forEach(g => {
+                    if (g.userId) {
+                        userGameCounts[g.userId] = userGameCounts[g.userId] || { count: 0, name: g.userName || 'Anonim' };
+                        userGameCounts[g.userId].count++;
+                    }
+                });
+                leaderboardData = Object.entries(userGameCounts).map(([userId, data]) => ({
+                    id: userId, name: data.name, score: data.count, type: 'games'
+                }));
+            }
+        } catch(e) { console.error('Liderlik verileri hatası:', e); }
+        leaderboardData.sort((a, b) => b.score - a.score);
+        leaderboardData = leaderboardData.slice(0, 20);
+        if (leaderboardData.length === 0) {
+            html += `<div class="empty-state"><div class="icon">📊</div><p>Henüz veri yok</p></div>`;
+        } else {
+            html += `<div class="leaderboard-list">
+                ${leaderboardData.map((item, index) => {
+                    const rank = index + 1;
+                    let rankClass = '';
+                    if (rank === 1) rankClass = 'gold';
+                    else if (rank === 2) rankClass = 'silver';
+                    else if (rank === 3) rankClass = 'bronze';
+                    const scoreLabel = item.type === 'scripts' ? 'script' : item.type === 'rating' ? '⭐ puan' : item.type === 'comments' ? 'yorum' : 'oyun';
+                    const isCurrentUser = currentUser && item.id === currentUser.uid;
+                    return `<div class="leaderboard-item" style="${isCurrentUser ? 'border-color:var(--accent);border-width:2px' : ''}">
+                        <div class="rank ${rankClass}">#${rank}</div>
+                        <div class="info">
+                            <div class="name">${escapeHtml(item.name)} ${isCurrentUser ? '👈' : ''}</div>
+                            <div class="sub">${item.score} ${scoreLabel}</div>
+                        </div>
+                        <div class="score">${item.score}</div>
+                    </div>`;
+                }).join('')}
+            </div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    window.setLeaderboardFilter = function(filter) {
+        leaderboardFilter = filter;
+        renderLeaderboard();
+    };
+
+    function openAdminModal() {
+        if (!currentUser) { showToast('❌ Lütfen giriş yapın!'); openAuthModal(); return; }
+        if (!isAdmin(currentUser)) { showToast('❌ Bu sayfaya erişim yetkin yok!'); return; }
+        document.getElementById('adminModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        renderAdminPanel();
+    }
+
+    function closeAdminModalFn() {
+        document.getElementById('adminModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    async function renderAdminPanel() {
+        const container = document.getElementById('adminContent');
+        const stats = await getAdminStats();
+        let html = `
+            <div class="admin-tabs">
+                ${adminTabs.map(tab => `
+                    <button class="${currentAdminTab === tab ? 'active' : ''}" onclick="switchAdminTab('${tab}')">
+                        ${tab === 'scripts' ? '📜' : tab === 'users' ? '👤' : tab === 'reports' ? '🚨' : '📊'} 
+                        ${tab === 'scripts' ? 'Scriptler' : tab === 'users' ? 'Kullanıcılar' : tab === 'reports' ? 'Raporlar' : 'İstatistikler'}
+                    </button>
+                `).join('')}
+            </div>
+            <div class="admin-stats">
+                <div class="admin-stat-card"><div class="number">${stats.totalScripts}</div><span class="label">📜 Toplam Script</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.pendingScripts}</div><span class="label">⏳ Bekleyen Script</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalUsers}</div><span class="label">👤 Toplam Kullanıcı</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalReports}</div><span class="label">🚨 Toplam Rapor</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalGames}</div><span class="label">🎮 Toplam Oyun</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalComments}</div><span class="label">💬 Toplam Yorum</span></div>
+            </div>
+        `;
+        if (currentAdminTab === 'scripts') { html += await renderAdminScripts(); }
+        else if (currentAdminTab === 'users') { html += await renderAdminUsers(); }
+        else if (currentAdminTab === 'reports') { html += await renderAdminReports(); }
+        else if (currentAdminTab === 'stats') { html += await renderAdminDetailedStats(stats); }
+        container.innerHTML = html;
+    }
+
+    async function getAdminStats() {
+        try {
+            const scriptsSnap = await db.collection('scripts').get();
+            const allScripts = []; scriptsSnap.forEach(d => allScripts.push({id: d.id, ...d.data()}));
+            const pendingScripts = allScripts.filter(s => s.approved === undefined);
+            let totalUsers = 0; try { const usersSnap = await db.collection('users').get(); totalUsers = usersSnap.size; } catch(e) {}
+            let totalReports = 0; try { const reportsSnap = await db.collection('reports').get(); totalReports = reportsSnap.size; } catch(e) {}
+            let totalGames = 0; try { const gamesSnap = await db.collection('games').get(); totalGames = gamesSnap.size; } catch(e) {}
+            let totalComments = 0;
+            for (const script of allScripts) {
+                try { const commentSnap = await db.collection('scripts').doc(script.id).collection('comments').get(); totalComments += commentSnap.size; } catch(e) {}
+            }
+            return { totalScripts: allScripts.length, pendingScripts: pendingScripts.length, totalUsers, totalReports, totalGames, totalComments };
+        } catch(e) { console.error('İstatistik hatası:', e); return { totalScripts: 0, pendingScripts: 0, totalUsers: 0, totalReports: 0, totalGames: 0, totalComments: 0 }; }
+    }
+
+    async function renderAdminScripts() {
+        try {
+            const snap = await db.collection('scripts').orderBy('createdAt', 'desc').get();
+            const scripts = []; snap.forEach(d => scripts.push({id: d.id, ...d.data()}));
+            let allScripts = [...scripts, ...premiumScripts];
+            if (adminSearchTerm.trim()) {
+                const search = adminSearchTerm.toLowerCase().trim();
+                allScripts = allScripts.filter(s => (s.name && s.name.toLowerCase().includes(search)) || (s.desc && s.desc.toLowerCase().includes(search)) || (s.category && s.category.toLowerCase().includes(search)) || (s.id && s.id.toLowerCase().includes(search)) || (s.userName && s.userName.toLowerCase().includes(search)));
+            }
+            if (adminFilterType !== 'all') {
+                if (adminFilterType === 'premium') { allScripts = allScripts.filter(s => s.isPremium === true); }
+                else if (adminFilterType === 'community') { allScripts = allScripts.filter(s => s.isCommunity === true); }
+                else if (adminFilterType === 'pending') { allScripts = allScripts.filter(s => s.approved === undefined && s.isCommunity === true); }
+            }
+            if (allScripts.length === 0) {
+                return `
+                    <div class="admin-search-bar">
+                        <input type="text" id="adminSearchInput" placeholder="🔍 Script ara..." value="${escapeHtml(adminSearchTerm)}">
+                        <select id="adminFilterTypeSelect">
+                            <option value="all" ${adminFilterType === 'all' ? 'selected' : ''}>📂 Tümü</option>
+                            <option value="premium" ${adminFilterType === 'premium' ? 'selected' : ''}>⭐ Premium</option>
+                            <option value="community" ${adminFilterType === 'community' ? 'selected' : ''}>🌍 Topluluk</option>
+                            <option value="pending" ${adminFilterType === 'pending' ? 'selected' : ''}>⏳ Bekleyen</option>
+                        </select>
+                        <button class="search-btn" onclick="adminSearchScripts()">🔍 Ara</button>
+                        <button class="search-btn" onclick="adminResetSearch()" style="background:rgba(255,255,255,0.1)">🔄 Sıfırla</button>
+                        <span style="color:var(--text-muted);font-size:0.7rem;margin-left:auto">📊 0 script</span>
+                    </div>
+                    <div class="empty-state"><div class="icon">📭</div><p>Aramanıza uygun script bulunamadı</p></div>
+                `;
+            }
+            return `
+                <div class="admin-search-bar">
+                    <input type="text" id="adminSearchInput" placeholder="🔍 Script ara..." value="${escapeHtml(adminSearchTerm)}">
+                    <select id="adminFilterTypeSelect">
+                        <option value="all" ${adminFilterType === 'all' ? 'selected' : ''}>📂 Tümü</option>
+                        <option value="premium" ${adminFilterType === 'premium' ? 'selected' : ''}>⭐ Premium</option>
+                        <option value="community" ${adminFilterType === 'community' ? 'selected' : ''}>🌍 Topluluk</option>
+                        <option value="pending" ${adminFilterType === 'pending' ? 'selected' : ''}>⏳ Bekleyen</option>
+                    </select>
+                    <button class="search-btn" onclick="adminSearchScripts()">🔍 Ara</button>
+                    <button class="search-btn" onclick="adminResetSearch()" style="background:rgba(255,255,255,0.1)">🔄 Sıfırla</button>
+                    <span style="color:var(--text-muted);font-size:0.7rem;margin-left:auto">📊 ${allScripts.length} script</span>
+                </div>
+                <div class="admin-list">
+                    ${allScripts.map(s => {
+                        const isPremium = s.isPremium || false;
+                        const scriptType = isPremium ? '⭐ Premium' : '🌍 Topluluk';
+                        const scriptStatus = s.approved === undefined ? '⏳ Beklemede' : s.approved ? '✅ Onaylı' : '❌ Reddedildi';
+                        return `
+                            <div class="admin-list-item">
+                                <div class="info">
+                                    <div class="title">
+                                        ${escapeHtml(s.name || 'İsimsiz Script')}
+                                        <span style="font-size:0.6rem;background:${isPremium ? 'rgba(251,191,36,0.15)' : 'rgba(167,139,250,0.15)'};padding:0.05rem 0.5rem;border-radius:12px;margin-left:0.5rem;color:${isPremium ? '#fbbf24' : 'var(--accent-light)'}">
+                                            ${scriptType}
+                                        </span>
+                                    </div>
+                                    <div class="sub">
+                                        ${escapeHtml(s.userName || 'Anonim')} · ${s.category ? s.category.toUpperCase() : 'Kategori yok'}
+                                        ${s.createdAt ? ` · ${new Date(s.createdAt.seconds * 1000).toLocaleDateString('tr-TR')}` : ''}
+                                        ${s.id ? ` · 🆔 ${s.id}` : ''}
+                                    </div>
+                                    <div style="margin-top:0.2rem;display:flex;gap:0.3rem;flex-wrap:wrap">
+                                        <span class="${s.approved === undefined ? 'badge-pending' : s.approved ? 'badge-approved' : 'badge-rejected'}">${scriptStatus}</span>
+                                        ${s.downloads ? `<span style="background:rgba(34,197,94,0.1);padding:0.05rem 0.5rem;border-radius:12px;font-size:0.6rem;color:#4ade80">⬇️ ${s.downloads}</span>` : ''}
+                                        ${s.commentCount !== undefined ? `<span style="background:rgba(167,139,250,0.1);padding:0.05rem 0.5rem;border-radius:12px;font-size:0.6rem;color:var(--accent-light)">💬 ${s.commentCount}</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    ${!isPremium && s.approved === undefined ? `
+                                        <button class="approve-btn" onclick="adminApproveScript('${s.id}')">✅ Onayla</button>
+                                        <button class="reject-btn" onclick="adminRejectScript('${s.id}')">❌ Reddet</button>
+                                    ` : !isPremium && s.approved ? `
+                                        <button class="reject-btn" onclick="adminRejectScript('${s.id}')">⛔ Onayı Kaldır</button>
+                                    ` : !isPremium && s.approved === false ? `
+                                        <button class="approve-btn" onclick="adminApproveScript('${s.id}')">✅ Yeniden Onayla</button>
+                                    ` : ''}
+                                    <button class="edit-btn" onclick="adminEditScript('${s.id}')">✏️ Düzenle</button>
+                                    <button class="delete-btn-admin" onclick="adminDeleteAnyScript('${s.id}')">🗑️ SİL</button>
+                                    <button class="approve-btn" onclick="adminViewScript('${s.id}')" style="background:rgba(59,130,246,0.15);color:#60a5fa">👁️ Gör</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        } catch(e) { console.error('Script listesi hatası:', e); return `<div class="empty-state"><p>❌ Scriptler yüklenirken hata oluştu</p></div>`; }
+    }
+
+    window.adminSearchScripts = function() {
+        const searchInput = document.getElementById('adminSearchInput');
+        const filterSelect = document.getElementById('adminFilterTypeSelect');
+        if (searchInput) adminSearchTerm = searchInput.value;
+        if (filterSelect) adminFilterType = filterSelect.value;
+        renderAdminPanel();
+    };
+
+    window.adminResetSearch = function() {
+        adminSearchTerm = '';
+        adminFilterType = 'all';
+        renderAdminPanel();
+    };
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const searchInput = document.getElementById('adminSearchInput');
+            if (searchInput && document.getElementById('adminModal').classList.contains('open')) {
+                adminSearchScripts();
+            }
+        }
+    });
+
+    async function renderAdminUsers() {
+        try {
+            const snap = await db.collection('users').get();
+            const users = []; snap.forEach(d => users.push({id: d.id, ...d.data()}));
+            if (users.length === 0) return `<div class="empty-state"><div class="icon">👤</div><p>Henüz kullanıcı yok</p></div>`;
+            return `<div class="admin-list">${users.map(u => `
+                <div class="admin-list-item">
+                    <div class="info">
+                        <div class="title">${escapeHtml(u.displayName || u.name || 'Anonim')}</div>
+                        <div class="sub">🆔 ${escapeHtml(u.id)} · 📧 ${escapeHtml(u.email || 'E-posta yok')}</div>
+                    </div>
+                    <div class="actions">
+                        ${u.banned ? `<button class="unban-btn" onclick="adminUnbanUser('${u.id}')">✅ Banı Kaldır</button>` : `<button class="ban-btn" onclick="adminBanUser('${u.id}')">🚫 Banla</button>`}
+                    </div>
+                </div>
+            `).join('')}</div>`;
+        } catch(e) { console.error('Kullanıcı listesi hatası:', e); return `<div class="empty-state"><p>❌ Kullanıcılar yüklenirken hata oluştu</p></div>`; }
+    }
+
+    async function renderAdminReports() {
+        try {
+            const snap = await db.collection('reports').orderBy('createdAt', 'desc').get();
+            const reports = []; snap.forEach(d => reports.push({id: d.id, ...d.data()}));
+            if (reports.length === 0) return `<div class="empty-state"><div class="icon">✅</div><p>Hiç rapor yok</p></div>`;
+            return `<div class="admin-list">${reports.map(r => {
+                const scriptName = r.scriptName || r.scriptId || 'Bilinmiyor';
+                const scriptType = r.scriptType || 'Bilinmiyor';
+                const reasonText = r.reason || 'Sebep yok';
+                const reasonTypeText = r.reasonType || '';
+                return `
+                    <div class="admin-list-item">
+                        <div class="info">
+                            <div class="title">🚨 ${escapeHtml(r.userName || 'Bilinmeyen')} <span style="font-size:0.7rem;color:var(--text-muted)">(${escapeHtml(r.userEmail || 'E-posta yok')})</span></div>
+                            <div class="sub" style="margin-top:0.2rem"><strong>📜 Script:</strong> <span style="color:var(--accent-light)">${escapeHtml(scriptName)}</span> <span style="background:rgba(167,139,250,0.1);padding:0.05rem 0.5rem;border-radius:12px;font-size:0.6rem;margin-left:0.3rem">${scriptType}</span> ${r.scriptCategory ? `<span style="background:rgba(251,191,36,0.1);padding:0.05rem 0.5rem;border-radius:12px;font-size:0.6rem;margin-left:0.3rem;color:#fbbf24">📂 ${r.scriptCategory.toUpperCase()}</span>` : ''}</div>
+                            <div class="sub" style="margin-top:0.2rem">📌 <strong>Neden:</strong> ${escapeHtml(reasonText)} ${reasonTypeText ? `<span style="background:rgba(167,139,250,0.1);padding:0.05rem 0.5rem;border-radius:12px;font-size:0.6rem;margin-left:0.3rem">${reasonTypeText}</span>` : ''}</div>
+                            <div class="sub" style="font-size:0.6rem;color:var(--text-muted);margin-top:0.1rem">🕐 ${r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleString('tr-TR') : 'Tarih yok'} ${r.scriptId ? `· 🆔 ${r.scriptId}` : ''}</div>
+                            <div style="margin-top:0.3rem">${r.status === 'pending' ? '<span class="badge-pending">⏳ Beklemede</span>' : r.status === 'resolved' ? '<span class="badge-approved">✅ Çözüldü</span>' : '<span class="badge-rejected">❌ Kapatıldı</span>'}</div>
+                        </div>
+                        <div class="actions">
+                            ${r.status === 'pending' ? `
+                                <button class="approve-btn" onclick="adminResolveReport('${r.id}')">✅ Çözüldü</button>
+                                <button class="reject-btn" onclick="adminDismissReport('${r.id}')">❌ Kapat</button>
+                                <button class="delete-btn-admin" onclick="adminDeleteReportedScript('${r.id}','${r.scriptId}')" style="background:rgba(255,0,0,0.2);color:#ff6b6b;font-weight:bold">🗑️ Scripti Sil</button>
+                            ` : ''}
+                            <button class="reject-btn" onclick="adminDeleteReport('${r.id}')">🗑️ Raporu Sil</button>
+                            <button class="approve-btn" onclick="adminViewScript('${r.scriptId}')" style="background:rgba(59,130,246,0.15);color:#60a5fa">👁️ Scripti Gör</button>
+                        </div>
+                    </div>
+                `;
+            }).join('')}</div>`;
+        } catch(e) { console.error('Rapor listesi hatası:', e); return `<div class="empty-state"><p>❌ Raporlar yüklenirken hata oluştu</p></div>`; }
+    }
+
+    window.adminViewScript = function(scriptId) {
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        alert(`📜 Script Detayları\n\n🔹 Ad: ${script.name}\n🔹 Kategori: ${script.category.toUpperCase()}\n🔹 Tip: ${script.isPremium ? '⭐ Premium' : '🌍 Topluluk'}\n🔹 Açıklama: ${script.desc}\n🔹 Özellikler: ${script.features ? script.features.join(', ') : 'Yok'}\n🔹 Kod: ${script.code ? script.code.slice(0, 100) + '...' : 'Yok'}`);
+    };
+
+    async function renderAdminDetailedStats(stats) {
+        const snap = await db.collection('scripts').get();
+        const userScriptCounts = {};
+        snap.forEach(d => {
+            const data = d.data();
+            if (data.userId) {
+                userScriptCounts[data.userId] = userScriptCounts[data.userId] || { count: 0, name: data.userName || 'Anonim' };
+                userScriptCounts[data.userId].count++;
+            }
+        });
+        const topUsers = Object.values(userScriptCounts).sort((a, b) => b.count - a.count).slice(0, 10);
+        return `
+            <div style="color:var(--text-secondary);margin-bottom:1rem">
+                <h3 style="color:var(--text-primary);margin-bottom:0.5rem">🏆 En Çok Script Ekleyenler</h3>
+                <div class="admin-list">
+                    ${topUsers.length === 0 ? '<div class="empty-state"><p>Henüz veri yok</p></div>' :
+                        topUsers.map((u, i) => `
+                            <div class="admin-list-item">
+                                <div class="info">
+                                    <div class="title">#${i+1} ${escapeHtml(u.name)}</div>
+                                    <div class="sub">📜 ${u.count} script</div>
+                                </div>
+                                <div style="color:var(--accent-light);font-size:1.2rem;font-weight:700">${u.count}</div>
+                            </div>
+                        `).join('')
+                    }
+                </div>
+            </div>
+        `;
+    }
+
+    window.adminApproveScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        if (!confirm('Bu scripti onaylamak istediğine emin misin?')) return;
+        try { await db.collection('scripts').doc(scriptId).update({ approved: true, approvedAt: firebase.firestore.FieldValue.serverTimestamp(), approvedBy: currentUser?.uid || 'admin' }); showToast('✅ Script onaylandı!'); addNotification('📜 Bir script onaylandı!', 'admin'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.adminRejectScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        if (!confirm('Bu scripti reddetmek istediğine emin misin?')) return;
+        try { await db.collection('scripts').doc(scriptId).update({ approved: false, rejectedAt: firebase.firestore.FieldValue.serverTimestamp() }); showToast('❌ Script reddedildi!'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.adminBanUser = async function(userId) {
+        if (!requireAdmin()) return;
+        if (userId === ADMIN_UID) { showToast('❌ Admin hesabı banlanamaz!'); return; }
+        if (!confirm('Bu kullanıcıyı banlamak istediğine emin misin?')) return;
+        try { await db.collection('users').doc(userId).set({ banned: true, bannedAt: firebase.firestore.FieldValue.serverTimestamp(), bannedBy: currentUser?.uid || 'admin' }, { merge: true }); showToast('🚫 Kullanıcı banlandı!'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.adminUnbanUser = async function(userId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('users').doc(userId).set({ banned: false }, { merge: true }); showToast('✅ Kullanıcının banı kaldırıldı!'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.adminResolveReport = async function(reportId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('reports').doc(reportId).update({ resolved: true, resolvedAt: firebase.firestore.FieldValue.serverTimestamp(), resolvedBy: currentUser?.uid || 'admin' }); showToast('✅ Rapor çözüldü!'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.adminDismissReport = async function(reportId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('reports').doc(reportId).delete(); showToast('❌ Rapor kapatıldı!'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.adminDeleteReport = async function(reportId) {
+        if (!requireAdmin()) return;
+        if (!confirm('Bu raporu silmek istediğine emin misin?')) return;
+        try { await db.collection('reports').doc(reportId).delete(); showToast('🗑️ Rapor silindi!'); renderAdminPanel(); }
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+
+    window.switchAdminTab = function(tab) {
+        currentAdminTab = tab;
+        renderAdminPanel();
+    };
+
     function renderPagination(totalItems){
         const totalPages=Math.ceil(totalItems/ITEMS_PER_PAGE);
         if(totalPages<=1){paginationControls.innerHTML='';return;}
@@ -2027,9 +2929,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.delete-btn').forEach(b=>b.addEventListener('click', deleteHandler));
     }
 
-    // ==========================================
-    // HANDLERS
-    // ==========================================
     function favHandler(e){
         const id=this.dataset.id; 
         if (typeof id !== 'string') return;
@@ -2094,5 +2993,138 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
+<!-- ============================================ -->
+<!-- 🤖 AI ASİSTAN WIDGET (HTML + JS) -->
+<!-- ============================================ -->
+
+<div class="ai-container" id="aiContainer">
+    <div class="ai-window" id="aiWindow">
+        <div class="ai-header">
+            <div class="title"><span class="dot"></span>🤖 ScriptHub AI</div>
+            <div><button class="ai-close" id="aiCloseBtn">✕</button></div>
+        </div>
+        <div class="ai-messages" id="aiMessages">
+            <div class="ai-msg bot">Merhaba! 👋 Ben ScriptHub AI asistanıyım.<br>Sana nasıl yardımcı olabilirim?<span class="time">Şimdi</span></div>
+        </div>
+        <div class="ai-suggestions" id="aiSuggestions">
+            <span class="chip" data-command="script">📜 Script öner</span>
+            <span class="chip" data-command="game">🎮 Oyun öner</span>
+            <span class="chip" data-command="search">🔍 Ara</span>
+            <span class="chip" data-command="help">❓ Yardım</span>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="aiInput" placeholder="Mesajını yaz..." autocomplete="off">
+            <button id="aiSendBtn">Gönder</button>
+        </div>
+    </div>
+    <button class="ai-btn" id="aiBtn">
+        <span class="icon">🤖</span>
+        <span class="text">AI Asistan</span>
+        <span class="badge">● Canlı</span>
+    </button>
+</div>
+
+<script>
+(function() {
+    const container = document.getElementById('aiContainer');
+    const btn = document.getElementById('aiBtn');
+    const windowEl = document.getElementById('aiWindow');
+    const closeBtn = document.getElementById('aiCloseBtn');
+    const messages = document.getElementById('aiMessages');
+    const input = document.getElementById('aiInput');
+    const sendBtn = document.getElementById('aiSendBtn');
+    const suggestions = document.getElementById('aiSuggestions');
+    let isOpen = false;
+    let isWaiting = false;
+
+    function addMessage(text, sender = 'bot', isHtml = false) {
+        const time = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        const div = document.createElement('div');
+        div.className = `ai-msg ${sender}`;
+        if (isHtml) { div.innerHTML = text; } else { div.textContent = text; }
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'time';
+        timeSpan.textContent = time;
+        div.appendChild(timeSpan);
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function generateResponse(inputText) {
+        const text = inputText.toLowerCase().trim();
+        if (text.includes('script') && (text.includes('oluştur') || text.includes('yap') || text.includes('ver'))) {
+            return `📜 <strong>Script Kodu</strong><br><br><code style="background:#0a0b1e;padding:8px 12px;border-radius:8px;display:block;font-size:0.75rem;color:#c4b5fd;">loadstring(game:HttpGet('https://raw.githubusercontent.com/scripthub/main/script.lua'))()</code><br><span style="color:#4ade80;">✅ Kodu kopyala ve Roblox'ta çalıştır!</span>`;
+        }
+        if (text.includes('oyun') && text.includes('öner')) {
+            const games = ['🔫 Murder Mystery 2', '🍉 Blox Fruits', '🐾 Pet Simulator 99', '🔫 Da Hood', '⚡ Blade Ball', '🏡 Brookhaven'];
+            return `🎮 <strong>Oyun Önerisi:</strong><br><br>${games[Math.floor(Math.random() * games.length)]}<br><br><span style="color:#a78bfa;">🔄 Başka istersen "başka oyun öner" yaz!</span>`;
+        }
+        if (text.includes('yardım') || text.includes('help')) {
+            return `❓ <strong>Yardım Menüsü</strong><br><br>• 📜 "script oluştur" - Script kodu üretirim<br>• 🎮 "oyun öner" - Oyun öneririm<br>• 🔍 "ara [kelime]" - Arama yaparım<br>• ❓ "yardım" - Bu menüyü gösteririm<br>• 💬 "merhaba" - Selamlaşırız<br>• 🪙 "coin" - Coin bilgini gösteririm`;
+        }
+        if (text.includes('coin') || text.includes('para')) {
+            const coins = getCoins ? getCoins() : 0;
+            return `🪙 <strong>Coin Bilgilerin</strong><br><br>Mevcut Coin: <span style="color:#fbbf24;font-weight:bold;">${coins}</span> Coin<br><br><span style="color:#4ade80;">💡 Günlük görevleri tamamlayarak +10 Coin kazanabilirsin!</span>`;
+        }
+        return `🤔 Anlamadım. Şunları deneyebilirsin:<br>• 📜 "script oluştur"<br>• 🎮 "oyun öner"<br>• ❓ "yardım"<br>• 🪙 "coin"`;
+    }
+
+    async function sendMessage(message) {
+        if (isWaiting || !message.trim()) return;
+        const userMessage = message.trim();
+        addMessage(userMessage, 'user');
+        input.value = '';
+        sendBtn.disabled = true;
+        isWaiting = true;
+        await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 400));
+        const response = generateResponse(userMessage);
+        addMessage(response, 'bot', true);
+        isWaiting = false;
+        sendBtn.disabled = false;
+        input.focus();
+    }
+
+    function toggleWidget() {
+        isOpen = !isOpen;
+        windowEl.classList.toggle('open', isOpen);
+        if (isOpen) {
+            btn.classList.add('collapsed');
+            btn.innerHTML = `<span class="icon">✕</span>`;
+            btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            setTimeout(() => input.focus(), 200);
+        } else {
+            btn.classList.remove('collapsed');
+            btn.innerHTML = `<span class="icon">🤖</span><span class="text">AI Asistan</span><span class="badge">● Canlı</span>`;
+            btn.style.background = 'linear-gradient(135deg, #7c3aed, #6d28d9)';
+        }
+    }
+
+    btn.addEventListener('click', toggleWidget);
+    closeBtn.addEventListener('click', () => { if (isOpen) toggleWidget(); });
+    sendBtn.addEventListener('click', () => sendMessage(input.value));
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); sendMessage(input.value); } });
+    
+    suggestions.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const cmd = this.dataset.command;
+            const msgs = { 'script': 'script oluştur', 'game': 'oyun öner', 'search': 'ara aimbot', 'help': 'yardım' };
+            sendMessage(msgs[cmd] || cmd);
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (isOpen && !container.contains(e.target)) {
+            isOpen = false;
+            windowEl.classList.remove('open');
+            btn.classList.remove('collapsed');
+            btn.innerHTML = `<span class="icon">🤖</span><span class="text">AI Asistan</span><span class="badge">● Canlı</span>`;
+            btn.style.background = 'linear-gradient(135deg, #7c3aed, #6d28d9)';
+        }
+    });
+
+    console.log('🤖 AI Asistan başarıyla yüklendi!');
+})();
+</script>
+
 </body>
-</html>
+    </html>
