@@ -3,56 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ScriptHub · 120+ Script & Oyunlar</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#7c3aed">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
+    <title>ScriptHub · 120+ Script</title>
     
-    <!-- Google AdSense -->
-    <meta name="google-adsense-account" content="ca-pub-1079812363517680">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
-
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
-
+    
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Scripts - SIRALI YÜKLEME -->
-    <script src="firebase-config.js" defer></script>
-    <script src="scripts.js" defer></script>
-    <script src="utils.js" defer></script>
-    <script src="modals.js" defer></script>
-    <script src="admin.js" defer></script>
-    <script src="script.js" defer></script>
 </head>
 <body>
 
-<!-- ANA UYGULAMA -->
 <div class="app" id="app">
     <!-- HEADER -->
     <header class="header">
         <div class="logo">
-            <img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="ScriptHub Logo">
             <div>
-                <h1>ScriptHub</h1>
-                <span>🔥 120+ Script & 🎮 Oyunlar</span>
+                <h1>🔥 ScriptHub</h1>
+                <span>120+ Script & 🎮 Oyunlar</span>
             </div>
         </div>
         <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center">
-            <!-- Search -->
             <div class="search-box">
-                <img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Ara" class="search-icon">
                 <input type="text" id="searchInput" placeholder="Script veya oyun ara..." autocomplete="off">
             </div>
-            
-            <!-- Sort -->
             <div class="sort-group">
                 <button class="sort-btn active" data-sort="default">Varsayılan</button>
                 <button class="sort-btn" data-sort="az">A-Z</button>
@@ -60,173 +36,172 @@
                 <button class="sort-btn" data-sort="popular">⭐ Popüler</button>
                 <button class="sort-btn" data-sort="newest">🕐 Yeni</button>
             </div>
-            
-            <!-- Stats -->
-            <div class="stats">
-                <span><img src="https://i.postimg.cc/4N6JK1Ns/f34b5473-fea8-40e9-a4af-f26a66b92534.jpg" alt="Toplam"> <strong id="totalCount">0</strong></span>
-                <span><img src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favori"> <strong id="favCount">0</strong></span>
-                <span><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk"> <strong id="communityCount">0</strong></span>
+            <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+                <span style="color:var(--text-muted);font-size:0.8rem">📊 <strong id="totalCount">0</strong></span>
+                <button class="auth-btn" id="loginBtn">🔑 Giriş Yap</button>
+                <button class="add-btn" id="addScriptBtn">➕ Script Ekle</button>
+                <button class="add-game-btn" id="addGameBtn">🎮 Oyun Ekle</button>
             </div>
-            
-            <!-- Auth -->
-            <div class="auth-section" id="authSection">
-                <button class="auth-btn" id="loginBtn"><img src="https://i.postimg.cc/xdgmwFsB/7ed5b6f5-a917-4d66-975c-4b78e8183462.jpg" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>
-            </div>
-            
-            <!-- Theme -->
-            <div class="theme-controls">
-                <button class="theme-btn dark active" data-theme="dark" title="Karanlık Tema">🌙</button>
-                <button class="theme-btn light" data-theme="light" title="Açık Tema">☀️</button>
-                <button class="theme-btn blue" data-theme="blue" title="Mavi Tema">💙</button>
-                <button class="theme-btn green" data-theme="green" title="Yeşil Tema">💚</button>
-            </div>
-            
-            <!-- Lang -->
-            <div class="lang-selector">
-                <button class="lang-btn active" data-lang="tr" onclick="setLanguage('tr')">TR</button>
-                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
-            </div>
-            
-            <!-- Notifications -->
-            <div style="position:relative">
-                <span class="notification-bell" id="notificationBell">🔔<span class="dot" id="notifDot"></span></span>
-                <div class="notification-list" id="notificationList"></div>
-            </div>
-            
-            <!-- Buttons -->
-            <button class="add-btn" id="addScriptBtn"><img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> Script Ekle</button>
-            <button class="add-game-btn" id="addGameBtn">🎮 Oyun Ekle</button>
-            <button class="auth-btn admin-btn" id="adminBtn" style="display:none" onclick="openAdminModal()">🔧 Admin</button>
         </div>
     </header>
 
-    <!-- FILTER BAR -->
-    <div class="filter-bar">
-        <label>📅 Sırala: 
-            <select id="filterSort">
-                <option value="default">Varsayılan</option>
-                <option value="az">A-Z</option>
-                <option value="za">Z-A</option>
-                <option value="popular">⭐ Popüler</option>
-                <option value="newest">🕐 Yeni</option>
-            </select>
-        </label>
-        <label>📂 Tip: 
-            <select id="filterType">
-                <option value="all">Tümü</option>
-                <option value="premium">Premium</option>
-                <option value="community">Topluluk</option>
-            </select>
-        </label>
-        <label>⭐ Puan: 
-            <select id="filterRating">
-                <option value="0">Tümü</option>
-                <option value="4">4+ Yıldız</option>
-                <option value="3">3+ Yıldız</option>
-            </select>
-        </label>
-        <button class="backup-btn" onclick="backupUserData()">💾 Yedekle</button>
-        <button class="backup-btn" onclick="openLeaderboard()" style="background:rgba(251,191,36,0.15);color:#fbbf24">🏆 Liderlik</button>
-    </div>
-
     <!-- CATEGORIES -->
     <div class="categories" id="categoryFilter">
-        <button class="cat-btn active" data-cat="all"><img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Hepsi" class="cat-icon"> Hepsi</button>
-        <button class="cat-btn" data-cat="mm2"><img src="https://i.postimg.cc/rFhbs0Xg/images.jpg" alt="MM2" class="cat-icon"> MM2</button>
-        <button class="cat-btn" data-cat="bloxfruits"><img src="https://i.postimg.cc/jScztNGG/no-Filter.jpg" alt="Blox Fruits" class="cat-icon"> Blox Fruits</button>
-        <button class="cat-btn" data-cat="petsim"><img src="https://i.postimg.cc/28fvW2mz/PS99Icon.webp" alt="Pet Sim" class="cat-icon"> Pet Sim 99</button>
-        <button class="cat-btn" data-cat="dahood"><img src="https://i.postimg.cc/s28GgJwX/no-Filter.webp" alt="Da Hood" class="cat-icon"> Da Hood</button>
-        <button class="cat-btn" data-cat="bladeball"><img src="https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp" alt="Blade Ball" class="cat-icon"> Blade Ball</button>
-        <button class="cat-btn" data-cat="brookhaven"><img src="https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp" alt="Brookhaven" class="cat-icon"> Brookhaven</button>
-        <button class="cat-btn" data-cat="other"><img src="https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png" alt="Diğer" class="cat-icon"> Diğer</button>
-        <button class="cat-btn" data-cat="community"><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk" class="cat-icon"> Topluluk</button>
-        <button class="cat-btn" data-cat="favorites"><img src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favoriler" class="cat-icon"> Favorilerim</button>
-        <button class="cat-btn" data-cat="games" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2)">
-            <span style="font-size:1.1rem">🎮</span> Oyunlar
-            <span class="game-badge" id="gameCountBadge">7 OYUN</span>
-        </button>
-        <button class="cat-btn" data-cat="leaderboard" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2)" onclick="openLeaderboard()">🏆 Liderlik</button>
+        <button class="cat-btn active" data-cat="all">📋 Hepsi</button>
+        <button class="cat-btn" data-cat="mm2">🔪 MM2</button>
+        <button class="cat-btn" data-cat="bloxfruits">🍉 Blox Fruits</button>
+        <button class="cat-btn" data-cat="petsim">🐾 Pet Sim 99</button>
+        <button class="cat-btn" data-cat="dahood">🔫 Da Hood</button>
+        <button class="cat-btn" data-cat="bladeball">⚡ Blade Ball</button>
+        <button class="cat-btn" data-cat="brookhaven">🏡 Brookhaven</button>
+        <button class="cat-btn" data-cat="other">🎮 Diğer</button>
+        <button class="cat-btn" data-cat="favorites">❤️ Favorilerim</button>
     </div>
 
-    <!-- DAILY TASKS -->
-    <div id="dailyTasksContainer" style="margin-bottom:1rem;display:none">
-        <div class="section-title" style="font-size:1rem">🎯 Günlük Görevler</div>
-        <div class="daily-tasks" id="dailyTasksList"></div>
+    <!-- GRID -->
+    <div id="scriptGrid" class="script-grid">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <br>⏳ Yükleniyor...
+        </div>
     </div>
-
-    <!-- SCRIPT GRID -->
-    <div id="scriptGrid" class="script-grid"><div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div></div>
     <div class="pagination-controls" id="paginationControls"></div>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <span>© 2026 ScriptHub · 🔥 120+ Script & 🎮 Oyunlar</span>
+        <span>© 2026 ScriptHub · 120+ Script</span>
         <div class="social-links">
-            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank"><img src="https://i.postimg.cc/PNHNpXLz/a726bade-6679-40fc-ba33-e10c5283e106.jpg" alt="Discord"><span class="social-label">Discord</span></a>
-            <a href="https://youtube.com/@mm2_ultimatehub" target="_blank"><img src="https://i.postimg.cc/Jt8tDryy/Gemini-Generated-Image-nj6ud2nj6ud2nj6u.png" alt="YouTube"><span class="social-label">YouTube</span></a>
-            <a href="https://www.tiktok.com/@mm2_ultimatehub" target="_blank"><img src="https://i.postimg.cc/HjmjcYJb/Gemini-Generated-Image-nj6ud2nj6ud2nj6u(1).png" alt="TikTok"><span class="social-label">TikTok</span></a>
-        </div>
-        <div style="width:100%;text-align:center;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid var(--border-color)">
-            <a href="#" onclick="document.getElementById('privacyModal').classList.add('open');document.body.style.overflow='hidden';return false;" style="color:var(--text-muted);font-size:0.7rem;text-decoration:none;margin:0 0.5rem">🔐 Gizlilik Politikası</a>
-            <span style="color:var(--text-muted);font-size:0.7rem">|</span>
-            <a href="#" onclick="document.getElementById('cookieConsent').style.display='block';return false;" style="color:var(--text-muted);font-size:0.7rem;text-decoration:none;margin:0 0.5rem">🍪 Çerez Ayarları</a>
+            <a href="#">💬 Discord</a>
+            <a href="#">▶️ YouTube</a>
+            <a href="#">🎵 TikTok</a>
         </div>
     </footer>
 </div>
 
-<!-- MODALLAR -->
-<!-- (Tüm modal HTML'leri burada olacak) -->
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>🔐 Giriş Yap</h2>
+            <button class="modal-close" id="closeAuthModal">✕</button>
+        </div>
+        <div class="form-group">
+            <label>E-posta</label>
+            <input type="email" id="loginEmail" placeholder="ornek@email.com">
+        </div>
+        <div class="form-group">
+            <label>Şifre</label>
+            <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <div id="loginError" style="color:#ff6b6b;display:none;margin-bottom:0.5rem"></div>
+        <button class="submit-btn" id="loginSubmitBtn">🚀 Giriş Yap</button>
+    </div>
+</div>
 
-<!-- GİZLİLİK MODALI -->
-<div class="modal-overlay" id="privacyModal">
-    <div class="modal-card wide">
-        <div class="modal-header"><h2>🔐 Gizlilik Politikası</h2><button class="modal-close" onclick="document.getElementById('privacyModal').classList.remove('open');document.body.style.overflow=''">✕</button></div>
-        <div style="color:var(--text-secondary);font-size:0.85rem;line-height:1.8;padding:0.5rem 0">
-            <p><strong>📌 Son Güncelleme:</strong> 26 Ağustos 2026</p><br>
-            <p><strong>1. Toplanan Veriler</strong></p>
-            <p>ScriptHub, kullanıcı deneyimini iyileştirmek için aşağıdaki bilgileri toplayabilir:</p>
-            <ul style="padding-left:1.5rem;margin:0.5rem 0">
-                <li>📧 E-posta adresi (kayıt sırasında)</li>
-                <li>👤 Kullanıcı adı</li>
-                <li>🖼️ Profil fotoğrafı</li>
-                <li>📊 Kullanım istatistikleri</li>
-                <li>🍪 Çerezler</li>
-            </ul>
-            <br>
-            <p><strong>2. Verilerin Kullanımı</strong></p>
-            <p>Toplanan veriler şu amaçlarla kullanılır:</p>
-            <ul style="padding-left:1.5rem;margin:0.5rem 0">
-                <li>✅ Hesap yönetimi ve kimlik doğrulama</li>
-                <li>📈 Hizmet kalitesini artırma</li>
-                <li>🔔 Bildirim ve güncellemeler gönderme</li>
-                <li>🛡️ Güvenlik ve dolandırıcılık önleme</li>
-            </ul>
-            <br>
-            <p><strong>3. Çerezler (Cookies)</strong></p>
-            <p>Bu site, kullanıcı deneyimini iyileştirmek ve Google AdSense reklamlarını göstermek için çerezler kullanır.</p>
+<!-- ADD SCRIPT MODAL -->
+<div class="modal-overlay" id="addModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>➕ Yeni Script Ekle</h2>
+            <button class="modal-close" id="closeAddModal">✕</button>
+        </div>
+        <form id="addScriptForm">
+            <div class="form-group">
+                <label>Script Adı *</label>
+                <input type="text" id="scriptName" placeholder="Örn: God Mode Pro" required>
+            </div>
+            <div class="form-group">
+                <label>Kategori *</label>
+                <select id="scriptCategory">
+                    <option value="mm2">🗡️ MM2</option>
+                    <option value="bloxfruits">🍉 Blox Fruits</option>
+                    <option value="petsim">🐾 Pet Sim 99</option>
+                    <option value="dahood">🔫 Da Hood</option>
+                    <option value="bladeball">⚡ Blade Ball</option>
+                    <option value="brookhaven">🏡 Brookhaven</option>
+                    <option value="other">🎮 Diğer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Açıklama *</label>
+                <input type="text" id="scriptDesc" placeholder="Script ne işe yarıyor?" required>
+            </div>
+            <div class="form-group">
+                <label>Özellikler (virgülle ayır)</label>
+                <input type="text" id="scriptFeatures" placeholder="Aimbot, ESP, Auto Farm">
+            </div>
+            <div class="form-group">
+                <label>Script Kodu *</label>
+                <textarea id="scriptCodeInput" placeholder="loadstring(game:HttpGet('https://...'))()" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">🚀 Herkese Açık Ekle!</button>
+        </form>
+    </div>
+</div>
+
+<!-- ADD GAME MODAL -->
+<div class="modal-overlay" id="addGameModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>🎮 Oyun Ekle</h2>
+            <button class="modal-close" id="closeAddGameModal">✕</button>
+        </div>
+        <form id="addGameForm">
+            <div class="form-group">
+                <label>Oyun Adı *</label>
+                <input type="text" id="gameName" placeholder="Örn: My Game" required>
+            </div>
+            <div class="form-group">
+                <label>Oyun Linki *</label>
+                <input type="url" id="gameLink" placeholder="https://www.roblox.com/games/..." required>
+            </div>
+            <div class="form-group">
+                <label>Oyun Resmi *</label>
+                <input type="url" id="gameImage" placeholder="https://i.imgur.com/resim.png" required>
+            </div>
+            <button type="submit" class="submit-btn">🎮 Oyunu Ekle!</button>
+        </form>
+    </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="taskModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>🔓 Script Kilidi</h2>
+            <button class="modal-close" id="closeModal">✕</button>
+        </div>
+        <div style="color:var(--accent-light);font-size:0.85rem;margin-bottom:1rem">3 görevi tamamla, premium kodu al.</div>
+        <div style="margin:0.8rem 0;color:var(--text-secondary)">📜 <strong id="taskScriptName" style="color:var(--accent-light)">—</strong></div>
+        <div class="task-row">
+            <button class="task-btn" data-task="discord">💬 Discord</button>
+            <button class="task-btn" data-task="youtube">▶️ YouTube</button>
+            <button class="task-btn" data-task="tiktok">🎵 TikTok</button>
+        </div>
+        <div class="task-progress">
+            <span id="taskStatus">0/3</span>
+            <div class="bar"><div class="fill" id="progressFill"></div></div>
+        </div>
+        <button class="reveal-btn" id="revealCodeBtn">🔐 Kodu Göster</button>
+        <div class="code-container" id="codeContainer">
+            <div class="code-area">
+                <pre id="taskScriptCode">loadstring("scripthub")()</pre>
+                <button class="copy-btn" id="copyCodeBtn">📋 Kopyala</button>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- ÇEREZ BİLDİRİMİ -->
-<div id="cookieConsent">
-    <p>🍪 Bu site, size daha iyi bir deneyim sunmak için çerezler kullanır.</p>
-    <div class="cookie-buttons">
-        <button class="cookie-btn accept" onclick="acceptCookies()">✅ Kabul Et</button>
-        <button class="cookie-btn details" onclick="document.getElementById('privacyModal').classList.add('open');document.body.style.overflow='hidden'">📋 Detaylar</button>
-    </div>
-</div>
-
-<!-- DİĞER MODALLAR (Profil, Auth, Add Script, Add Game, Task, Edit, Admin, Leaderboard) -->
-<!-- ... tüm modal HTML'leri burada devam eder ... -->
-
-<!-- SOHBET WIDGET -->
-<button class="chat-toggle-btn" id="chatToggleBtn" aria-label="Sohbeti Aç">💬</button>
-<iframe class="chat-frame" id="chatFrame" src="https://scripthub.mm2ultimatehub.workers.dev/"></iframe>
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toastMessage"></span></div>
 
 <!-- SCROLL TOP -->
 <button class="scroll-top" id="scrollTopBtn">↑</button>
-<div class="toast" id="toast"><span id="toastMessage"></span><button class="toast-close" id="toastClose">✕</button></div>
+
+<!-- SCRIPTS -->
+<script src="firebase-config.js"></script>
+<script src="scripts.js"></script>
+<script src="main.js"></script>
 
 </body>
 </html>
