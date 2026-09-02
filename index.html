@@ -168,14 +168,27 @@
         .daily-task .task-status{font-size:0.8rem}
         .daily-task.completed{opacity:0.5}
         .daily-task.completed .task-status{color:var(--green)}
-        .daily-task .task-bonus{grid-column:1/-1;text-align:center;padding:6px;background:rgba(253,203,110,0.05);border-radius:10px;border:1px solid rgba(253,203,110,0.1);margin-top:4px;font-size:0.7rem;color:var(--text-secondary)}
+        .daily-task .task-bonus{grid-column:1/-1;text-align:center;padding:8px;background:rgba(253,203,110,0.05);border-radius:12px;border:1px solid rgba(253,203,110,0.1);margin-top:4px;font-size:0.7rem;color:var(--text-secondary)}
         
         /* ÇARK */
         .wheel-section{background:rgba(255,255,255,0.02);border-radius:16px;padding:16px 20px;margin:12px 0;border:1px solid var(--border-color);text-align:center}
         .wheel-section .wheel-status{font-size:0.7rem;color:var(--text-secondary);margin-top:2px}
-        .wheel-result{display:none;margin-top:10px;padding:10px;background:rgba(253,203,110,0.08);border-radius:12px;border:1px solid rgba(253,203,110,0.12)}
-        .wheel-result.show{display:block}
-        .wheel-result .result-text{font-size:0.9rem;font-weight:600;color:var(--gold)}
+        
+        .wheel-container{position:relative;width:200px;height:200px;margin:10px auto}
+        .wheel-canvas{width:100%;height:100%;border-radius:50%;border:4px solid var(--accent);box-shadow:0 0 40px rgba(124,58,237,0.3);transition:transform 4s cubic-bezier(0.17,0.67,0.12,0.99)}
+        .wheel-pointer{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:2rem;z-index:10;filter:drop-shadow(0 0 10px rgba(124,58,237,0.5))}
+        .wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--accent-gradient);border:3px solid white;box-shadow:0 0 30px rgba(124,58,237,0.5);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:white;z-index:10}
+        
+        .wheel-result-popup{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;z-index:999999;animation:fadeIn 0.3s ease}
+        .wheel-result-popup.show{display:flex}
+        .wheel-result-popup .popup-content{background:var(--bg-modal);border-radius:30px;padding:2rem;text-align:center;max-width:400px;width:90%;border:1px solid var(--border-color);animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 40px 80px rgba(0,0,0,0.8)}
+        .wheel-result-popup .popup-content .emoji{font-size:4rem;margin-bottom:0.5rem}
+        .wheel-result-popup .popup-content .title{font-size:1.5rem;font-weight:700;color:var(--gold)}
+        .wheel-result-popup .popup-content .sub{font-size:0.9rem;color:var(--text-secondary);margin:0.5rem 0}
+        .wheel-result-popup .popup-content .btn{margin-top:1rem;padding:0.5rem 2rem;border-radius:40px;border:none;font-weight:600;cursor:pointer}
+        
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
         
         /* FORM */
         .form-group{margin-bottom:1rem}
@@ -547,6 +560,12 @@
             .wheel-section{padding:12px 14px !important}
             .wheel-section .wheel-status{font-size:0.6rem !important}
             .btn-primary{font-size:0.65rem !important;padding:0.3rem 0.8rem !important}
+            .wheel-container{width:160px;height:160px !important}
+            .wheel-center{width:32px;height:32px !important;font-size:0.6rem !important}
+            .wheel-pointer{font-size:1.5rem !important;top:-8px !important}
+            .wheel-result-popup .popup-content{padding:1.5rem !important}
+            .wheel-result-popup .popup-content .emoji{font-size:3rem !important}
+            .wheel-result-popup .popup-content .title{font-size:1.2rem !important}
         }
         @media(max-width:480px){
             .app{padding:0.5rem !important;border-radius:12px !important}
@@ -557,6 +576,7 @@
             .profile-stats .stat{padding:0.3rem 0.6rem !important;min-width:50px !important}
             .admin-stats{grid-template-columns:1fr 1fr !important}
             .admin-stats .admin-stat-card .number{font-size:1.2rem !important}
+            .wheel-container{width:140px;height:140px !important}
         }
         @media(pointer:coarse){
             .fav-btn,.get-btn,.delete-btn,.report-btn,.edit-script-btn{min-width:44px !important;min-height:44px !important}
@@ -595,7 +615,7 @@
                 <span><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk"> <strong id="communityCount">0</strong></span>
             </div>
             
-            <!-- 🪙 COIN DISPLAY -->
+            <!-- COIN DISPLAY -->
             <div class="coin-display" onclick="openCoinShop()">
                 🪙 <span class="amount" id="coinAmount">0</span>
                 <span class="rank-badge bronze" id="rankBadge">Bronz</span>
@@ -653,7 +673,7 @@
         <button class="backup-btn" onclick="openLeaderboard()" style="background:rgba(251,191,36,0.15);color:#fbbf24">🏆 Liderlik</button>
     </div>
 
-    <!-- 🎡 ÇARK BÖLÜMÜ -->
+    <!-- ÇARK BÖLÜMÜ -->
     <div class="wheel-section">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
             <div>
@@ -667,8 +687,16 @@
                 🎡 Çevir
             </button>
         </div>
-        <div class="wheel-result" id="wheelResult">
-            <span class="result-text" id="wheelResultText"></span>
+        
+        <!-- Çark Görseli -->
+        <div class="wheel-container" id="wheelContainer">
+            <div class="wheel-pointer">▼</div>
+            <canvas id="wheelCanvas" class="wheel-canvas" width="400" height="400"></canvas>
+            <div class="wheel-center">🎯</div>
+        </div>
+        
+        <div style="text-align:center;margin-top:8px;font-size:0.6rem;color:var(--text-muted);" id="wheelInfo">
+            🎯 Her gün 1 kere çevir, ödül kazan!
         </div>
     </div>
 
@@ -767,9 +795,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ===== MODALLAR ===== -->
-
-<!-- PROFİL MODAL -->
+<!-- MODALLAR -->
 <div class="modal-overlay" id="profileModal">
     <div class="modal-card">
         <div class="modal-header"><h2>👤 Profilim</h2><button class="modal-close" id="closeProfileModal">✕</button></div>
@@ -777,7 +803,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </div>
 
-<!-- PROFİL DÜZENLEME MODAL -->
 <div class="modal-overlay" id="profileEditModal">
     <div class="modal-card">
         <div class="modal-header"><h2>✏️ Profilini Düzenle</h2><button class="modal-close" id="closeProfileEditModal">✕</button></div>
@@ -960,26 +985,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- ADMIN PANELİ -->
 <div class="modal-overlay" id="adminModal">
     <div class="modal-card wide">
-        <div class="modal-header">
-            <h2>🔧 Admin Paneli</h2>
-            <button class="modal-close" id="closeAdminModal">✕</button>
-        </div>
-        <div id="adminContent">
-            <div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div>
-        </div>
+        <div class="modal-header"><h2>🔧 Admin Paneli</h2><button class="modal-close" id="closeAdminModal">✕</button></div>
+        <div id="adminContent"><div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div></div>
     </div>
 </div>
 
 <!-- LİDERLİK TABLOSU -->
 <div class="modal-overlay" id="leaderboardModal">
     <div class="modal-card wide">
-        <div class="modal-header">
-            <h2>🏆 Liderlik Tablosu</h2>
-            <button class="modal-close" id="closeLeaderboardModal">✕</button>
-        </div>
-        <div id="leaderboardContent">
-            <div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div>
-        </div>
+        <div class="modal-header"><h2>🏆 Liderlik Tablosu</h2><button class="modal-close" id="closeLeaderboardModal">✕</button></div>
+        <div id="leaderboardContent"><div class="loading"><div class="loading-spinner"></div><br>⏳ Yükleniyor...</div></div>
     </div>
 </div>
 
@@ -1222,27 +1237,82 @@ function openCoinShop() {
 // ==========================================
 // ÇARK SİSTEMİ
 // ==========================================
-const WHEEL_REWARDS = [
-    { name: '5 🪙', value: 5, chance: 25 },
-    { name: '10 🪙', value: 10, chance: 20 },
-    { name: '25 🪙', value: 25, chance: 15 },
-    { name: '50 🪙', value: 50, chance: 10 },
-    { name: '100 🪙', value: 100, chance: 5 },
-    { name: '⭐ Premium Script', value: 'premium', chance: 3 },
-    { name: '👑 1 Gün VIP', value: 'vip', chance: 2 },
-    { name: '🎯 2x Coin Boost', value: 'boost', chance: 10 },
-    { name: '❌ Boş', value: 0, chance: 10 }
+const WHEEL_SEGMENTS = [
+    { label: '5 🪙', value: 5, color: '#FF6B6B' },
+    { label: '10 🪙', value: 10, color: '#FECA57' },
+    { label: '25 🪙', value: 25, color: '#48DBFB' },
+    { label: '50 🪙', value: 50, color: '#FF9FF3' },
+    { label: '100 🪙', value: 100, color: '#54A0FF' },
+    { label: '⭐', value: 'premium', color: '#5F27CD' },
+    { label: '👑 VIP', value: 'vip', color: '#1DD1A1' },
+    { label: '🎯 2x', value: 'boost', color: '#F368E0' },
+    { label: '❌', value: 0, color: '#FF9F43' }
 ];
 
-function getWheelReward() {
-    const total = WHEEL_REWARDS.reduce((sum, r) => sum + r.chance, 0);
-    let random = Math.random() * total;
-    for (const reward of WHEEL_REWARDS) {
-        random -= reward.chance;
-        if (random <= 0) return reward;
-    }
-    return WHEEL_REWARDS[0];
+function drawWheel() {
+    const canvas = document.getElementById('wheelCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 10;
+    const segmentCount = WHEEL_SEGMENTS.length;
+    const angleStep = (2 * Math.PI) / segmentCount;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    WHEEL_SEGMENTS.forEach((seg, i) => {
+        const startAngle = i * angleStep;
+        const endAngle = (i + 1) * angleStep;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+        ctx.fillStyle = seg.color;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(startAngle + angleStep / 2);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 14px Inter, sans-serif';
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 4;
+        ctx.fillText(seg.label, radius * 0.65, 0);
+        ctx.restore();
+    });
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+    gradient.addColorStop(0, 'rgba(0,0,0,0)');
+    gradient.addColorStop(1, 'rgba(0,0,0,0.1)');
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+    ctx.fillStyle = gradient;
+    ctx.fill();
 }
+
+function getWheelResult(rotation) {
+    const segmentCount = WHEEL_SEGMENTS.length;
+    const angleStep = 360 / segmentCount;
+    const pointerAngle = 270;
+    const normalized = ((rotation + pointerAngle) % 360 + 360) % 360;
+    const index = Math.floor(normalized / angleStep) % segmentCount;
+    return WHEEL_SEGMENTS[index];
+}
+
+let isSpinning = false;
 
 async function spinWheel() {
     if (!currentUser) {
@@ -1250,43 +1320,81 @@ async function spinWheel() {
         openAuthModal();
         return;
     }
+
     const today = new Date().toDateString();
     const lastSpin = localStorage.getItem(`wheel_${currentUser.uid}`);
     if (lastSpin === today) {
         showToast('⚠️ Bugün çarkı zaten çevirdin! Yarın tekrar dene.');
         return;
     }
+
+    if (isSpinning) return;
+    isSpinning = true;
+
     const btn = document.getElementById('spinWheelBtn');
     btn.disabled = true;
     btn.textContent = '⏳ Çevriliyor...';
-    const result = getWheelReward();
-    const resultDiv = document.getElementById('wheelResult');
-    const resultText = document.getElementById('wheelResultText');
-    resultDiv.classList.add('show');
+
+    const canvas = document.getElementById('wheelCanvas');
+    const spinDegrees = 1440 + Math.random() * 720;
+    canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+    canvas.style.transform = `rotate(${spinDegrees}deg)`;
+
+    const result = getWheelResult(spinDegrees);
+
+    setTimeout(() => {
+        isSpinning = false;
+        btn.disabled = false;
+        btn.textContent = '🎡 Çevir';
+        localStorage.setItem(`wheel_${currentUser.uid}`, today);
+        document.getElementById('wheelStatus').textContent = '✅ Bugün çark çevrildi! Yarın tekrar gel.';
+        showWheelResult(result);
+        renderDailyTasks();
+        render();
+    }, 4200);
+}
+
+function showWheelResult(result) {
+    const popup = document.getElementById('wheelResultPopup');
+    const emoji = document.getElementById('resultEmoji');
+    const title = document.getElementById('resultTitle');
+    const sub = document.getElementById('resultSub');
+
     if (result.value === 'premium') {
-        resultText.textContent = '🎉 ⭐ Premium Script Kazandın! Admin ile iletişime geç.';
+        emoji.textContent = '⭐';
+        title.textContent = 'Premium Script Kazandın!';
+        sub.textContent = 'Admin ile iletişime geç.';
         addNotification('⭐ Premium script kazandın!', 'wheel');
     } else if (result.value === 'vip') {
-        resultText.textContent = '🎉 👑 1 Gün VIP Kazandın! Admin ile iletişime geç.';
+        emoji.textContent = '👑';
+        title.textContent = '1 Gün VIP Kazandın!';
+        sub.textContent = 'Admin ile iletişime geç.';
         addNotification('👑 1 gün VIP kazandın!', 'wheel');
     } else if (result.value === 'boost') {
-        resultText.textContent = '🎉 🎯 2x Coin Boost Kazandın! (Geçerli gün)';
-        localStorage.setItem(`boost_${currentUser.uid}`, today);
+        emoji.textContent = '🎯';
+        title.textContent = '2x Coin Boost!';
+        sub.textContent = 'Bugün boyunca 2x coin kazanacaksın!';
+        localStorage.setItem(`boost_${currentUser.uid}`, new Date().toDateString());
         addNotification('🎯 2x coin boost aktif!', 'wheel');
     } else if (result.value > 0) {
-        const bonus = localStorage.getItem(`boost_${currentUser.uid}`) === today ? 2 : 1;
+        const bonus = localStorage.getItem(`boost_${currentUser.uid}`) === new Date().toDateString() ? 2 : 1;
         const finalAmount = result.value * bonus;
-        await addCoins(finalAmount, `🎡 Çarktan ${finalAmount} 🪙 kazandın!`);
-        resultText.textContent = `🎉 ${finalAmount} 🪙 Kazandın! ${bonus > 1 ? '(2x Boost aktif!)' : ''}`;
+        emoji.textContent = '🎉';
+        title.textContent = `${finalAmount} 🪙 Kazandın!`;
+        sub.textContent = bonus > 1 ? '(2x Boost aktif!)' : 'Çarktan kazandın!';
+        addCoins(finalAmount, `🎡 Çarktan ${finalAmount} 🪙 kazandın!`);
         addNotification(`🎡 ${finalAmount} 🪙 çarktan kazandın!`, 'wheel');
     } else {
-        resultText.textContent = '😅 Boş! Yarın tekrar dene.';
+        emoji.textContent = '😅';
+        title.textContent = 'Boş!';
+        sub.textContent = 'Yarın tekrar dene, şansın yaver gider!';
     }
-    localStorage.setItem(`wheel_${currentUser.uid}`, today);
-    btn.disabled = false;
-    btn.textContent = '🎡 Çevir';
-    document.getElementById('wheelStatus').textContent = '✅ Bugün çark çevrildi! Yarın tekrar gel.';
-    renderDailyTasks();
+
+    popup.classList.add('show');
+}
+
+function closeWheelResult() {
+    document.getElementById('wheelResultPopup').classList.remove('show');
 }
 
 // ==========================================
@@ -1553,11 +1661,32 @@ function renderGames() {
     document.querySelectorAll('[data-gameid]').forEach(b => b.addEventListener('click', gameDeleteHandler));
 }
 
-// ==========================================
+// FAVORİ HANDLER
+function favHandler(e) {
+    const id = this.dataset.id;
+    if (!id) return;
+
+    const idx = favorites.indexOf(id);
+    if (idx > -1) {
+        favorites.splice(idx, 1);
+        this.classList.remove('active');
+        showToast('❤️ Favorilerden çıkarıldı');
+    } else {
+        favorites.push(id);
+        this.classList.add('active');
+        showToast('❤️ Favorilere eklendi');
+        completeDailyTask('daily_fav');
+    }
+
+    localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
+    // Favori sayısını güncelle
+    document.getElementById('favCount').textContent = favorites.length;
+}
+
 // MAIN RENDER
-// ==========================================
 function render() {
     updateGameBadge();
+
     if (currentCategory === 'games') {
         const total = 7 + communityGames.length;
         totalCount.textContent = total;
@@ -1567,32 +1696,38 @@ function render() {
         paginationControls.innerHTML = '';
         return;
     }
+
     const all = getAllScripts();
     let filtered = all.filter(s => {
         let catMatch = currentCategory === 'all' ? true : (currentCategory === 'favorites' ? favorites.includes(s.id) : (currentCategory === 'community' ? s.isCommunity === true : s.category === currentCategory));
         let searchMatch = s.name.toLowerCase().includes(searchTerm.toLowerCase()) || s.desc.toLowerCase().includes(searchTerm.toLowerCase()) || (s.features && s.features.some(f => f.toLowerCase().includes(searchTerm.toLowerCase())));
         return catMatch && searchMatch;
     });
+
     const sortVal = document.getElementById('filterSort').value || sortMode;
     if (sortVal === 'az') filtered.sort((a, b) => a.name.localeCompare(b.name));
     else if (sortVal === 'za') filtered.sort((a, b) => b.name.localeCompare(a.name));
     else if (sortVal === 'popular') filtered.sort((a, b) => (a.views || 0) - (b.views || 0));
     else if (sortVal === 'newest') filtered.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
     else filtered.sort((a, b) => { if (a.isPremium && !b.isPremium) return -1; if (!a.isPremium && b.isPremium) return 1; return 0; });
+
     const totalItems = filtered.length;
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
     if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
     const paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
+
     totalCount.textContent = filtered.length;
     favCount.textContent = favorites.length;
     communityCount.textContent = communityScripts.length;
+
     if (!paginated.length) {
         grid.innerHTML =
             `<div class="empty"><div style="font-size:2.5rem">🔍</div><h3 style="color:var(--text-secondary)">Sonuç bulunamadı</h3><p style="color:var(--text-muted);font-size:0.85rem">Farklı bir kategori veya arama terimi dene.</p></div>`;
         paginationControls.innerHTML = '';
         return;
     }
+
     grid.innerHTML = paginated.map(s => {
         const isFav = favorites.includes(s.id);
         const isCommunity = s.isCommunity || false;
@@ -1608,8 +1743,10 @@ function render() {
         const isPaid = isPremium && price > 0;
         const isOwned = isScriptOwned(s.id);
         const canGet = !isPaid || isOwned;
-        // Görüntüleme takibi
+
+        // Görüntüleme takibi (her kart render edildiğinde)
         trackView();
+
         return `<div class="script-card ${isPremium ? 'premium-card' : ''}">
                 <div class="card-image">
                     <img src="${escapeHtml(imageUrl)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'">
@@ -1639,6 +1776,19 @@ function render() {
                 </div>
             </div>`;
     }).join('');
+
+    // FAVORİ BUTONLARINA EVENT LISTENER EKLE
+    document.querySelectorAll('.fav-btn').forEach(b => {
+        b.removeEventListener('click', favHandler);
+        b.addEventListener('click', favHandler);
+    });
+
+    // DELETE BUTONLARINA EVENT LISTENER EKLE
+    document.querySelectorAll('.delete-btn[data-id]').forEach(b => {
+        b.removeEventListener('click', deleteHandler);
+        b.addEventListener('click', deleteHandler);
+    });
+
     // PAGINATION
     const totalPages2 = Math.ceil(totalItems / ITEMS_PER_PAGE);
     if (totalPages2 <= 1) { paginationControls.innerHTML = ''; return; }
@@ -1650,6 +1800,7 @@ function render() {
     }
     html += `<button class="page-btn" data-page="next" ${currentPage >= totalPages2 ? 'disabled' : ''}>Sonraki ›</button>`;
     paginationControls.innerHTML = html;
+
     document.querySelectorAll('.page-btn[data-page]').forEach(b => {
         b.addEventListener('click', function() {
             const p = this.dataset.page;
@@ -1661,24 +1812,11 @@ function render() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
-    // EVENTS
-    document.querySelectorAll('.fav-btn').forEach(b => b.addEventListener('click', favHandler));
 }
 
 // ==========================================
 // EVENT HANDLERS
 // ==========================================
-function favHandler(e) {
-    const id = this.dataset.id;
-    const idx = favorites.indexOf(id);
-    if (idx > -1) favorites.splice(idx, 1);
-    else { favorites.push(id);
-        completeDailyTask('daily_fav'); }
-    localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
-    render();
-    showToast('❤️ Favori güncellendi');
-}
-
 async function deleteHandler(e) {
     const id = this.dataset.id;
     const script = communityScripts.find(s => s.id === id);
@@ -1853,7 +1991,7 @@ async function renderLeaderboard() {
 }
 
 // ==========================================
-// ADMIN PANEL (ÖZET)
+// ADMIN PANEL
 // ==========================================
 function openAdminModal() {
     if (!currentUser) { showToast('❌ Lütfen giriş yapın!');
@@ -2354,6 +2492,92 @@ async function backupUserData() {
 }
 
 // ==========================================
+// SELECT AVATAR
+// ==========================================
+window.selectAvatar = function(el) {
+    document.querySelectorAll('.avatar-option').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedAvatar = el.dataset.avatar;
+    uploadedAvatarUrl = null;
+    document.getElementById('avatarStatus').textContent = '✅ Avatar seçildi';
+    document.getElementById('avatarStatus').style.color = '#4ade80';
+};
+
+let selectedAvatar = AVATAR_1;
+let uploadedAvatarUrl = null;
+
+document.getElementById('avatarFileInput')?.addEventListener('change', function(e) {
+    const file = this.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { showToast('❌ Dosya boyutu 5MB\'dan büyük olamaz!');
+        this.value = ''; return; }
+    if (!file.type.startsWith('image/')) { showToast('❌ Lütfen bir resim dosyası seçin!');
+        this.value = ''; return; }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        uploadedAvatarUrl = dataUrl;
+        selectedAvatar = dataUrl;
+        const uploadOption = document.getElementById('uploadAvatarOption');
+        uploadOption.innerHTML =
+            `<img src="${dataUrl}" alt="Yüklenen Avatar" style="width:100%;height:100%;object-fit:cover">`;
+        uploadOption.classList.add('selected');
+        document.querySelectorAll('.avatar-option').forEach(el => { if (el.id !== 'uploadAvatarOption') el.classList.remove(
+                'selected'); });
+        document.getElementById('avatarStatus').textContent = '✅ Kendi avatarın yüklendi!';
+        document.getElementById('avatarStatus').style.color = '#4ade80';
+    };
+    reader.readAsDataURL(file);
+});
+
+document.getElementById('googlePhotoBtn')?.addEventListener('click', function() {
+    const url = prompt('Google Fotoğraflar\'dan paylaşım linkini veya resim URL\'sini yapıştır:');
+    if (url && url.trim() && (url.startsWith('http://') || url.startsWith('https://'))) {
+        uploadedAvatarUrl = url.trim();
+        selectedAvatar = url.trim();
+        const uploadOption = document.getElementById('uploadAvatarOption');
+        uploadOption.innerHTML =
+            `<img src="${url.trim()}" alt="Google Foto" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=\\'upload-icon\\'>📤</span>'; showToast('❌ Geçersiz resim URL\\'si!')">`;
+        uploadOption.classList.add('selected');
+        document.querySelectorAll('.avatar-option').forEach(el => { if (el.id !== 'uploadAvatarOption') el.classList.remove(
+                'selected'); });
+        document.getElementById('avatarStatus').textContent = '✅ Google Fotoğraf seçildi!';
+        document.getElementById('avatarStatus').style.color = '#4ade80';
+    } else showToast('❌ Geçerli bir URL girin!');
+});
+
+// ==========================================
+// SET LANGUAGE & THEME
+// ==========================================
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('scriptHubLang', lang);
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    const translations = {
+        tr: { search: 'Script veya oyun ara...', addScript: 'Script Ekle', addGame: 'Oyun Ekle', login: 'Giriş Yap' },
+        en: { search: 'Search script or game...', addScript: 'Add Script', addGame: 'Add Game', login: 'Login' }
+    };
+    const t = translations[lang] || translations.tr;
+    searchInput.placeholder = t.search;
+    document.getElementById('addScriptBtn').innerHTML =
+        `<img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> ${t.addScript}`;
+    document.getElementById('addGameBtn').textContent = `🎮 ${t.addGame}`;
+    showToast(`🌐 ${lang === 'tr' ? 'Türkçe' : 'English'}`);
+}
+window.setLanguage = setLanguage;
+
+function setTheme(theme) {
+    document.body.className = theme;
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+    localStorage.setItem('scriptHubTheme', theme);
+}
+document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+});
+const savedTheme = localStorage.getItem('scriptHubTheme') || 'dark';
+setTheme(savedTheme);
+
+// ==========================================
 // INIT
 // ==========================================
 async function init() {
@@ -2362,6 +2586,7 @@ async function init() {
     if (savedNotifs) notifications = JSON.parse(savedNotifs);
     updateNotificationUI();
     await Promise.all([loadCommunityScripts(), loadCommunityGames()]);
+    drawWheel();
     render();
     if (!localStorage.getItem('scriptHubWelcomed')) {
         setTimeout(() => showToast('👋 ScriptHub\'a hoş geldin! 90+ script ve oyun seni bekliyor.', 4000), 1000);
@@ -2376,6 +2601,16 @@ console.log('🌍 Topluluk Script:', communityScripts.length);
 console.log('🎮 Oyun:', communityGames.length + 7);
 console.log('🔑 Admin UID:', ADMIN_UID);
 </script>
+
+<!-- ÇARK SONUÇ POPUP -->
+<div class="wheel-result-popup" id="wheelResultPopup">
+    <div class="popup-content">
+        <div class="emoji" id="resultEmoji">🎉</div>
+        <div class="title" id="resultTitle">Kazandın!</div>
+        <div class="sub" id="resultSub">5 🪙</div>
+        <button class="btn-primary" onclick="closeWheelResult()" style="margin-top:1rem;padding:0.5rem 2rem;">👏 Harika!</button>
+    </div>
+</div>
 
 </body>
 </html>
