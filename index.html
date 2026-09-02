@@ -10,11 +10,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
     
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-1079812363517680">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
 
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -22,10 +20,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
 
     <style>
-        /* ============================================
-           COMPLETE STYLES
-        ============================================ */
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui,sans-serif}
+        /* ===== TÜM STİLLER ===== */
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
         :root{
             --bg-primary:#070816;
             --bg-card:rgba(255,255,255,0.03);
@@ -49,7 +45,7 @@
         body::after{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(ellipse at 10% 20%,rgba(124,58,237,0.12)0%,transparent 50%),radial-gradient(ellipse at 90% 80%,rgba(167,139,250,0.08)0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(10,11,30,0.95)0%,var(--bg-primary) 100%);z-index:0;pointer-events:none}
         .app{position:relative;z-index:1;max-width:1440px;margin:0 auto;background:var(--bg-modal);backdrop-filter:blur(20px);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border-color)}
         
-        /* ===== HEADER ===== */
+        /* HEADER */
         .header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
         .logo{display:flex;align-items:center;gap:10px}
         .logo img{height:40px;width:auto}
@@ -80,7 +76,7 @@
         .sort-btn:hover{background:rgba(124,58,237,0.12)}
         .sort-btn.active{background:var(--accent-gradient);color:white;border-color:var(--accent-light);box-shadow:0 0 20px rgba(124,58,237,0.2)}
         
-        /* ===== COIN DISPLAY ===== */
+        /* COIN DISPLAY */
         .coin-display{background:rgba(253,203,110,0.08);border:1px solid rgba(253,203,110,0.1);padding:4px 14px;border-radius:40px;display:inline-flex;align-items:center;gap:6px;color:var(--gold);font-weight:600;font-size:0.75rem;cursor:pointer;transition:0.25s}
         .coin-display:hover{background:rgba(253,203,110,0.15);transform:scale(1.04)}
         .coin-display .amount{font-size:0.85rem}
@@ -91,7 +87,7 @@
         .coin-display .rank-badge.diamond{background:rgba(0,206,209,0.12);color:#00ced1;border:1px solid rgba(0,206,209,0.12);animation:diamondPulse 2s infinite}
         @keyframes diamondPulse{0%,100%{box-shadow:0 0 10px rgba(0,206,209,0.05)}50%{box-shadow:0 0 30px rgba(0,206,209,0.15)}}
         
-        /* ===== AUTH ===== */
+        /* AUTH */
         .auth-btn{background:var(--bg-card);border:1px solid var(--border-color);padding:4px 14px;border-radius:60px;color:var(--text-secondary);cursor:pointer;transition:0.25s;font-size:0.75rem;display:inline-flex;align-items:center;gap:6px;min-height:36px}
         .auth-btn:hover{background:rgba(124,58,237,0.12);color:var(--text-primary)}
         .auth-btn .avatar{width:24px;height:24px;border-radius:50%;object-fit:cover}
@@ -99,7 +95,7 @@
         .auth-btn.admin-btn{background:var(--accent-gradient);color:white;border-color:var(--accent-light)}
         .auth-btn.admin-btn:hover{transform:scale(1.04)}
         
-        /* ===== CATEGORIES ===== */
+        /* CATEGORIES */
         .categories{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;margin-bottom:16px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent}
         .categories::-webkit-scrollbar{height:3px}
         .categories::-webkit-scrollbar-thumb{background:var(--accent);border-radius:20px}
@@ -109,7 +105,7 @@
         .cat-btn img{width:18px;height:18px;border-radius:4px;object-fit:cover}
         .cat-btn .game-badge{background:rgba(34,197,94,0.15);color:#4ade80;font-size:0.5rem;padding:2px 8px;border-radius:20px;margin-left:4px}
         
-        /* ===== SCRIPT GRID ===== */
+        /* SCRIPT GRID */
         .script-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:12px 0}
         .script-card{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:var(--radius-card);border:1px solid var(--border-color);box-shadow:0 12px 32px -8px rgba(0,0,0,0.5);transition:0.3s;display:flex;flex-direction:column;overflow:hidden;position:relative}
         .script-card:hover{transform:translateY(-6px);border-color:rgba(124,58,237,0.2)}
@@ -151,7 +147,7 @@
         .script-owner{font-size:0.55rem;color:var(--text-muted);margin-top:4px;display:flex;align-items:center;gap:4px}
         .script-owner img{width:14px;height:14px}
         
-        /* ===== MODAL ===== */
+        /* MODAL */
         .modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:16px;z-index:999999}
         .modal-overlay.open{display:flex}
         .modal-card{background:var(--bg-modal);backdrop-filter:blur(40px);max-width:550px;width:100%;max-height:85vh;overflow-y:auto;border-radius:40px;padding:24px;border:1px solid var(--border-color);box-shadow:var(--shadow);animation:slideUp 0.35s ease}
@@ -163,7 +159,7 @@
         .modal-close{background:rgba(255,255,255,0.04);border:1px solid var(--border-color);color:var(--text-muted);font-size:1.2rem;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:0.25s}
         .modal-close:hover{background:rgba(124,58,237,0.15);color:white}
         
-        /* ===== DAILY TASKS ===== */
+        /* DAILY TASKS */
         .daily-tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px;margin:6px 0}
         .daily-task{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:8px}
         .daily-task .task-icon{font-size:1.2rem}
@@ -176,7 +172,7 @@
         .daily-task.completed .task-status{color:var(--green)}
         .daily-task .task-bonus{grid-column:1/-1;text-align:center;padding:6px;background:rgba(253,203,110,0.04);border-radius:10px;border:1px solid rgba(253,203,110,0.06);margin-top:4px;font-size:0.65rem;color:var(--text-secondary)}
         
-        /* ===== ÇARK ===== */
+        /* ÇARK */
         .wheel-section{background:rgba(255,255,255,0.02);border-radius:16px;padding:16px 20px;margin:12px 0;border:1px solid var(--border-color);text-align:center}
         .wheel-container{position:relative;width:200px;height:200px;margin:10px auto}
         .wheel-canvas{width:100%;height:100%;border-radius:50%;border:4px solid var(--accent);box-shadow:0 0 40px rgba(124,58,237,0.2);transition:transform 4s cubic-bezier(0.17,0.67,0.12,0.99)}
@@ -192,7 +188,7 @@
         .wheel-result-popup .popup-content .sub{font-size:0.85rem;color:var(--text-secondary);margin:6px 0}
         @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
         
-        /* ===== FORM ===== */
+        /* FORM */
         .form-group{margin-bottom:12px}
         .form-group label{color:var(--text-secondary);font-size:0.75rem;display:block;margin-bottom:4px}
         .form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:8px 14px;color:var(--text-primary);font-size:0.85rem;outline:none;transition:0.25s}
@@ -201,13 +197,13 @@
         .submit-btn{background:var(--accent-gradient);border:none;padding:10px;width:100%;border-radius:60px;color:white;font-weight:700;font-size:0.9rem;cursor:pointer;transition:0.3s}
         .submit-btn:hover{transform:scale(1.02)}
         
-        /* ===== TOAST ===== */
+        /* TOAST */
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%)translateY(100px);background:var(--bg-modal);backdrop-filter:blur(20px);padding:8px 24px;border-radius:60px;color:var(--text-secondary);border:1px solid var(--border-color);z-index:9999999;transition:0.4s;opacity:0;pointer-events:none;font-size:0.8rem;display:flex;align-items:center;gap:12px;max-width:90%}
         .toast.show{opacity:1;transform:translateX(-50%)translateY(0);pointer-events:auto}
         .toast .toast-close{background:rgba(255,255,255,0.08);border:none;color:#fff;cursor:pointer;font-size:0.9rem;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;transition:0.2s}
         .toast .toast-close:hover{background:rgba(255,255,255,0.16)}
         
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         .footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--border-color);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--text-muted);font-size:0.7rem}
         .footer a{color:var(--accent-light);text-decoration:none}
         .footer a:hover{color:var(--accent)}
@@ -217,7 +213,7 @@
         .footer .social-links img{width:24px;height:24px;border-radius:6px}
         .footer .social-links .social-label{font-size:0.65rem;color:var(--accent-light)}
         
-        /* ===== ADMIN ===== */
+        /* ADMIN */
         .admin-list-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
         .admin-list-item .info{flex:1}
         .admin-list-item .info .title{color:var(--text-primary);font-size:0.85rem;font-weight:500}
@@ -232,7 +228,7 @@
         .admin-list-item .actions .edit-btn:hover{background:rgba(59,130,246,0.2)}
         .admin-list-item .actions .delete-btn-admin{background:rgba(255,0,0,0.12);color:#ff6b6b;font-weight:bold}
         .admin-list-item .actions .delete-btn-admin:hover{background:rgba(255,0,0,0.2)}
-        .admin-list-item .actions input{width:60px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px 6px;color:var(--text);font-size:0.65rem}
+        .admin-list-item .actions input{width:70px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:4px 8px;color:var(--text-primary);font-size:0.7rem}
         .badge-pending{background:rgba(251,191,36,0.12);color:#fbbf24;padding:2px 10px;border-radius:20px;font-size:0.5rem}
         .badge-approved{background:rgba(34,197,94,0.12);color:#4ade80;padding:2px 10px;border-radius:20px;font-size:0.5rem}
         .badge-rejected{background:rgba(255,0,0,0.08);color:#ff6b6b;padding:2px 10px;border-radius:20px;font-size:0.5rem}
@@ -252,7 +248,7 @@
         .admin-search-bar input:focus{border-color:var(--accent)}
         .admin-search-bar select{background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;padding:3px 10px;color:var(--text-primary);font-size:0.65rem;outline:none;min-height:32px}
         
-        /* ===== GAME CARD ===== */
+        /* GAME CARD */
         .game-card{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:var(--radius-card);border:1px solid var(--border-color);box-shadow:0 12px 32px -8px rgba(0,0,0,0.5);transition:0.3s;display:flex;flex-direction:column;overflow:hidden}
         .game-card:hover{transform:translateY(-6px);border-color:rgba(34,197,94,0.15)}
         .game-card .card-image{height:180px}
@@ -260,7 +256,7 @@
         .game-card .game-play-btn:hover{transform:scale(1.04);box-shadow:0 0 30px rgba(34,197,94,0.2)}
         .game-owner-tag{background:rgba(253,203,110,0.08);color:#fbbf24;font-size:0.5rem;padding:2px 10px;border-radius:20px}
         
-        /* ===== OTHER ===== */
+        /* OTHER */
         .empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--text-muted)}
         .loading{text-align:center;padding:40px;color:var(--accent-light);grid-column:1/-1}
         .loading-spinner{display:inline-block;width:30px;height:30px;border:3px solid rgba(167,139,250,0.08);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -351,7 +347,7 @@
         .theme-btn.blue{background:#3b82f6;color:white}
         .theme-btn.green{background:#22c55e;color:white}
         
-        /* ===== RESPONSIVE ===== */
+        /* RESPONSIVE */
         @media(max-width:768px){
             .app{padding:12px !important;border-radius:16px !important}
             .header{flex-direction:column !important;align-items:stretch !important;gap:6px !important}
@@ -895,7 +891,11 @@ async function loadUserCoins(uid) {
             userPurchases = data.purchases || [];
             updateCoinDisplay();
         } else {
-            await db.collection('kullanıcılar').doc(uid).set({ coins: 10, purchases: [], createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            await db.collection('kullanıcılar').doc(uid).set({ 
+                coins: 10, 
+                purchases: [], 
+                createdAt: firebase.firestore.FieldValue.serverTimestamp() 
+            });
             userCoins = 10;
             updateCoinDisplay();
         }
@@ -915,7 +915,10 @@ async function addCoins(amount, reason) {
 }
 
 async function spendCoins(amount) {
-    if (!currentUser || userCoins < amount) { showToast('❌ Yeterli coin yok!'); return false; }
+    if (!currentUser || userCoins < amount) { 
+        showToast('❌ Yeterli coin yok!'); 
+        return false; 
+    }
     try {
         await db.collection('kullanıcılar').doc(currentUser.uid).update({
             coins: firebase.firestore.FieldValue.increment(-amount)
@@ -926,11 +929,13 @@ async function spendCoins(amount) {
     } catch (e) { console.error(e); return false; }
 }
 
-function isScriptOwned(scriptId) { return userPurchases && userPurchases.includes(scriptId); }
-
 function openCoinShop() {
-    if (!currentUser) { showToast('❌ Lütfen giriş yapın!'); openAuthModal(); return; }
-    showToast('🪙 Mevcut Coin: ' + userCoins + ' | 💰 Coin kazanmak için günlük görevleri yap veya çarkı çevir!', 5000);
+    if (!currentUser) { 
+        showToast('❌ Lütfen giriş yapın!'); 
+        openAuthModal(); 
+        return; 
+    }
+    showToast('🪙 Mevcut Coin: ' + userCoins + ' | 💰 Coin almak için Discord: https://discord.gg/Bpn6bYFHsm', 5000);
 }
 
 // ==========================================
@@ -959,10 +964,13 @@ function drawWheel() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     WHEEL_SEGMENTS.forEach((seg, i) => {
         const startAngle = i * angleStep, endAngle = (i + 1) * angleStep;
-        ctx.beginPath(); ctx.moveTo(centerX, centerY); ctx.arc(centerX, centerY, radius, startAngle, endAngle); ctx.closePath();
+        ctx.beginPath(); ctx.moveTo(centerX, centerY); 
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle); 
+        ctx.closePath();
         ctx.fillStyle = seg.color; ctx.fill();
         ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 2; ctx.stroke();
-        ctx.save(); ctx.translate(centerX, centerY); ctx.rotate(startAngle + angleStep / 2);
+        ctx.save(); ctx.translate(centerX, centerY); 
+        ctx.rotate(startAngle + angleStep / 2);
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillStyle = 'white'; ctx.font = 'bold 13px Inter, sans-serif';
         ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 4;
@@ -971,10 +979,6 @@ function drawWheel() {
     });
     ctx.beginPath(); ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 3; ctx.stroke();
-    const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
-    gradient.addColorStop(0, 'rgba(0,0,0,0)'); gradient.addColorStop(1, 'rgba(0,0,0,0.08)');
-    ctx.beginPath(); ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.fillStyle = gradient; ctx.fill();
 }
 
 function getWheelResult(rotation) {
@@ -994,17 +998,20 @@ async function spinWheel() {
     if (isSpinning) return;
     isSpinning = true;
     const btn = document.getElementById('spinWheelBtn');
-    btn.disabled = true; btn.textContent = '⏳ Çevriliyor...';
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Çevriliyor...'; }
     const canvas = document.getElementById('wheelCanvas');
     const spinDegrees = 1440 + Math.random() * 720;
-    canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-    canvas.style.transform = `rotate(${spinDegrees}deg)`;
+    if (canvas) {
+        canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+        canvas.style.transform = `rotate(${spinDegrees}deg)`;
+    }
     const result = getWheelResult(spinDegrees);
     setTimeout(() => {
         isSpinning = false;
-        btn.disabled = false; btn.textContent = '🎡 Çevir';
+        if (btn) { btn.disabled = false; btn.textContent = '🎡 Çevir'; }
         localStorage.setItem(`wheel_${currentUser.uid}`, today);
-        document.getElementById('wheelStatus').textContent = '✅ Bugün çark çevrildi! Yarın tekrar gel.';
+        const status = document.getElementById('wheelStatus');
+        if (status) status.textContent = '✅ Bugün çark çevrildi! Yarın tekrar gel.';
         showWheelResult(result);
         renderDailyTasks();
         render();
@@ -1013,31 +1020,37 @@ async function spinWheel() {
 
 function showWheelResult(result) {
     const popup = document.getElementById('wheelResultPopup');
-    const emoji = document.getElementById('resultEmoji'), title = document.getElementById('resultTitle'), sub = document.getElementById('resultSub');
+    const emoji = document.getElementById('resultEmoji');
+    const title = document.getElementById('resultTitle');
+    const sub = document.getElementById('resultSub');
+    if (!popup || !emoji || !title || !sub) return;
     if (result.value === 'premium') {
-        emoji.textContent = '⭐'; title.textContent = 'Premium Script Kazandın!'; sub.textContent = 'Admin ile iletişime geç.';
-        addNotification('⭐ Premium script kazandın!');
+        emoji.textContent = '⭐'; title.textContent = 'Premium Script Kazandın!'; 
+        sub.textContent = 'Admin ile iletişime geç.';
     } else if (result.value === 'vip') {
-        emoji.textContent = '👑'; title.textContent = '1 Gün VIP Kazandın!'; sub.textContent = 'Admin ile iletişime geç.';
-        addNotification('👑 1 gün VIP kazandın!');
+        emoji.textContent = '👑'; title.textContent = '1 Gün VIP Kazandın!'; 
+        sub.textContent = 'Admin ile iletişime geç.';
     } else if (result.value === 'boost') {
-        emoji.textContent = '🎯'; title.textContent = '2x Coin Boost!'; sub.textContent = 'Bugün boyunca 2x coin kazanacaksın!';
+        emoji.textContent = '🎯'; title.textContent = '2x Coin Boost!'; 
+        sub.textContent = 'Bugün boyunca 2x coin kazanacaksın!';
         localStorage.setItem(`boost_${currentUser.uid}`, new Date().toDateString());
-        addNotification('🎯 2x coin boost aktif!');
     } else if (result.value > 0) {
         const bonus = localStorage.getItem(`boost_${currentUser.uid}`) === new Date().toDateString() ? 2 : 1;
         const finalAmount = result.value * bonus;
         emoji.textContent = '🎉'; title.textContent = `${finalAmount} 🪙 Kazandın!`;
         sub.textContent = bonus > 1 ? '(2x Boost aktif!)' : 'Çarktan kazandın!';
         addCoins(finalAmount, `🎡 Çarktan ${finalAmount} 🪙 kazandın!`);
-        addNotification(`🎡 ${finalAmount} 🪙 çarktan kazandın!`);
     } else {
-        emoji.textContent = '😅'; title.textContent = 'Boş!'; sub.textContent = 'Yarın tekrar dene, şansın yaver gider!';
+        emoji.textContent = '😅'; title.textContent = 'Boş!'; 
+        sub.textContent = 'Yarın tekrar dene, şansın yaver gider!';
     }
     popup.classList.add('show');
 }
 
-function closeWheelResult() { document.getElementById('wheelResultPopup').classList.remove('show'); }
+function closeWheelResult() { 
+    const popup = document.getElementById('wheelResultPopup');
+    if (popup) popup.classList.remove('show'); 
+}
 
 // ==========================================
 // GÜNLÜK GÖREVLER
@@ -1109,12 +1122,18 @@ function trackPremiumPurchase() {
 }
 
 function renderDailyTasks() {
-    if (!currentUser) { document.getElementById('dailyTasksContainer').style.display = 'none'; return; }
-    document.getElementById('dailyTasksContainer').style.display = 'block';
+    const container = document.getElementById('dailyTasksContainer');
+    if (!currentUser || !container) { 
+        if (container) container.style.display = 'none'; 
+        return; 
+    }
+    container.style.display = 'block';
     const progress = getDailyTaskProgress();
     const completedCount = Object.keys(progress.tasks || {}).length;
     const totalTasks = dailyTasks.length;
-    document.getElementById('dailyTasksList').innerHTML = dailyTasks.map(task => `
+    const list = document.getElementById('dailyTasksList');
+    if (!list) return;
+    list.innerHTML = dailyTasks.map(task => `
         <div class="daily-task ${progress.tasks[task.id] ? 'completed' : ''}">
             <span class="task-icon">${task.icon}</span>
             <div class="task-info">
@@ -1181,9 +1200,9 @@ function renderProfile() {
         return;
     }
     document.getElementById('profileContent').innerHTML = `
-        <div class="profile-header" style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-color);flex-wrap:wrap;">
-            <img src="${currentUser.photoURL || IMG.users}" alt="Profil" class="profile-avatar" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);" onerror="this.src='${IMG.users}'">
-            <div class="profile-info">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-color);flex-wrap:wrap;">
+            <img src="${currentUser.photoURL || IMG.users}" alt="Profil" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--accent);" onerror="this.src='${IMG.users}'">
+            <div>
                 <h3 style="color:var(--text-primary);font-size:1.1rem;">${escapeHtml(currentUser.displayName || 'Kullanıcı')}</h3>
                 <p style="color:var(--text-muted);font-size:0.8rem;">📧 ${escapeHtml(currentUser.email)}</p>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
@@ -1192,7 +1211,7 @@ function renderProfile() {
                 </div>
             </div>
         </div>
-        <div class="profile-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button class="btn btn-secondary" onclick="auth.signOut();closeProfileModalFn();showToast('👋 Çıkış yapıldı!');" style="padding:4px 16px;">🚪 Çıkış Yap</button>
         </div>
     `;
@@ -1445,6 +1464,10 @@ async function buyPremiumScript(scriptId, price) {
     }
 }
 
+function isScriptOwned(scriptId) { 
+    return userPurchases && userPurchases.includes(scriptId); 
+}
+
 function showScriptCode(scriptId) {
     const all = getAllScripts();
     const script = all.find(s => s.id === scriptId);
@@ -1621,14 +1644,17 @@ async function renderAdminUsers() {
         if (users.length === 0) return '<div class="empty-state"><p>Henüz kullanıcı yok</p></div>';
         return `<div class="admin-list">${users.map(u => `
             <div class="admin-list-item">
-                <div class="info"><div class="title">${escapeHtml(u.displayName || u.email || 'Anonim')}</div><div class="sub">🪙 ${u.coins || 0} coin</div></div>
+                <div class="info">
+                    <div class="title">${escapeHtml(u.displayName || u.email || 'Anonim')}</div>
+                    <div class="sub">🪙 ${u.coins || 0} coin · 📧 ${escapeHtml(u.email || 'E-posta yok')}</div>
+                </div>
                 <div class="actions">
-                    <input type="number" id="coinInput_${u.id}" placeholder="Miktar" style="width:60px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:3px 6px;color:var(--text);font-size:0.65rem;">
-                    <button class="approve-btn" onclick="adminGiveCoins('${u.id}')">💰</button>
+                    <input type="number" id="coinInput_${u.id}" placeholder="Miktar" style="width:70px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:4px 8px;color:var(--text-primary);font-size:0.7rem;">
+                    <button class="approve-btn" onclick="adminGiveCoins('${u.id}')" style="background:rgba(34,197,94,0.15);color:#4ade80;border:none;padding:4px 14px;border-radius:20px;cursor:pointer;font-size:0.65rem;transition:0.2s;">💰 Ver</button>
                 </div>
             </div>
         `).join('')}</div>`;
-    } catch (e) { return '<div>Kullanıcılar yüklenirken hata oluştu</div>'; }
+    } catch(e) { console.error(e); return '<div>Kullanıcılar yüklenirken hata oluştu</div>'; }
 }
 
 async function renderAdminReports() {
@@ -1649,8 +1675,11 @@ async function renderAdminReports() {
     } catch (e) { return '<div>Raporlar yüklenirken hata oluştu</div>'; }
 }
 
+// ==========================================
+// ADMIN FONKSİYONLARI
+// ==========================================
 window.adminApproveScript = async function(scriptId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return; }
     const priceInput = document.getElementById(`price_${scriptId}`);
     const price = parseInt(priceInput?.value) || 0;
     if (!confirm(`Bu scripti onaylamak istediğine emin misin? Fiyat: ${price} 🪙`)) return;
@@ -1663,7 +1692,7 @@ window.adminApproveScript = async function(scriptId) {
 };
 
 window.adminRejectScript = async function(scriptId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return; }
     if (!confirm('Bu scripti reddetmek istediğine emin misin?')) return;
     try {
         await db.collection('scripts').doc(scriptId).update({ status: 'rejected', rejectedAt: firebase.firestore.FieldValue.serverTimestamp() });
@@ -1673,7 +1702,7 @@ window.adminRejectScript = async function(scriptId) {
 };
 
 window.adminDeleteScript = async function(scriptId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return; }
     if (!confirm('Bu scripti SİLMEK istediğine emin misin?')) return;
     try {
         const all = getAllScripts();
@@ -1692,7 +1721,7 @@ window.adminDeleteScript = async function(scriptId) {
 };
 
 window.adminEditScript = async function(scriptId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return; }
     const all = getAllScripts();
     const script = all.find(s => s.id === scriptId);
     if (!script) { showToast('❌ Script bulunamadı!'); return; }
@@ -1714,20 +1743,34 @@ window.adminEditScript = async function(scriptId) {
     }
 };
 
+// ==========================================
+// ADMIN COİN VERME
+// ==========================================
 window.adminGiveCoins = async function(userId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { 
+        showToast('❌ Admin yetkisi gerekli!'); 
+        return; 
+    }
     const input = document.getElementById(`coinInput_${userId}`);
     const amount = parseInt(input?.value);
-    if (!amount || amount <= 0) { showToast('❌ Geçerli miktar girin!'); return; }
+    if (!amount || amount <= 0) { 
+        showToast('❌ Geçerli miktar girin!'); 
+        return; 
+    }
+    if (!confirm(`${amount} 🪙 coin vermek istediğine emin misin?`)) return;
     try {
-        await db.collection('kullanıcılar').doc(userId).update({ coins: firebase.firestore.FieldValue.increment(amount) });
+        await db.collection('kullanıcılar').doc(userId).update({
+            coins: firebase.firestore.FieldValue.increment(amount)
+        });
         showToast(`💰 ${amount} coin verildi!`);
         renderAdminPanel();
-    } catch (e) { showToast('❌ Hata: ' + e.message); }
+    } catch(e) { 
+        showToast('❌ Hata: ' + e.message); 
+    }
 };
 
 window.adminResolveReport = async function(reportId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return; }
     try {
         await db.collection('reports').doc(reportId).update({ status: 'resolved', resolvedAt: firebase.firestore.FieldValue.serverTimestamp() });
         showToast('✅ Rapor çözüldü!');
@@ -1736,7 +1779,7 @@ window.adminResolveReport = async function(reportId) {
 };
 
 window.adminDeleteReport = async function(reportId) {
-    if (!requireAdmin()) return;
+    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return; }
     if (!confirm('Bu raporu silmek istediğine emin misin?')) return;
     try {
         await db.collection('reports').doc(reportId).delete();
@@ -1748,11 +1791,6 @@ window.adminDeleteReport = async function(reportId) {
 function switchAdminTab(tab) {
     currentAdminTab = tab;
     renderAdminPanel();
-}
-
-function requireAdmin() {
-    if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return false; }
-    return true;
 }
 
 // ==========================================
