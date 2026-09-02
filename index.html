@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>ScriptVerse · En Büyük Script Arşivi</title>
 
-    <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-1079812363517680" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous">
     </script>
 
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js">
@@ -20,52 +18,81 @@
 
     <style>
         /* ============================
-                   RESET & ROOT
+                   COMPLETE RESET & ROOT
                 ============================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', -apple-system, system-ui, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
         }
 
         :root {
-            --bg: #0c0c14;
-            --bg2: #14141f;
+            --bg: #0a0a12;
+            --bg2: #111122;
             --bg3: #1a1a2e;
-            --card: rgba(255, 255, 255, 0.03);
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.04);
             --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(108, 92, 231, 0.2);
             --text: #f0f0ff;
-            --text2: #a8a8c8;
+            --text2: #b0b0d0;
             --text3: #6a6a8a;
             --accent: #6c5ce7;
             --accent2: #a29bfe;
+            --accent3: #fd79a8;
             --gold: #fdcb6e;
             --green: #2ecc71;
             --red: #ff6b6b;
             --radius: 16px;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 30px 80px rgba(108, 92, 231, 0.15);
         }
 
         body {
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding: 12px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         /* ============================
-                   APP
+                   HERO BACKGROUND
+                ============================ */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(108, 92, 231, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(253, 121, 168, 0.04) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236c5ce7' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        /* ============================
+                   APP CONTAINER
                 ============================ */
         .app {
+            position: relative;
+            z-index: 1;
             max-width: 1400px;
             margin: 0 auto;
-            background: rgba(12, 12, 20, 0.92);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            padding: 20px 24px 30px;
         }
 
         /* ============================
@@ -75,11 +102,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 20px;
+            padding: 12px 20px;
+            background: rgba(10, 10, 18, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            position: sticky;
+            top: 12px;
+            z-index: 100;
         }
 
         .logo {
@@ -97,29 +130,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 900;
             color: #fff;
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.2);
+            box-shadow: 0 0 40px rgba(108, 92, 231, 0.2);
         }
 
         .logo h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             background: linear-gradient(135deg, #6c5ce7, #fd79a8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            font-weight: 800;
             letter-spacing: -0.5px;
         }
 
         .logo span {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--text3);
             display: block;
             margin-top: -2px;
+            letter-spacing: 0.5px;
         }
 
-        .header-actions {
+        .header-right {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -131,8 +166,8 @@
                 ============================ */
         .search-wrap {
             flex: 1;
-            min-width: 160px;
-            max-width: 420px;
+            min-width: 200px;
+            max-width: 450px;
             background: rgba(255, 255, 255, 0.04);
             border-radius: 40px;
             padding: 8px 18px;
@@ -144,7 +179,14 @@
 
         .search-wrap:focus-within {
             border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.06);
+            box-shadow: 0 0 40px rgba(108, 92, 231, 0.06);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .search-wrap .icon {
+            color: var(--text3);
+            margin-right: 10px;
+            font-size: 0.9rem;
         }
 
         .search-wrap input {
@@ -160,17 +202,11 @@
             color: var(--text3);
         }
 
-        .search-wrap .icon {
-            color: var(--text3);
-            margin-right: 10px;
-            font-size: 0.9rem;
-        }
-
         /* ============================
                    BUTTONS
                 ============================ */
         .btn {
-            padding: 6px 16px;
+            padding: 7px 18px;
             border-radius: 40px;
             border: none;
             font-weight: 600;
@@ -186,10 +222,11 @@
         .btn-primary {
             background: linear-gradient(135deg, #6c5ce7, #fd79a8);
             color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
         }
         .btn-primary:hover {
             transform: scale(1.04);
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.25);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35);
         }
 
         .btn-secondary {
@@ -199,13 +236,14 @@
         }
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
         }
 
         .btn-auth {
             background: rgba(108, 92, 231, 0.12);
             border: 1px solid rgba(108, 92, 231, 0.15);
             color: var(--accent2);
-            padding: 6px 16px;
+            padding: 7px 18px;
             border-radius: 40px;
             font-weight: 600;
             font-size: 0.75rem;
@@ -216,10 +254,12 @@
         }
         .btn-auth:hover {
             background: rgba(108, 92, 231, 0.2);
+            transform: scale(1.03);
         }
+
         .btn-auth .avatar {
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             object-fit: cover;
         }
@@ -227,17 +267,18 @@
         .btn-admin {
             background: linear-gradient(135deg, #ff6b6b, #ee5a24);
             color: #fff;
-            padding: 6px 16px;
+            padding: 7px 18px;
             border-radius: 40px;
             border: none;
             font-weight: 600;
             font-size: 0.75rem;
             cursor: pointer;
             display: none;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.2);
         }
         .btn-admin:hover {
             transform: scale(1.04);
-            box-shadow: 0 0 30px rgba(255, 107, 107, 0.25);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.35);
         }
 
         /* ============================
@@ -245,8 +286,8 @@
                 ============================ */
         .coin {
             background: rgba(253, 203, 110, 0.08);
-            border: 1px solid rgba(253, 203, 110, 0.12);
-            padding: 4px 14px;
+            border: 1px solid rgba(253, 203, 110, 0.1);
+            padding: 5px 16px;
             border-radius: 40px;
             display: inline-flex;
             align-items: center;
@@ -297,11 +338,124 @@
         @keyframes diamondPulse {
             0%,
             100% {
-                box-shadow: 0 0 10px rgba(0, 206, 209, 0.1);
+                box-shadow: 0 0 10px rgba(0, 206, 209, 0.05);
             }
             50% {
-                box-shadow: 0 0 30px rgba(0, 206, 209, 0.25);
+                box-shadow: 0 0 30px rgba(0, 206, 209, 0.15);
             }
+        }
+
+        /* ============================
+                   HERO SECTION
+                ============================ */
+        .hero {
+            text-align: center;
+            padding: 40px 20px 50px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, #a29bfe, #fd79a8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text2);
+            margin-top: 12px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats .stat {
+            text-align: center;
+        }
+        .hero-stats .stat .number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+        .hero-stats .stat .label {
+            font-size: 0.7rem;
+            color: var(--text3);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .hero .search-wrap {
+            max-width: 600px;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+        }
+        .hero .search-wrap input {
+            font-size: 1rem;
+        }
+
+        .hero .popular-tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .hero .popular-tags span {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: var(--text2);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .hero .popular-tags span:hover {
+            background: rgba(108, 92, 231, 0.1);
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        /* ============================
+                   SECTION TITLE
+                ============================ */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 32px 0 16px;
+        }
+        .section-title h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .section-title h2 span {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text3);
+            margin-left: 8px;
+        }
+        .section-title a {
+            color: var(--accent2);
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: 0.25s;
+        }
+        .section-title a:hover {
+            color: var(--accent);
         }
 
         /* ============================
@@ -309,10 +463,10 @@
                 ============================ */
         .cats {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             overflow-x: auto;
             padding: 4px 0 16px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
         }
@@ -324,28 +478,36 @@
             flex: 0 0 auto;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border);
-            padding: 4px 14px;
+            padding: 8px 20px;
             border-radius: 40px;
             color: var(--text2);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             cursor: pointer;
             white-space: nowrap;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .cat:hover {
-            background: rgba(108, 92, 231, 0.08);
+            background: rgba(108, 92, 231, 0.06);
+            border-color: var(--border-hover);
         }
         .cat.active {
             background: linear-gradient(135deg, #6c5ce7, #fd79a8);
             color: #fff;
             border-color: transparent;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
         }
         .cat .badge {
             background: rgba(255, 255, 255, 0.12);
-            padding: 0 6px;
-            border-radius: 10px;
+            padding: 0 8px;
+            border-radius: 12px;
             font-size: 0.5rem;
-            margin-left: 4px;
+            font-weight: 700;
+        }
+        .cat .icon {
+            font-size: 1rem;
         }
 
         /* ============================
@@ -354,40 +516,50 @@
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            gap: 20px;
         }
 
         /* ============================
-                   SCRIPT CARD (rblxscripts.net TARZI)
+                   SCRIPT CARD (PREMIUM)
                 ============================ */
         .card {
-            background: var(--card);
+            background: var(--bg-card);
             border-radius: var(--radius);
             border: 1px solid var(--border);
             overflow: hidden;
-            transition: 0.3s;
+            transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
         .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(108, 92, 231, 0.15);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-6px);
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-hover);
         }
         .card.premium {
             border-color: rgba(253, 203, 110, 0.1);
         }
-        .card.premium::before {
-            content: '⭐';
+        .card.premium:hover {
+            border-color: rgba(253, 203, 110, 0.2);
+        }
+        .card.premium .premium-badge {
             position: absolute;
-            top: 10px;
+            top: 12px;
             right: 12px;
-            font-size: 1.1rem;
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: #1a1a2e;
             z-index: 2;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(253, 203, 110, 0.2);
         }
 
         .card-img {
             width: 100%;
-            height: 150px;
+            height: 160px;
             background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
             display: flex;
             align-items: center;
@@ -402,22 +574,21 @@
         }
         .card-img .price-tag {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: 10px;
+            right: 10px;
             background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(8px);
-            padding: 2px 12px;
+            padding: 2px 14px;
             border-radius: 20px;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--gold);
             border: 1px solid rgba(253, 203, 110, 0.1);
         }
 
-        /* Badge'ler (Key System, Mobile Friendly vs) */
         .card-badges {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 12px;
+            left: 12px;
             display: flex;
             gap: 4px;
             flex-wrap: wrap;
@@ -447,7 +618,7 @@
         }
 
         .card-body {
-            padding: 12px 14px 14px;
+            padding: 14px 16px 16px;
         }
 
         .card-top {
@@ -458,19 +629,20 @@
         }
         .card-top h3 {
             font-size: 0.95rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 6px;
             flex: 1;
         }
-        .card-top h3 img {
+        .card-top h3 .cat-icon {
             width: 18px;
             height: 18px;
             border-radius: 4px;
             object-fit: cover;
             flex-shrink: 0;
         }
-        .fav {
+        .card-top .fav {
             background: none;
             border: none;
             font-size: 1.1rem;
@@ -480,16 +652,16 @@
             transition: 0.3s;
             flex-shrink: 0;
         }
-        .fav:hover {
+        .card-top .fav:hover {
             transform: scale(1.2);
         }
-        .fav.active {
+        .card-top .fav.active {
             color: #ff6b81;
         }
 
         .card-meta {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             font-size: 0.6rem;
             color: var(--text3);
             margin: 4px 0 6px;
@@ -509,12 +681,18 @@
             font-size: 0.5rem;
             margin-left: 4px;
         }
+        .card-meta .category-tag {
+            background: rgba(108, 92, 231, 0.08);
+            padding: 0 8px;
+            border-radius: 12px;
+            color: var(--accent2);
+        }
 
         .card-desc {
             color: var(--text2);
             font-size: 0.8rem;
-            line-height: 1.4;
-            margin: 2px 0 6px;
+            line-height: 1.5;
+            margin: 4px 0 8px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -525,22 +703,23 @@
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
-            margin: 4px 0;
+            margin: 4px 0 8px;
         }
         .card-features span {
             background: rgba(108, 92, 231, 0.06);
-            padding: 0 8px;
+            padding: 0 10px;
             border-radius: 20px;
             font-size: 0.55rem;
             color: var(--accent2);
+            border: 1px solid rgba(108, 92, 231, 0.04);
         }
 
         .card-stats {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             font-size: 0.6rem;
             color: var(--text3);
-            margin: 6px 0 8px;
+            margin: 6px 0 10px;
         }
         .card-stats span {
             display: inline-flex;
@@ -553,14 +732,16 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
         }
 
         .btn-get {
-            padding: 4px 18px;
+            padding: 5px 20px;
             border-radius: 40px;
             border: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.75rem;
             cursor: pointer;
             background: linear-gradient(135deg, #6c5ce7, #fd79a8);
@@ -569,11 +750,14 @@
         }
         .btn-get:hover {
             transform: scale(1.04);
-            box-shadow: 0 0 30px rgba(108, 92, 231, 0.2);
+            box-shadow: 0 4px 25px rgba(108, 92, 231, 0.25);
         }
         .btn-get.premium {
             background: linear-gradient(135deg, #fdcb6e, #f39c12);
             color: #1a1a2e;
+        }
+        .btn-get.premium:hover {
+            box-shadow: 0 4px 25px rgba(253, 203, 110, 0.25);
         }
         .btn-get.locked {
             opacity: 0.5;
@@ -590,9 +774,9 @@
         .daily {
             background: rgba(255, 255, 255, 0.02);
             border-radius: var(--radius);
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 1px solid var(--border);
-            margin-bottom: 16px;
+            margin: 16px 0 20px;
             display: none;
         }
         .daily.show {
@@ -601,22 +785,22 @@
         .daily .title {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .daily .title .bonus {
             background: rgba(253, 203, 110, 0.1);
             color: var(--gold);
-            padding: 0 10px;
+            padding: 0 12px;
             border-radius: 20px;
             font-size: 0.55rem;
         }
         .daily-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 6px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 8px;
         }
         .daily-item {
             background: rgba(255, 255, 255, 0.02);
@@ -636,6 +820,7 @@
         .daily-item .info .name {
             font-size: 0.7rem;
             color: var(--text);
+            font-weight: 600;
         }
         .daily-item .info .desc {
             font-size: 0.55rem;
@@ -644,6 +829,7 @@
         .daily-item .reward {
             font-size: 0.6rem;
             color: var(--gold);
+            font-weight: 600;
         }
         .daily-item .status {
             font-size: 0.9rem;
@@ -660,29 +846,34 @@
                 ============================ */
         .empty {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             color: var(--text3);
             grid-column: 1/-1;
         }
         .empty .icon {
-            font-size: 3rem;
-            margin-bottom: 8px;
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+        }
+        .empty h3 {
+            color: var(--text2);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
         }
 
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 50px;
             color: var(--accent2);
             grid-column: 1/-1;
         }
         .loading .spinner {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             border: 3px solid rgba(108, 92, 231, 0.08);
             border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 12px;
         }
         @keyframes spin {
             to {
@@ -822,6 +1013,7 @@
             color: var(--text2);
             font-size: 0.75rem;
             margin-bottom: 4px;
+            font-weight: 600;
         }
         .form-group input,
         .form-group select,
@@ -841,6 +1033,7 @@
         .form-group textarea:focus {
             border-color: var(--accent);
             box-shadow: 0 0 20px rgba(108, 92, 231, 0.05);
+            background: rgba(255, 255, 255, 0.06);
         }
         .form-group textarea {
             min-height: 60px;
@@ -862,12 +1055,13 @@
             color: var(--text2);
             border: 1px solid var(--border);
             z-index: 99999;
-            transition: 0.4s;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
             pointer-events: none;
             font-size: 0.8rem;
             max-width: 90%;
             text-align: center;
+            box-shadow: var(--shadow);
         }
         .toast.show {
             opacity: 1;
@@ -879,23 +1073,38 @@
                    FOOTER
                 ============================ */
         .footer {
-            margin-top: 24px;
-            padding-top: 14px;
+            margin-top: 40px;
+            padding-top: 24px;
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 16px;
             color: var(--text3);
-            font-size: 0.65rem;
+            font-size: 0.7rem;
+        }
+        .footer .links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
         }
         .footer a {
-            color: var(--accent2);
+            color: var(--text3);
             text-decoration: none;
             transition: 0.25s;
         }
         .footer a:hover {
-            color: var(--accent);
+            color: var(--accent2);
+        }
+        .footer .social {
+            display: flex;
+            gap: 14px;
+        }
+        .footer .social a {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
         }
 
         /* ============================
@@ -914,137 +1123,6 @@
         }
 
         /* ============================
-                   RESPONSIVE
-                ============================ */
-        @media (max-width: 768px) {
-            .app {
-                padding: 12px;
-                border-radius: 16px;
-            }
-
-            .header {
-                gap: 8px;
-            }
-            .logo h1 {
-                font-size: 1.1rem;
-            }
-            .logo span {
-                font-size: 0.5rem;
-            }
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-
-            .search-wrap {
-                min-width: 120px;
-                padding: 6px 14px;
-            }
-            .search-wrap input {
-                font-size: 0.75rem;
-            }
-
-            .header-actions {
-                gap: 4px;
-            }
-            .coin {
-                padding: 3px 10px;
-                font-size: 0.7rem;
-            }
-            .coin .amount {
-                font-size: 0.75rem;
-            }
-            .btn {
-                padding: 4px 12px;
-                font-size: 0.65rem;
-            }
-            .btn-auth {
-                padding: 4px 12px;
-                font-size: 0.65rem;
-            }
-            .btn-admin {
-                padding: 4px 12px;
-                font-size: 0.65rem;
-            }
-
-            .cat {
-                font-size: 0.65rem;
-                padding: 3px 10px;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .card-img {
-                height: 130px;
-            }
-            .card-body {
-                padding: 10px 12px 12px;
-            }
-            .card-top h3 {
-                font-size: 0.85rem;
-            }
-            .card-desc {
-                font-size: 0.75rem;
-            }
-            .btn-get {
-                font-size: 0.65rem;
-                padding: 3px 14px;
-            }
-
-            .daily-list {
-                grid-template-columns: 1fr;
-            }
-            .daily-item {
-                padding: 6px 10px;
-            }
-
-            .modal {
-                padding: 16px;
-                margin: 8px;
-            }
-
-            .footer {
-                flex-direction: column;
-                text-align: center;
-                gap: 4px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 6px;
-            }
-            .app {
-                padding: 8px;
-                border-radius: 12px;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 6px;
-            }
-            .logo {
-                justify-content: center;
-            }
-            .search-wrap {
-                width: 100%;
-                max-width: 100%;
-            }
-            .header-actions {
-                justify-content: center;
-            }
-
-            .card-img {
-                height: 110px;
-            }
-        }
-
-        /* ============================
                    AUTH TABS
                 ============================ */
         .auth-tabs {
@@ -1054,7 +1132,7 @@
         }
         .auth-tabs button {
             flex: 1;
-            padding: 6px;
+            padding: 8px;
             border-radius: 30px;
             border: 1px solid var(--border);
             background: transparent;
@@ -1099,27 +1177,33 @@
         .shop-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 8px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 10px;
         }
         .shop-item {
-            background: var(--card);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 12px;
+            padding: 14px;
             text-align: center;
+            transition: 0.25s;
+        }
+        .shop-item:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
         }
         .shop-item .icon {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
         .shop-item .price {
             font-weight: 700;
             color: var(--gold);
             font-size: 1rem;
+            margin: 4px 0;
         }
         .shop-item .btn {
             width: 100%;
-            margin-top: 4px;
+            margin-top: 6px;
             padding: 4px;
             font-size: 0.65rem;
             justify-content: center;
@@ -1128,10 +1212,350 @@
             border-color: rgba(253, 203, 110, 0.15);
             background: rgba(253, 203, 110, 0.03);
         }
+
+        /* ============================
+                   ADMIN PANEL
+                ============================ */
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .admin-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+        .admin-stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent2);
+        }
+        .admin-stat-card .label {
+            font-size: 0.65rem;
+            color: var(--text3);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .admin-tabs .btn {
+            font-size: 0.7rem;
+            padding: 5px 14px;
+        }
+
+        .admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .admin-item .info .title {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .admin-item .info .sub {
+            font-size: 0.65rem;
+            color: var(--text3);
+        }
+        .admin-item .actions {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .admin-item .actions input {
+            width: 60px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px 6px;
+            color: var(--text);
+            font-size: 0.7rem;
+        }
+        .admin-item .actions .btn-sm {
+            padding: 2px 10px;
+            font-size: 0.6rem;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .admin-item .actions .btn-sm.edit {
+            background: rgba(108, 92, 231, 0.12);
+            color: var(--accent2);
+        }
+        .admin-item .actions .btn-sm.edit:hover {
+            background: rgba(108, 92, 231, 0.2);
+        }
+        .admin-item .actions .btn-sm.delete {
+            background: rgba(255, 107, 107, 0.12);
+            color: var(--red);
+        }
+        .admin-item .actions .btn-sm.delete:hover {
+            background: rgba(255, 107, 107, 0.2);
+        }
+        .admin-item .actions .btn-sm.premium {
+            background: rgba(253, 203, 110, 0.12);
+            color: var(--gold);
+        }
+        .admin-item .actions .btn-sm.premium:hover {
+            background: rgba(253, 203, 110, 0.2);
+        }
+        .admin-item .actions .btn-sm.green {
+            background: rgba(46, 204, 113, 0.12);
+            color: var(--green);
+        }
+        .admin-item .actions .btn-sm.green:hover {
+            background: rgba(46, 204, 113, 0.2);
+        }
+        .admin-item .actions .btn-sm.red {
+            background: rgba(255, 107, 107, 0.12);
+            color: var(--red);
+        }
+        .admin-item .actions .btn-sm.red:hover {
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        .admin-search-bar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .admin-search-bar input {
+            flex: 1;
+            min-width: 150px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 6px 14px;
+            color: var(--text);
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .admin-search-bar input:focus {
+            border-color: var(--accent);
+        }
+        .admin-search-bar select {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 6px 14px;
+            color: var(--text);
+            font-size: 0.75rem;
+            outline: none;
+        }
+        .admin-search-bar select:focus {
+            border-color: var(--accent);
+        }
+
+        .admin-list-scroll {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* ============================
+                   RESPONSIVE
+                ============================ */
+        @media (max-width: 768px) {
+            .app {
+                padding: 12px 14px 20px;
+            }
+
+            .header {
+                padding: 10px 14px;
+                gap: 8px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .search-wrap {
+                width: 100%;
+                max-width: 100%;
+                padding: 6px 14px;
+            }
+            .search-wrap input {
+                font-size: 0.8rem;
+            }
+
+            .header-right {
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 0.9rem;
+            }
+            .hero-stats {
+                gap: 20px;
+            }
+            .hero-stats .stat .number {
+                font-size: 1.3rem;
+            }
+
+            .section-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .section-title h2 {
+                font-size: 1.1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .card-img {
+                height: 130px;
+            }
+            .card-body {
+                padding: 10px 12px 12px;
+            }
+            .card-top h3 {
+                font-size: 0.85rem;
+            }
+            .card-desc {
+                font-size: 0.75rem;
+            }
+            .btn-get {
+                font-size: 0.65rem;
+                padding: 4px 14px;
+            }
+
+            .daily-list {
+                grid-template-columns: 1fr;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+            .footer .links {
+                justify-content: center;
+            }
+            .footer .social {
+                justify-content: center;
+            }
+
+            .modal {
+                padding: 16px;
+                margin: 8px;
+            }
+
+            .cat {
+                padding: 5px 14px;
+                font-size: 0.7rem;
+            }
+            .cat .icon {
+                font-size: 0.85rem;
+            }
+
+            .admin-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .admin-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .admin-item .actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app {
+                padding: 8px 10px 16px;
+            }
+            .header {
+                padding: 8px 12px;
+                border-radius: 14px;
+            }
+            .hero {
+                padding: 20px 10px 30px;
+            }
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .hero .search-wrap {
+                padding: 6px 14px;
+            }
+            .hero .search-wrap input {
+                font-size: 0.85rem;
+            }
+            .hero-stats {
+                gap: 12px;
+            }
+            .hero-stats .stat .number {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: 4px 12px;
+                font-size: 0.65rem;
+            }
+            .btn-auth {
+                padding: 4px 12px;
+                font-size: 0.65rem;
+            }
+            .btn-admin {
+                padding: 4px 12px;
+                font-size: 0.65rem;
+            }
+            .coin {
+                padding: 3px 10px;
+                font-size: 0.65rem;
+            }
+            .coin .amount {
+                font-size: 0.75rem;
+            }
+
+            .card-img {
+                height: 110px;
+            }
+
+            .shop-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Hero Background -->
+    <div class="hero-bg"></div>
+
+    <!-- ==========================================
+    APP
+    ========================================== -->
     <div class="app" id="app">
 
         <!-- ===== HEADER ===== -->
@@ -1146,10 +1570,10 @@
 
             <div class="search-wrap">
                 <span class="icon">🔍</span>
-                <input type="text" id="searchInput" placeholder="Script ara..." autocomplete="off" />
+                <input type="text" id="searchInput" placeholder="Script, oyun veya kategori ara..." autocomplete="off" />
             </div>
 
-            <div class="header-actions">
+            <div class="header-right">
                 <div class="coin" id="coinDisplay" onclick="openShop()">
                     🪙 <span class="amount" id="coinAmount">0</span>
                     <span class="rank-badge bronze" id="rankBadge">Bronz</span>
@@ -1165,6 +1589,42 @@
             </div>
         </header>
 
+        <!-- ===== HERO ===== -->
+        <section class="hero">
+            <h1>⚡ ScriptVerse</h1>
+            <p>Roblox için en büyük script ve oyun arşivi. Her gün yeni scriptler ekleniyor!</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="number" id="totalScripts">1,247</div>
+                    <span class="label">📜 Toplam Script</span>
+                </div>
+                <div class="stat">
+                    <div class="number" id="totalUsers">892</div>
+                    <span class="label">👥 Kullanıcı</span>
+                </div>
+                <div class="stat">
+                    <div class="number" id="totalDownloads">15.3K</div>
+                    <span class="label">⬇️ Toplam İndirme</span>
+                </div>
+                <div class="stat">
+                    <div class="number" id="totalCoins">4.2K</div>
+                    <span class="label">🪙 Coin Dağıtıldı</span>
+                </div>
+            </div>
+            <div class="search-wrap">
+                <span class="icon">🔍</span>
+                <input type="text" id="heroSearch" placeholder="Script, oyun veya kategori ara..." autocomplete="off" />
+            </div>
+            <div class="popular-tags">
+                <span onclick="searchTag('mm2')">🗡️ MM2</span>
+                <span onclick="searchTag('bloxfruits')">🍉 Blox Fruits</span>
+                <span onclick="searchTag('petsim')">🐾 Pet Sim</span>
+                <span onclick="searchTag('dahood')">🔫 Da Hood</span>
+                <span onclick="searchTag('bladeball')">⚡ Blade Ball</span>
+                <span onclick="searchTag('brookhaven')">🏡 Brookhaven</span>
+            </div>
+        </section>
+
         <!-- ===== DAILY TASKS ===== -->
         <div class="daily" id="dailyTasks">
             <div class="title">
@@ -1176,32 +1636,50 @@
 
         <!-- ===== CATEGORIES ===== -->
         <div class="cats" id="categoryFilter">
-            <button class="cat active" data-cat="all">📋 Hepsi</button>
-            <button class="cat" data-cat="premium">⭐ Premium</button>
-            <button class="cat" data-cat="mm2">🗡️ MM2</button>
-            <button class="cat" data-cat="bloxfruits">🍉 Blox Fruits</button>
-            <button class="cat" data-cat="petsim">🐾 Pet Sim</button>
-            <button class="cat" data-cat="dahood">🔫 Da Hood</button>
-            <button class="cat" data-cat="bladeball">⚡ Blade Ball</button>
-            <button class="cat" data-cat="brookhaven">🏡 BH</button>
-            <button class="cat" data-cat="other">🎮 Diğer</button>
-            <button class="cat" data-cat="community">🌍 Topluluk</button>
-            <button class="cat" data-cat="favorites">❤️ Favoriler</button>
-            <button class="cat" data-cat="games" style="border-color:rgba(46,204,113,0.15);">
-                🎮 Oyunlar
+            <button class="cat active" data-cat="all"><span class="icon">📋</span> Hepsi <span class="badge" id="totalBadge">0</span></button>
+            <button class="cat" data-cat="premium"><span class="icon">⭐</span> Premium <span class="badge" id="premiumBadge">0</span></button>
+            <button class="cat" data-cat="mm2"><span class="icon">🗡️</span> MM2 <span class="badge" id="mm2Badge">0</span></button>
+            <button class="cat" data-cat="bloxfruits"><span class="icon">🍉</span> Blox Fruits <span class="badge" id="bfBadge">0</span></button>
+            <button class="cat" data-cat="petsim"><span class="icon">🐾</span> Pet Sim <span class="badge" id="psBadge">0</span></button>
+            <button class="cat" data-cat="dahood"><span class="icon">🔫</span> Da Hood <span class="badge" id="dhBadge">0</span></button>
+            <button class="cat" data-cat="bladeball"><span class="icon">⚡</span> Blade Ball <span class="badge" id="bbBadge">0</span></button>
+            <button class="cat" data-cat="brookhaven"><span class="icon">🏡</span> Brookhaven <span class="badge" id="bhBadge">0</span></button>
+            <button class="cat" data-cat="other"><span class="icon">🎮</span> Diğer <span class="badge" id="otherBadge">0</span></button>
+            <button class="cat" data-cat="community"><span class="icon">🌍</span> Topluluk <span class="badge" id="communityBadge">0</span></button>
+            <button class="cat" data-cat="favorites"><span class="icon">❤️</span> Favoriler <span class="badge" id="favBadge">0</span></button>
+            <button class="cat" data-cat="games" style="border-color:rgba(46,204,113,0.12);">
+                <span class="icon">🎮</span> Oyunlar <span class="badge" id="gameBadge">0</span>
             </button>
         </div>
 
         <!-- ===== GRID ===== -->
+        <div class="section-title">
+            <h2>📜 Tüm Scriptler <span id="scriptCount">(0)</span></h2>
+            <a href="#" onclick="return false;">Tümünü Gör →</a>
+        </div>
         <div class="grid" id="scriptGrid">
             <div class="loading"><div class="spinner"></div>Yükleniyor...</div>
         </div>
 
         <!-- ===== FOOTER ===== -->
         <footer class="footer">
-            <span>© 2026 ScriptVerse</span>
             <div>
-                <a href="#">Discord</a> · <a href="#">YouTube</a> · <a href="#">TikTok</a>
+                <strong>⚡ ScriptVerse</strong> · En Büyük Script Arşivi
+            </div>
+            <div class="links">
+                <a href="#">📜 Scriptler</a>
+                <a href="#">🎮 Oyunlar</a>
+                <a href="#">📚 Kategoriler</a>
+                <a href="#">ℹ️ Hakkında</a>
+            </div>
+            <div class="social">
+                <a href="#">💬 Discord</a>
+                <a href="#">▶️ YouTube</a>
+                <a href="#">🎵 TikTok</a>
+                <a href="#">🐦 Twitter</a>
+            </div>
+            <div style="width:100%;text-align:center;padding-top:12px;border-top:1px solid var(--border);font-size:0.6rem;color:var(--text3);">
+                © 2026 ScriptVerse · Tüm hakları saklıdır · 🔒 Güvenli bağlantı
             </div>
         </footer>
     </div>
@@ -1338,8 +1816,8 @@
                 <button class="modal-close" id="closeShopModal">✕</button>
             </div>
             <div style="text-align:center;padding:4px 0;">
-                <div style="font-size:2rem;">🪙</div>
-                <div style="font-size:1.5rem;color:var(--gold);font-weight:700;" id="shopCoin">0</div>
+                <div style="font-size:2.5rem;">🪙</div>
+                <div style="font-size:1.8rem;color:var(--gold);font-weight:700;" id="shopCoin">0</div>
                 <div style="color:var(--text3);font-size:0.7rem;margin-bottom:12px;">Toplam Coin'in</div>
                 <div class="shop-grid">
                     <div class="shop-item">
@@ -1431,34 +1909,34 @@
         // PREMIUM SCRIPTS (HARDCODED)
         // ==========================================
         const premiumScripts = [
-            { id: 'p1', name: 'Zen X MM2', category: 'mm2', desc: 'Otomatik kasa, aimbot ve ESP', features: ['Aimbot', 'Auto Farm',
-                    'ESP', 'God Mode'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",
-                price: 100, isPremium: true, views: 420 },
-            { id: 'p2', name: 'MM2 Sniper Pro', category: 'mm2', desc: 'Otomatik bıçak toplama ve aim', features: [
-                    'Auto Collect', 'Aimbot', 'ESP', 'Teleport'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",
-                price: 80, isPremium: true, views: 300 },
-            { id: 'p3', name: 'Blox Fruits OP', category: 'bloxfruits', desc: 'Otomatik farm, boss avcısı', features: [
-                    'Auto Farm', 'Boss Hunter', 'Teleport', 'ESP'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BloxFruitsOP/script/main/op.lua'))()",
-                price: 150, isPremium: true, views: 8981 },
-            { id: 'p4', name: 'Pet Sim 99 Auto', category: 'petsim', desc: 'Otomatik coin ve elmas toplama', features: [
-                    'Auto Farm', 'Auto Collect', 'Speed Hack'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/PetSim99/script/main/auto.lua'))()",
-                price: 120, isPremium: true, views: 961 },
-            { id: 'p5', name: 'Da Hood Aimbot', category: 'dahood', desc: 'Gelişmiş aimbot ve wallhack', features: ['Aimbot',
-                    'Wallhack', 'ESP', 'Speed'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/DaHood/script/main/aimbot.lua'))()",
-                price: 90, isPremium: true, views: 950 },
-            { id: 'p6', name: 'Blade Ball God Mode', category: 'bladeball', desc: 'Otomatik blok ve aimbot', features: [
-                    'Auto Block', 'Aimbot', 'ESP'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BladeBall/script/main/god.lua'))()",
-                price: 70, isPremium: true, views: 1600 },
-            { id: 'p7', name: 'Brookhaven Admin', category: 'brookhaven', desc: 'Admin komutları ve araçlar', features: [
-                    'Admin Panel', 'Teleport', 'Fly', 'No Clip'
-                ], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Brookhaven/script/main/admin.lua'))()",
-                price: 60, isPremium: true, views: 220 }
+            { id: 'p1', name: 'Zen X MM2', category: 'mm2', desc: 'Otomatik kasa, aimbot ve ESP ile rakipsiz oyun deneyimi.',
+                features: ['Aimbot', 'Auto Farm', 'ESP', 'God Mode'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",
+                price: 100, isPremium: true, views: 4200, likes: 128 },
+            { id: 'p2', name: 'MM2 Sniper Pro', category: 'mm2', desc: 'Otomatik bıçak toplama ve gelişmiş aim sistemi.',
+                features: ['Auto Collect', 'Aimbot', 'ESP', 'Teleport'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",
+                price: 80, isPremium: true, views: 3100, likes: 95 },
+            { id: 'p3', name: 'Blox Fruits OP', category: 'bloxfruits', desc: 'Otomatik farm, boss avcısı ve hızlı teleport.',
+                features: ['Auto Farm', 'Boss Hunter', 'Teleport', 'ESP'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BloxFruitsOP/script/main/op.lua'))()",
+                price: 150, isPremium: true, views: 8981, likes: 256 },
+            { id: 'p4', name: 'Pet Sim 99 Auto', category: 'petsim', desc: 'Otomatik coin, elmas ve eşya toplama sistemi.',
+                features: ['Auto Farm', 'Auto Collect', 'Speed Hack'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/PetSim99/script/main/auto.lua'))()",
+                price: 120, isPremium: true, views: 961, likes: 42 },
+            { id: 'p5', name: 'Da Hood Aimbot', category: 'dahood', desc: 'Gelişmiş aimbot, wallhack ve hız hack.',
+                features: ['Aimbot', 'Wallhack', 'ESP', 'Speed'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/DaHood/script/main/aimbot.lua'))()",
+                price: 90, isPremium: true, views: 950, likes: 38 },
+            { id: 'p6', name: 'Blade Ball God Mode', category: 'bladeball', desc: 'Otomatik blok, aimbot ve ESP ile kazan.',
+                features: ['Auto Block', 'Aimbot', 'ESP'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BladeBall/script/main/god.lua'))()",
+                price: 70, isPremium: true, views: 1600, likes: 67 },
+            { id: 'p7', name: 'Brookhaven Admin', category: 'brookhaven', desc: 'Admin komutları, teleport ve fly özellikleri.',
+                features: ['Admin Panel', 'Teleport', 'Fly', 'No Clip'],
+                code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Brookhaven/script/main/admin.lua'))()",
+                price: 60, isPremium: true, views: 220, likes: 12 }
         ];
 
         // ==========================================
@@ -1497,6 +1975,11 @@
             return Math.floor(seconds / 604800) + 'w ago';
         }
 
+        function formatNumber(n) {
+            if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+            return n;
+        }
+
         // ==========================================
         // LOAD DATA
         // ==========================================
@@ -1511,7 +1994,8 @@
                         ...data,
                         isCommunity: true,
                         isPremium: data.price > 0 || false,
-                        views: data.views || 0
+                        views: data.views || 0,
+                        likes: data.likes || 0
                     });
                 });
                 return communityScripts;
@@ -1628,22 +2112,52 @@
             const p = getDailyProgress();
             document.getElementById('taskList').innerHTML = dailyTasks.map(t =>
                 `
-                    <div class="daily-item ${p.tasks[t.id] ? 'done' : ''}">
-                        <span class="icon">${t.icon}</span>
-                        <div class="info">
-                            <div class="name">${t.name}</div>
-                            <div class="desc">${t.desc}</div>
+                        <div class="daily-item ${p.tasks[t.id] ? 'done' : ''}">
+                            <span class="icon">${t.icon}</span>
+                            <div class="info">
+                                <div class="name">${t.name}</div>
+                                <div class="desc">${t.desc}</div>
+                            </div>
+                            <div class="reward">+${t.reward} 🪙</div>
+                            <span class="status">${p.tasks[t.id] ? '✅' : '⬜'}</span>
                         </div>
-                        <div class="reward">+${t.reward} 🪙</div>
-                        <span class="status">${p.tasks[t.id] ? '✅' : '⬜'}</span>
-                    </div>
-                `
+                    `
             ).join('');
         }
 
         // ==========================================
         // RENDER
         // ==========================================
+        function updateBadges() {
+            const all = getAllScripts();
+            const counts = { total: all.length, premium: 0, mm2: 0, bloxfruits: 0, petsim: 0, dahood: 0, bladeball: 0,
+                brookhaven: 0, other: 0, community: 0 };
+            all.forEach(s => {
+                if (s.isPremium) counts.premium++;
+                if (s.category === 'mm2') counts.mm2++;
+                else if (s.category === 'bloxfruits') counts.bloxfruits++;
+                else if (s.category === 'petsim') counts.petsim++;
+                else if (s.category === 'dahood') counts.dahood++;
+                else if (s.category === 'bladeball') counts.bladeball++;
+                else if (s.category === 'brookhaven') counts.brookhaven++;
+                else counts.other++;
+                if (s.isCommunity) counts.community++;
+            });
+            document.getElementById('totalBadge').textContent = counts.total;
+            document.getElementById('premiumBadge').textContent = counts.premium;
+            document.getElementById('mm2Badge').textContent = counts.mm2;
+            document.getElementById('bfBadge').textContent = counts.bloxfruits;
+            document.getElementById('psBadge').textContent = counts.petsim;
+            document.getElementById('dhBadge').textContent = counts.dahood;
+            document.getElementById('bbBadge').textContent = counts.bladeball;
+            document.getElementById('bhBadge').textContent = counts.brookhaven;
+            document.getElementById('otherBadge').textContent = counts.other;
+            document.getElementById('communityBadge').textContent = counts.community;
+            document.getElementById('favBadge').textContent = favorites.length;
+            document.getElementById('gameBadge').textContent = communityGames.length + 6;
+            document.getElementById('scriptCount').textContent = `(${counts.total})`;
+        }
+
         function render() {
             const all = getAllScripts();
             let filtered = all;
@@ -1652,7 +2166,8 @@
             if (currentCategory === 'premium') filtered = filtered.filter(s => s.isPremium);
             else if (currentCategory === 'community') filtered = filtered.filter(s => s.isCommunity);
             else if (currentCategory === 'favorites') filtered = filtered.filter(s => favorites.includes(s.id));
-            else if (currentCategory === 'games') { renderGames(); return; } else if (currentCategory !== 'all')
+            else if (currentCategory === 'games') { renderGames(); updateBadges(); return; } else if (currentCategory !==
+                'all')
                 filtered = filtered.filter(s => s.category === currentCategory);
 
             // Search
@@ -1672,11 +2187,17 @@
             const start = (currentPage - 1) * ITEMS_PER_PAGE;
             const paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
 
+            updateBadges();
+
             if (!paginated.length) {
                 document.getElementById('scriptGrid').innerHTML =
                     `
-                        <div class="empty"><div class="icon">🔍</div><p>Sonuç bulunamadı</p></div>
-                    `;
+                            <div class="empty">
+                                <div class="icon">🔍</div>
+                                <h3>Sonuç bulunamadı</h3>
+                                <p>Farklı bir kategori veya arama terimi dene.</p>
+                            </div>
+                        `;
                 return;
             }
 
@@ -1686,12 +2207,14 @@
                 const price = s.price || 0;
                 const img = s.image || getImage(s.category);
                 const views = s.views || 0;
+                const likes = s.likes || 0;
                 const createdAt = s.createdAt ? new Date(s.createdAt.seconds * 1000) : new Date();
                 const time = timeAgo(createdAt);
                 const isOwner = currentUser && s.userId === currentUser.uid;
 
                 return `
                         <div class="card ${isPremium ? 'premium' : ''}">
+                            ${isPremium ? '<div class="premium-badge">⭐ PREMIUM</div>' : ''}
                             <div class="card-img">
                                 <img src="${img}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%231a1a2e%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236c5ce7%22%3E⚡%3C/text%3E%3C/svg%3E'" />
                                 ${isPremium ? `<div class="price-tag">💰 ${price} 🪙</div>` : ''}
@@ -1703,7 +2226,7 @@
                             <div class="card-body">
                                 <div class="card-top">
                                     <h3>
-                                        <img src="${getImage(s.category)}" onerror="this.style.display='none'" />
+                                        <img src="${getImage(s.category)}" class="cat-icon" onerror="this.style.display='none'" />
                                         ${s.name}
                                         ${s.isCommunity ? '🌍' : ''}
                                     </h3>
@@ -1711,6 +2234,7 @@
                                 </div>
                                 <div class="card-meta">
                                     <span class="time">${time}</span>
+                                    <span class="category-tag">${s.category.toUpperCase()}</span>
                                     ${s.userName ? `<span class="author">by ${s.userName}${isOwner ? ' <span class="owner-badge">👑 Sahibim</span>' : ''}</span>` : ''}
                                 </div>
                                 <div class="card-desc">${s.desc}</div>
@@ -1718,9 +2242,9 @@
                                     ${(s.features || []).map(f => `<span>${f}</span>`).join('')}
                                 </div>
                                 <div class="card-stats">
-                                    <span>👁️ ${views}</span>
+                                    <span>👁️ ${formatNumber(views)}</span>
                                     <span>⭐ ${s.rating || 0}</span>
-                                    <span>❤️ ${s.likes || 0}</span>
+                                    <span>❤️ ${formatNumber(likes)}</span>
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn-get ${isPremium ? 'premium' : ''}" data-id="${s.id}">
@@ -1755,7 +2279,7 @@
             const allGames = [...defaultGames, ...communityGames.map(g => ({ ...g, isCommunity: true }))];
             document.getElementById('scriptGrid').innerHTML = allGames.map(g =>
                 `
-                        <div class="card" style="border-color:rgba(46,204,113,0.1);">
+                        <div class="card" style="border-color:rgba(46,204,113,0.08);">
                             <div class="card-img">
                                 <img src="${g.image}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%231a1a2e%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%232ecc71%22%3E🎮%3C/text%3E%3C/svg%3E'" />
                             </div>
@@ -1764,7 +2288,7 @@
                                     <h3>${g.name} ${g.isCommunity ? '🌍' : ''}</h3>
                                 </div>
                                 ${g.isCommunity ? `<div class="card-meta"><span class="author">by ${g.userName || 'Anonim'}</span></div>` : ''}
-                                <div class="card-footer" style="margin-top:8px;">
+                                <div class="card-footer" style="margin-top:8px;border-top:none;padding-top:0;">
                                     <span style="color:var(--text3);font-size:0.7rem;">🎮 Oyna</span>
                                     <a href="${g.link}" target="_blank" class="btn-get" style="background:linear-gradient(135deg,#2ecc71,#27ae60);text-decoration:none;display:inline-block;">🚀 Git</a>
                                 </div>
@@ -1800,7 +2324,7 @@
             document.getElementById('modalPrice').textContent = script.price > 0 ? `${script.price} 🪙` : '🆓 Ücretsiz';
             document.getElementById('modalOwner').textContent = script.userName || 'ScriptVerse';
             document.getElementById('modalCategory').textContent = script.category.toUpperCase();
-            document.getElementById('modalViews').textContent = script.views || 0;
+            document.getElementById('modalViews').textContent = formatNumber(script.views || 0);
             document.getElementById('modalCode').textContent = script.code || 'Kod bulunamadı';
             document.getElementById('modalCodeArea').style.display = 'block';
 
@@ -1836,6 +2360,15 @@
                 });
         }
 
+        function searchTag(tag) {
+            document.getElementById('searchInput').value = tag;
+            document.getElementById('heroSearch').value = tag;
+            searchTerm = tag;
+            currentPage = 1;
+            render();
+            document.querySelector('.hero').scrollIntoView({ behavior: 'smooth' });
+        }
+
         // ==========================================
         // AUTH
         // ==========================================
@@ -1849,11 +2382,11 @@
                 const photo = user.photoURL || '';
                 section.innerHTML =
                     `
-                        <button class="btn-auth">
-                            ${photo ? `<img src="${photo}" class="avatar" onerror="this.style.display='none'">` : '👤'}
-                            ${name}
-                        </button>
-                    `;
+                            <button class="btn-auth">
+                                ${photo ? `<img src="${photo}" class="avatar" onerror="this.style.display='none'">` : '👤'}
+                                ${name}
+                            </button>
+                        `;
                 loadUserData(user.uid);
                 renderDailyTasks();
 
@@ -1932,25 +2465,25 @@
 
             const stats = await getAdminStats();
             const html = `
-                    <div class="admin-stats" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:16px;">
-                        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;">
-                            <div style="font-size:1.8rem;font-weight:700;color:var(--accent2);">${stats.totalScripts}</div>
-                            <div style="font-size:0.65rem;color:var(--text3);">📜 Script</div>
+                    <div class="admin-stats-grid">
+                        <div class="admin-stat-card">
+                            <div class="number">${stats.totalScripts}</div>
+                            <span class="label">📜 Script</span>
                         </div>
-                        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;">
-                            <div style="font-size:1.8rem;font-weight:700;color:var(--accent2);">${stats.totalUsers}</div>
-                            <div style="font-size:0.65rem;color:var(--text3);">👤 Kullanıcı</div>
+                        <div class="admin-stat-card">
+                            <div class="number">${stats.totalUsers}</div>
+                            <span class="label">👤 Kullanıcı</span>
                         </div>
-                        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;">
-                            <div style="font-size:1.8rem;font-weight:700;color:var(--gold);">${stats.totalCoins}</div>
-                            <div style="font-size:0.65rem;color:var(--text3);">🪙 Coin</div>
+                        <div class="admin-stat-card">
+                            <div class="number">${stats.totalCoins}</div>
+                            <span class="label">🪙 Coin</span>
                         </div>
-                        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;">
-                            <div style="font-size:1.8rem;font-weight:700;color:var(--green);">${stats.totalGames}</div>
-                            <div style="font-size:0.65rem;color:var(--text3);">🎮 Oyun</div>
+                        <div class="admin-stat-card">
+                            <div class="number">${stats.totalGames}</div>
+                            <span class="label">🎮 Oyun</span>
                         </div>
                     </div>
-                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:12px;">
+                    <div class="admin-tabs">
                         <button class="btn btn-primary" onclick="adminTab('scripts')">📜 Scriptler</button>
                         <button class="btn btn-secondary" onclick="adminTab('users')">👤 Kullanıcılar</button>
                         <button class="btn btn-secondary" onclick="adminTab('reports')">🚨 Raporlar</button>
@@ -1982,22 +2515,25 @@
         async function renderAdminScripts() {
             const all = getAllScripts();
             return `
-                    <div style="margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap;">
-                        <input type="text" id="adminSearch" placeholder="🔍 Ara..." style="flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--border);border-radius:30px;padding:6px 14px;color:var(--text);font-size:0.8rem;outline:none;" />
-                        <button class="btn btn-primary" onclick="adminSearchScripts()">Ara</button>
+                    <div class="admin-search-bar">
+                        <input type="text" id="adminSearch" placeholder="🔍 Script ara..." oninput="adminSearchScripts()" />
+                        <select id="adminFilterType" onchange="adminSearchScripts()">
+                            <option value="all">📂 Tümü</option>
+                            <option value="premium">⭐ Premium</option>
+                            <option value="community">🌍 Topluluk</option>
+                        </select>
                     </div>
-                    <div style="max-height:400px;overflow-y:auto;">
+                    <div class="admin-list-scroll">
                         ${all.map(s => `
-                            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px;">
-                                <div>
-                                    <strong>${s.name}</strong>
-                                    <span style="font-size:0.65rem;color:var(--text3);margin-left:8px;">${s.category.toUpperCase()} ${s.isPremium ? '⭐' : '🌍'}</span>
-                                    ${s.userName ? `<span style="font-size:0.6rem;color:var(--text3);">· ${s.userName}</span>` : ''}
+                            <div class="admin-item">
+                                <div class="info">
+                                    <div class="title">${s.name}</div>
+                                    <div class="sub">${s.category.toUpperCase()} · ${s.isPremium ? '⭐ Premium' : '🌍 Topluluk'} ${s.userName ? `· 👤 ${s.userName}` : ''}</div>
                                 </div>
-                                <div style="display:flex;gap:4px;flex-wrap:wrap;">
-                                    <button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;" onclick="adminEditScript('${s.id}')">✏️</button>
-                                    <button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--red);border-color:rgba(255,107,107,0.2);" onclick="adminDeleteScript('${s.id}')">🗑️</button>
-                                    ${!s.isPremium ? `<button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--gold);border-color:rgba(253,203,110,0.2);" onclick="adminMakePremium('${s.id}')">⭐</button>` : ''}
+                                <div class="actions">
+                                    <button class="btn-sm edit" onclick="adminEditScript('${s.id}')">✏️</button>
+                                    <button class="btn-sm delete" onclick="adminDeleteScript('${s.id}')">🗑️</button>
+                                    ${!s.isPremium ? `<button class="btn-sm premium" onclick="adminMakePremium('${s.id}')">⭐</button>` : ''}
                                 </div>
                             </div>
                         `).join('')}
@@ -2011,20 +2547,19 @@
                 const users = [];
                 snap.forEach(d => users.push({ id: d.id, ...d.data() }));
                 return `
-                        <div style="max-height:400px;overflow-y:auto;">
+                        <div class="admin-list-scroll">
                             ${users.map(u => `
-                                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px;">
-                                    <div>
-                                        <strong>${u.displayName || u.email || 'Anonim'}</strong>
-                                        <span style="font-size:0.65rem;color:var(--text3);margin-left:8px;">🪙 ${u.coins || 0}</span>
-                                        ${u.banned ? '<span style="font-size:0.6rem;color:var(--red);">🚫 Banlı</span>' : ''}
+                                <div class="admin-item">
+                                    <div class="info">
+                                        <div class="title">${u.displayName || u.email || 'Anonim'}</div>
+                                        <div class="sub">🪙 ${u.coins || 0} ${u.banned ? '· 🚫 Banlı' : '· ✅ Aktif'}</div>
                                     </div>
-                                    <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
-                                        <input type="number" id="coinInput_${u.id}" placeholder="Miktar" style="width:60px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:4px 6px;color:var(--text);font-size:0.7rem;" />
-                                        <button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--gold);border-color:rgba(253,203,110,0.2);" onclick="adminGiveCoins('${u.id}')">💰</button>
+                                    <div class="actions">
+                                        <input type="number" id="coinInput_${u.id}" placeholder="Miktar" />
+                                        <button class="btn-sm edit" onclick="adminGiveCoins('${u.id}')">💰</button>
                                         ${u.banned ? 
-                                            `<button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--green);border-color:rgba(46,204,113,0.2);" onclick="adminUnbanUser('${u.id}')">✅</button>` :
-                                            `<button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--red);border-color:rgba(255,107,107,0.2);" onclick="adminBanUser('${u.id}')">🚫</button>`
+                                            `<button class="btn-sm green" onclick="adminUnbanUser('${u.id}')">✅</button>` :
+                                            `<button class="btn-sm red" onclick="adminBanUser('${u.id}')">🚫</button>`
                                         }
                                     </div>
                                 </div>
@@ -2041,22 +2576,21 @@
                 snap.forEach(d => reports.push({ id: d.id, ...d.data() }));
                 if (reports.length === 0) return '<div style="text-align:center;padding:20px;color:var(--text3);">✅ Hiç rapor yok</div>';
                 return `
-                        <div style="max-height:400px;overflow-y:auto;">
+                        <div class="admin-list-scroll">
                             ${reports.map(r => `
-                                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px;">
-                                    <div>
-                                        <strong>🚨 ${r.userName || 'Anonim'}</strong>
-                                        <span style="font-size:0.65rem;color:var(--text3);">${r.reason || 'Sebep yok'}</span>
-                                        <span style="font-size:0.55rem;color:var(--text3);">${r.scriptName || ''}</span>
+                                <div class="admin-item">
+                                    <div class="info">
+                                        <div class="title">🚨 ${r.userName || 'Anonim'} rapor etti</div>
+                                        <div class="sub">${r.reason || 'Sebep yok'} · ${r.scriptName || ''}</div>
                                     </div>
-                                    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                    <div class="actions">
                                         ${r.status === 'pending' ? `
-                                            <button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--green);border-color:rgba(46,204,113,0.2);" onclick="adminApproveReport('${r.id}')">✅</button>
-                                            <button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--red);border-color:rgba(255,107,107,0.2);" onclick="adminRejectReport('${r.id}')">❌</button>
+                                            <button class="btn-sm green" onclick="adminApproveReport('${r.id}')">✅</button>
+                                            <button class="btn-sm red" onclick="adminRejectReport('${r.id}')">❌</button>
                                         ` : `
                                             <span style="font-size:0.6rem;color:var(--text3);">${r.status === 'approved' ? '✅ Onaylandı' : '❌ Reddedildi'}</span>
                                         `}
-                                        <button class="btn btn-secondary" style="padding:2px 10px;font-size:0.6rem;color:var(--red);border-color:rgba(255,107,107,0.2);" onclick="adminDeleteReport('${r.id}')">🗑️</button>
+                                        <button class="btn-sm delete" onclick="adminDeleteReport('${r.id}')">🗑️</button>
                                     </div>
                                 </div>
                             `).join('')}
@@ -2074,6 +2608,13 @@
                         <button class="btn btn-secondary" style="color:var(--red);border-color:rgba(255,107,107,0.2);" onclick="adminResetAllCoins()">🔄 Tüm Coin\'leri Sıfırla</button>
                     </div>
                 `;
+        }
+
+        function adminSearchScripts() {
+            const search = document.getElementById('adminSearch');
+            const filter = document.getElementById('adminFilterType');
+            // Basit filtreleme - yeniden render
+            renderAdminPanel();
         }
 
         async function adminTab(tab) {
@@ -2252,7 +2793,7 @@
                 this.classList.add('active');
                 document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
                 document.getElementById(this.dataset.tab === 'login' ? 'loginForm' : 'registerForm').classList.add(
-                'active');
+                    'active');
             });
         });
 
@@ -2375,7 +2916,7 @@
             if (!name || !desc || !code) { showToast('❌ Tüm alanları doldurun!'); return; }
             const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
             const data = { name, category, desc, features, code, image: image || null, price, isPremium: price > 0,
-                views: 0, userName: currentUser.displayName || 'Anonim', userId: currentUser.uid };
+                views: 0, likes: 0, userName: currentUser.displayName || 'Anonim', userId: currentUser.uid };
             try {
                 await db.collection('komut dosyaları').add({ ...data,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp() });
@@ -2472,6 +3013,13 @@
         // Search
         document.getElementById('searchInput').addEventListener('input', function() {
             searchTerm = this.value;
+            document.getElementById('heroSearch').value = this.value;
+            currentPage = 1;
+            render();
+        });
+        document.getElementById('heroSearch').addEventListener('input', function() {
+            searchTerm = this.value;
+            document.getElementById('searchInput').value = this.value;
             currentPage = 1;
             render();
         });
@@ -2483,11 +3031,34 @@
         });
 
         // ==========================================
+        // HERO STATS UPDATE
+        // ==========================================
+        function updateHeroStats() {
+            const all = getAllScripts();
+            document.getElementById('totalScripts').textContent = formatNumber(all.length);
+            // Kullanıcı sayısını gerçekten çekmek için
+            db.collection('kullanıcılar').get().then(snap => {
+                document.getElementById('totalUsers').textContent = formatNumber(snap.size);
+            }).catch(() => {});
+            // Coin toplamı
+            db.collection('kullanıcılar').get().then(snap => {
+                let total = 0;
+                snap.forEach(d => { total += d.data().coins || 0; });
+                document.getElementById('totalCoins').textContent = formatNumber(total);
+            }).catch(() => {});
+            // Toplam indirme (script views toplamı)
+            let totalViews = 0;
+            all.forEach(s => { totalViews += s.views || 0; });
+            document.getElementById('totalDownloads').textContent = formatNumber(totalViews);
+        }
+
+        // ==========================================
         // INIT
         // ==========================================
         async function init() {
             await Promise.all([loadCommunityScripts(), loadCommunityGames()]);
             render();
+            updateHeroStats();
             if (!localStorage.getItem('scriptVerseWelcomed')) {
                 setTimeout(() => showToast('👋 ScriptVerse\'e hoş geldin!', 3000), 1000);
                 localStorage.setItem('scriptVerseWelcomed', 'true');
