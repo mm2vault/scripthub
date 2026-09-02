@@ -2,17 +2,1121 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ScriptHub · 120+ Script</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptVerse · Premium Script & Oyun</title>
+    
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-1079812363517680">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
     
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: rgba(255,255,255,0.03);
+            --bg-card-hover: rgba(255,255,255,0.06);
+            --text-primary: #f0f0ff;
+            --text-secondary: #a0a0c0;
+            --text-muted: #6a6a8a;
+            --border-color: rgba(100,80,255,0.15);
+            --accent: #6c5ce7;
+            --accent-light: #a29bfe;
+            --accent-gradient: linear-gradient(135deg, #6c5ce7, #fd79a8);
+            --gold: #fdcb6e;
+            --silver: #b2bec3;
+            --bronze: #e17055;
+            --shadow: 0 20px 60px rgba(0,0,0,0.8);
+            --radius: 16px;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(108,92,231,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(253,121,168,0.06) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+            animation: floatBg 20s infinite alternate;
+        }
+        
+        @keyframes floatBg {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(2%, 2%) rotate(2deg); }
+        }
+        
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+        
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 0 30px rgba(108,92,231,0.3);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+        
+        .logo span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: -0.2rem;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        /* ===== COIN DISPLAY ===== */
+        .coin-display {
+            background: rgba(253,203,110,0.1);
+            border: 1px solid rgba(253,203,110,0.2);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--gold);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .coin-display:hover {
+            background: rgba(253,203,110,0.2);
+            transform: scale(1.05);
+        }
+        
+        .coin-display .coin-icon {
+            font-size: 1.2rem;
+        }
+        
+        .coin-display .coin-amount {
+            font-size: 1.1rem;
+        }
+        
+        /* ===== RANK BADGE ===== */
+        .rank-badge {
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .rank-badge.bronze {
+            background: rgba(225,112,85,0.2);
+            color: var(--bronze);
+            border: 1px solid rgba(225,112,85,0.3);
+        }
+        .rank-badge.silver {
+            background: rgba(178,190,195,0.15);
+            color: var(--silver);
+            border: 1px solid rgba(178,190,195,0.3);
+        }
+        .rank-badge.gold {
+            background: rgba(253,203,110,0.2);
+            color: var(--gold);
+            border: 1px solid rgba(253,203,110,0.3);
+        }
+        .rank-badge.diamond {
+            background: rgba(0,206,209,0.2);
+            color: #00ced1;
+            border: 1px solid rgba(0,206,209,0.3);
+            animation: diamondPulse 2s infinite;
+        }
+        
+        @keyframes diamondPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(0,206,209,0.2); }
+            50% { box-shadow: 0 0 30px rgba(0,206,209,0.5); }
+        }
+        
+        /* ===== SEARCH BAR ===== */
+        .search-bar {
+            flex: 1;
+            min-width: 200px;
+            max-width: 500px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 40px;
+            padding: 0.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+        
+        .search-bar:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(108,92,231,0.1);
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .search-bar .search-icon {
+            color: var(--text-muted);
+            margin-right: 0.8rem;
+            font-size: 1.1rem;
+        }
+        
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            background: var(--accent-gradient);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(108,92,231,0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+        }
+        
+        .btn-auth {
+            background: rgba(108,92,231,0.15);
+            border: 1px solid rgba(108,92,231,0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            color: var(--accent-light);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-auth:hover {
+            background: rgba(108,92,231,0.25);
+            transform: scale(1.05);
+        }
+        
+        .btn-auth .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* ===== CATEGORIES ===== */
+        .categories {
+            display: flex;
+            gap: 0.6rem;
+            overflow-x: auto;
+            padding: 0.5rem 0 1rem;
+            margin-bottom: 1.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) transparent;
+        }
+        
+        .categories::-webkit-scrollbar {
+            height: 3px;
+        }
+        .categories::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 20px;
+        }
+        
+        .cat-btn {
+            flex: 0 0 auto;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: 0.3s;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .cat-btn:hover {
+            background: rgba(108,92,231,0.1);
+            color: var(--text-primary);
+        }
+        
+        .cat-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 30px rgba(108,92,231,0.3);
+        }
+        
+        .cat-btn .badge {
+            background: rgba(255,255,255,0.1);
+            padding: 0.05rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+        }
+        
+        /* ===== SCRIPT GRID ===== */
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* ===== SCRIPT CARD ===== */
+        .script-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: 0.4s;
+            position: relative;
+        }
+        
+        .script-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(108,92,231,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .script-card.premium {
+            border-color: rgba(253,203,110,0.2);
+        }
+        
+        .script-card.premium::before {
+            content: '⭐ PREMIUM';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #2d2d2d;
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .card-image .price-tag {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 0.2rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--gold);
+            border: 1px solid rgba(253,203,110,0.2);
+        }
+        
+        .card-body {
+            padding: 1.2rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.3rem;
+        }
+        
+        .card-header h3 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card-header h3 .category-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+        
+        .fav-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.3s;
+            min-width: 40px;
+            min-height: 40px;
+        }
+        
+        .fav-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .fav-btn.active {
+            color: #ff6b81;
+            animation: heartPop 0.3s ease;
+        }
+        
+        @keyframes heartPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+        
+        .card-category {
+            display: inline-block;
+            background: rgba(108,92,231,0.15);
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            color: var(--accent-light);
+            margin-bottom: 0.3rem;
+        }
+        
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0.3rem 0;
+        }
+        
+        .card-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin: 0.3rem 0;
+        }
+        
+        .card-features .tag {
+            background: rgba(108,92,231,0.08);
+            padding: 0.05rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            color: var(--accent-light);
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.8rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .card-footer .stats {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+        
+        .card-footer .stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        
+        .btn-get {
+            background: var(--accent-gradient);
+            border: none;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-get:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(108,92,231,0.3);
+        }
+        
+        .btn-get.premium-btn {
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+            color: #2d2d2d;
+        }
+        
+        .btn-get.premium-btn:hover {
+            box-shadow: 0 0 30px rgba(253,203,110,0.3);
+        }
+        
+        .btn-get.premium-btn.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-get.premium-btn.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-get .coin-cost {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        .card-owner {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.2rem;
+        }
+        
+        .card-owner .owner-avatar {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .card-owner .owner-badge {
+            background: rgba(253,203,110,0.15);
+            color: var(--gold);
+            padding: 0.05rem 0.4rem;
+            border-radius: 10px;
+            font-size: 0.5rem;
+        }
+        
+        /* ===== DAILY TASKS ===== */
+        .daily-tasks {
+            background: rgba(255,255,255,0.02);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .daily-tasks.show {
+            display: block;
+        }
+        
+        .daily-tasks .title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        
+        .daily-tasks .title .bonus {
+            background: rgba(253,203,110,0.15);
+            color: var(--gold);
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 400;
+        }
+        
+        .task-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .task-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: 0.3s;
+        }
+        
+        .task-item:hover {
+            background: rgba(255,255,255,0.06);
+        }
+        
+        .task-item .task-icon {
+            font-size: 1.5rem;
+        }
+        
+        .task-item .task-info {
+            flex: 1;
+        }
+        
+        .task-item .task-info .task-name {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+        
+        .task-item .task-info .task-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+        
+        .task-item .task-reward {
+            font-size: 0.65rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        .task-item .task-status {
+            font-size: 1.2rem;
+        }
+        
+        .task-item.completed {
+            opacity: 0.5;
+        }
+        
+        .task-item.completed .task-status {
+            color: #2ecc71;
+        }
+        
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 999999;
+        }
+        
+        .modal-overlay.open {
+            display: flex;
+        }
+        
+        .modal {
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(40px);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            animation: modalSlide 0.3s ease;
+        }
+        
+        @keyframes modalSlide {
+            from {
+                transform: translateY(30px) scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.4rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .modal-close {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: rgba(108,92,231,0.2);
+            color: white;
+        }
+        
+        /* ===== AUTH MODAL ===== */
+        .auth-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .auth-tabs button {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            border-radius: 30px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.85rem;
+        }
+        
+        .auth-tabs button.active {
+            background: var(--accent-gradient);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.7rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(108,92,231,0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: var(--accent-gradient);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(108,92,231,0.3);
+        }
+        
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+        
+        .google-btn {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            padding: 0.7rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .google-btn:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .auth-error {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            display: none;
+        }
+        
+        .auth-success {
+            color: #2ecc71;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+            display: none;
+        }
+        
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            z-index: 9999999;
+            transition: 0.4s;
+            opacity: 0;
+            pointer-events: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            max-width: 90%;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        
+        .toast .toast-close {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        
+        .toast .toast-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        
+        .footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        
+        .footer a:hover {
+            color: var(--accent);
+        }
+        
+        .footer .social-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .footer .social-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .app {
+                padding: 1rem;
+                border-radius: 16px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.4rem;
+            }
+            
+            .header-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+                width: 100%;
+            }
+            
+            .script-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card-image {
+                height: 140px;
+            }
+            
+            .modal {
+                padding: 1.2rem;
+                margin: 0.5rem;
+                border-radius: 16px;
+            }
+            
+            .task-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .coin-display {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .coin-display .coin-amount {
+                font-size: 0.9rem;
+            }
+            
+            .btn-primary,
+            .btn-secondary,
+            .btn-auth {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .cat-btn {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.02);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gradient);
+            border-radius: 10px;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--accent-light);
+            grid-column: 1/-1;
+        }
+        
+        .loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(108,92,231,0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+        
+        .empty .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
 </head>
 <body>
 
@@ -20,87 +1124,178 @@
     <!-- HEADER -->
     <header class="header">
         <div class="logo">
+            <div class="logo-icon">SV</div>
             <div>
-                <h1>🔥 ScriptHub</h1>
-                <span>120+ Script & 🎮 Oyunlar</span>
+                <h1>ScriptVerse</h1>
+                <span>🔥 100+ Script & 🎮 Oyun</span>
             </div>
         </div>
-        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Script veya oyun ara..." autocomplete="off">
+        
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Script veya oyun ara..." autocomplete="off">
+        </div>
+        
+        <div class="header-actions">
+            <!-- Coin Display -->
+            <div class="coin-display" id="coinDisplay" onclick="openShop()">
+                <span class="coin-icon">🪙</span>
+                <span class="coin-amount" id="coinAmount">0</span>
+                <span id="rankBadge" class="rank-badge bronze">Bronz</span>
             </div>
-            <div class="sort-group">
-                <button class="sort-btn active" data-sort="default">Varsayılan</button>
-                <button class="sort-btn" data-sort="az">A-Z</button>
-                <button class="sort-btn" data-sort="za">Z-A</button>
-                <button class="sort-btn" data-sort="popular">⭐ Popüler</button>
-                <button class="sort-btn" data-sort="newest">🕐 Yeni</button>
+            
+            <!-- Auth -->
+            <div id="authSection">
+                <button class="btn-auth" id="loginBtn">👤 Giriş Yap</button>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
-                <span style="color:var(--text-muted);font-size:0.8rem">📊 <strong id="totalCount">0</strong></span>
-                <button class="auth-btn" id="loginBtn">🔑 Giriş Yap</button>
-                <button class="add-btn" id="addScriptBtn">➕ Script Ekle</button>
-                <button class="add-game-btn" id="addGameBtn">🎮 Oyun Ekle</button>
-            </div>
+            
+            <!-- Add Buttons -->
+            <button class="btn-primary" id="addScriptBtn">➕ Script Ekle</button>
+            <button class="btn-secondary" id="addGameBtn">🎮 Oyun Ekle</button>
         </div>
     </header>
-
+    
+    <!-- DAILY TASKS -->
+    <div class="daily-tasks" id="dailyTasks">
+        <div class="title">
+            🎯 Günlük Görevler
+            <span class="bonus">🔥 7 Gün Bonusu</span>
+        </div>
+        <div class="task-list" id="taskList"></div>
+    </div>
+    
     <!-- CATEGORIES -->
     <div class="categories" id="categoryFilter">
-        <button class="cat-btn active" data-cat="all">📋 Hepsi</button>
-        <button class="cat-btn" data-cat="mm2">🔪 MM2</button>
+        <button class="cat-btn active" data-cat="all">📋 Hepsi <span class="badge" id="totalBadge">0</span></button>
+        <button class="cat-btn" data-cat="premium">⭐ Premium <span class="badge" id="premiumBadge">0</span></button>
+        <button class="cat-btn" data-cat="mm2">🗡️ MM2</button>
         <button class="cat-btn" data-cat="bloxfruits">🍉 Blox Fruits</button>
-        <button class="cat-btn" data-cat="petsim">🐾 Pet Sim 99</button>
+        <button class="cat-btn" data-cat="petsim">🐾 Pet Sim</button>
         <button class="cat-btn" data-cat="dahood">🔫 Da Hood</button>
         <button class="cat-btn" data-cat="bladeball">⚡ Blade Ball</button>
         <button class="cat-btn" data-cat="brookhaven">🏡 Brookhaven</button>
         <button class="cat-btn" data-cat="other">🎮 Diğer</button>
+        <button class="cat-btn" data-cat="community">🌍 Topluluk</button>
         <button class="cat-btn" data-cat="favorites">❤️ Favorilerim</button>
+        <button class="cat-btn" data-cat="games" style="background:rgba(46,204,113,0.1);border-color:rgba(46,204,113,0.2)">
+            🎮 Oyunlar <span class="badge" id="gameBadge">0</span>
+        </button>
     </div>
-
-    <!-- GRID -->
-    <div id="scriptGrid" class="script-grid">
+    
+    <!-- SCRIPT GRID -->
+    <div class="script-grid" id="scriptGrid">
         <div class="loading">
-            <div class="loading-spinner"></div>
-            <br>⏳ Yükleniyor...
+            <div class="spinner"></div>
+            Yükleniyor...
         </div>
     </div>
-    <div class="pagination-controls" id="paginationControls"></div>
-
+    
     <!-- FOOTER -->
     <footer class="footer">
-        <span>© 2026 ScriptHub · 120+ Script</span>
+        <span>© 2026 ScriptVerse · 🔥 100+ Script & 🎮 Oyun</span>
         <div class="social-links">
-            <a href="#">💬 Discord</a>
-            <a href="#">▶️ YouTube</a>
-            <a href="#">🎵 TikTok</a>
+            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank">💬 Discord</a>
+            <a href="https://youtube.com/@mm2_ultimatehub" target="_blank">▶️ YouTube</a>
+            <a href="https://www.tiktok.com/@mm2_ultimatehub" target="_blank">🎵 TikTok</a>
         </div>
     </footer>
 </div>
 
+<!-- ===== MODALS ===== -->
+
 <!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
-    <div class="modal-card">
+    <div class="modal">
         <div class="modal-header">
-            <h2>🔐 Giriş Yap</h2>
+            <h2>🔐 Hesabına Giriş Yap</h2>
             <button class="modal-close" id="closeAuthModal">✕</button>
         </div>
-        <div class="form-group">
-            <label>E-posta</label>
-            <input type="email" id="loginEmail" placeholder="ornek@email.com">
+        <div class="auth-tabs">
+            <button class="active" data-tab="login">Giriş Yap</button>
+            <button data-tab="register">Kayıt Ol</button>
         </div>
-        <div class="form-group">
-            <label>Şifre</label>
-            <input type="password" id="loginPassword" placeholder="••••••••">
+        
+        <div class="auth-form active" id="loginForm">
+            <div class="form-group">
+                <label>E-posta</label>
+                <input type="email" id="loginEmail" placeholder="ornek@email.com">
+            </div>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" id="loginPassword" placeholder="••••••••">
+            </div>
+            <div class="auth-error" id="loginError"></div>
+            <button class="submit-btn" id="loginSubmitBtn">🚀 Giriş Yap</button>
+            <div class="auth-divider">veya</div>
+            <button class="google-btn" id="googleLoginBtn">
+                <img src="https://www.google.com/favicon.ico" alt="Google"> Google ile Giriş Yap
+            </button>
         </div>
-        <div id="loginError" style="color:#ff6b6b;display:none;margin-bottom:0.5rem"></div>
-        <button class="submit-btn" id="loginSubmitBtn">🚀 Giriş Yap</button>
+        
+        <div class="auth-form" id="registerForm">
+            <div class="form-group">
+                <label>Kullanıcı Adı</label>
+                <input type="text" id="registerUsername" placeholder="Kullanıcı Adın">
+            </div>
+            <div class="form-group">
+                <label>E-posta</label>
+                <input type="email" id="registerEmail" placeholder="ornek@email.com">
+            </div>
+            <div class="form-group">
+                <label>Şifre (min 6 karakter)</label>
+                <input type="password" id="registerPassword" placeholder="••••••••">
+            </div>
+            <div class="auth-error" id="registerError"></div>
+            <div class="auth-success" id="registerSuccess"></div>
+            <button class="submit-btn" id="registerSubmitBtn">🚀 Kayıt Ol</button>
+            <div class="auth-divider">veya</div>
+            <button class="google-btn" id="googleRegisterBtn">
+                <img src="https://www.google.com/favicon.ico" alt="Google"> Google ile Kayıt Ol
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT MODAL (GET) -->
+<div class="modal-overlay" id="scriptModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modalScriptTitle">📜 Script</h2>
+            <button class="modal-close" id="closeScriptModal">✕</button>
+        </div>
+        <div id="scriptModalContent">
+            <div style="color:var(--text-secondary);margin-bottom:1rem" id="modalScriptDesc"></div>
+            <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:1rem;margin-bottom:1rem;border:1px solid var(--border-color)">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+                    <span style="color:var(--text-muted);font-size:0.8rem">💰 Fiyat:</span>
+                    <span id="modalPrice" style="color:var(--gold);font-weight:700;font-size:1.2rem">0 🪙</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-top:0.3rem">
+                    <span style="color:var(--text-muted);font-size:0.8rem">👤 Sahip:</span>
+                    <span id="modalOwner" style="color:var(--text-secondary);font-size:0.85rem">-</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-top:0.3rem">
+                    <span style="color:var(--text-muted);font-size:0.8rem">📂 Kategori:</span>
+                    <span id="modalCategory" style="color:var(--accent-light);font-size:0.85rem">-</span>
+                </div>
+            </div>
+            <div id="modalCodeArea" style="display:none;background:#0a0a0f;border-radius:12px;padding:1rem;border:1px solid var(--border-color);margin-bottom:1rem">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+                    <span style="color:var(--text-muted);font-size:0.7rem">📋 Script Kodu</span>
+                    <button class="btn-secondary" style="padding:0.2rem 0.8rem;font-size:0.7rem" onclick="copyCode()">📋 Kopyala</button>
+                </div>
+                <pre id="modalCode" style="color:#a29bfe;font-family:monospace;font-size:0.8rem;white-space:pre-wrap;word-break:break-all;margin:0"></pre>
+            </div>
+            <button class="btn-get" id="modalGetBtn" style="width:100%;padding:0.8rem;font-size:1rem">
+                🚀 Kodu Al
+            </button>
+        </div>
     </div>
 </div>
 
 <!-- ADD SCRIPT MODAL -->
 <div class="modal-overlay" id="addModal">
-    <div class="modal-card">
+    <div class="modal">
         <div class="modal-header">
             <h2>➕ Yeni Script Ekle</h2>
             <button class="modal-close" id="closeAddModal">✕</button>
@@ -112,7 +1307,7 @@
             </div>
             <div class="form-group">
                 <label>Kategori *</label>
-                <select id="scriptCategory">
+                <select id="scriptCategory" required>
                     <option value="mm2">🗡️ MM2</option>
                     <option value="bloxfruits">🍉 Blox Fruits</option>
                     <option value="petsim">🐾 Pet Sim 99</option>
@@ -134,6 +1329,22 @@
                 <label>Script Kodu *</label>
                 <textarea id="scriptCodeInput" placeholder="loadstring(game:HttpGet('https://...'))()" required></textarea>
             </div>
+            <div class="form-group">
+                <label>🖼️ Resim URL (isteğe bağlı)</label>
+                <input type="url" id="scriptImage" placeholder="https://i.imgur.com/resim.png">
+            </div>
+            <div class="form-group">
+                <label>💰 Fiyat (Coin)</label>
+                <select id="scriptPrice">
+                    <option value="0">Ücretsiz</option>
+                    <option value="25">25 🪙</option>
+                    <option value="50">50 🪙</option>
+                    <option value="100">100 🪙</option>
+                    <option value="200">200 🪙</option>
+                    <option value="500">500 🪙</option>
+                </select>
+                <div style="color:var(--text-muted);font-size:0.65rem;margin-top:0.2rem">💡 Premium script satmak istersen fiyat belirle</div>
+            </div>
             <button type="submit" class="submit-btn">🚀 Herkese Açık Ekle!</button>
         </form>
     </div>
@@ -141,7 +1352,7 @@
 
 <!-- ADD GAME MODAL -->
 <div class="modal-overlay" id="addGameModal">
-    <div class="modal-card">
+    <div class="modal">
         <div class="modal-header">
             <h2>🎮 Oyun Ekle</h2>
             <button class="modal-close" id="closeAddGameModal">✕</button>
@@ -153,55 +1364,1038 @@
             </div>
             <div class="form-group">
                 <label>Oyun Linki *</label>
-                <input type="url" id="gameLink" placeholder="https://www.roblox.com/games/..." required>
+                <input type="url" id="gameLink" placeholder="https://www.roblox.com/games/123456789" required>
             </div>
             <div class="form-group">
-                <label>Oyun Resmi *</label>
-                <input type="url" id="gameImage" placeholder="https://i.imgur.com/resim.png" required>
+                <label>🖼️ Oyun Resmi *</label>
+                <input type="url" id="gameImage" placeholder="https://i.imgur.com/oyun-resmi.png" required>
             </div>
-            <button type="submit" class="submit-btn">🎮 Oyunu Ekle!</button>
+            <div class="form-group">
+                <label>Açıklama</label>
+                <input type="text" id="gameDesc" placeholder="Oyun hakkında kısa bilgi">
+            </div>
+            <button type="submit" class="submit-btn" style="background:linear-gradient(135deg,#2ecc71,#27ae60)">🎮 Oyunu Ekle!</button>
         </form>
     </div>
 </div>
 
-<!-- TASK MODAL -->
-<div class="modal-overlay" id="taskModal">
-    <div class="modal-card">
+<!-- SHOP MODAL -->
+<div class="modal-overlay" id="shopModal">
+    <div class="modal">
         <div class="modal-header">
-            <h2>🔓 Script Kilidi</h2>
-            <button class="modal-close" id="closeModal">✕</button>
+            <h2>🪙 Coin Mağazası</h2>
+            <button class="modal-close" id="closeShopModal">✕</button>
         </div>
-        <div style="color:var(--accent-light);font-size:0.85rem;margin-bottom:1rem">3 görevi tamamla, premium kodu al.</div>
-        <div style="margin:0.8rem 0;color:var(--text-secondary)">📜 <strong id="taskScriptName" style="color:var(--accent-light)">—</strong></div>
-        <div class="task-row">
-            <button class="task-btn" data-task="discord">💬 Discord</button>
-            <button class="task-btn" data-task="youtube">▶️ YouTube</button>
-            <button class="task-btn" data-task="tiktok">🎵 TikTok</button>
-        </div>
-        <div class="task-progress">
-            <span id="taskStatus">0/3</span>
-            <div class="bar"><div class="fill" id="progressFill"></div></div>
-        </div>
-        <button class="reveal-btn" id="revealCodeBtn">🔐 Kodu Göster</button>
-        <div class="code-container" id="codeContainer">
-            <div class="code-area">
-                <pre id="taskScriptCode">loadstring("scripthub")()</pre>
-                <button class="copy-btn" id="copyCodeBtn">📋 Kopyala</button>
+        <div id="shopContent">
+            <div style="text-align:center;padding:1rem;color:var(--text-secondary)">
+                <div style="font-size:3rem;margin-bottom:0.5rem">🪙</div>
+                <h3 style="color:var(--gold);font-size:2rem;margin-bottom:0.5rem" id="shopCoinAmount">0</h3>
+                <p style="font-size:0.85rem;margin-bottom:1rem">Toplam Coin'in</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem">
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:1rem;text-align:center">
+                        <div style="font-size:2rem">🪙</div>
+                        <div style="font-weight:700;font-size:1.2rem;color:var(--gold)">100 Coin</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted)">₺9.99</div>
+                        <button class="btn-primary" style="width:100%;margin-top:0.5rem;padding:0.4rem;font-size:0.8rem" onclick="buyCoins(100)">Satın Al</button>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:1rem;text-align:center">
+                        <div style="font-size:2rem">🪙</div>
+                        <div style="font-weight:700;font-size:1.2rem;color:var(--gold)">500 Coin</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted)">₺39.99</div>
+                        <button class="btn-primary" style="width:100%;margin-top:0.5rem;padding:0.4rem;font-size:0.8rem" onclick="buyCoins(500)">Satın Al</button>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:12px;padding:1rem;text-align:center">
+                        <div style="font-size:2rem">🪙</div>
+                        <div style="font-weight:700;font-size:1.2rem;color:var(--gold)">1000 Coin</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted)">₺69.99</div>
+                        <button class="btn-primary" style="width:100%;margin-top:0.5rem;padding:0.4rem;font-size:0.8rem" onclick="buyCoins(1000)">Satın Al</button>
+                    </div>
+                    <div style="background:rgba(253,203,110,0.05);border:1px solid rgba(253,203,110,0.2);border-radius:12px;padding:1rem;text-align:center">
+                        <div style="font-size:2rem">👑</div>
+                        <div style="font-weight:700;font-size:1.2rem;color:var(--gold)">VIP Üyelik</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted)">₺49.99/ay</div>
+                        <button class="btn-primary" style="width:100%;margin-top:0.5rem;padding:0.4rem;font-size:0.8rem;background:linear-gradient(135deg,#fdcb6e,#f39c12);color:#2d2d2d" onclick="buyVIP()">VIP Ol</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- TOAST -->
-<div class="toast" id="toast"><span id="toastMessage"></span></div>
+<div class="toast" id="toast">
+    <span id="toastMessage"></span>
+    <button class="toast-close" id="toastClose">✕</button>
+</div>
 
-<!-- SCROLL TOP -->
-<button class="scroll-top" id="scrollTopBtn">↑</button>
+<script>
+// ==========================================
+// SCRIPTVERSE - FULL APPLICATION
+// ==========================================
 
-<!-- SCRIPTS -->
-<script src="firebase-config.js"></script>
-<script src="scripts.js"></script>
-<script src="main.js"></script>
+// FIREBASE CONFIG
+const firebaseConfig = {
+    apiKey: "AIzaSyB8xU0CUXkzl1AbOBusUxr3J77TU5d6Mlg",
+    authDomain: "scripthub-b7b7b.firebaseapp.com",
+    projectId: "scripthub-b7b7b",
+    storageBucket: "scripthub-b7b7b.firebasestorage.app",
+    messagingSenderId: "962415554423",
+    appId: "1:962415554423:web:9035ce9e4035d6ab6c3b72"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+// STATE
+let currentUser = null;
+let userCoins = 0;
+let userRank = 'bronz';
+let userScripts = [];
+let userPurchases = [];
+let favorites = [];
+let communityScripts = [];
+let communityGames = [];
+let currentCategory = 'all';
+let searchTerm = '';
+let currentPage = 1;
+const ITEMS_PER_PAGE = 12;
+
+// DOM Elements
+const grid = document.getElementById('scriptGrid');
+const searchInput = document.getElementById('searchInput');
+const catBtns = document.querySelectorAll('.cat-btn');
+const coinAmount = document.getElementById('coinAmount');
+const rankBadge = document.getElementById('rankBadge');
+const dailyTasks = document.getElementById('dailyTasks');
+const taskList = document.getElementById('taskList');
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+const toastClose = document.getElementById('toastClose');
+
+// ==========================================
+// COIN SYSTEM
+// ==========================================
+
+function getCoinRank(coins) {
+    if (coins >= 2000) return { name: 'Elmas', emoji: '💎', className: 'diamond' };
+    if (coins >= 500) return { name: 'Altın', emoji: '👑', className: 'gold' };
+    if (coins >= 100) return { name: 'Gümüş', emoji: '🥈', className: 'silver' };
+    return { name: 'Bronz', emoji: '🥉', className: 'bronze' };
+}
+
+function updateCoinDisplay() {
+    coinAmount.textContent = userCoins;
+    const rank = getCoinRank(userCoins);
+    userRank = rank.name.toLowerCase();
+    rankBadge.textContent = `${rank.emoji} ${rank.name}`;
+    rankBadge.className = `rank-badge ${rank.className}`;
+}
+
+async function loadUserData(uid) {
+    try {
+        const doc = await db.collection('users').doc(uid).get();
+        if (doc.exists) {
+            const data = doc.data();
+            userCoins = data.coins || 0;
+            userPurchases = data.purchases || [];
+            updateCoinDisplay();
+        } else {
+            await db.collection('users').doc(uid).set({
+                coins: 10,
+                purchases: [],
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            userCoins = 10;
+            updateCoinDisplay();
+        }
+    } catch(e) {
+        console.error('User data error:', e);
+        userCoins = 0;
+        updateCoinDisplay();
+    }
+}
+
+async function addCoins(amount, reason) {
+    if (!currentUser) return;
+    try {
+        await db.collection('users').doc(currentUser.uid).update({
+            coins: firebase.firestore.FieldValue.increment(amount)
+        });
+        userCoins += amount;
+        updateCoinDisplay();
+        showToast(`+${amount} 🪙 ${reason || ''}`);
+    } catch(e) {
+        console.error('Add coins error:', e);
+    }
+}
+
+async function spendCoins(amount) {
+    if (!currentUser) return false;
+    if (userCoins < amount) {
+        showToast('❌ Yeterli coin\'in yok!');
+        return false;
+    }
+    try {
+        await db.collection('users').doc(currentUser.uid).update({
+            coins: firebase.firestore.FieldValue.increment(-amount)
+        });
+        userCoins -= amount;
+        updateCoinDisplay();
+        return true;
+    } catch(e) {
+        console.error('Spend coins error:', e);
+        return false;
+    }
+}
+
+function buyCoins(amount) {
+    showToast(`🪙 ${amount} Coin satın almak için yönlendiriliyorsun...`, 5000);
+    // Burada ödeme entegrasyonu yapılabilir
+}
+
+function buyVIP() {
+    showToast('👑 VIP üyelik yakında!', 3000);
+}
+
+function openShop() {
+    document.getElementById('shopModal').classList.add('open');
+    document.getElementById('shopCoinAmount').textContent = userCoins;
+    document.body.style.overflow = 'hidden';
+}
+
+// ==========================================
+// DAILY TASKS
+// ==========================================
+
+const dailyTaskList = [
+    { id: 'login', name: 'Günlük Giriş', desc: 'Bugün giriş yap', reward: 5, icon: '✅' },
+    { id: 'view', name: 'Script İncele', desc: '5 script görüntüle', reward: 10, icon: '👁️' },
+    { id: 'favorite', name: 'Favori Ekle', desc: '1 script favorilere ekle', reward: 5, icon: '❤️' },
+    { id: 'comment', name: 'Yorum Yap', desc: '1 scripte yorum yap', reward: 8, icon: '💬' },
+    { id: 'download', name: 'Script İndir', desc: '1 script indir', reward: 15, icon: '⬇️' }
+];
+
+function getDailyProgress() {
+    if (!currentUser) return { date: '', tasks: {} };
+    const today = new Date().toDateString();
+    const saved = JSON.parse(localStorage.getItem(`daily_${currentUser.uid}`)) || {};
+    if (saved.date !== today) {
+        return { date: today, tasks: {} };
+    }
+    return saved;
+}
+
+function saveDailyProgress(progress) {
+    if (!currentUser) return;
+    progress.date = new Date().toDateString();
+    localStorage.setItem(`daily_${currentUser.uid}`, JSON.stringify(progress));
+}
+
+function completeDailyTask(taskId) {
+    if (!currentUser) return;
+    const progress = getDailyProgress();
+    if (progress.tasks[taskId]) return;
+    progress.tasks[taskId] = true;
+    saveDailyProgress(progress);
+    const task = dailyTaskList.find(t => t.id === taskId);
+    if (task) {
+        addCoins(task.reward, `🎯 ${task.name} tamamlandı!`);
+        showToast(`✅ ${task.name} tamamlandı! +${task.reward} 🪙`);
+    }
+    renderDailyTasks();
+    checkDailyStreak();
+}
+
+function checkDailyStreak() {
+    const progress = getDailyProgress();
+    const completed = Object.keys(progress.tasks).length;
+    if (completed >= 5) {
+        showToast('🔥 Tüm görevler tamamlandı! Bonus +25 🪙');
+        addCoins(25, '🎯 Tüm görevler tamamlandı!');
+    }
+}
+
+function renderDailyTasks() {
+    if (!currentUser) {
+        dailyTasks.classList.remove('show');
+        return;
+    }
+    dailyTasks.classList.add('show');
+    const progress = getDailyProgress();
+    taskList.innerHTML = dailyTaskList.map(task => `
+        <div class="task-item ${progress.tasks[task.id] ? 'completed' : ''}">
+            <span class="task-icon">${task.icon}</span>
+            <div class="task-info">
+                <div class="task-name">${task.name}</div>
+                <div class="task-desc">${task.desc}</div>
+            </div>
+            <div class="task-reward">+${task.reward} 🪙</div>
+            <span class="task-status">${progress.tasks[task.id] ? '✅' : '⬜'}</span>
+        </div>
+    `).join('');
+}
+
+// ==========================================
+// SCRIPT SYSTEM
+// ==========================================
+
+// Premium Scripts Database
+const premiumScripts = [
+    { id: 'p1', name: 'Zen X MM2', category: 'mm2', desc: 'Otomatik kasa, aimbot ve bıçak toplama.', features: ['Aimbot', 'Auto Farm', 'ESP', 'God Mode'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()", price: 100, isPremium: true },
+    { id: 'p2', name: 'MM2 Sniper Pro', category: 'mm2', desc: 'Otomatik bıçak toplama, aim ve ESP.', features: ['Auto Collect', 'Aimbot', 'ESP', 'Teleport'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()", price: 80, isPremium: true },
+    { id: 'p3', name: 'Blox Fruits OP', category: 'bloxfruits', desc: 'Otomatik farm, boss avcısı ve teleport.', features: ['Auto Farm', 'Boss Hunter', 'Teleport', 'ESP'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BloxFruitsOP/script/main/op.lua'))()", price: 150, isPremium: true },
+    { id: 'p4', name: 'Pet Sim 99 Auto', category: 'petsim', desc: 'Otomatik coin ve elmas toplama.', features: ['Auto Farm', 'Auto Collect', 'Speed Hack'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/PetSim99/script/main/auto.lua'))()", price: 120, isPremium: true },
+    { id: 'p5', name: 'Da Hood Aimbot', category: 'dahood', desc: 'Gelişmiş aimbot ve wallhack.', features: ['Aimbot', 'Wallhack', 'ESP', 'Speed'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/DaHood/script/main/aimbot.lua'))()", price: 90, isPremium: true },
+    { id: 'p6', name: 'Blade Ball God Mode', category: 'bladeball', desc: 'Otomatik blok ve aimbot.', features: ['Auto Block', 'Aimbot', 'ESP'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BladeBall/script/main/god.lua'))()", price: 70, isPremium: true },
+    { id: 'p7', name: 'Brookhaven Admin', category: 'brookhaven', desc: 'Admin komutları ve araçlar.', features: ['Admin Panel', 'Teleport', 'Fly', 'No Clip'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Brookhaven/script/main/admin.lua'))()", price: 60, isPremium: true },
+    { id: 'p8', name: 'MM2 Coin Farmer', category: 'mm2', desc: 'Hızlı coin toplama ve anti AFK.', features: ['Auto Farm', 'Anti AFK', 'Tween Speed'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Farmer/script/main/coin.lua'))()", price: 50, isPremium: true },
+    { id: 'p9', name: 'Blox Fruits Teleport', category: 'bloxfruits', desc: 'Tüm adalara ışınlanma.', features: ['Teleport', 'Fast Travel', 'Map ESP'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/BloxFruits/script/main/teleport.lua'))()", price: 75, isPremium: true },
+    { id: 'p10', name: 'Universal Aimbot', category: 'other', desc: 'Her oyunda çalışan aimbot.', features: ['Aimbot', 'Silent Aim', 'ESP'], code: "loadstring(game:HttpGet('https://raw.githubusercontent.com/Universal/script/main/aimbot.lua'))()", price: 200, isPremium: true }
+];
+
+function getAllScripts() {
+    return [...premiumScripts, ...communityScripts];
+}
+
+async function loadCommunityScripts() {
+    try {
+        const snap = await db.collection('scripts').orderBy('createdAt', 'desc').get();
+        communityScripts = [];
+        snap.forEach(d => {
+            const data = d.data();
+            communityScripts.push({
+                id: d.id,
+                ...data,
+                isCommunity: true,
+                isPremium: data.price > 0 || false
+            });
+        });
+        return communityScripts;
+    } catch(e) {
+        console.error('Load community scripts error:', e);
+        return [];
+    }
+}
+
+async function loadCommunityGames() {
+    try {
+        const snap = await db.collection('games').orderBy('createdAt', 'desc').get();
+        communityGames = [];
+        snap.forEach(d => {
+            communityGames.push({ id: d.id, ...d.data(), isCommunity: true });
+        });
+        return communityGames;
+    } catch(e) {
+        console.error('Load community games error:', e);
+        return [];
+    }
+}
+
+async function addScriptToFirebase(data) {
+    try {
+        const docRef = await db.collection('scripts').add({
+            ...data,
+            userId: currentUser?.uid || null,
+            userName: currentUser?.displayName || 'Anonim',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        return docRef.id;
+    } catch(e) {
+        console.error('Add script error:', e);
+        return null;
+    }
+}
+
+async function addGameToFirebase(data) {
+    try {
+        const docRef = await db.collection('games').add({
+            ...data,
+            userId: currentUser?.uid || null,
+            userName: currentUser?.displayName || 'Anonim',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        return docRef.id;
+    } catch(e) {
+        console.error('Add game error:', e);
+        return null;
+    }
+}
+
+function isScriptOwned(scriptId) {
+    return userPurchases && userPurchases.includes(scriptId);
+}
+
+async function purchaseScript(scriptId) {
+    const all = getAllScripts();
+    const script = all.find(s => s.id === scriptId);
+    if (!script) {
+        showToast('❌ Script bulunamadı!');
+        return false;
+    }
+    if (!script.isPremium || script.price <= 0) {
+        return true;
+    }
+    if (isScriptOwned(scriptId)) {
+        return true;
+    }
+    if (!currentUser) {
+        showToast('❌ Lütfen giriş yapın!');
+        return false;
+    }
+    if (userCoins < script.price) {
+        showToast(`❌ Yeterli coin yok! ${script.price} 🪙 gerekli`);
+        return false;
+    }
+    if (!confirm(`💰 ${script.price} 🪙 harcayarak "${script.name}" scriptini satın almak istediğine emin misin?`)) {
+        return false;
+    }
+    if (await spendCoins(script.price)) {
+        userPurchases.push(scriptId);
+        await db.collection('users').doc(currentUser.uid).update({
+            purchases: firebase.firestore.FieldValue.arrayUnion(scriptId)
+        });
+        showToast(`✅ "${script.name}" satın alındı!`);
+        addCoins(0, '');
+        return true;
+    }
+    return false;
+}
+
+// ==========================================
+// RENDER
+// ==========================================
+
+function render() {
+    const all = getAllScripts();
+    const games = communityGames;
+    
+    // Update badges
+    document.getElementById('totalBadge').textContent = all.length;
+    document.getElementById('premiumBadge').textContent = premiumScripts.length;
+    document.getElementById('gameBadge').textContent = games.length + 7;
+    
+    let filtered = all;
+    
+    // Category filter
+    if (currentCategory === 'premium') {
+        filtered = filtered.filter(s => s.isPremium);
+    } else if (currentCategory === 'community') {
+        filtered = filtered.filter(s => s.isCommunity);
+    } else if (currentCategory === 'favorites') {
+        filtered = filtered.filter(s => favorites.includes(s.id));
+    } else if (currentCategory === 'games') {
+        renderGames();
+        return;
+    } else if (currentCategory !== 'all') {
+        filtered = filtered.filter(s => s.category === currentCategory);
+    }
+    
+    // Search filter
+    if (searchTerm.trim()) {
+        const term = searchTerm.toLowerCase().trim();
+        filtered = filtered.filter(s => 
+            s.name.toLowerCase().includes(term) ||
+            s.desc.toLowerCase().includes(term) ||
+            (s.features && s.features.some(f => f.toLowerCase().includes(term)))
+        );
+    }
+    
+    // Pagination
+    const total = filtered.length;
+    const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+    if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
+    
+    if (!paginated.length) {
+        grid.innerHTML = `
+            <div class="empty">
+                <div class="icon">🔍</div>
+                <h3 style="color:var(--text-secondary)">Sonuç bulunamadı</h3>
+                <p style="color:var(--text-muted)">Farklı bir kategori veya arama terimi dene.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    grid.innerHTML = paginated.map(s => {
+        const isFav = favorites.includes(s.id);
+        const isOwned = isScriptOwned(s.id);
+        const isPremium = s.isPremium && s.price > 0;
+        const price = s.price || 0;
+        const canGet = !isPremium || isOwned;
+        const image = s.image || getCategoryImage(s.category);
+        const features = s.features || [];
+        
+        return `
+            <div class="script-card ${isPremium ? 'premium' : ''}">
+                <div class="card-image">
+                    <img src="${image}" alt="${s.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%231a1a2e%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%236c5ce7%22%3E⚡%3C/text%3E%3C/svg%3E'">
+                    ${isPremium ? `<div class="price-tag">💰 ${price} 🪙</div>` : ''}
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3>
+                            <img src="${getCategoryImage(s.category)}" class="category-icon" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22%3E%3Crect width=%2220%22 height=%2220%22 fill=%22%236c5ce7%22/%3E%3C/svg%3E'">
+                            ${s.name}
+                            ${isPremium ? '⭐' : ''}
+                            ${s.isCommunity ? '🌍' : ''}
+                        </h3>
+                        <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${s.id}">♥</button>
+                    </div>
+                    <span class="card-category">${s.category.toUpperCase()}</span>
+                    <div class="card-desc">${s.desc}</div>
+                    <div class="card-features">
+                        ${features.map(f => `<span class="tag">${f}</span>`).join('')}
+                    </div>
+                    ${s.userName ? `
+                        <div class="card-owner">
+                            <span>👤 ${s.userName}</span>
+                            ${s.userId === currentUser?.uid ? '<span class="owner-badge">👑 Sahibim</span>' : ''}
+                        </div>
+                    ` : ''}
+                    <div class="card-footer">
+                        <div class="stats">
+                            <span>👁️ ${s.views || 0}</span>
+                            <span>💬 ${s.commentCount || 0}</span>
+                            <span>⭐ ${s.rating || 0}</span>
+                        </div>
+                        <button class="btn-get ${isPremium ? 'premium-btn' : ''} ${!canGet ? 'locked' : ''}" 
+                                data-id="${s.id}" 
+                                ${!canGet ? `data-price="${price}"` : ''}>
+                            ${isPremium ? (canGet ? '🚀 Al' : `🔒 ${price} 🪙`) : '🚀 GET'}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Event listeners
+    document.querySelectorAll('.fav-btn').forEach(btn => {
+        btn.addEventListener('click', toggleFavorite);
+    });
+    
+    document.querySelectorAll('.btn-get').forEach(btn => {
+        btn.addEventListener('click', handleGetScript);
+    });
+}
+
+function renderGames() {
+    const defaultGames = [
+        { id: 'mm2', name: 'Murder Mystery 2', link: 'https://www.roblox.com/games/142823291/Murder-Mystery-2', image: 'https://i.postimg.cc/rFhbs0Xg/images.jpg' },
+        { id: 'bloxfruits', name: 'Blox Fruits', link: 'https://www.roblox.com/games/2753915549/Blox-Fruits', image: 'https://i.postimg.cc/jScztNGG/no-Filter.jpg' },
+        { id: 'petsim', name: 'Pet Simulator 99', link: 'https://www.roblox.com/games/13566893764/Pet-Simulator-99', image: 'https://i.postimg.cc/28fvW2mz/PS99Icon.webp' },
+        { id: 'dahood', name: 'Da Hood', link: 'https://www.roblox.com/games/2788229376/Da-Hood', image: 'https://i.postimg.cc/s28GgJwX/no-Filter.webp' },
+        { id: 'bladeball', name: 'Blade Ball', link: 'https://www.roblox.com/games/13772394625/Blade-Ball', image: 'https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp' },
+        { id: 'brookhaven', name: 'Brookhaven RP', link: 'https://www.roblox.com/games/4924922222/Brookhaven-RP', image: 'https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp' },
+        { id: 'other', name: 'Diğer Oyunlar', link: 'https://www.roblox.com/games', image: 'https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png' }
+    ];
+    
+    const allGames = [...defaultGames, ...communityGames.map(g => ({
+        id: g.id,
+        name: g.name,
+        link: g.link,
+        image: g.image,
+        isCommunity: true,
+        userName: g.userName
+    }))];
+    
+    grid.innerHTML = allGames.map(game => `
+        <div class="script-card" style="border-color:rgba(46,204,113,0.2)">
+            <div class="card-image">
+                <img src="${game.image}" alt="${game.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%231a1a2e%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%232ecc71%22%3E🎮%3C/text%3E%3C/svg%3E'">
+            </div>
+            <div class="card-body">
+                <div class="card-header">
+                    <h3>${game.name} ${game.isCommunity ? '🌍' : ''}</h3>
+                </div>
+                ${game.isCommunity ? `<div class="card-owner">👤 ${game.userName || 'Anonim'}</div>` : ''}
+                <div style="color:var(--text-muted);font-size:0.8rem;margin:0.5rem 0">
+                    ${game.isCommunity ? 'Topluluk oyunu' : 'Roblox oyunu'}
+                </div>
+                <div class="card-footer">
+                    <span style="color:var(--text-muted);font-size:0.7rem">🎮 Oyna</span>
+                    <a href="${game.link}" target="_blank" class="btn-get" style="background:linear-gradient(135deg,#2ecc71,#27ae60);text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1.5rem;border-radius:40px;color:white;font-weight:600;font-size:0.8rem;border:none;cursor:pointer">
+                        🚀 Oyuna Git
+                    </a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getCategoryImage(category) {
+    const images = {
+        mm2: 'https://i.postimg.cc/rFhbs0Xg/images.jpg',
+        bloxfruits: 'https://i.postimg.cc/jScztNGG/no-Filter.jpg',
+        petsim: 'https://i.postimg.cc/28fvW2mz/PS99Icon.webp',
+        dahood: 'https://i.postimg.cc/s28GgJwX/no-Filter.webp',
+        bladeball: 'https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp',
+        brookhaven: 'https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp',
+        other: 'https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png'
+    };
+    return images[category] || images.other;
+}
+
+// ==========================================
+// EVENT HANDLERS
+// ==========================================
+
+async function toggleFavorite(e) {
+    const id = this.dataset.id;
+    const idx = favorites.indexOf(id);
+    if (idx > -1) {
+        favorites.splice(idx, 1);
+        showToast('❤️ Favorilerden çıkarıldı');
+    } else {
+        favorites.push(id);
+        showToast('❤️ Favorilere eklendi');
+        completeDailyTask('favorite');
+    }
+    localStorage.setItem('scriptVerseFavs', JSON.stringify(favorites));
+    render();
+}
+
+async function handleGetScript(e) {
+    const id = this.dataset.id;
+    const all = getAllScripts();
+    const script = all.find(s => s.id === id);
+    if (!script) {
+        showToast('❌ Script bulunamadı!');
+        return;
+    }
+    
+    if (script.isPremium && script.price > 0) {
+        const owned = await purchaseScript(id);
+        if (!owned) return;
+    }
+    
+    // Show script modal
+    document.getElementById('modalScriptTitle').textContent = `📜 ${script.name}`;
+    document.getElementById('modalScriptDesc').textContent = script.desc;
+    document.getElementById('modalPrice').textContent = script.isPremium && script.price > 0 ? `${script.price} 🪙` : '🆓 Ücretsiz';
+    document.getElementById('modalOwner').textContent = script.userName || 'ScriptVerse';
+    document.getElementById('modalCategory').textContent = script.category.toUpperCase();
+    document.getElementById('modalCode').textContent = script.code || 'Kod bulunamadı';
+    document.getElementById('modalCodeArea').style.display = 'block';
+    document.getElementById('modalGetBtn').textContent = '✅ Kodu Göster';
+    document.getElementById('modalGetBtn').style.background = 'linear-gradient(135deg,#2ecc71,#27ae60)';
+    
+    document.getElementById('scriptModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    
+    // Increment view count
+    if (script.isCommunity) {
+        await db.collection('scripts').doc(script.id).update({
+            views: firebase.firestore.FieldValue.increment(1)
+        });
+        completeDailyTask('view');
+        completeDailyTask('download');
+    }
+}
+
+function copyCode() {
+    const code = document.getElementById('modalCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        showToast('📋 Kopyalandı!');
+    }).catch(() => {
+        const textarea = document.createElement('textarea');
+        textarea.value = code;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        textarea.remove();
+        showToast('📋 Kopyalandı!');
+    });
+}
+
+// ==========================================
+// AUTH SYSTEM
+// ==========================================
+
+function updateAuthUI(user) {
+    currentUser = user;
+    const authSection = document.getElementById('authSection');
+    
+    if (user) {
+        const name = user.displayName || user.email || 'Kullanıcı';
+        const photo = user.photoURL || 'https://i.postimg.cc/rm58SGCq/1786707704031.png';
+        authSection.innerHTML = `
+            <button class="btn-auth" id="profileBtn">
+                <img src="${photo}" class="avatar" onerror="this.src='https://i.postimg.cc/rm58SGCq/1786707704031.png'">
+                <span>${name}</span>
+            </button>
+        `;
+        document.getElementById('profileBtn')?.addEventListener('click', showProfile);
+        loadUserData(user.uid);
+        renderDailyTasks();
+        dailyTasks.classList.add('show');
+    } else {
+        authSection.innerHTML = `
+            <button class="btn-auth" id="loginBtn">👤 Giriş Yap</button>
+        `;
+        document.getElementById('loginBtn')?.addEventListener('click', openAuthModal);
+        dailyTasks.classList.remove('show');
+        userCoins = 0;
+        updateCoinDisplay();
+    }
+}
+
+function showProfile() {
+    if (!currentUser) return;
+    showToast(`👤 ${currentUser.displayName || currentUser.email}\n🪙 ${userCoins} Coin\n👑 ${getCoinRank(userCoins).name}`);
+}
+
+function openAuthModal() {
+    document.getElementById('authModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAuthModalFn() {
+    document.getElementById('authModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+// ==========================================
+// TOAST
+// ==========================================
+
+let toastTimer = null;
+
+function showToast(msg, duration = 3000) {
+    toastMessage.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+    }, duration);
+}
+
+toastClose.addEventListener('click', () => {
+    toast.classList.remove('show');
+    clearTimeout(toastTimer);
+});
+
+// ==========================================
+// INIT
+// ==========================================
+
+// Load favorites
+favorites = JSON.parse(localStorage.getItem('scriptVerseFavs')) || [];
+
+// Auth state
+auth.onAuthStateChanged(user => {
+    updateAuthUI(user);
+    render();
+});
+
+// Category filters
+catBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        catBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentCategory = this.dataset.cat;
+        currentPage = 1;
+        render();
+    });
+});
+
+// Search
+searchInput.addEventListener('input', function() {
+    searchTerm = this.value;
+    currentPage = 1;
+    render();
+});
+
+// Add script
+document.getElementById('addScriptBtn').addEventListener('click', () => {
+    if (!currentUser) {
+        showToast('❌ Lütfen giriş yapın!');
+        openAuthModal();
+        return;
+    }
+    document.getElementById('addModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+});
+
+document.getElementById('closeAddModal').addEventListener('click', () => {
+    document.getElementById('addModal').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+document.getElementById('addScriptForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('scriptName').value.trim();
+    const category = document.getElementById('scriptCategory').value;
+    const desc = document.getElementById('scriptDesc').value.trim();
+    const featuresRaw = document.getElementById('scriptFeatures').value.trim();
+    const code = document.getElementById('scriptCodeInput').value.trim();
+    const image = document.getElementById('scriptImage').value.trim();
+    const price = parseInt(document.getElementById('scriptPrice').value);
+    
+    if (!name || !desc || !code) {
+        showToast('❌ Tüm zorunlu alanları doldurun!');
+        return;
+    }
+    
+    const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+    const data = {
+        name,
+        category,
+        desc,
+        features,
+        code,
+        image: image || null,
+        price: price || 0,
+        isPremium: price > 0,
+        views: 0,
+        commentCount: 0,
+        rating: 0
+    };
+    
+    if (await addScriptToFirebase(data)) {
+        document.getElementById('addModal').classList.remove('open');
+        document.body.style.overflow = '';
+        document.getElementById('addScriptForm').reset();
+        showToast('✅ Script eklendi!');
+        if (price > 0) {
+            addCoins(10, '📜 Premium script eklendi!');
+        } else {
+            addCoins(5, '📜 Script eklendi!');
+        }
+        await loadCommunityScripts();
+        render();
+    }
+});
+
+// Add game
+document.getElementById('addGameBtn').addEventListener('click', () => {
+    if (!currentUser) {
+        showToast('❌ Lütfen giriş yapın!');
+        openAuthModal();
+        return;
+    }
+    document.getElementById('addGameModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+});
+
+document.getElementById('closeAddGameModal').addEventListener('click', () => {
+    document.getElementById('addGameModal').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+document.getElementById('addGameForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('gameName').value.trim();
+    const link = document.getElementById('gameLink').value.trim();
+    const image = document.getElementById('gameImage').value.trim();
+    const desc = document.getElementById('gameDesc').value.trim();
+    
+    if (!name || !link || !image) {
+        showToast('❌ Tüm zorunlu alanları doldurun!');
+        return;
+    }
+    
+    const data = { name, link, image, desc: desc || `${name} - Roblox oyunu` };
+    
+    if (await addGameToFirebase(data)) {
+        document.getElementById('addGameModal').classList.remove('open');
+        document.body.style.overflow = '';
+        document.getElementById('addGameForm').reset();
+        showToast('🎮 Oyun eklendi!');
+        addCoins(5, '🎮 Oyun eklendi!');
+        await loadCommunityGames();
+        render();
+    }
+});
+
+// Auth
+document.getElementById('loginSubmitBtn').addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    const errorDiv = document.getElementById('loginError');
+    
+    if (!email || !password) {
+        errorDiv.textContent = '❌ E-posta ve şifre girin!';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    errorDiv.style.display = 'none';
+    this.disabled = true;
+    this.textContent = '⏳ Giriş yapılıyor...';
+    
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        closeAuthModalFn();
+        showToast('✅ Hoş geldin!');
+        completeDailyTask('login');
+    } catch(error) {
+        errorDiv.textContent = '❌ ' + error.message;
+        errorDiv.style.display = 'block';
+    } finally {
+        this.disabled = false;
+        this.textContent = '🚀 Giriş Yap';
+    }
+});
+
+document.getElementById('registerSubmitBtn').addEventListener('click', async () => {
+    const username = document.getElementById('registerUsername').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value.trim();
+    const errorDiv = document.getElementById('registerError');
+    const successDiv = document.getElementById('registerSuccess');
+    
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+    
+    if (!username || !email || !password) {
+        errorDiv.textContent = '❌ Tüm alanları doldurun!';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    if (password.length < 6) {
+        errorDiv.textContent = '❌ Şifre en az 6 karakter olmalı!';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    this.disabled = true;
+    this.textContent = '⏳ Kayıt yapılıyor...';
+    
+    try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, password);
+        await userCred.user.updateProfile({
+            displayName: username,
+            photoURL: 'https://i.postimg.cc/rm58SGCq/1786707704031.png'
+        });
+        successDiv.textContent = '✅ Hesabın oluşturuldu!';
+        successDiv.style.display = 'block';
+        setTimeout(() => {
+            closeAuthModalFn();
+            showToast('✅ Hoş geldin, ' + username + '! 🎉');
+            completeDailyTask('login');
+        }, 1500);
+    } catch(error) {
+        errorDiv.textContent = '❌ ' + error.message;
+        errorDiv.style.display = 'block';
+    } finally {
+        this.disabled = false;
+        this.textContent = '🚀 Kayıt Ol';
+    }
+});
+
+document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+    this.disabled = true;
+    this.textContent = '⏳ Yönlendiriliyor...';
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithPopup(provider);
+        closeAuthModalFn();
+        showToast('✅ Google ile giriş yapıldı!');
+        completeDailyTask('login');
+    } catch(error) {
+        showToast('❌ ' + error.message);
+    } finally {
+        this.disabled = false;
+        this.textContent = 'Google ile Giriş Yap';
+    }
+});
+
+document.getElementById('googleRegisterBtn').addEventListener('click', async () => {
+    this.disabled = true;
+    this.textContent = '⏳ Yönlendiriliyor...';
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await auth.signInWithPopup(provider);
+        closeAuthModalFn();
+        showToast('✅ Google ile kayıt yapıldı!');
+        completeDailyTask('login');
+    } catch(error) {
+        showToast('❌ ' + error.message);
+    } finally {
+        this.disabled = false;
+        this.textContent = 'Google ile Kayıt Ol';
+    }
+});
+
+// Auth tabs
+document.querySelectorAll('.auth-tabs button').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+        document.getElementById(this.dataset.tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+    });
+});
+
+// Modals
+document.getElementById('closeAuthModal').addEventListener('click', closeAuthModalFn);
+document.getElementById('authModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeAuthModalFn();
+});
+
+document.getElementById('closeScriptModal').addEventListener('click', () => {
+    document.getElementById('scriptModal').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+document.getElementById('scriptModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) {
+        document.getElementById('scriptModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
+
+document.getElementById('closeShopModal').addEventListener('click', () => {
+    document.getElementById('shopModal').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+document.getElementById('shopModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) {
+        document.getElementById('shopModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(modal => {
+            modal.classList.remove('open');
+        });
+        document.body.style.overflow = '';
+    }
+});
+
+// ==========================================
+// INIT
+// ==========================================
+
+async function init() {
+    await Promise.all([loadCommunityScripts(), loadCommunityGames()]);
+    render();
+    
+    // Welcome notification
+    if (!localStorage.getItem('scriptVerseWelcomed')) {
+        setTimeout(() => {
+            showToast('👋 ScriptVerse\'e hoş geldin! 100+ script seni bekliyor.', 5000);
+        }, 1000);
+        localStorage.setItem('scriptVerseWelcomed', 'true');
+    }
+}
+
+init();
+
+console.log('🚀 ScriptVerse başarıyla yüklendi!');
+console.log('📜 Premium Script:', premiumScripts.length);
+console.log('🌍 Topluluk Script:', communityScripts.length);
+console.log('🎮 Oyun:', communityGames.length + 7);
+</script>
 
 </body>
 </html>
