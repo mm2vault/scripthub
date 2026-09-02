@@ -20,7 +20,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
     <style>
-        /* ===== TÜM STİLLER (ÖNCEKİYLE AYNI, EKLER VAR) ===== */
+        /* ===== TÜM STİLLER ===== */
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
         :root{
             --bg-primary:#070816;
@@ -37,9 +37,10 @@
             --radius:2.5rem;
             --radius-card:28px;
             --transition:0.3s;
-            --font-family:'Inter',sans-serif;
             --gold:#fbbf24;
             --green:#4ade80;
+            --free:#4ade80;
+            --paid:#fbbf24;
         }
         body.light{
             --bg-primary:#f0eeff;
@@ -68,18 +69,15 @@
         body::after{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(ellipse at 10% 20%,rgba(124,58,237,0.15)0%,transparent 50%),radial-gradient(ellipse at 90% 80%,rgba(167,139,250,0.10)0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(10,11,30,0.95)0%,var(--bg-primary) 100%);z-index:0;pointer-events:none;transition:background 0.4s}
         .app{position:relative;z-index:1;max-width:1440px;margin:0 auto;background:var(--bg-modal);backdrop-filter:blur(20px);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);border:1px solid var(--border-color);transition:background 0.4s,border-color 0.4s}
         
-        /* COIN VE KULLANICI BİLGİSİ */
         .user-stats-bar{display:flex;flex-wrap:wrap;gap:0.8rem;align-items:center;background:var(--bg-card);padding:0.5rem 1.2rem;border-radius:60px;border:1px solid var(--border-color);margin-bottom:1rem}
         .user-stats-bar .coin-display{display:flex;align-items:center;gap:0.4rem;color:var(--gold);font-weight:700;font-size:1.1rem}
         .user-stats-bar .coin-display img{width:24px;height:24px}
         .user-stats-bar .user-name{color:var(--text-secondary);font-size:0.85rem}
         .user-stats-bar .user-name strong{color:var(--text-primary)}
         .user-stats-bar .stats-right{display:flex;gap:0.8rem;align-items:center;margin-left:auto;flex-wrap:wrap}
-        
         .coin-btn{background:linear-gradient(135deg,#fbbf24,#f59e0b);border:none;padding:0.3rem 1rem;border-radius:60px;color:#1a1a2e;font-weight:700;font-size:0.8rem;cursor:pointer;transition:0.25s;display:flex;align-items:center;gap:0.3rem}
         .coin-btn:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(251,191,36,0.3)}
         
-        /* ÇARK */
         .wheel-container{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:1rem;background:var(--bg-card);border-radius:var(--radius-card);border:1px solid var(--border-color);margin:1rem 0}
         .wheel-container .wheel-title{color:var(--text-primary);font-size:1.2rem;font-weight:600;display:flex;align-items:center;gap:0.5rem}
         .wheel-canvas{width:300px;height:300px;border-radius:50%;box-shadow:0 0 40px rgba(124,58,237,0.2),inset 0 0 40px rgba(0,0,0,0.4);cursor:pointer;transition:transform 0.3s}
@@ -141,6 +139,8 @@
         .badge.community{background:rgba(167,139,250,0.15);color:var(--accent-light)}
         .badge.game-badge-custom{background:rgba(251,191,36,0.15);color:#fbbf24}
         .badge.owner-badge{background:rgba(251,191,36,0.15);color:#fbbf24;font-size:0.5rem;padding:0.05rem 0.5rem}
+        .price-badge{font-size:0.6rem;padding:0.1rem 0.6rem;border-radius:20px;background:rgba(251,191,36,0.15);color:#fbbf24;display:inline-flex;align-items:center;gap:0.2rem}
+        .price-badge.free{background:rgba(74,222,128,0.15);color:#4ade80}
         .get-btn{background:var(--accent-gradient);border:none;padding:0.4rem 1.2rem;border-radius:60px;color:white;font-weight:600;font-size:0.8rem;cursor:pointer;transition:0.25s;box-shadow:0 4px 16px rgba(76,29,149,0.4);display:flex;align-items:center;gap:0.4rem;min-height:40px}
         .get-btn:hover{transform:scale(1.03)}
         .get-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
@@ -418,6 +418,7 @@
         .admin-list-item .info .title{color:var(--text-primary);font-size:0.9rem;font-weight:500}
         .admin-list-item .info .sub{color:var(--text-muted);font-size:0.7rem}
         .admin-list-item .info .coin-info{color:var(--gold);font-size:0.8rem;font-weight:600}
+        .admin-list-item .info .price-info{color:var(--accent-light);font-size:0.7rem;margin-top:0.2rem}
         .admin-list-item .actions{display:flex;gap:0.4rem;flex-wrap:wrap}
         .admin-list-item .actions button{padding:0.2rem 0.8rem;border-radius:20px;border:none;font-size:0.7rem;cursor:pointer;transition:0.2s;min-height:30px}
         .admin-list-item .actions .approve-btn{background:rgba(34,197,94,0.15);color:#4ade80}
@@ -434,6 +435,8 @@
         .admin-list-item .actions .delete-btn-admin:hover{background:rgba(255,0,0,0.3)}
         .admin-list-item .actions .coin-add-btn{background:rgba(251,191,36,0.15);color:#fbbf24}
         .admin-list-item .actions .coin-add-btn:hover{background:rgba(251,191,36,0.3)}
+        .admin-list-item .actions .coin-custom-btn{background:rgba(74,222,128,0.15);color:#4ade80}
+        .admin-list-item .actions .coin-custom-btn:hover{background:rgba(74,222,128,0.3)}
         .badge-pending{background:rgba(251,191,36,0.15);color:#fbbf24;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px}
         .badge-approved{background:rgba(34,197,94,0.15);color:#4ade80;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px}
         .badge-rejected{background:rgba(255,0,0,0.1);color:#ff6b6b;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px}
@@ -901,6 +904,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="form-group"><label for="scriptFeatures">Özellikler (virgülle ayır)</label><input type="text" id="scriptFeatures" placeholder="Örn: Aimbot, ESP, Auto Farm"></div>
             <div class="form-group"><label for="scriptCodeInput">Script Kodu (loadstring) *</label><textarea id="scriptCodeInput" placeholder="loadstring(game:HttpGet('https://...'))()" required></textarea></div>
             <div class="form-group"><label for="scriptImage">🖼️ Resim URL'si (isteğe bağlı)</label><input type="url" id="scriptImage" placeholder="https://i.imgur.com/resim.png"><div class="image-preview" id="imagePreview">🖼️ Resim önizlemesi burada</div></div>
+            <div class="form-group"><label for="scriptPrice">💰 Coin Fiyatı (0 = Bedava)</label>
+                <input type="number" id="scriptPrice" value="20" min="0" step="5">
+                <div class="helper-text">0 yazarsan herkes bedava alabilir.</div>
+            </div>
             <button type="submit" class="submit-btn">🚀 Herkese Açık Ekle!</button>
         </form>
     </div>
@@ -985,6 +992,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </select>
             </div>
             <div class="form-group"><label for="editScriptVersion">Versiyon</label><input type="text" id="editScriptVersion" placeholder="v1.0.0"></div>
+            <div class="form-group"><label for="editScriptPrice">💰 Coin Fiyatı (0=Bedava)</label>
+                <input type="number" id="editScriptPrice" min="0" step="5">
+            </div>
             <button type="submit" class="submit-btn">💾 Değişiklikleri Kaydet</button>
         </form>
     </div>
@@ -1023,6 +1033,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <option value="false">Hayır (Topluluk)</option>
                     <option value="true">Evet (Premium)</option>
                 </select>
+            </div>
+            <div class="form-group"><label for="adminEditScriptPrice">💰 Coin Fiyatı (0=Bedava)</label>
+                <input type="number" id="adminEditScriptPrice" min="0" step="5">
             </div>
             <button type="submit" class="submit-btn">💾 Değişiklikleri Kaydet</button>
         </form>
@@ -1107,13 +1120,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const AVATAR_2 = 'https://i.postimg.cc/kMKdcVTT/1aa5e264dd077f5d1b17fec8f3f4406b.jpg';
     const ADMIN_UID = 'WAtZhXqj2KUEib0RaRXMTOAgYpc2';
 
-    // PREMIUM SCRIPTS (KISALTILMIŞ)
+    // PREMIUM SCRIPTS
     const premiumScripts = [
-        {id:"p1",name:"Zen X MM2",category:"mm2",desc:"Otomatik kasa, aimbot ve bıçak toplama.",features:["Aimbot","Auto Farm","ESP","God Mode"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",isPremium:true},
-        {id:"p2",name:"MM2 Sniper Pro",category:"mm2",desc:"Otomatik bıçak toplama, aim ve ESP.",features:["Auto Collect","Aimbot","ESP","Teleport"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",isPremium:true},
-        {id:"p3",name:"MM2 OP Script",category:"mm2",desc:"Full panel ile ESP, Murderer ve Sheriff araçları.",features:["God Mode","ESP","Auto Kill","Teleport"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()",isPremium:true},
-        {id:"p4",name:"MM2 Coin Auto Farm",category:"mm2",desc:"Otomatik coin toplama ve anti AFK.",features:["Auto Farm","Anti AFK","Tween Speed"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/bugxiefun/roblox-scripts/refs/heads/main/MM2%20Coin%20Autofarm', true))()",isPremium:true},
-        {id:"p5",name:"Infinite Fun IY",category:"mm2",desc:"407+ komut ile gelişmiş admin scripti.",features:["ESP","Fullbright","Goto","407+ Commands"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Xane123/InfiniteFun_IY/master/source'))()",isPremium:true},
+        {id:"p1",name:"Zen X MM2",category:"mm2",desc:"Otomatik kasa, aimbot ve bıçak toplama.",features:["Aimbot","Auto Farm","ESP","God Mode"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",isPremium:true,price:20},
+        {id:"p2",name:"MM2 Sniper Pro",category:"mm2",desc:"Otomatik bıçak toplama, aim ve ESP.",features:["Auto Collect","Aimbot","ESP","Teleport"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",isPremium:true,price:25},
+        {id:"p3",name:"MM2 OP Script",category:"mm2",desc:"Full panel ile ESP, Murderer ve Sheriff araçları.",features:["God Mode","ESP","Auto Kill","Teleport"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()",isPremium:true,price:30},
+        {id:"p4",name:"MM2 Coin Auto Farm",category:"mm2",desc:"Otomatik coin toplama ve anti AFK.",features:["Auto Farm","Anti AFK","Tween Speed"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/bugxiefun/roblox-scripts/refs/heads/main/MM2%20Coin%20Autofarm', true))()",isPremium:true,price:15},
+        {id:"p5",name:"Infinite Fun IY",category:"mm2",desc:"407+ komut ile gelişmiş admin scripti.",features:["ESP","Fullbright","Goto","407+ Commands"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Xane123/InfiniteFun_IY/master/source'))()",isPremium:true,price:35},
+        {id:"p6",name:"Blox Fruits Auto Farm",category:"bloxfruits",desc:"Otomatik farm ve boss avcısı.",features:["Auto Farm","Boss Hunter","Teleport"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/BloxFruitsFarm/main/farm.lua'))()",isPremium:true,price:25},
+        {id:"p7",name:"Pet Sim 99 Auto Hatcher",category:"petsim",desc:"Otomatik yumurta açıcı ve farm.",features:["Auto Hatcher","Auto Farm","Diamond Farm"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/PetSim99/main/hatcher.lua'))()",isPremium:true,price:20},
     ];
 
     // STATE
@@ -1141,7 +1156,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let adminSearchTerm = '';
     let adminFilterType = 'all';
 
-    // COIN SYSTEM
     let userCoins = 0;
     let userData = {};
 
@@ -1194,7 +1208,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const dailyTasksList = document.getElementById('dailyTasksList');
     const adminBtn = document.getElementById('adminBtn');
     
-    // COIN ELEMANLARI
     const coinDisplay = document.getElementById('coinDisplay');
     const coinCount = document.getElementById('coinCount');
     const userNameDisplay = document.getElementById('userNameDisplay');
@@ -1234,16 +1247,155 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let modalState = { code:'', taskStatus:{discord:false,youtube:false,tiktok:false}, timers:{discord:null,youtube:null,tiktok:null}, completed:0, scrollY:0 };
     let toastTimer = null;
-
-    // ==========================================
-    // ÇARK SİSTEMİ
-    // ==========================================
     let wheelIsSpinning = false;
     let wheelCanvas = null;
     let wheelCtx = null;
     let wheelSegments = [];
     let wheelRotation = 0;
 
+    // ==========================================
+    // TEMEL FONKSİYONLAR
+    // ==========================================
+    function isAdmin(user) { return user && user.uid === ADMIN_UID; }
+    function requireAdmin() { if (!currentUser || !isAdmin(currentUser)) { showToast('❌ Admin yetkisi gerekli!'); return false; } return true; }
+    function getAllScripts(){ return [...premiumScripts, ...communityScripts]; }
+    function getImageForCategory(cat){ return IMG[cat]||IMG.other; }
+    function updateGameBadge(){ const total=7+communityGames.length; if(gameCountBadge) gameCountBadge.textContent=`${total} OYUN`; }
+    function sanitizeFavorites() { favorites = JSON.parse(localStorage.getItem('scriptHubFavs')) || []; favorites = favorites.filter(id => typeof id === 'string' && id.length > 0); localStorage.setItem('scriptHubFavs', JSON.stringify(favorites)); }
+    function escapeHtml(str){ if(!str)return ''; const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
+    function filterContent(text){ let filtered = text; badWords.forEach(word => { filtered = filtered.replace(new RegExp(word, 'gi'), '***'); }); return filtered; }
+
+    function showToast(msg, duration=4000){
+        toastMessage.textContent=msg; toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer=setTimeout(()=>toast.classList.remove('show'), duration);
+    }
+    toastClose.addEventListener('click', ()=>{toast.classList.remove('show'); clearTimeout(toastTimer);});
+
+    function setTheme(theme){
+        document.body.className = theme;
+        document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active', b.dataset.theme===theme));
+        localStorage.setItem('scriptHubTheme', theme);
+    }
+    document.querySelectorAll('.theme-btn').forEach(btn=>{ btn.addEventListener('click', ()=>setTheme(btn.dataset.theme)); });
+    const savedTheme = localStorage.getItem('scriptHubTheme') || 'dark';
+    setTheme(savedTheme);
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('scriptHubLang', lang);
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+        const translations = {
+            tr: { search: 'Script veya oyun ara...', addScript: 'Script Ekle', addGame: 'Oyun Ekle', login: 'Giriş Yap' },
+            en: { search: 'Search script or game...', addScript: 'Add Script', addGame: 'Add Game', login: 'Login' }
+        };
+        const t = translations[lang] || translations.tr;
+        searchInput.placeholder = t.search;
+        addScriptBtn.innerHTML = `<img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> ${t.addScript}`;
+        addGameBtn.textContent = `🎮 ${t.addGame}`;
+        showToast(`🌐 ${lang === 'tr' ? 'Türkçe' : 'English'}`);
+    }
+    window.setLanguage = setLanguage;
+
+    window.selectAvatar = function(el){
+        document.querySelectorAll('.avatar-option').forEach(e=>e.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedAvatar = el.dataset.avatar;
+        uploadedAvatarUrl = null;
+        document.getElementById('avatarStatus').textContent='✅ Avatar seçildi';
+        document.getElementById('avatarStatus').style.color='#4ade80';
+    };
+    avatarFileInput.addEventListener('change', function(e){
+        const file=this.files[0]; if(!file)return;
+        if(file.size>5*1024*1024){showToast('❌ Dosya boyutu 5MB\'dan büyük olamaz!'); this.value=''; return;}
+        if(!file.type.startsWith('image/')){showToast('❌ Lütfen bir resim dosyası seçin!'); this.value=''; return;}
+        const reader=new FileReader();
+        reader.onload=function(e){
+            const dataUrl=e.target.result; uploadedAvatarUrl=dataUrl; selectedAvatar=dataUrl;
+            const uploadOption=document.getElementById('uploadAvatarOption');
+            uploadOption.innerHTML=`<img src="${dataUrl}" alt="Yüklenen Avatar" style="width:100%;height:100%;object-fit:cover">`;
+            uploadOption.classList.add('selected');
+            document.querySelectorAll('.avatar-option').forEach(el=>{if(el.id!=='uploadAvatarOption')el.classList.remove('selected');});
+            document.getElementById('avatarStatus').textContent='✅ Kendi avatarın yüklendi!';
+            document.getElementById('avatarStatus').style.color='#4ade80';
+        };
+        reader.readAsDataURL(file);
+    });
+    document.getElementById('googlePhotoBtn').addEventListener('click', function(){
+        const url=prompt('Google Fotoğraflar\'dan paylaşım linkini veya resim URL\'sini yapıştır:');
+        if(url && url.trim() && (url.startsWith('http://')||url.startsWith('https://'))){
+            uploadedAvatarUrl=url.trim(); selectedAvatar=url.trim();
+            const uploadOption=document.getElementById('uploadAvatarOption');
+            uploadOption.innerHTML=`<img src="${url.trim()}" alt="Google Foto" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=\\'upload-icon\\'>📤</span>'; showToast('❌ Geçersiz resim URL\\'si!')">`;
+            uploadOption.classList.add('selected');
+            document.querySelectorAll('.avatar-option').forEach(el=>{if(el.id!=='uploadAvatarOption')el.classList.remove('selected');});
+            document.getElementById('avatarStatus').textContent='✅ Google Fotoğraf seçildi!';
+            document.getElementById('avatarStatus').style.color='#4ade80';
+        } else showToast('❌ Geçerli bir URL girin!');
+    });
+
+    // ==========================================
+    // COIN SİSTEMİ
+    // ==========================================
+    async function loadUserData(uid) {
+        if (!uid) return;
+        try {
+            const docRef = await db.collection('users').doc(uid).get();
+            if (docRef.exists) {
+                userData = docRef.data();
+                userCoins = userData.coins || 0;
+            } else {
+                userData = { coins: 0, displayName: currentUser?.displayName || 'Kullanıcı' };
+                userCoins = 0;
+                await db.collection('users').doc(uid).set(userData);
+            }
+            updateCoinUI();
+        } catch(e) { console.error('Kullanıcı verisi hatası:', e); userCoins = 0; updateCoinUI(); }
+    }
+
+    async function addCoins(amount) {
+        if (!currentUser) return;
+        userCoins = Math.max(0, userCoins + amount);
+        try {
+            await db.collection('users').doc(currentUser.uid).set({ coins: userCoins }, { merge: true });
+            updateCoinUI();
+            if (amount > 0) { showToast(`🪙 +${amount} Coin kazandın!`); }
+        } catch(e) { console.error('Coin ekleme hatası:', e); }
+    }
+
+    async function adminAddCoins(userId, amount) {
+        if (!requireAdmin()) return;
+        try {
+            const userRef = db.collection('users').doc(userId);
+            const doc = await userRef.get();
+            let currentCoins = doc.exists ? (doc.data().coins || 0) : 0;
+            await userRef.set({ coins: Math.max(0, currentCoins + amount) }, { merge: true });
+            showToast(`✅ ${amount} coin eklendi!`);
+            renderAdminPanel();
+        } catch(e) { showToast('❌ Hata: ' + e.message); }
+    }
+
+    async function adminSetCustomCoins(userId, amount) {
+        if (!requireAdmin()) return;
+        const coinAmount = parseInt(amount);
+        if (isNaN(coinAmount) || coinAmount < 0) { showToast('❌ Geçerli bir miktar girin!'); return; }
+        try {
+            await db.collection('users').doc(userId).set({ coins: coinAmount }, { merge: true });
+            showToast(`✅ ${coinAmount} coin olarak ayarlandı!`);
+            renderAdminPanel();
+        } catch(e) { showToast('❌ Hata: ' + e.message); }
+    }
+
+    function updateCoinUI() {
+        if (coinCount) coinCount.textContent = userCoins;
+        if (userNameText) {
+            userNameText.textContent = currentUser ? (currentUser.displayName || 'Kullanıcı') : 'Misafir';
+        }
+    }
+
+    // ==========================================
+    // ÇARK SİSTEMİ
+    // ==========================================
     function initWheel() {
         wheelCanvas = document.getElementById('wheelCanvas');
         if (!wheelCanvas) return;
@@ -1327,7 +1479,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.shadowBlur = 10;
         ctx.fill();
 
-        // ORTA YUVARLAK
         ctx.beginPath();
         ctx.arc(centerX, centerY, 20, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(16,18,40,0.9)';
@@ -1362,7 +1513,6 @@ document.addEventListener('DOMContentLoaded', function() {
         spinWheelBtn.disabled = true;
         wheelResult.textContent = '🎡 Çark dönüyor...';
 
-        // Coin harcat
         addCoins(-50);
 
         const spins = 5 + Math.random() * 5;
@@ -1422,194 +1572,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // COIN SİSTEMİ
-    // ==========================================
-    async function loadUserData(uid) {
-        if (!uid) return;
-        try {
-            const docRef = await db.collection('users').doc(uid).get();
-            if (docRef.exists) {
-                userData = docRef.data();
-                userCoins = userData.coins || 0;
-            } else {
-                userData = { coins: 0, displayName: currentUser?.displayName || 'Kullanıcı' };
-                userCoins = 0;
-                await db.collection('users').doc(uid).set(userData);
-            }
-            updateCoinUI();
-        } catch(e) {
-            console.error('Kullanıcı verisi hatası:', e);
-            userCoins = 0;
-            updateCoinUI();
-        }
-    }
-
-    async function addCoins(amount) {
-        if (!currentUser) return;
-        userCoins = Math.max(0, userCoins + amount);
-        try {
-            await db.collection('users').doc(currentUser.uid).set({ coins: userCoins }, { merge: true });
-            updateCoinUI();
-            if (amount > 0) {
-                showToast(`🪙 +${amount} Coin kazandın!`);
-            }
-        } catch(e) {
-            console.error('Coin ekleme hatası:', e);
-        }
-    }
-
-    async function adminAddCoins(userId, amount) {
-        if (!requireAdmin()) return;
-        try {
-            const userRef = db.collection('users').doc(userId);
-            const doc = await userRef.get();
-            let currentCoins = 0;
-            if (doc.exists) {
-                currentCoins = doc.data().coins || 0;
-            }
-            await userRef.set({ coins: Math.max(0, currentCoins + amount) }, { merge: true });
-            showToast(`✅ ${amount} coin eklendi!`);
-            renderAdminPanel();
-        } catch(e) {
-            showToast('❌ Hata: ' + e.message);
-        }
-    }
-
-    function updateCoinUI() {
-        if (coinCount) coinCount.textContent = userCoins;
-        if (userNameText) {
-            if (currentUser) {
-                userNameText.textContent = currentUser.displayName || 'Kullanıcı';
-            } else {
-                userNameText.textContent = 'Misafir';
-            }
-        }
-    }
-
-    // ==========================================
-    // TEMEL FONKSİYONLAR
-    // ==========================================
-    function isAdmin(user) {
-        if (!user) return false;
-        return user.uid === ADMIN_UID;
-    }
-
-    function requireAdmin() {
-        if (!currentUser || !isAdmin(currentUser)) {
-            showToast('❌ Admin yetkisi gerekli!');
-            return false;
-        }
-        return true;
-    }
-
-    function getAllScripts(){ return [...premiumScripts, ...communityScripts]; }
-    function getImageForCategory(cat){ return IMG[cat]||IMG.other; }
-    function updateGameBadge(){ const total=7+communityGames.length; if(gameCountBadge) gameCountBadge.textContent=`${total} OYUN`; }
-    function sanitizeFavorites() {
-        favorites = JSON.parse(localStorage.getItem('scriptHubFavs')) || [];
-        favorites = favorites.filter(id => typeof id === 'string' && id.length > 0);
-        localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
-    }
-
-    function escapeHtml(str){ if(!str)return ''; const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
-    function filterContent(text){ let filtered = text; badWords.forEach(word => { filtered = filtered.replace(new RegExp(word, 'gi'), '***'); }); return filtered; }
-
-    function showToast(msg, duration=4000){
-        toastMessage.textContent=msg; toast.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer=setTimeout(()=>toast.classList.remove('show'), duration);
-    }
-    toastClose.addEventListener('click', ()=>{toast.classList.remove('show'); clearTimeout(toastTimer);});
-
-    function setTheme(theme){
-        document.body.className = theme;
-        document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active', b.dataset.theme===theme));
-        localStorage.setItem('scriptHubTheme', theme);
-    }
-    document.querySelectorAll('.theme-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=>setTheme(btn.dataset.theme));
-    });
-    const savedTheme = localStorage.getItem('scriptHubTheme') || 'dark';
-    setTheme(savedTheme);
-
-    function setLanguage(lang) {
-        currentLang = lang;
-        localStorage.setItem('scriptHubLang', lang);
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-        const translations = {
-            tr: { search: 'Script veya oyun ara...', addScript: 'Script Ekle', addGame: 'Oyun Ekle', login: 'Giriş Yap' },
-            en: { search: 'Search script or game...', addScript: 'Add Script', addGame: 'Add Game', login: 'Login' }
-        };
-        const t = translations[lang] || translations.tr;
-        searchInput.placeholder = t.search;
-        addScriptBtn.innerHTML = `<img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> ${t.addScript}`;
-        addGameBtn.textContent = `🎮 ${t.addGame}`;
-        showToast(`🌐 ${lang === 'tr' ? 'Türkçe' : 'English'}`);
-    }
-    window.setLanguage = setLanguage;
-
-    window.selectAvatar = function(el){
-        document.querySelectorAll('.avatar-option').forEach(e=>e.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedAvatar = el.dataset.avatar;
-        uploadedAvatarUrl = null;
-        document.getElementById('avatarStatus').textContent='✅ Avatar seçildi';
-        document.getElementById('avatarStatus').style.color='#4ade80';
-    };
-    avatarFileInput.addEventListener('change', function(e){
-        const file=this.files[0]; if(!file)return;
-        if(file.size>5*1024*1024){showToast('❌ Dosya boyutu 5MB\'dan büyük olamaz!'); this.value=''; return;}
-        if(!file.type.startsWith('image/')){showToast('❌ Lütfen bir resim dosyası seçin!'); this.value=''; return;}
-        const reader=new FileReader();
-        reader.onload=function(e){
-            const dataUrl=e.target.result; uploadedAvatarUrl=dataUrl; selectedAvatar=dataUrl;
-            const uploadOption=document.getElementById('uploadAvatarOption');
-            uploadOption.innerHTML=`<img src="${dataUrl}" alt="Yüklenen Avatar" style="width:100%;height:100%;object-fit:cover">`;
-            uploadOption.classList.add('selected');
-            document.querySelectorAll('.avatar-option').forEach(el=>{if(el.id!=='uploadAvatarOption')el.classList.remove('selected');});
-            document.getElementById('avatarStatus').textContent='✅ Kendi avatarın yüklendi!';
-            document.getElementById('avatarStatus').style.color='#4ade80';
-        };
-        reader.readAsDataURL(file);
-    });
-    document.getElementById('googlePhotoBtn').addEventListener('click', function(){
-        const url=prompt('Google Fotoğraflar\'dan paylaşım linkini veya resim URL\'sini yapıştır:');
-        if(url && url.trim() && (url.startsWith('http://')||url.startsWith('https://'))){
-            uploadedAvatarUrl=url.trim(); selectedAvatar=url.trim();
-            const uploadOption=document.getElementById('uploadAvatarOption');
-            uploadOption.innerHTML=`<img src="${url.trim()}" alt="Google Foto" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span class=\\'upload-icon\\'>📤</span>'; showToast('❌ Geçersiz resim URL\\'si!')">`;
-            uploadOption.classList.add('selected');
-            document.querySelectorAll('.avatar-option').forEach(el=>{if(el.id!=='uploadAvatarOption')el.classList.remove('selected');});
-            document.getElementById('avatarStatus').textContent='✅ Google Fotoğraf seçildi!';
-            document.getElementById('avatarStatus').style.color='#4ade80';
-        } else showToast('❌ Geçerli bir URL girin!');
-    });
-
-    function updateAuthUI(user){
-        currentUser=user;
-        if(user){
-            const name=user.displayName||user.email||'Kullanıcı';
-            const photo=user.photoURL||IMG.users;
-            authSection.innerHTML=`<button class="auth-btn" id="profileBtn" style="gap:0.5rem"><img src="${photo}" alt="Avatar" class="user-avatar" onerror="this.src='${IMG.users}'"><span class="user-name">${escapeHtml(name)}</span></button>`;
-            document.getElementById('profileBtn')?.addEventListener('click', openProfileModal);
-            renderDailyTasks();
-            dailyTasksContainer.style.display = 'block';
-            if (isAdmin(user)) { adminBtn.style.display = 'flex'; } else { adminBtn.style.display = 'none'; }
-            loadUserData(user.uid);
-            updateCoinUI();
-        }else{
-            authSection.innerHTML=`<button class="auth-btn" id="loginBtn"><img src="${IMG.login}" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>`;
-            document.getElementById('loginBtn')?.addEventListener('click', openAuthModal);
-            dailyTasksContainer.style.display = 'none';
-            adminBtn.style.display = 'none';
-            userCoins = 0;
-            updateCoinUI();
-            if (userNameText) userNameText.textContent = 'Misafir';
-        }
-    }
-
-    // ==========================================
-    // GET BUTONU (COIN SİSTEMİ ENTEGRE)
+    // GET BUTONU (COIN SİSTEMİ İLE)
     // ==========================================
     function getHandler(e){
         const id=this.dataset.id;
@@ -1617,21 +1580,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const script=all.find(s=>s.id===id);
         if(!script)return;
         
-        // Script zaten premium ve coin ile mi alınacak?
-        const scriptCost = 20; // Her script için 20 coin
-        if (userCoins < scriptCost) {
-            showToast(`❌ Yeterli coin yok! Bu script için ${scriptCost} coin gerekli.`);
+        const scriptPrice = script.price || 0;
+        
+        if (scriptPrice > 0 && userCoins < scriptPrice) {
+            showToast(`❌ Yeterli coin yok! Bu script için ${scriptPrice} coin gerekli.`);
             return;
         }
 
-        // Coin harcat ve scripti aç
-        addCoins(-scriptCost);
+        if (scriptPrice > 0) {
+            addCoins(-scriptPrice);
+            showToast(`🪙 ${scriptPrice} coin harcandı!`);
+        }
+
         incrementView(id);
         if(script.isCommunity){
             db.collection('scripts').doc(id).update({ downloads: firebase.firestore.FieldValue.increment(1) }).catch(()=>{});
         }
         
-        // Modal aç
         modalState.scrollY=window.scrollY;
         modalState.code=script.code;
         modalState.taskStatus={discord:false,youtube:false,tiktok:false};
@@ -1650,53 +1615,212 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.top=`-${modalState.scrollY}px`;
         document.body.style.width='100%';
         modal.classList.add('open');
-        showToast(`🪙 ${scriptCost} coin harcandı! Görevleri tamamla.`);
         setTimeout(()=>{render();},100);
     }
 
     // ==========================================
-    // DİĞER FONKSİYONLAR
+    // RENDER FONKSİYONLARI
     // ==========================================
-    function renderProfile(){ /* Öncekiyle aynı, coin bilgisi eklendi */ }
-    function openProfileModal(){ profileModal.classList.add('open'); document.body.style.overflow='hidden'; renderProfile(); }
-    function closeProfileModalFn(){ profileModal.classList.remove('open'); document.body.style.overflow=''; }
-    function openProfileEditModal(){ if(!currentUser){showToast('❌ Lütfen giriş yapın!');return;} profileEditModal.classList.add('open'); document.body.style.overflow='hidden'; renderProfileEdit(); }
-    function closeProfileEditModalFn(){ profileEditModal.classList.remove('open'); document.body.style.overflow=''; }
-    function renderProfileEdit(){ /* Öncekiyle aynı */ }
-    function openAuthModal(){ authModal.classList.add('open'); document.body.style.overflow='hidden'; }
-    function closeAuthModalFn(){ authModal.classList.remove('open'); document.body.style.overflow=''; }
-
-    // ==========================================
-    // ADMIN PANELİ (COIN YÖNETİMİ EKLENDİ)
-    // ==========================================
-    async function renderAdminUsers() {
-        try {
-            const snap = await db.collection('users').get();
-            const users = []; 
-            snap.forEach(d => users.push({id: d.id, ...d.data()}));
-            if (users.length === 0) return `<div class="empty-state"><div class="icon">👤</div><p>Henüz kullanıcı yok</p></div>`;
-            return `<div class="admin-list">${users.map(u => `
-                <div class="admin-list-item">
-                    <div class="info">
-                        <div class="title">${escapeHtml(u.displayName || u.name || 'Anonim')}</div>
-                        <div class="sub">🆔 ${escapeHtml(u.id)} · 📧 ${escapeHtml(u.email || 'E-posta yok')}</div>
-                        <div class="coin-info">🪙 ${u.coins || 0} Coin</div>
-                    </div>
-                    <div class="actions">
-                        <button class="coin-add-btn" onclick="adminAddCoins('${u.id}', 10)">+10🪙</button>
-                        <button class="coin-add-btn" onclick="adminAddCoins('${u.id}', 50)">+50🪙</button>
-                        <button class="coin-add-btn" onclick="adminAddCoins('${u.id}', 100)">+100🪙</button>
-                        ${u.banned ? `<button class="unban-btn" onclick="adminUnbanUser('${u.id}')">✅ Banı Kaldır</button>` : `<button class="ban-btn" onclick="adminBanUser('${u.id}')">🚫 Banla</button>`}
-                    </div>
-                </div>
-            `).join('')}</div>`;
-        } catch(e) { console.error('Kullanıcı listesi hatası:', e); return `<div class="empty-state"><p>❌ Kullanıcılar yüklenirken hata oluştu</p></div>`; }
+    function renderPagination(totalItems){
+        const totalPages=Math.ceil(totalItems/ITEMS_PER_PAGE);
+        if(totalPages<=1){paginationControls.innerHTML='';return;}
+        let html=`<button class="page-btn" data-page="prev" ${currentPage<=1?'disabled':''}>‹ Önceki</button>`;
+        for(let i=1;i<=totalPages;i++){
+            if(i===1||i===totalPages||(i>=currentPage-2&&i<=currentPage+2))
+                html+=`<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
+            else if(i===currentPage-3||i===currentPage+3) html+=`<button class="page-btn" disabled>…</button>`;
+        }
+        html+=`<button class="page-btn" data-page="next" ${currentPage>=totalPages?'disabled':''}>Sonraki ›</button>`;
+        paginationControls.innerHTML=html;
+        document.querySelectorAll('.page-btn[data-page]').forEach(b=>{
+            b.addEventListener('click', function(){
+                const p=this.dataset.page; const total=Math.ceil(totalItems/ITEMS_PER_PAGE);
+                if(p==='prev'&&currentPage>1)currentPage--; else if(p==='next'&&currentPage<total)currentPage++; else if(p!=='prev'&&p!=='next')currentPage=parseInt(p);
+                render(); window.scrollTo({top:0,behavior:'smooth'});
+            });
+        });
     }
 
-    window.adminAddCoins = adminAddCoins;
-    window.adminBanUser = async function(userId) { /* Öncekiyle aynı */ };
-    window.adminUnbanUser = async function(userId) { /* Öncekiyle aynı */ };
+    function render(){
+        updateGameBadge();
+        if(currentCategory==='games'){
+            const total=7+communityGames.length; totalCount.textContent=total; favCount.textContent=favorites.length; communityCount.textContent=communityScripts.length;
+            grid.innerHTML=renderGames(); paginationControls.innerHTML='';
+            document.querySelectorAll('[data-gameid]').forEach(b=>b.addEventListener('click', gameDeleteHandler));
+            return;
+        }
+        const all=getAllScripts();
+        let filtered=all.filter(s=>{
+            let catMatch=currentCategory==='all'?true:(currentCategory==='favorites'?favorites.includes(s.id):(currentCategory==='community'?s.isCommunity===true:s.category===currentCategory));
+            let typeMatch=filterType==='all'?true:(filterType==='premium'?s.isPremium:filterType==='community'?s.isCommunity:true);
+            let searchMatch=s.name.toLowerCase().includes(searchTerm.toLowerCase())||s.desc.toLowerCase().includes(searchTerm.toLowerCase())||(s.features&&s.features.some(f=>f.toLowerCase().includes(searchTerm.toLowerCase())));
+            let ratingMatch=true;
+            if(filterRating>0){ const r=ratings[s.id]; if(r) ratingMatch=r.avg>=filterRating; else ratingMatch=false; }
+            return catMatch&&typeMatch&&searchMatch&&ratingMatch;
+        });
+        const sortVal=filterSort.value||sortMode;
+        if(sortVal==='az') filtered.sort((a,b)=>a.name.localeCompare(b.name));
+        else if(sortVal==='za') filtered.sort((a,b)=>b.name.localeCompare(a.name));
+        else if(sortVal==='popular') filtered.sort((a,b)=>(viewCounts[b.id]||0)-(viewCounts[a.id]||0));
+        else if(sortVal==='newest') filtered.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+        else if(sortVal==='default') filtered.sort((a,b)=>{ if(a.isPremium&&!b.isPremium)return -1; if(!a.isPremium&&b.isPremium)return 1; return 0; });
+        const totalItems=filtered.length; const totalPages=Math.ceil(totalItems/ITEMS_PER_PAGE);
+        if(currentPage>totalPages) currentPage=Math.max(1,totalPages);
+        const start=(currentPage-1)*ITEMS_PER_PAGE;
+        const paginated=filtered.slice(start,start+ITEMS_PER_PAGE);
+        totalCount.textContent=filtered.length; favCount.textContent=favorites.length; communityCount.textContent=communityScripts.length;
+        if(!paginated.length){ grid.innerHTML=`<div class="empty"><div style="font-size:2.5rem">🔍</div><h3 style="color:var(--text-secondary)">Sonuç bulunamadı</h3><p style="color:var(--text-muted);font-size:0.85rem">Farklı bir kategori veya arama terimi dene.</p></div>`; paginationControls.innerHTML=''; return; }
+        grid.innerHTML=paginated.map(s=>{
+            const isFav=favorites.includes(s.id); const isCommunity=s.isCommunity||false; const isPremium=s.isPremium||false;
+            const isOwner=currentUser&&isCommunity&&s.userId===currentUser.uid;
+            const canDelete=isCommunity&&isOwner;
+            const imageUrl=s.image||getImageForCategory(s.category);
+            const badgeImg=isCommunity?IMG.community:IMG.premium; const badgeText=isCommunity?'Topluluk':'Premium'; const badgeClass=isCommunity?'community':'';
+            const rating=ratings[s.id]||{avg:0,count:0}; const views=viewCounts[s.id]||0;
+            const scriptComments=comments[s.id]||[];
+            const downloads = s.downloads || 0;
+            const status = s.status || 'active';
+            const version = s.version || '';
+            const price = s.price || 0;
+            const priceLabel = price === 0 ? '🆓 Bedava' : `🪙 ${price} Coin`;
+            const priceClass = price === 0 ? 'free' : '';
+            
+            return `
+                <div class="script-card">
+                    <div class="card-image"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(s.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'"></div>
+                    <div class="card-body">
+                        <div class="card-header">
+                            <h3><img src="${getImageForCategory(s.category)}" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(s.name)} ${isPremium?'⭐':''}</h3>
+                            <button class="fav-btn ${isFav?'active':''}" data-id="${s.id}">♥</button>
+                        </div>
+                        <span class="card-category">${s.category.toUpperCase()} ${isCommunity?'· 🌍':''}</span>
+                        <div class="card-desc">${escapeHtml(s.desc)}</div>
+                        <div class="rating-stars">
+                            ${[1,2,3,4,5].map(i=>`<span class="star ${i<=Math.round(rating.avg)?'active':''}" onclick="rateScript('${s.id}',${i})">★</span>`).join('')}
+                            <span class="rating-avg">${rating.avg>0?rating.avg.toFixed(1)+' ('+rating.count+')':'Puan yok'}</span>
+                            <span style="color:var(--text-muted);font-size:0.6rem;margin-left:0.3rem">👁️ ${views}</span>
+                        </div>
+                        <div class="card-features">${s.features?s.features.map(f=>`<span class="tag">${escapeHtml(f)}</span>`).join(''):''}</div>
+                        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.3rem 0">
+                            <span class="price-badge ${priceClass}">${priceLabel}</span>
+                        </div>
+                        ${s.userName?`<div class="script-owner"><img src="${IMG.users}" style="width:14px;height:14px">${escapeHtml(s.userName)}${isOwner?' <span class="badge owner-badge">👑 Sahibim</span>':''}</div>`:''}
+                        <div class="comment-section">
+                            ${isPremium ? `
+                                <div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.3rem;border-top:1px solid var(--border-color);margin-top:0.3rem">
+                                    ⭐ Premium scriptlere yorum yapılamaz
+                                </div>
+                            ` : `
+                                <div style="max-height:80px;overflow-y:auto;margin-bottom:0.3rem">
+                                    ${scriptComments.length === 0 ? '<div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.2rem">💬 İlk yorumu sen yap!</div>' :
+                                        scriptComments.slice(0,3).map(c => `
+                                            <div class="comment-item">
+                                                <span class="cmt-user">${escapeHtml(c.user)}</span>
+                                                <span style="color:var(--text-secondary);font-size:0.7rem">${escapeHtml(c.text)}</span>
+                                                <span class="cmt-time">${c.time ? new Date(c.time.seconds * 1000).toLocaleString('tr-TR') : ''}</span>
+                                                <span style="color:var(--text-muted);font-size:0.55rem;margin-left:0.3rem">❤️ ${c.likes || 0}</span>
+                                            </div>
+                                        `).join('')}
+                                </div>
+                                ${scriptComments.length > 3 ? `<div style="color:var(--text-muted);font-size:0.6rem;text-align:right;cursor:pointer" onclick="showAllComments('${s.id}')">+${scriptComments.length - 3} yorum daha...</div>` : ''}
+                                <div class="comment-input">
+                                    <input type="text" placeholder="Yorum yaz..." id="cmt_${s.id}" onkeypress="if(event.key==='Enter') addComment('${s.id}', this.value)">
+                                    <button onclick="addComment('${s.id}', document.getElementById('cmt_${s.id}').value)">💬 Gönder</button>
+                                </div>
+                            `}
+                        </div>
+                        <div class="card-footer">
+                            <div style="display:flex;gap:0.3rem;flex-wrap:wrap;align-items:center">
+                                <span class="badge ${badgeClass}"><img src="${badgeImg}" style="width:14px;height:14px">${badgeText}</span>
+                                ${status ? `<span class="script-status-badge ${status}">${status === 'active' ? '✅' : status === 'beta' ? '🔬' : '📅'} ${status}</span>` : ''}
+                                ${version ? `<span class="script-version">📌 ${version}</span>` : ''}
+                                <span class="script-downloads">⬇️ ${downloads || 0}</span>
+                            </div>
+                            <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
+                                ${isOwner ? `<button class="edit-script-btn" onclick="openEditScriptModal('${s.id}')">✏️ Düzenle</button>` : ''}
+                                ${canDelete ? `<button class="delete-btn" data-id="${s.id}"><img src="${IMG.delete}" alt="Sil"> Sil</button>` : ''}
+                                ${!isOwner ? `<button class="report-btn" onclick="reportScript('${s.id}')">🚨 Raporla</button>` : ''}
+                                <button class="get-btn" data-id="${s.id}"><img src="${IMG.get}" alt="GET"> GET</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        renderPagination(totalItems);
+        document.querySelectorAll('.fav-btn').forEach(b=>b.addEventListener('click', favHandler));
+        document.querySelectorAll('.get-btn').forEach(b=>b.addEventListener('click', getHandler));
+        document.querySelectorAll('.delete-btn').forEach(b=>b.addEventListener('click', deleteHandler));
+    }
 
+    function favHandler(e){
+        const id=this.dataset.id; 
+        if (typeof id !== 'string') return;
+        const idx=favorites.indexOf(id);
+        if(idx>-1) favorites.splice(idx,1); else favorites.push(id);
+        favorites = favorites.filter(f => typeof f === 'string' && f.length > 0);
+        localStorage.setItem('scriptHubFavs',JSON.stringify(favorites));
+        render(); showToast('❤️ Favori güncellendi');
+        completeDailyTask('daily_fav');
+    }
+
+    async function deleteHandler(e){
+        const id=this.dataset.id; const script=communityScripts.find(s=>s.id===id);
+        if(!script){showToast('❌ Bu script silinemez!');return;}
+        if(!currentUser||currentUser.uid!==script.userId){showToast('❌ Sadece kendi scriptini silebilirsin!');return;}
+        if(!confirm(`"${script.name}" scriptini silmek istediğine emin misin?`))return;
+        if(await deleteScriptFromFirebase(id)){
+            const idx=favorites.indexOf(id); if(idx>-1){favorites.splice(idx,1); localStorage.setItem('scriptHubFavs',JSON.stringify(favorites));}
+            await loadCommunityScripts(); render(); showToast('🗑️ Script silindi!');
+        }
+    }
+
+    async function gameDeleteHandler(e){
+        const gameId=this.dataset.gameid; const game=communityGames.find(g=>g.id===gameId);
+        if(!game){showToast('❌ Bu oyun silinemez!');return;}
+        if(!currentUser||currentUser.uid!==game.userId){showToast('❌ Sadece kendi oyununu silebilirsin!');return;}
+        if(!confirm(`"${game.name}" oyununu silmek istediğine emin misin?`))return;
+        if(await deleteGameFromFirebase(gameId)){await loadCommunityGames(); render(); showToast('🗑️ Oyun silindi!');}
+    }
+
+    function renderGames(){
+        const defaultGameKeys=['mm2','bloxfruits','petsim','dahood','bladeball','brookhaven','other'];
+        const allGameKeys=[...defaultGameKeys]; const gameData={};
+        defaultGameKeys.forEach(key=>{ gameData[key]={name:DEFAULT_GAME_NAMES[key], link:GAME_LINKS[key], image:IMG[key]||IMG.other, isCustom:false}; });
+        communityGames.forEach(game=>{ const id=`custom_${game.id}`; allGameKeys.push(id); gameData[id]={name:game.name, link:game.link, image:game.image, desc:game.desc||'', author:game.userName||'Anonim', isCustom:true, gameId:game.id, userId:game.userId}; });
+        return `
+            <div style="grid-column:1/-1;margin-bottom:0.5rem">
+                <div class="section-title"><span>🎮</span> OYUNLAR <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:0.5rem">Toplam ${allGameKeys.length} oyun</span></div>
+            </div>
+            ${allGameKeys.map(key=>{
+                const game=gameData[key]; if(!game)return '';
+                const isOwner=currentUser&&game.isCustom&&game.userId===currentUser.uid;
+                return `
+                    <div class="game-card script-card">
+                        <div class="card-image"><img src="${escapeHtml(game.image)}" alt="${escapeHtml(game.name)}" loading="lazy" onerror="this.src='${DEFAULT_IMAGE}'"></div>
+                        <div class="card-body">
+                            <div class="card-header"><h3><img src="${escapeHtml(game.image)}" alt="${escapeHtml(game.name)}" style="width:20px;height:20px;border-radius:4px;object-fit:cover" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(game.name)}${game.isCustom?'<span class="game-owner-tag">👤 Topluluk</span>':''}</h3><span style="font-size:1.2rem">▶️</span></div>
+                            <div style="color:var(--text-muted);font-size:0.75rem;margin:0.2rem 0 0.5rem">${escapeHtml(game.desc||(game.isCustom?'Topluluk tarafından eklendi':'Roblox oyununa gitmek için tıkla'))}</div>
+                            ${game.isCustom?`<div class="script-owner"><img src="${IMG.users}" style="width:14px;height:14px">${escapeHtml(game.author)}${isOwner?' <span class="badge owner-badge">👑 Sahibim</span>':''}</div>`:''}
+                            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.3rem">
+                                <span style="background:rgba(34,197,94,0.1);color:#4ade80;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px">🎮 Oyun</span>
+                                <span style="background:rgba(167,139,250,0.1);color:var(--accent-light);font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px">🟢 Açık</span>
+                                ${game.isCustom?'<span style="background:rgba(251,191,36,0.1);color:#fbbf24;font-size:0.6rem;padding:0.05rem 0.6rem;border-radius:20px">👥 Topluluk</span>':''}
+                            </div>
+                            <div class="card-footer">
+                                <span class="badge ${game.isCustom?'game-badge-custom':''}" style="${game.isCustom?'background:rgba(251,191,36,0.15);color:#fbbf24':''}">▶️ Oyna</span>
+                                <div style="display:flex;gap:0.5rem">${isOwner?`<button class="delete-btn" data-gameid="${game.gameId}"><img src="${IMG.delete}" alt="Sil"> Sil</button>`:''}<a href="${escapeHtml(game.link)}" target="_blank" class="game-play-btn">🚀 Oyuna Git</a></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('')}
+        `;
+    }
+
+    // ==========================================
+    // FIREBASE İŞLEMLERİ
+    // ==========================================
     async function loadCommunityScripts(){
         try{
             const snap=await db.collection('scripts').orderBy('createdAt','desc').limit(500).get();
@@ -1723,9 +1847,254 @@ document.addEventListener('DOMContentLoaded', function() {
         }catch(e){console.error(e); return [];}
     }
 
+    async function addScriptToFirebase(data){
+        try{
+            const docRef=await db.collection('scripts').add({
+                ...data, userId:currentUser?.uid||null, userEmail:currentUser?.email||null,
+                userName:currentUser?.displayName||'Anonim',
+                commentCount: 0, price: data.price || 0,
+                createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            });
+            await db.collection('scripts').doc(docRef.id).collection('ratings').doc('stats').set({avg:0,count:0});
+            await db.collection('scripts').doc(docRef.id).collection('views').doc('stats').set({count:0});
+            addNotification(`📜 Yeni script eklendi: ${data.name}`, 'script');
+            return docRef.id;
+        }catch(e){console.error(e); showToast('❌ Script eklenirken hata oluştu!'); return null;}
+    }
+
+    async function addGameToFirebase(data){
+        try{
+            const docRef=await db.collection('games').add({...data, userId:currentUser?.uid||null, userEmail:currentUser?.email||null, userName:currentUser?.displayName||'Anonim', createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            addNotification(`🎮 Yeni oyun eklendi: ${data.name}`, 'game');
+            return docRef.id;
+        }catch(e){console.error(e); showToast('❌ Oyun eklenirken hata oluştu!'); return null;}
+    }
+
+    async function deleteScriptFromFirebase(id){ try{ await db.collection('scripts').doc(id).delete(); return true; }catch(e){console.error(e); return false;} }
+    async function deleteGameFromFirebase(id){ try{ await db.collection('games').doc(id).delete(); return true; }catch(e){console.error(e); return false;} }
+
     // ==========================================
-    // TAMAMLAMA VE RENDER
+    // YORUM & PUAN
     // ==========================================
+    async function rateScript(scriptId, rating){
+        if(!currentUser){showToast('❌ Puan vermek için giriş yapın!'); openAuthModal(); return;}
+        try {
+            const docRef=db.collection('scripts').doc(scriptId).collection('ratings').doc('stats');
+            const userRef=db.collection('scripts').doc(scriptId).collection('ratings').doc(currentUser.uid);
+            await userRef.set({rating, user:currentUser.uid, name:currentUser.displayName||'Anonim'});
+            const all=await db.collection('scripts').doc(scriptId).collection('ratings').get();
+            let total=0, count=0;
+            all.forEach(d=>{ if(d.id!=='stats'){ total+=d.data().rating; count++; }});
+            const avg=count>0?total/count:0;
+            await docRef.set({avg, count});
+            ratings[scriptId]={avg,count};
+            render();
+            showToast(`⭐ Puan verildi! Ortalama: ${avg.toFixed(1)}`);
+        } catch(e) { console.error('Puan hatası:', e); showToast('❌ Puan verilirken hata oluştu!'); }
+    }
+
+    async function addComment(scriptId, text) {
+        if (!currentUser) { showToast('❌ Yorum yapmak için giriş yapın!'); openAuthModal(); return; }
+        if (!text || !text.trim()) { showToast('❌ Yorum boş olamaz!'); return; }
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (script && script.isPremium) { showToast('❌ Premium scriptlere yorum yapılamaz!'); return; }
+        const filteredText = filterContent(text.trim());
+        const input = document.getElementById(`cmt_${scriptId}`);
+        const btn = input?.nextElementSibling;
+        try {
+            if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+            const docRef = await db.collection('scripts').doc(scriptId).collection('comments').add({
+                user: currentUser.displayName || 'Anonim',
+                userId: currentUser.uid,
+                userPhoto: currentUser.photoURL || IMG.users,
+                text: filteredText,
+                time: firebase.firestore.FieldValue.serverTimestamp(),
+                likes: 0
+            });
+            try {
+                const scriptDoc = await db.collection('scripts').doc(scriptId).get();
+                if (scriptDoc.exists) {
+                    if (scriptDoc.data().commentCount === undefined) {
+                        await db.collection('scripts').doc(scriptId).set({ commentCount: 0 }, { merge: true });
+                    }
+                    await db.collection('scripts').doc(scriptId).update({
+                        commentCount: firebase.firestore.FieldValue.increment(1)
+                    });
+                }
+            } catch(e) { console.log('commentCount güncelleme hatası:', e); }
+            if (!comments[scriptId]) comments[scriptId] = [];
+            comments[scriptId].unshift({
+                id: docRef.id,
+                user: currentUser.displayName || 'Anonim',
+                userId: currentUser.uid,
+                userPhoto: currentUser.photoURL || IMG.users,
+                text: filteredText,
+                time: { seconds: Date.now() / 1000 },
+                likes: 0
+            });
+            if (input) input.value = '';
+            completeDailyTask('daily_comment');
+            addNotification(`💬 ${currentUser.displayName} bir yorum yazdı`, 'comment');
+            render();
+            showToast('✅ Yorum eklendi!');
+            addCoins(5);
+            await loadCommunityScripts();
+            render();
+        } catch (error) { console.error('Yorum hatası:', error); showToast('❌ Yorum eklenirken hata oluştu: ' + error.message); render(); } finally { if (btn) { btn.disabled = false; btn.textContent = 'Gönder'; } }
+    }
+
+    function showAllComments(scriptId) {
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) return;
+        if (script.isPremium) { showToast('❌ Premium scriptlere yorum yapılamaz!'); return; }
+        const commentList = comments[scriptId] || [];
+        if (commentList.length === 0) { showToast('💬 Henüz yorum yok!'); return; }
+        const modalHtml = `
+            <div class="modal-overlay open" id="commentsModal" onclick="if(event.target===this)this.classList.remove('open')">
+                <div class="modal-card" style="max-width:500px">
+                    <div class="modal-header">
+                        <h2>💬 ${escapeHtml(script.name)} - Yorumlar (${commentList.length})</h2>
+                        <button class="modal-close" onclick="document.getElementById('commentsModal').classList.remove('open')">✕</button>
+                    </div>
+                    <div style="max-height:400px;overflow-y:auto;padding:0.5rem 0">
+                        ${commentList.map(c => `
+                            <div style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.5rem;border-bottom:1px solid var(--border-color)">
+                                <img src="${c.userPhoto || IMG.users}" style="width:32px;height:32px;border-radius:50%;object-fit:cover" onerror="this.src='${IMG.users}'">
+                                <div style="flex:1">
+                                    <div style="display:flex;gap:0.5rem;align-items:center">
+                                        <span style="color:var(--accent-light);font-weight:500;font-size:0.85rem">${escapeHtml(c.user)}</span>
+                                        <span style="color:var(--text-muted);font-size:0.6rem">${c.time ? new Date(c.time.seconds * 1000).toLocaleString('tr-TR') : ''}</span>
+                                    </div>
+                                    <div style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.1rem">${escapeHtml(c.text)}</div>
+                                    <div style="display:flex;gap:0.5rem;margin-top:0.2rem">
+                                        <span style="color:var(--text-muted);font-size:0.6rem;cursor:pointer" onclick="likeComment('${c.id}','${scriptId}')">❤️ ${c.likes || 0}</span>
+                                        ${c.userId === currentUser?.uid ? `<span style="color:#ff6b6b;font-size:0.6rem;cursor:pointer" onclick="deleteComment('${c.id}','${scriptId}')">🗑️ Sil</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        const existing = document.getElementById('commentsModal');
+        if (existing) existing.remove();
+        const div = document.createElement('div');
+        div.innerHTML = modalHtml;
+        document.body.appendChild(div.firstElementChild);
+    }
+
+    async function likeComment(commentId, scriptId) {
+        if (!currentUser) { showToast('❌ Giriş yapın!'); return; }
+        try {
+            await db.collection('scripts').doc(scriptId).collection('comments').doc(commentId).update({
+                likes: firebase.firestore.FieldValue.increment(1)
+            });
+            if (comments[scriptId]) {
+                const comment = comments[scriptId].find(c => c.id === commentId);
+                if (comment) comment.likes = (comment.likes || 0) + 1;
+            }
+            render();
+            showAllComments(scriptId);
+        } catch(e) { showToast('❌ Beğeni hatası: ' + e.message); }
+    }
+
+    async function deleteComment(commentId, scriptId) {
+        if (!currentUser) { showToast('❌ Giriş yapın!'); return; }
+        if (!confirm('Yorumu silmek istediğine emin misin?')) return;
+        try {
+            await db.collection('scripts').doc(scriptId).collection('comments').doc(commentId).delete();
+            await db.collection('scripts').doc(scriptId).update({
+                commentCount: firebase.firestore.FieldValue.increment(-1)
+            });
+            if (comments[scriptId]) {
+                comments[scriptId] = comments[scriptId].filter(c => c.id !== commentId);
+            }
+            render();
+            showToast('🗑️ Yorum silindi!');
+            const modal = document.getElementById('commentsModal');
+            if (modal) modal.classList.remove('open');
+        } catch(e) { showToast('❌ Silme hatası: ' + e.message); }
+    }
+
+    async function incrementView(scriptId){
+        if(!scriptId) return;
+        try {
+            const viewRef=db.collection('scripts').doc(scriptId).collection('views').doc('stats');
+            await viewRef.set({count:firebase.firestore.FieldValue.increment(1)}, {merge:true});
+            viewCounts[scriptId]=(viewCounts[scriptId]||0)+1;
+            const views = JSON.parse(localStorage.getItem(`daily_views_${currentUser?.uid}`)) || 0;
+            localStorage.setItem(`daily_views_${currentUser?.uid}`, views + 1);
+            if (views + 1 >= 5) { completeDailyTask('daily_view'); }
+        } catch(e) { console.error('Görüntülenme hatası:', e); }
+    }
+
+    // ==========================================
+    // RAPOR
+    // ==========================================
+    async function reportScript(scriptId) {
+        if (!currentUser) { showToast('❌ Raporlamak için giriş yapın!'); openAuthModal(); return; }
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        const scriptName = script.name || 'İsimsiz Script';
+        const scriptCategory = script.category || 'bilinmiyor';
+        const scriptType = script.isPremium ? 'Premium' : 'Topluluk';
+        const reasons = [
+            '❌ Çalışmıyor / Hatalı',
+            '⚠️ Uygunsuz İçerik',
+            '🔞 Yetişkin İçeriği',
+            '💰 Sahte / Dolandırıcı',
+            '📋 Kopya / Çalıntı',
+            '🔗 Spam / Reklam',
+            '📌 Diğer'
+        ];
+        let reasonText = '📌 Rapor nedeni:\n\n';
+        reasons.forEach((r, i) => { reasonText += `${i+1}. ${r}\n`; });
+        reasonText += '\n🔢 Seçenek numarasını veya kendi açıklamanı yaz:';
+        const input = prompt(reasonText);
+        if (!input || !input.trim()) return;
+        let selectedReason = input.trim();
+        let reasonType = 'Diğer';
+        const num = parseInt(input);
+        if (!isNaN(num) && num >= 1 && num <= reasons.length) {
+            reasonType = reasons[num-1].replace(/^[0-9]+\.\s*/, '');
+            selectedReason = reasons[num-1].replace(/^[0-9]+\.\s*/, '');
+        }
+        try {
+            const reportData = {
+                scriptId: scriptId,
+                scriptName: scriptName,
+                scriptCategory: scriptCategory,
+                scriptType: scriptType,
+                userId: currentUser.uid,
+                userName: currentUser.displayName || 'Anonim',
+                userEmail: currentUser.email || '',
+                reason: filterContent(selectedReason),
+                reasonType: reasonType,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'pending',
+                viewed: false
+            };
+            await db.collection('reports').add(reportData);
+            showToast(`✅ "${scriptName}" raporlandı! Teşekkürler.`);
+            addNotification(`🚨 ${currentUser.displayName} "${scriptName}" scriptini raporladı`, 'report');
+        } catch (error) { console.error('❌ Rapor hatası:', error); showToast('❌ Rapor gönderilirken hata oluştu: ' + error.message); }
+    }
+
+    // ==========================================
+    // GÜNLÜK GÖREVLER
+    // ==========================================
+    function getDailyProgress(){
+        if(!currentUser) return { date: new Date().toDateString(), tasks: {} };
+        const today = new Date().toDateString();
+        const progress = JSON.parse(localStorage.getItem(`daily_${currentUser.uid}`)) || {};
+        if (progress.date !== today) { return { date: today, tasks: {} }; }
+        return progress;
+    }
+
     function completeDailyTask(taskId){
         if(!currentUser) return;
         const progress = getDailyProgress();
@@ -1734,7 +2103,6 @@ document.addEventListener('DOMContentLoaded', function() {
         progress.date = new Date().toDateString();
         localStorage.setItem(`daily_${currentUser.uid}`, JSON.stringify(progress));
         
-        // Görev ödülü
         const task = dailyTasks.find(t => t.id === taskId);
         if (task) {
             const reward = parseInt(task.reward.match(/\d+/)?.[0] || 0);
@@ -1743,14 +2111,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast(`✅ Görev tamamlandı!`);
         addNotification(`🎯 Günlük görev tamamlandı: ${dailyTasks.find(t => t.id === taskId)?.name}`, 'task');
         renderDailyTasks();
-    }
-
-    function getDailyProgress(){
-        if(!currentUser) return { date: new Date().toDateString(), tasks: {} };
-        const today = new Date().toDateString();
-        const progress = JSON.parse(localStorage.getItem(`daily_${currentUser.uid}`)) || {};
-        if (progress.date !== today) { return { date: today, tasks: {} }; }
-        return progress;
     }
 
     function renderDailyTasks(){
@@ -1769,6 +2129,9 @@ document.addEventListener('DOMContentLoaded', function() {
         `).join('');
     }
 
+    // ==========================================
+    // BİLDİRİM
+    // ==========================================
     function addNotification(msg, type='info'){
         const notif={id:Date.now(), msg, type, time:new Date().toLocaleString('tr-TR'), read:false};
         notifications.unshift(notif);
@@ -1796,28 +2159,760 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.addEventListener('click', ()=>notificationList.classList.remove('show'));
 
-    function renderPagination(totalItems){
-        const totalPages=Math.ceil(totalItems/ITEMS_PER_PAGE);
-        if(totalPages<=1){paginationControls.innerHTML='';return;}
-        let html=`<button class="page-btn" data-page="prev" ${currentPage<=1?'disabled':''}>‹ Önceki</button>`;
-        for(let i=1;i<=totalPages;i++){
-            if(i===1||i===totalPages||(i>=currentPage-2&&i<=currentPage+2))
-                html+=`<button class="page-btn ${i===currentPage?'active':''}" data-page="${i}">${i}</button>`;
-            else if(i===currentPage-3||i===currentPage+3) html+=`<button class="page-btn" disabled>…</button>`;
-        }
-        html+=`<button class="page-btn" data-page="next" ${currentPage>=totalPages?'disabled':''}>Sonraki ›</button>`;
-        paginationControls.innerHTML=html;
-        document.querySelectorAll('.page-btn[data-page]').forEach(b=>{
-            b.addEventListener('click', function(){
-                const p=this.dataset.page; const total=Math.ceil(totalItems/ITEMS_PER_PAGE);
-                if(p==='prev'&&currentPage>1)currentPage--; else if(p==='next'&&currentPage<total)currentPage++; else if(p!=='prev'&&p!=='next')currentPage=parseInt(p);
-                render(); window.scrollTo({top:0,behavior:'smooth'});
-            });
-        });
+    // ==========================================
+    // ADMIN PANELİ
+    // ==========================================
+    function openAdminModal() {
+        if (!currentUser) { showToast('❌ Lütfen giriş yapın!'); openAuthModal(); return; }
+        if (!isAdmin(currentUser)) { showToast('❌ Bu sayfaya erişim yetkin yok!'); return; }
+        document.getElementById('adminModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        renderAdminPanel();
     }
 
-    function renderGames(){ /* Öncekiyle aynı */ }
-    function render(){ /* Öncekiyle aynı, GET butonu coin kontrolü eklendi */ }
+    function closeAdminModalFn() {
+        document.getElementById('adminModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    async function renderAdminPanel() {
+        const container = document.getElementById('adminContent');
+        const stats = await getAdminStats();
+        let html = `
+            <div class="admin-tabs">
+                <button class="${currentAdminTab === 'scripts' ? 'active' : ''}" onclick="switchAdminTab('scripts')">📜 Scriptler</button>
+                <button class="${currentAdminTab === 'users' ? 'active' : ''}" onclick="switchAdminTab('users')">👤 Kullanıcılar</button>
+                <button class="${currentAdminTab === 'reports' ? 'active' : ''}" onclick="switchAdminTab('reports')">🚨 Raporlar</button>
+                <button class="${currentAdminTab === 'stats' ? 'active' : ''}" onclick="switchAdminTab('stats')">📊 İstatistikler</button>
+            </div>
+            <div class="admin-stats">
+                <div class="admin-stat-card"><div class="number">${stats.totalScripts}</div><span class="label">📜 Toplam Script</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalUsers}</div><span class="label">👤 Toplam Kullanıcı</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalReports}</div><span class="label">🚨 Toplam Rapor</span></div>
+                <div class="admin-stat-card"><div class="number">${stats.totalGames}</div><span class="label">🎮 Toplam Oyun</span></div>
+            </div>
+        `;
+        if (currentAdminTab === 'scripts') { html += await renderAdminScripts(); }
+        else if (currentAdminTab === 'users') { html += await renderAdminUsers(); }
+        else if (currentAdminTab === 'reports') { html += await renderAdminReports(); }
+        else if (currentAdminTab === 'stats') { html += await renderAdminDetailedStats(stats); }
+        container.innerHTML = html;
+    }
+
+    async function getAdminStats() {
+        try {
+            const scriptsSnap = await db.collection('scripts').get();
+            const allScripts = []; scriptsSnap.forEach(d => allScripts.push({id: d.id, ...d.data()}));
+            let totalUsers = 0; try { const usersSnap = await db.collection('users').get(); totalUsers = usersSnap.size; } catch(e) {}
+            let totalReports = 0; try { const reportsSnap = await db.collection('reports').get(); totalReports = reportsSnap.size; } catch(e) {}
+            let totalGames = 0; try { const gamesSnap = await db.collection('games').get(); totalGames = gamesSnap.size; } catch(e) {}
+            return { totalScripts: allScripts.length + premiumScripts.length, totalUsers, totalReports, totalGames };
+        } catch(e) { console.error('İstatistik hatası:', e); return { totalScripts: 0, totalUsers: 0, totalReports: 0, totalGames: 0 }; }
+    }
+
+    async function renderAdminScripts() {
+        try {
+            const snap = await db.collection('scripts').orderBy('createdAt', 'desc').get();
+            const scripts = []; snap.forEach(d => scripts.push({id: d.id, ...d.data()}));
+            let allScripts = [...scripts, ...premiumScripts];
+            if (adminSearchTerm.trim()) {
+                const search = adminSearchTerm.toLowerCase().trim();
+                allScripts = allScripts.filter(s => (s.name && s.name.toLowerCase().includes(search)) || (s.desc && s.desc.toLowerCase().includes(search)) || (s.category && s.category.toLowerCase().includes(search)));
+            }
+            if (adminFilterType !== 'all') {
+                if (adminFilterType === 'premium') { allScripts = allScripts.filter(s => s.isPremium === true); }
+                else if (adminFilterType === 'community') { allScripts = allScripts.filter(s => s.isCommunity === true); }
+            }
+            if (allScripts.length === 0) {
+                return `<div class="empty-state"><div class="icon">📭</div><p>Aramanıza uygun script bulunamadı</p></div>`;
+            }
+            return `
+                <div class="admin-search-bar">
+                    <input type="text" id="adminSearchInput" placeholder="🔍 Script ara..." value="${escapeHtml(adminSearchTerm)}">
+                    <select id="adminFilterTypeSelect">
+                        <option value="all" ${adminFilterType === 'all' ? 'selected' : ''}>📂 Tümü</option>
+                        <option value="premium" ${adminFilterType === 'premium' ? 'selected' : ''}>⭐ Premium</option>
+                        <option value="community" ${adminFilterType === 'community' ? 'selected' : ''}>🌍 Topluluk</option>
+                    </select>
+                    <button class="search-btn" onclick="adminSearchScripts()">🔍 Ara</button>
+                    <button class="search-btn" onclick="adminResetSearch()" style="background:rgba(255,255,255,0.1)">🔄 Sıfırla</button>
+                    <span style="color:var(--text-muted);font-size:0.7rem;margin-left:auto">📊 ${allScripts.length} script</span>
+                </div>
+                <div class="admin-list">
+                    ${allScripts.map(s => {
+                        const isPremium = s.isPremium || false;
+                        const scriptType = isPremium ? '⭐ Premium' : '🌍 Topluluk';
+                        const price = s.price || 0;
+                        const priceLabel = price === 0 ? '🆓 Bedava' : `🪙 ${price}`;
+                        const approved = s.approved === undefined ? '⏳ Beklemede' : s.approved ? '✅ Onaylı' : '❌ Reddedildi';
+                        return `
+                            <div class="admin-list-item">
+                                <div class="info">
+                                    <div class="title">${escapeHtml(s.name || 'İsimsiz Script')}
+                                        <span style="font-size:0.6rem;background:${isPremium ? 'rgba(251,191,36,0.15)' : 'rgba(167,139,250,0.15)'};padding:0.05rem 0.5rem;border-radius:12px;margin-left:0.5rem;color:${isPremium ? '#fbbf24' : 'var(--accent-light)'}">${scriptType}</span>
+                                        <span style="font-size:0.6rem;background:rgba(251,191,36,0.15);padding:0.05rem 0.5rem;border-radius:12px;margin-left:0.3rem;color:#fbbf24">${priceLabel}</span>
+                                    </div>
+                                    <div class="sub">${escapeHtml(s.userName || 'Anonim')} · ${s.category ? s.category.toUpperCase() : 'Kategori yok'} · ${approved}</div>
+                                </div>
+                                <div class="actions">
+                                    ${!isPremium && s.approved === undefined ? `<button class="approve-btn" onclick="adminApproveScript('${s.id}')">✅ Onayla</button><button class="reject-btn" onclick="adminRejectScript('${s.id}')">❌ Reddet</button>` : ''}
+                                    <button class="edit-btn" onclick="adminEditScript('${s.id}')">✏️ Düzenle</button>
+                                    <button class="delete-btn-admin" onclick="adminDeleteAnyScript('${s.id}')">🗑️ SİL</button>
+                                    <button class="approve-btn" onclick="adminViewScript('${s.id}')" style="background:rgba(59,130,246,0.15);color:#60a5fa">👁️ Gör</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        } catch(e) { console.error('Script listesi hatası:', e); return `<div class="empty-state"><p>❌ Scriptler yüklenirken hata oluştu</p></div>`; }
+    }
+
+    async function renderAdminUsers() {
+        try {
+            const snap = await db.collection('users').get();
+            const users = []; snap.forEach(d => users.push({id: d.id, ...d.data()}));
+            if (users.length === 0) return `<div class="empty-state"><div class="icon">👤</div><p>Henüz kullanıcı yok</p></div>`;
+            return `<div class="admin-list">${users.map(u => `
+                <div class="admin-list-item">
+                    <div class="info">
+                        <div class="title">${escapeHtml(u.displayName || u.name || 'Anonim')}</div>
+                        <div class="sub">🆔 ${escapeHtml(u.id)} · 📧 ${escapeHtml(u.email || 'E-posta yok')}</div>
+                        <div class="coin-info">🪙 ${u.coins || 0} Coin</div>
+                    </div>
+                    <div class="actions">
+                        <button class="coin-add-btn" onclick="adminAddCoins('${u.id}', 10)">+10🪙</button>
+                        <button class="coin-add-btn" onclick="adminAddCoins('${u.id}', 50)">+50🪙</button>
+                        <button class="coin-add-btn" onclick="adminAddCoins('${u.id}', 100)">+100🪙</button>
+                        <button class="coin-custom-btn" onclick="adminCustomCoinPrompt('${u.id}')">✏️ Özel</button>
+                        ${u.banned ? `<button class="unban-btn" onclick="adminUnbanUser('${u.id}')">✅ Banı Kaldır</button>` : `<button class="ban-btn" onclick="adminBanUser('${u.id}')">🚫 Banla</button>`}
+                    </div>
+                </div>
+            `).join('')}</div>`;
+        } catch(e) { console.error('Kullanıcı listesi hatası:', e); return `<div class="empty-state"><p>❌ Kullanıcılar yüklenirken hata oluştu</p></div>`; }
+    }
+
+    async function renderAdminReports() {
+        try {
+            const snap = await db.collection('reports').orderBy('createdAt', 'desc').get();
+            const reports = []; snap.forEach(d => reports.push({id: d.id, ...d.data()}));
+            if (reports.length === 0) return `<div class="empty-state"><div class="icon">✅</div><p>Hiç rapor yok</p></div>`;
+            return `<div class="admin-list">${reports.map(r => `
+                <div class="admin-list-item">
+                    <div class="info">
+                        <div class="title">🚨 ${escapeHtml(r.userName || 'Bilinmeyen')}</div>
+                        <div class="sub">📜 ${escapeHtml(r.scriptName || r.scriptId)} · ${r.reasonType || 'Sebep'}</div>
+                        <div class="sub">📌 ${escapeHtml(r.reason || 'Sebep yok')}</div>
+                        <div style="margin-top:0.3rem">${r.status === 'pending' ? '<span class="badge-pending">⏳ Beklemede</span>' : r.status === 'resolved' ? '<span class="badge-approved">✅ Çözüldü</span>' : '<span class="badge-rejected">❌ Kapatıldı</span>'}</div>
+                    </div>
+                    <div class="actions">
+                        ${r.status === 'pending' ? `<button class="approve-btn" onclick="adminResolveReport('${r.id}')">✅ Çözüldü</button>` : ''}
+                        <button class="delete-btn-admin" onclick="adminDeleteReport('${r.id}')">🗑️ Raporu Sil</button>
+                    </div>
+                </div>
+            `).join('')}</div>`;
+        } catch(e) { console.error('Rapor listesi hatası:', e); return `<div class="empty-state"><p>❌ Raporlar yüklenirken hata oluştu</p></div>`; }
+    }
+
+    async function renderAdminDetailedStats(stats) {
+        return `
+            <div style="color:var(--text-secondary)">
+                <h3 style="color:var(--text-primary);margin-bottom:0.5rem">📊 Detaylı İstatistikler</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
+                    <div class="admin-stat-card"><div class="number">${stats.totalScripts}</div><span class="label">📜 Toplam Script</span></div>
+                    <div class="admin-stat-card"><div class="number">${stats.totalUsers}</div><span class="label">👤 Toplam Kullanıcı</span></div>
+                    <div class="admin-stat-card"><div class="number">${stats.totalReports}</div><span class="label">🚨 Toplam Rapor</span></div>
+                    <div class="admin-stat-card"><div class="number">${stats.totalGames}</div><span class="label">🎮 Toplam Oyun</span></div>
+                </div>
+            </div>
+        `;
+    }
+
+    window.adminAddCoins = adminAddCoins;
+    window.adminCustomCoinPrompt = function(userId) {
+        const amount = prompt('Kaç coin eklemek istiyorsun? (Sayı girin)');
+        if (amount !== null) {
+            const num = parseInt(amount);
+            if (!isNaN(num) && num >= 0) {
+                adminSetCustomCoins(userId, num);
+            } else { showToast('❌ Geçerli bir sayı girin!'); }
+        }
+    };
+
+    window.adminSetCustomCoins = adminSetCustomCoins;
+    window.adminApproveScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('scripts').doc(scriptId).update({ approved: true }); showToast('✅ Script onaylandı!'); renderAdminPanel(); } 
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminRejectScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('scripts').doc(scriptId).update({ approved: false }); showToast('❌ Script reddedildi!'); renderAdminPanel(); } 
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminBanUser = async function(userId) {
+        if (!requireAdmin()) return;
+        if (userId === ADMIN_UID) { showToast('❌ Admin hesabı banlanamaz!'); return; }
+        try { await db.collection('users').doc(userId).set({ banned: true }, { merge: true }); showToast('🚫 Kullanıcı banlandı!'); renderAdminPanel(); } 
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminUnbanUser = async function(userId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('users').doc(userId).set({ banned: false }, { merge: true }); showToast('✅ Kullanıcının banı kaldırıldı!'); renderAdminPanel(); } 
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminDeleteReport = async function(reportId) {
+        if (!requireAdmin()) return;
+        if (!confirm('Bu raporu silmek istediğine emin misin?')) return;
+        try { await db.collection('reports').doc(reportId).delete(); showToast('🗑️ Rapor silindi!'); renderAdminPanel(); } 
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminResolveReport = async function(reportId) {
+        if (!requireAdmin()) return;
+        try { await db.collection('reports').doc(reportId).update({ status: 'resolved' }); showToast('✅ Rapor çözüldü!'); renderAdminPanel(); } 
+        catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminDeleteAnyScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        if (!confirm(`"${script.name}" scriptini SİLMEK istediğine emin misin?`)) return;
+        try {
+            if (script.isPremium) {
+                const index = premiumScripts.findIndex(s => s.id === scriptId);
+                if (index !== -1) { premiumScripts.splice(index, 1); showToast('🗑️ Premium script silindi!'); }
+            } else {
+                await db.collection('scripts').doc(scriptId).delete();
+                showToast('🗑️ Topluluk scripti silindi!');
+                await loadCommunityScripts();
+            }
+            render();
+            renderAdminPanel();
+        } catch(e) { showToast('❌ Hata: ' + e.message); }
+    };
+    window.adminViewScript = function(scriptId) {
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        alert(`📜 Script Detayları\n\n🔹 Ad: ${script.name}\n🔹 Kategori: ${script.category.toUpperCase()}\n🔹 Tip: ${script.isPremium ? '⭐ Premium' : '🌍 Topluluk'}\n🔹 Fiyat: ${script.price || 0} Coin\n🔹 Açıklama: ${script.desc}`);
+    };
+    window.adminSearchScripts = function() {
+        const searchInput = document.getElementById('adminSearchInput');
+        const filterSelect = document.getElementById('adminFilterTypeSelect');
+        if (searchInput) adminSearchTerm = searchInput.value;
+        if (filterSelect) adminFilterType = filterSelect.value;
+        renderAdminPanel();
+    };
+    window.adminResetSearch = function() {
+        adminSearchTerm = '';
+        adminFilterType = 'all';
+        renderAdminPanel();
+    };
+    window.switchAdminTab = function(tab) {
+        currentAdminTab = tab;
+        renderAdminPanel();
+    };
+    window.adminEditScript = async function(scriptId) {
+        if (!requireAdmin()) return;
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        document.getElementById('adminEditScriptId').value = script.id;
+        document.getElementById('adminEditScriptName').value = script.name || '';
+        document.getElementById('adminEditScriptCategory').value = script.category || 'mm2';
+        document.getElementById('adminEditScriptDesc').value = script.desc || '';
+        document.getElementById('adminEditScriptFeatures').value = script.features ? script.features.join(', ') : '';
+        document.getElementById('adminEditScriptCode').value = script.code || '';
+        document.getElementById('adminEditScriptImage').value = script.image || '';
+        document.getElementById('adminEditScriptStatus').value = script.status || 'active';
+        document.getElementById('adminEditScriptVersion').value = script.version || 'v1.0.0';
+        document.getElementById('adminEditScriptPrice').value = script.price || 0;
+        document.getElementById('adminEditIsPremium').value = script.isPremium ? 'true' : 'false';
+        document.getElementById('adminEditPremiumGroup').style.display = script.isPremium ? 'block' : 'none';
+        const preview = document.getElementById('adminEditImagePreview');
+        const imgUrl = script.image || '';
+        preview.innerHTML = imgUrl ? `<img src="${imgUrl}" alt="Script Resmi" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='❌ Geçersiz resim URL\\'si'">` : '🖼️ Resim önizlemesi';
+        adminEditScriptModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    document.getElementById('adminEditScriptForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const id = document.getElementById('adminEditScriptId').value;
+        const name = document.getElementById('adminEditScriptName').value.trim();
+        const category = document.getElementById('adminEditScriptCategory').value;
+        const desc = document.getElementById('adminEditScriptDesc').value.trim();
+        const featuresRaw = document.getElementById('adminEditScriptFeatures').value.trim();
+        const code = document.getElementById('adminEditScriptCode').value.trim();
+        const image = document.getElementById('adminEditScriptImage').value.trim();
+        const status = document.getElementById('adminEditScriptStatus').value;
+        const version = document.getElementById('adminEditScriptVersion').value.trim();
+        const price = parseInt(document.getElementById('adminEditScriptPrice').value) || 0;
+        if (!name || !desc || !code) { showToast('❌ Tüm zorunlu alanları doldurun!'); return; }
+        const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+        try {
+            const all = getAllScripts();
+            const script = all.find(s => s.id === id);
+            if (!script) { showToast('❌ Script bulunamadı!'); return; }
+            if (script.isCommunity) {
+                await db.collection('scripts').doc(id).update({
+                    name, category, desc, features, code,
+                    image: image || null, status, version: version || 'v1.0.0', price,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                await loadCommunityScripts();
+                showToast('✅ Topluluk scripti güncellendi!');
+            } else if (script.isPremium) {
+                const index = premiumScripts.findIndex(s => s.id === id);
+                if (index !== -1) {
+                    premiumScripts[index] = { ...premiumScripts[index], name, category, desc, features, code, image: image || null, status, version: version || 'v1.0.0', price };
+                    showToast('✅ Premium script güncellendi!');
+                }
+            }
+            adminEditScriptModal.classList.remove('open');
+            document.body.style.overflow = '';
+            render();
+            renderAdminPanel();
+        } catch(error) { showToast('❌ Güncelleme hatası: ' + error.message); }
+    });
+
+    // ==========================================
+    // SCRIPT DÜZENLEME (KULLANICI)
+    // ==========================================
+    function openEditScriptModal(scriptId) {
+        if (!currentUser) { showToast('❌ Lütfen giriş yapın!'); return; }
+        const all = getAllScripts();
+        const script = all.find(s => s.id === scriptId);
+        if (!script) { showToast('❌ Script bulunamadı!'); return; }
+        if (!script.isCommunity || script.userId !== currentUser.uid) { showToast('❌ Sadece kendi scriptlerini düzenleyebilirsin!'); return; }
+        document.getElementById('editScriptId').value = script.id;
+        document.getElementById('editScriptName').value = script.name;
+        document.getElementById('editScriptCategory').value = script.category;
+        document.getElementById('editScriptDesc').value = script.desc;
+        document.getElementById('editScriptFeatures').value = script.features ? script.features.join(', ') : '';
+        document.getElementById('editScriptCode').value = script.code;
+        document.getElementById('editScriptImage').value = script.image || '';
+        document.getElementById('editScriptStatus').value = script.status || 'active';
+        document.getElementById('editScriptVersion').value = script.version || 'v1.0.0';
+        document.getElementById('editScriptPrice').value = script.price || 0;
+        const preview = document.getElementById('editImagePreview');
+        const imgUrl = script.image || '';
+        preview.innerHTML = imgUrl ? `<img src="${imgUrl}" alt="Script Resmi" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='❌ Geçersiz resim URL\\'si'">` : '🖼️ Resim önizlemesi';
+        editScriptModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('editScriptForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const id = document.getElementById('editScriptId').value;
+        const name = document.getElementById('editScriptName').value.trim();
+        const category = document.getElementById('editScriptCategory').value;
+        const desc = document.getElementById('editScriptDesc').value.trim();
+        const featuresRaw = document.getElementById('editScriptFeatures').value.trim();
+        const code = document.getElementById('editScriptCode').value.trim();
+        const image = document.getElementById('editScriptImage').value.trim();
+        const status = document.getElementById('editScriptStatus').value;
+        const version = document.getElementById('editScriptVersion').value.trim();
+        const price = parseInt(document.getElementById('editScriptPrice').value) || 0;
+        if (!name || !desc || !code) { showToast('❌ Tüm zorunlu alanları doldurun!'); return; }
+        const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+        try {
+            await db.collection('scripts').doc(id).update({
+                name, category, desc, features, code,
+                image: image || null, status, version: version || 'v1.0.0', price,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            editScriptModal.classList.remove('open');
+            document.body.style.overflow = '';
+            await loadCommunityScripts();
+            render();
+            showToast('✅ Script başarıyla güncellendi!');
+        } catch(error) { showToast('❌ Güncelleme hatası: ' + error.message); }
+    });
+
+    // ==========================================
+    // AUTH
+    // ==========================================
+    document.querySelectorAll('.auth-tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(this.dataset.tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+        });
+    });
+
+    document.getElementById('registerPassword').addEventListener('input', function() {
+        const val = this.value;
+        const fill = document.getElementById('passwordStrengthFill');
+        let s = 0;
+        if (val.length >= 6) s += 25;
+        if (val.length >= 10) s += 25;
+        if (/[A-Z]/.test(val)) s += 25;
+        if (/[0-9]/.test(val)) s += 25;
+        fill.style.width = s + '%';
+        fill.style.background = s < 50 ? '#ff6b6b' : s < 75 ? '#fbbf24' : '#4ade80';
+    });
+
+    document.getElementById('loginSubmitBtn').addEventListener('click', async function() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const errorDiv = document.getElementById('loginError');
+        if (!email || !password) { errorDiv.textContent = '❌ E-posta ve şifre girin!'; errorDiv.style.display = 'block'; return; }
+        errorDiv.style.display = 'none';
+        this.disabled = true;
+        this.textContent = '⏳ Giriş yapılıyor...';
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            closeAuthModalFn();
+            showToast('✅ Hoş geldin!');
+            completeDailyTask('daily_login');
+        } catch(error) { errorDiv.textContent = '❌ ' + error.message; errorDiv.style.display = 'block'; }
+        finally { this.disabled = false; this.textContent = '🚀 Giriş Yap'; }
+    });
+
+    document.getElementById('registerSubmitBtn').addEventListener('click', async function() {
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value.trim();
+        const errorDiv = document.getElementById('registerError');
+        const successDiv = document.getElementById('registerSuccess');
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+        if (!username || !email || !password) { errorDiv.textContent = '❌ Tüm alanları doldurun!'; errorDiv.style.display = 'block'; return; }
+        if (password.length < 6) { errorDiv.textContent = '❌ Şifre en az 6 karakter olmalı!'; errorDiv.style.display = 'block'; return; }
+        if (username.length < 3) { errorDiv.textContent = '❌ Kullanıcı adı en az 3 karakter olmalı!'; errorDiv.style.display = 'block'; return; }
+        let avatarUrl = selectedAvatar || AVATAR_1;
+        if (uploadedAvatarUrl && uploadedAvatarUrl.startsWith('data:image')) {
+            try {
+                const resp = await fetch(uploadedAvatarUrl);
+                const blob = await resp.blob();
+                const avatarRef = storage.ref().child(`avatars/${Date.now()}_${username}.jpg`);
+                await avatarRef.put(blob);
+                avatarUrl = await avatarRef.getDownloadURL();
+            } catch(e) { console.error(e); avatarUrl = AVATAR_1; }
+        } else if (uploadedAvatarUrl && uploadedAvatarUrl.startsWith('http')) avatarUrl = uploadedAvatarUrl;
+        this.disabled = true;
+        this.textContent = '⏳ Kayıt yapılıyor...';
+        try {
+            const userCred = await auth.createUserWithEmailAndPassword(email, password);
+            await userCred.user.updateProfile({ displayName: username, photoURL: avatarUrl });
+            await db.collection('users').doc(userCred.user.uid).set({ displayName: username, email: email, coins: 0 });
+            successDiv.textContent = '✅ Hesabın oluşturuldu! Hoş geldin ' + username + '!';
+            successDiv.style.display = 'block';
+            setTimeout(() => { closeAuthModalFn(); showToast('✅ Hoş geldin, ' + username + '! 🎉'); completeDailyTask('daily_login'); }, 1500);
+        } catch(error) { errorDiv.textContent = '❌ ' + error.message; errorDiv.style.display = 'block'; }
+        finally { this.disabled = false; this.textContent = '🚀 Kayıt Ol'; }
+    });
+
+    document.getElementById('googleLoginBtn').addEventListener('click', async function() {
+        this.disabled = true;
+        this.textContent = '⏳ Yönlendiriliyor...';
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            await auth.signInWithPopup(provider);
+            closeAuthModalFn();
+            showToast('✅ Google ile giriş yapıldı!');
+            completeDailyTask('daily_login');
+        } catch(error) { showToast('❌ ' + error.message); }
+        finally { this.disabled = false; this.textContent = 'Google ile Giriş Yap'; }
+    });
+    document.getElementById('googleRegisterBtn').addEventListener('click', async function() {
+        this.disabled = true;
+        this.textContent = '⏳ Yönlendiriliyor...';
+        try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            await auth.signInWithPopup(provider);
+            closeAuthModalFn();
+            showToast('✅ Google ile kayıt yapıldı!');
+            completeDailyTask('daily_login');
+        } catch(error) { showToast('❌ ' + error.message); }
+        finally { this.disabled = false; this.textContent = 'Google ile Kayıt Ol'; }
+    });
+
+    auth.onAuthStateChanged(user => {
+        currentUser = user;
+        if (user) {
+            const name = user.displayName || user.email || 'Kullanıcı';
+            const photo = user.photoURL || IMG.users;
+            authSection.innerHTML = `<button class="auth-btn" id="profileBtn" style="gap:0.5rem"><img src="${photo}" alt="Avatar" class="user-avatar" onerror="this.src='${IMG.users}'"><span class="user-name">${escapeHtml(name)}</span></button>`;
+            document.getElementById('profileBtn')?.addEventListener('click', openProfileModal);
+            renderDailyTasks();
+            dailyTasksContainer.style.display = 'block';
+            if (isAdmin(user)) { adminBtn.style.display = 'flex'; } else { adminBtn.style.display = 'none'; }
+            loadUserData(user.uid);
+            updateCoinUI();
+        } else {
+            authSection.innerHTML = `<button class="auth-btn" id="loginBtn"><img src="${IMG.login}" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>`;
+            document.getElementById('loginBtn')?.addEventListener('click', openAuthModal);
+            dailyTasksContainer.style.display = 'none';
+            adminBtn.style.display = 'none';
+            userCoins = 0;
+            updateCoinUI();
+            if (userNameText) userNameText.textContent = 'Misafir';
+        }
+    });
+
+    // ==========================================
+    // PROFİL
+    // ==========================================
+    function openProfileModal() { profileModal.classList.add('open'); document.body.style.overflow = 'hidden'; renderProfile(); }
+    function closeProfileModalFn() { profileModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+    function renderProfile() {
+        if (!currentUser) {
+            document.getElementById('profileContent').innerHTML = `
+                <div style="text-align:center;padding:2rem;color:var(--text-muted)">
+                    <div style="font-size:2rem">🔒</div>
+                    <p style="margin-top:0.5rem">Lütfen giriş yapın</p>
+                    <button class="submit-btn" style="margin-top:1rem;padding:0.5rem 2rem;width:auto" onclick="document.getElementById('loginBtn').click()">Giriş Yap</button>
+                </div>
+            `;
+            return;
+        }
+        const userScripts = communityScripts.filter(s => s.userId === currentUser.uid);
+        const userGames = communityGames.filter(g => g.userId === currentUser.uid);
+        const userFavs = favorites.filter(id => !id.startsWith('p'));
+        let userComments = 0;
+        try { Object.values(comments).forEach(commentList => { if (Array.isArray(commentList)) { commentList.forEach(c => { if (c && c.userId === currentUser.uid) userComments++; }); } }); } catch(e) {}
+        const html = `
+            <div class="profile-header">
+                <img src="${currentUser.photoURL || IMG.users}" alt="Profil Avatarı" class="profile-avatar" onerror="this.src='${IMG.users}'">
+                <div class="profile-info">
+                    <h3>${escapeHtml(currentUser.displayName || 'Kullanıcı')}</h3>
+                    <p>📧 ${escapeHtml(currentUser.email)}</p>
+                    <p style="color:var(--text-muted);font-size:0.7rem">🪙 ${userCoins} Coin</p>
+                    <button class="profile-edit-btn" id="openProfileEditBtn">✏️ Profili Düzenle</button>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat"><div class="number">${userScripts.length}</div><span class="label">📜 Script</span></div>
+                <div class="stat"><div class="number">${userGames.length}</div><span class="label">🎮 Oyun</span></div>
+                <div class="stat"><div class="number">${userFavs.length}</div><span class="label">❤️ Favori</span></div>
+                <div class="stat"><div class="number">${userComments}</div><span class="label">💬 Yorum</span></div>
+            </div>
+            <div class="profile-actions">
+                <button class="backup-btn" onclick="backupUserData()" style="font-size:0.7rem;padding:0.3rem 1rem">💾 Verileri Yedekle</button>
+                <button class="logout-btn" id="profileLogoutBtn"><img src="${IMG.logout}" alt="Çıkış"> Çıkış Yap</button>
+            </div>
+        `;
+        document.getElementById('profileContent').innerHTML = html;
+        document.getElementById('profileLogoutBtn')?.addEventListener('click', () => { auth.signOut(); closeProfileModalFn(); showToast('👋 Çıkış yapıldı!'); });
+        document.getElementById('openProfileEditBtn')?.addEventListener('click', openProfileEditModal);
+    }
+
+    // ==========================================
+    // EVENT LİSTENERLAR
+    // ==========================================
+    addScriptBtn.addEventListener('click', () => { if (!currentUser) { showToast('❌ Lütfen önce giriş yapın!'); openAuthModal(); return; } addModal.classList.add('open'); document.body.style.overflow = 'hidden'; });
+    addGameBtn.addEventListener('click', () => { if (!currentUser) { showToast('❌ Lütfen önce giriş yapın!'); openAuthModal(); return; } addGameModal.classList.add('open'); document.body.style.overflow = 'hidden'; });
+    document.getElementById('loginBtn')?.addEventListener('click', openAuthModal);
+
+    addForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('scriptName').value.trim();
+        const category = document.getElementById('scriptCategory').value;
+        const desc = document.getElementById('scriptDesc').value.trim();
+        const featuresRaw = document.getElementById('scriptFeatures').value.trim();
+        const code = document.getElementById('scriptCodeInput').value.trim();
+        const image = document.getElementById('scriptImage').value.trim();
+        const price = parseInt(document.getElementById('scriptPrice').value) || 0;
+        if (!name || !desc || !code) { showToast('❌ Tüm zorunlu alanları doldurun!'); return; }
+        const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+        const data = { name, category, desc, features, code, image: image || null, userName: currentUser?.displayName || 'Anonim', userId: currentUser?.uid, isCommunity: true, isPremium: false, status: 'active', version: 'v1.0.0', downloads: 0, commentCount: 0, price };
+        if (await addScriptToFirebase(data)) {
+            addModal.classList.remove('open');
+            document.body.style.overflow = '';
+            addForm.reset();
+            document.getElementById('imagePreview').innerHTML = '🖼️ Resim önizlemesi burada';
+            await loadCommunityScripts();
+            render();
+            showToast('✅ Script HERKESE açık olarak eklendi!');
+            addCoins(10);
+        }
+    });
+
+    addGameForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('gameName').value.trim();
+        const link = document.getElementById('gameLink').value.trim();
+        const image = document.getElementById('gameImage').value.trim();
+        const desc = document.getElementById('gameDesc').value.trim();
+        if (!name || !link || !image) { showToast('❌ Tüm zorunlu alanları doldurun!'); return; }
+        const data = { name, link, image, desc: desc || `${name} - Roblox oyunu`, userName: currentUser?.displayName || 'Anonim', userId: currentUser?.uid };
+        if (await addGameToFirebase(data)) {
+            addGameModal.classList.remove('open');
+            document.body.style.overflow = '';
+            addGameForm.reset();
+            document.getElementById('gameImagePreview').innerHTML = '🖼️ Resim önizlemesi burada';
+            await loadCommunityGames();
+            render();
+            showToast('🎮 Oyun HERKESE açık olarak eklendi!');
+            addCoins(5);
+        }
+    });
+
+    closeAddModal.addEventListener('click', () => { addModal.classList.remove('open'); document.body.style.overflow = ''; });
+    addModal.addEventListener('click', e => { if (e.target === addModal) { addModal.classList.remove('open'); document.body.style.overflow = ''; } });
+    closeAddGameModal.addEventListener('click', () => { addGameModal.classList.remove('open'); document.body.style.overflow = ''; });
+    addGameModal.addEventListener('click', e => { if (e.target === addGameModal) { addGameModal.classList.remove('open'); document.body.style.overflow = ''; } });
+    closeWheelModal.addEventListener('click', closeWheelModalFn);
+    wheelModal.addEventListener('click', e => { if (e.target === wheelModal) closeWheelModalFn(); });
+    spinWheelBtn.addEventListener('click', spinWheel);
+    closeAuthModal.addEventListener('click', closeAuthModalFn);
+    authModal.addEventListener('click', e => { if (e.target === authModal) closeAuthModalFn(); });
+    closeProfileModal.addEventListener('click', closeProfileModalFn);
+    profileModal.addEventListener('click', e => { if (e.target === profileModal) closeProfileModalFn(); });
+    closeAdminModal.addEventListener('click', closeAdminModalFn);
+    adminModal.addEventListener('click', e => { if (e.target === adminModal) closeAdminModalFn(); });
+    closeLeaderboardModal.addEventListener('click', closeLeaderboardFn);
+    leaderboardModal.addEventListener('click', e => { if (e.target === leaderboardModal) closeLeaderboardFn(); });
+    closeModalBtn.addEventListener('click', closeModalFn);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModalFn(); });
+
+    filterSort.addEventListener('change', function() { sortMode = this.value; currentPage = 1; render(); });
+    filterTypeEl.addEventListener('change', function() { filterType = this.value; currentPage = 1; render(); });
+    filterRatingEl.addEventListener('change', function() { filterRating = parseInt(this.value); currentPage = 1; render(); });
+
+    catBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            catBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentCategory = this.dataset.cat;
+            currentPage = 1;
+            render();
+        });
+    });
+
+    searchInput.addEventListener('input', function() { searchTerm = this.value; currentPage = 1; render(); });
+
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => { scrollBtn.classList.toggle('visible', window.scrollY > 300); });
+    scrollBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    // TASK MODAL
+    document.querySelectorAll('.task-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const task = this.dataset.task;
+            if (modalState.taskStatus[task]) { showToast('⚠️ Zaten tamamlandı.'); return; }
+            if (modalState.timers[task]) return;
+            let seconds = 25;
+            this.disabled = true;
+            const badge = document.createElement('span');
+            badge.className = 'timer-badge';
+            badge.textContent = `${seconds}s`;
+            this.appendChild(badge);
+            const interval = setInterval(() => {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    modalState.timers[task] = null;
+                    this.disabled = false;
+                    this.classList.add('completed');
+                    modalState.taskStatus[task] = true;
+                    modalState.completed++;
+                    document.getElementById('taskStatus').textContent = `${modalState.completed}/3`;
+                    document.getElementById('progressFill').style.width = `${(modalState.completed / 3) * 100}%`;
+                    if (modalState.completed === 3) { document.getElementById('revealCodeBtn').classList.add('active'); document.getElementById('revealCodeBtn').textContent = '🔓 Kodu Göster'; showToast('✅ Tüm görevler tamamlandı!'); }
+                    const b = this.querySelector('.timer-badge');
+                    if (b) b.remove();
+                } else { const b = this.querySelector('.timer-badge'); if (b) b.textContent = `${seconds}s`; }
+            }, 1000);
+            modalState.timers[task] = interval;
+        });
+    });
+
+    document.getElementById('revealCodeBtn').addEventListener('click', function() {
+        if (!this.classList.contains('active')) { showToast('❌ Önce tüm görevleri tamamla!'); return; }
+        document.getElementById('codeContainer').classList.add('show');
+        document.getElementById('scriptCode').textContent = modalState.code;
+        this.textContent = '✅ Kod hazır!';
+    });
+
+    document.getElementById('copyCodeBtn').addEventListener('click', function() {
+        const code = document.getElementById('scriptCode').textContent;
+        navigator.clipboard.writeText(code).then(() => showToast('📋 Kopyalandı!'))
+            .catch(() => { const t = document.createElement('textarea'); t.value = code; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); showToast('📋 Kopyalandı!'); });
+    });
+
+    function closeModalFn() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        if (modalState.scrollY > 0) window.scrollTo(0, modalState.scrollY);
+        Object.values(modalState.timers).forEach(t => { if (t) clearInterval(t); });
+    }
+
+    function openLeaderboard() {
+        document.getElementById('leaderboardModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        renderLeaderboard();
+    }
+    function closeLeaderboardFn() {
+        document.getElementById('leaderboardModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    async function renderLeaderboard() {
+        const container = document.getElementById('leaderboardContent');
+        let html = `
+            <div class="admin-tabs">
+                <button class="${leaderboardFilter === 'scripts' ? 'active' : ''}" onclick="setLeaderboardFilter('scripts')">📜 Script</button>
+                <button class="${leaderboardFilter === 'rating' ? 'active' : ''}" onclick="setLeaderboardFilter('rating')">⭐ Puan</button>
+                <button class="${leaderboardFilter === 'comments' ? 'active' : ''}" onclick="setLeaderboardFilter('comments')">💬 Yorum</button>
+                <button class="${leaderboardFilter === 'coins' ? 'active' : ''}" onclick="setLeaderboardFilter('coins')">🪙 Coin</button>
+            </div>
+        `;
+        let leaderboardData = [];
+        try {
+            if (leaderboardFilter === 'scripts') {
+                const userScriptCounts = {};
+                communityScripts.forEach(s => { if (s.userId) { userScriptCounts[s.userId] = userScriptCounts[s.userId] || { count: 0, name: s.userName || 'Anonim' }; userScriptCounts[s.userId].count++; } });
+                leaderboardData = Object.entries(userScriptCounts).map(([userId, data]) => ({ id: userId, name: data.name, score: data.count, type: 'scripts' }));
+            } else if (leaderboardFilter === 'rating') {
+                const userRating = {};
+                communityScripts.forEach(s => { if (s.userId && ratings[s.id]) { userRating[s.userId] = userRating[s.userId] || { total: 0, count: 0, name: s.userName || 'Anonim' }; userRating[s.userId].total += ratings[s.id].avg || 0; userRating[s.userId].count++; } });
+                leaderboardData = Object.entries(userRating).map(([userId, data]) => ({ id: userId, name: data.name, score: data.count > 0 ? (data.total / data.count) : 0, type: 'rating' }));
+            } else if (leaderboardFilter === 'comments') {
+                const userCommentCounts = {};
+                Object.values(comments).forEach(commentList => { if (Array.isArray(commentList)) { commentList.forEach(c => { if (c && c.userId) { userCommentCounts[c.userId] = userCommentCounts[c.userId] || { count: 0, name: c.user || 'Anonim' }; userCommentCounts[c.userId].count++; } }); } });
+                leaderboardData = Object.entries(userCommentCounts).map(([userId, data]) => ({ id: userId, name: data.name, score: data.count, type: 'comments' }));
+            } else if (leaderboardFilter === 'coins') {
+                const snap = await db.collection('users').get();
+                const users = []; snap.forEach(d => users.push({id: d.id, ...d.data()}));
+                leaderboardData = users.map(u => ({ id: u.id, name: u.displayName || 'Anonim', score: u.coins || 0, type: 'coins' }));
+            }
+        } catch(e) { console.error('Liderlik verileri hatası:', e); }
+        leaderboardData.sort((a, b) => b.score - a.score);
+        leaderboardData = leaderboardData.slice(0, 20);
+        if (leaderboardData.length === 0) { html += `<div class="empty-state"><div class="icon">📊</div><p>Henüz veri yok</p></div>`; } else {
+            html += `<div class="leaderboard-list">${leaderboardData.map((item, index) => {
+                const rank = index + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'gold';
+                else if (rank === 2) rankClass = 'silver';
+                else if (rank === 3) rankClass = 'bronze';
+                const scoreLabel = item.type === 'scripts' ? 'script' : item.type === 'rating' ? '⭐ puan' : item.type === 'comments' ? 'yorum' : '🪙 coin';
+                const isCurrentUser = currentUser && item.id === currentUser.uid;
+                return `<div class="leaderboard-item" style="${isCurrentUser ? 'border-color:var(--accent);border-width:2px' : ''}">
+                    <div class="rank ${rankClass}">#${rank}</div>
+                    <div class="info">
+                        <div class="name">${escapeHtml(item.name)} ${isCurrentUser ? '👈' : ''}</div>
+                        <div class="sub">${item.score} ${scoreLabel}</div>
+                    </div>
+                    <div class="score">${typeof item.score === 'number' ? item.score.toFixed(1) : item.score}</div>
+                </div>`;
+            }).join('')}</div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    window.setLeaderboardFilter = function(filter) {
+        leaderboardFilter = filter;
+        renderLeaderboard();
+    };
 
     // ==========================================
     // SOHBET WIDGET
@@ -1849,159 +2944,20 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     // ==========================================
-    // AUTH
-    // ==========================================
-    document.querySelectorAll('.auth-tabs button').forEach(btn=>{
-        btn.addEventListener('click', function(){
-            document.querySelectorAll('.auth-tabs button').forEach(b=>b.classList.remove('active'));
-            this.classList.add('active');
-            document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active'));
-            document.getElementById(this.dataset.tab==='login'?'loginForm':'registerForm').classList.add('active');
-        });
-    });
-
-    document.getElementById('registerPassword').addEventListener('input', function(){
-        const val=this.value; const fill=document.getElementById('passwordStrengthFill'); let s=0;
-        if(val.length>=6) s+=25; if(val.length>=10) s+=25; if(/[A-Z]/.test(val)) s+=25; if(/[0-9]/.test(val)) s+=25;
-        fill.style.width=s+'%'; fill.style.background=s<50?'#ff6b6b':s<75?'#fbbf24':'#4ade80';
-    });
-
-    document.getElementById('loginSubmitBtn').addEventListener('click', async function(){
-        const email=document.getElementById('loginEmail').value.trim();
-        const password=document.getElementById('loginPassword').value.trim();
-        const errorDiv=document.getElementById('loginError');
-        if(!email||!password){errorDiv.textContent='❌ E-posta ve şifre girin!'; errorDiv.style.display='block'; return;}
-        errorDiv.style.display='none'; this.disabled=true; this.textContent='⏳ Giriş yapılıyor...';
-        try{ await auth.signInWithEmailAndPassword(email,password); closeAuthModalFn(); showToast('✅ Hoş geldin!'); completeDailyTask('daily_login'); }
-        catch(error){errorDiv.textContent='❌ '+error.message; errorDiv.style.display='block';}
-        finally{this.disabled=false; this.textContent='🚀 Giriş Yap';}
-    });
-
-    document.getElementById('registerSubmitBtn').addEventListener('click', async function(){
-        const username=document.getElementById('registerUsername').value.trim();
-        const email=document.getElementById('registerEmail').value.trim();
-        const password=document.getElementById('registerPassword').value.trim();
-        const errorDiv=document.getElementById('registerError'); const successDiv=document.getElementById('registerSuccess');
-        errorDiv.style.display='none'; successDiv.style.display='none';
-        if(!username||!email||!password){errorDiv.textContent='❌ Tüm alanları doldurun!'; errorDiv.style.display='block'; return;}
-        if(password.length<6){errorDiv.textContent='❌ Şifre en az 6 karakter olmalı!'; errorDiv.style.display='block'; return;}
-        if(username.length<3){errorDiv.textContent='❌ Kullanıcı adı en az 3 karakter olmalı!'; errorDiv.style.display='block'; return;}
-        let avatarUrl=selectedAvatar||AVATAR_1;
-        if(uploadedAvatarUrl && uploadedAvatarUrl.startsWith('data:image')){
-            try{
-                const resp=await fetch(uploadedAvatarUrl); const blob=await resp.blob();
-                const avatarRef=storage.ref().child(`avatars/${Date.now()}_${username}.jpg`);
-                await avatarRef.put(blob);
-                avatarUrl=await avatarRef.getDownloadURL();
-            }catch(e){console.error(e); avatarUrl=AVATAR_1;}
-        } else if(uploadedAvatarUrl && uploadedAvatarUrl.startsWith('http')) avatarUrl=uploadedAvatarUrl;
-        this.disabled=true; this.textContent='⏳ Kayıt yapılıyor...';
-        try{
-            const userCred=await auth.createUserWithEmailAndPassword(email,password);
-            await userCred.user.updateProfile({displayName:username, photoURL:avatarUrl});
-            await db.collection('users').doc(userCred.user.uid).set({ displayName: username, email: email, coins: 0 });
-            successDiv.textContent='✅ Hesabın oluşturuldu! Hoş geldin '+username+'!';
-            successDiv.style.display='block';
-            setTimeout(()=>{closeAuthModalFn(); showToast('✅ Hoş geldin, '+username+'! 🎉'); completeDailyTask('daily_login');},1500);
-        }catch(error){errorDiv.textContent='❌ '+error.message; errorDiv.style.display='block';}
-        finally{this.disabled=false; this.textContent='🚀 Kayıt Ol';}
-    });
-
-    document.getElementById('googleLoginBtn').addEventListener('click', async function(){
-        this.disabled=true; this.textContent='⏳ Yönlendiriliyor...';
-        try{ const provider=new firebase.auth.GoogleAuthProvider(); await auth.signInWithPopup(provider); closeAuthModalFn(); showToast('✅ Google ile giriş yapıldı!'); completeDailyTask('daily_login'); }
-        catch(error){showToast('❌ '+error.message);}
-        finally{this.disabled=false; this.textContent='Google ile Giriş Yap';}
-    });
-    document.getElementById('googleRegisterBtn').addEventListener('click', async function(){
-        this.disabled=true; this.textContent='⏳ Yönlendiriliyor...';
-        try{ const provider=new firebase.auth.GoogleAuthProvider(); await auth.signInWithPopup(provider); closeAuthModalFn(); showToast('✅ Google ile kayıt yapıldı!'); completeDailyTask('daily_login'); }
-        catch(error){showToast('❌ '+error.message);}
-        finally{this.disabled=false; this.textContent='Google ile Kayıt Ol';}
-    });
-    auth.onAuthStateChanged(user=>updateAuthUI(user));
-
-    // ==========================================
-    // EVENT LİSTENERLAR
-    // ==========================================
-    closeModalBtn.addEventListener('click', closeModalFn);
-    modal.addEventListener('click', e=>{if(e.target===modal)closeModalFn();});
-    closeAddModal.addEventListener('click', ()=>{ addModal.classList.remove('open'); document.body.style.overflow=''; });
-    addModal.addEventListener('click', e=>{ if(e.target===addModal){addModal.classList.remove('open'); document.body.style.overflow='';} });
-    closeAddGameModal.addEventListener('click', ()=>{ addGameModal.classList.remove('open'); document.body.style.overflow=''; });
-    addGameModal.addEventListener('click', e=>{ if(e.target===addGameModal){addGameModal.classList.remove('open'); document.body.style.overflow='';} });
-    closeWheelModal.addEventListener('click', closeWheelModalFn);
-    wheelModal.addEventListener('click', e=>{ if(e.target===wheelModal) closeWheelModalFn(); });
-    spinWheelBtn.addEventListener('click', spinWheel);
-    closeAuthModal.addEventListener('click', closeAuthModalFn);
-    authModal.addEventListener('click', e=>{ if(e.target===authModal)closeAuthModalFn(); });
-    closeProfileModal.addEventListener('click', closeProfileModalFn);
-    profileModal.addEventListener('click', e=>{ if(e.target===profileModal)closeProfileModalFn(); });
-    closeProfileEditModal.addEventListener('click', closeProfileEditModalFn);
-    profileEditModal.addEventListener('click', e=>{ if(e.target===profileEditModal)closeProfileEditModalFn(); });
-    closeAdminModal.addEventListener('click', closeAdminModalFn);
-    adminModal.addEventListener('click', e=>{ if(e.target===adminModal)closeAdminModalFn(); });
-    closeLeaderboardModal.addEventListener('click', closeLeaderboardFn);
-    leaderboardModal.addEventListener('click', e=>{ if(e.target===leaderboardModal)closeLeaderboardFn(); });
-
-    addScriptBtn.addEventListener('click', ()=>{ if(!currentUser){showToast('❌ Lütfen önce giriş yapın!'); openAuthModal(); return;} addModal.classList.add('open'); document.body.style.overflow='hidden'; });
-    addGameBtn.addEventListener('click', ()=>{ if(!currentUser){showToast('❌ Lütfen önce giriş yapın!'); openAuthModal(); return;} addGameModal.classList.add('open'); document.body.style.overflow='hidden'; });
-    document.getElementById('loginBtn')?.addEventListener('click', openAuthModal);
-
-    // ==========================================
-    // FORM SUBMITLER
-    // ==========================================
-    addForm.addEventListener('submit', async function(e){
-        e.preventDefault();
-        const name=document.getElementById('scriptName').value.trim();
-        const category=document.getElementById('scriptCategory').value;
-        const desc=document.getElementById('scriptDesc').value.trim();
-        const featuresRaw=document.getElementById('scriptFeatures').value.trim();
-        const code=document.getElementById('scriptCodeInput').value.trim();
-        const image=document.getElementById('scriptImage').value.trim();
-        if(!name||!desc||!code){showToast('❌ Tüm zorunlu alanları doldurun!');return;}
-        const features=featuresRaw?featuresRaw.split(',').map(f=>f.trim()).filter(f=>f):[];
-        const data={name,category,desc,features,code, image:image||null, userName:currentUser?.displayName||'Anonim', userId:currentUser?.uid, isCommunity:true, isPremium:false, status:'active', version:'v1.0.0', downloads:0, commentCount:0};
-        if(await addScriptToFirebase(data)){
-            addModal.classList.remove('open'); document.body.style.overflow=''; addForm.reset(); document.getElementById('imagePreview').innerHTML='🖼️ Resim önizlemesi burada';
-            await loadCommunityScripts(); render();
-            showToast('✅ Script HERKESE açık olarak eklendi!');
-            addCoins(10);
-        }
-    });
-
-    addGameForm.addEventListener('submit', async function(e){
-        e.preventDefault();
-        const name=document.getElementById('gameName').value.trim();
-        const link=document.getElementById('gameLink').value.trim();
-        const image=document.getElementById('gameImage').value.trim();
-        const desc=document.getElementById('gameDesc').value.trim();
-        if(!name||!link||!image){showToast('❌ Tüm zorunlu alanları doldurun!');return;}
-        const data={name,link,image, desc:desc||`${name} - Roblox oyunu`, userName:currentUser?.displayName||'Anonim', userId:currentUser?.uid};
-        if(await addGameToFirebase(data)){
-            addGameModal.classList.remove('open'); document.body.style.overflow=''; addGameForm.reset(); document.getElementById('gameImagePreview').innerHTML='🖼️ Resim önizlemesi burada';
-            await loadCommunityGames(); render(); showToast('🎮 Oyun HERKESE açık olarak eklendi!');
-            addCoins(5);
-        }
-    });
-
-    // ==========================================
     // INIT
     // ==========================================
-    async function init(){
+    async function init() {
         sanitizeFavorites();
-        const savedNotifs=localStorage.getItem('scriptHubNotifs');
-        if(savedNotifs) notifications=JSON.parse(savedNotifs);
+        const savedNotifs = localStorage.getItem('scriptHubNotifs');
+        if (savedNotifs) notifications = JSON.parse(savedNotifs);
         updateNotificationUI();
         await Promise.all([loadCommunityScripts(), loadCommunityGames()]);
         render();
-        if(!localStorage.getItem('scriptHubWelcomed')){
+        if (!localStorage.getItem('scriptHubWelcomed')) {
             addNotification('👋 ScriptHub\'a hoş geldin! 90+ script ve oyun seni bekliyor.', 'welcome');
-            localStorage.setItem('scriptHubWelcomed','true');
+            localStorage.setItem('scriptHubWelcomed', 'true');
         }
-        if (currentUser) {
-            await loadUserData(currentUser.uid);
-        }
+        if (currentUser) { await loadUserData(currentUser.uid); }
     }
     init();
 
@@ -2009,4 +2965,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>
-</html>
+                                                                        </html>
