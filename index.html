@@ -1,253 +1,228 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ScriptHub · 90+ Script & Oyunlar</title>
-    <meta name="theme-color" content="#7c3aed">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
-    
-    <meta name="google-adsense-account" content="ca-pub-1079812363517680">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>ScriptHub · 90+ Script & Oyunlar</title>
+<meta name="theme-color" content="#7c3aed">
+<link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
+<meta name="google-adsense-account" content="ca-pub-1079812363517680">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-        :root{
-            --bg-primary:#070816;--bg-card:rgba(255,255,255,0.03);--bg-modal:rgba(16,18,40,0.96);
-            --text-primary:#f0eeff;--text-secondary:#b5b3d6;--text-muted:#6b6b92;
-            --border-color:rgba(167,139,250,0.15);--accent:#7c3aed;--accent-light:#a78bfa;
-            --accent-gradient:linear-gradient(135deg,#7c3aed,#6d28d9);
-            --shadow:0 40px 80px rgba(0,0,0,0.9);--radius:2.5rem;--radius-card:28px;
-            --gold:#fbbf24;--coin-glow:0 0 20px rgba(251,191,36,0.3);
-        }
-        body.light{--bg-primary:#f0eeff;--bg-card:rgba(255,255,255,0.8);--bg-modal:rgba(255,255,255,0.96);--text-primary:#1a1a3a;--text-secondary:#3a3a5a;--text-muted:#6b6b92;--border-color:rgba(124,58,237,0.2);--shadow:0 40px 80px rgba(0,0,0,0.15)}
-        body.blue{--accent:#3b82f6;--accent-light:#60a5fa;--accent-gradient:linear-gradient(135deg,#3b82f6,#2563eb);--border-color:rgba(59,130,246,0.2)}
-        body.green{--accent:#22c55e;--accent-light:#4ade80;--accent-gradient:linear-gradient(135deg,#22c55e,#16a34a);--border-color:rgba(34,197,94,0.2)}
-        body{min-height:100vh;padding:1rem;background:var(--bg-primary);position:relative;overflow-x:hidden;transition:background 0.4s,color 0.4s}
-        body::before{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;background-image:url('https://i.postimg.cc/Jn9L0pyt/Gemini-Generated-Image-cyvxamcyvxamcyvx.jpg');background-size:cover;background-position:center;opacity:0.12;z-index:0;pointer-events:none}
-        body::after{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(ellipse at 10% 20%,rgba(124,58,237,0.15)0%,transparent 50%),radial-gradient(ellipse at 90% 80%,rgba(167,139,250,0.10)0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(10,11,30,0.95)0%,var(--bg-primary) 100%);z-index:0;pointer-events:none}
-        .app{position:relative;z-index:1;max-width:1440px;margin:0 auto;background:var(--bg-modal);backdrop-filter:blur(20px);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);border:1px solid var(--border-color)}
-        
-        .coin-display{display:flex;align-items:center;gap:0.3rem;background:var(--bg-card);padding:0.2rem 0.8rem 0.2rem 0.5rem;border-radius:40px;border:1px solid var(--border-color);transition:0.3s}
-        .coin-display:hover{border-color:var(--gold);box-shadow:var(--coin-glow)}
-        .coin-icon{font-size:1.2rem;animation:coinPulse 2s ease-in-out infinite}
-        @keyframes coinPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-        .coin-amount{color:var(--gold);font-weight:700;font-size:0.95rem;min-width:30px;text-align:center}
-        .coin-shop-btn{background:var(--accent-gradient);border:none;color:white;padding:0.2rem 0.5rem;border-radius:50%;cursor:pointer;font-size:0.8rem;transition:0.3s;min-width:28px;min-height:28px}
-        .coin-shop-btn:hover{transform:scale(1.1)}
-        
-        .daily-tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.6rem;margin:0.5rem 0}
-        .daily-task{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;padding:0.6rem 0.8rem;display:flex;align-items:center;gap:0.6rem;transition:0.3s}
-        .daily-task.completed{opacity:0.6;border-color:rgba(74,222,128,0.3)}
-        .daily-task .task-icon{font-size:1.5rem;flex-shrink:0}
-        .daily-task .task-info{flex:1;min-width:0}
-        .daily-task .task-info .task-name{font-size:0.75rem;color:var(--text-primary);font-weight:500}
-        .daily-task .task-info .task-desc{font-size:0.6rem;color:var(--text-muted)}
-        .daily-task .task-info .task-reward{font-size:0.65rem;color:var(--gold);font-weight:600;margin-top:0.1rem}
-        .claim-all-btn{background:var(--accent-gradient);border:none;padding:0.4rem 1.5rem;border-radius:40px;color:white;font-weight:600;font-size:0.8rem;cursor:pointer;transition:0.3s;margin-top:0.5rem}
-        .claim-all-btn:disabled{opacity:0.4;cursor:not-allowed}
-        
-        .section-title{color:var(--text-primary);font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
-        .section-title .coin-reward-total{font-size:0.75rem;color:var(--gold);font-weight:400}
-        .section-title .task-progress-text{font-size:0.7rem;color:var(--text-muted);font-weight:400}
-        
-        .shop-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:0.6rem 1rem;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem}
-        .shop-item .item-info{flex:1;min-width:150px}
-        .shop-item .item-info .item-name{color:var(--text-primary);font-size:0.85rem}
-        .shop-item .item-info .item-desc{color:var(--text-muted);font-size:0.65rem}
-        .shop-item .item-price{color:var(--gold);font-weight:700;font-size:0.9rem;margin:0 0.5rem}
-        .shop-item .buy-btn{background:var(--accent-gradient);border:none;padding:0.2rem 1rem;border-radius:30px;color:white;font-weight:600;font-size:0.7rem;cursor:pointer;min-height:34px}
-        .shop-item .buy-btn.owned{background:rgba(74,222,128,0.2);color:#4ade80}
-        .shop-item .buy-btn:disabled{opacity:0.4;cursor:not-allowed}
-        
-        .collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.8rem;margin:0.5rem 0}
-        .collection-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:0.6rem;text-align:center}
-        .collection-item .item-icon{font-size:2rem}
-        .collection-item .item-name{color:var(--text-primary);font-size:0.8rem;margin-top:0.3rem}
-        .collection-item .item-type{color:var(--text-muted);font-size:0.55rem}
-        .collection-item .use-btn{background:var(--bg-card);border:1px solid var(--border-color);padding:0.2rem 0.8rem;border-radius:20px;color:var(--text-secondary);font-size:0.6rem;cursor:pointer;margin-top:0.3rem}
-        .collection-item .use-btn.active{background:var(--accent-gradient);color:white}
-        
-        .header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem}
-        .logo{display:flex;align-items:center;gap:0.8rem}
-        .logo img{height:40px;width:auto}
-        .logo h1{font-size:2rem;background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .logo span{font-size:0.75rem;color:var(--accent-light);opacity:0.7;display:block;margin-top:-0.2rem}
-        .search-box{background:rgba(255,255,255,0.04);border-radius:60px;padding:0.5rem 1.4rem;display:flex;align-items:center;border:1px solid var(--border-color);min-width:200px;flex:1;max-width:400px}
-        .search-box input{background:transparent;border:none;outline:none;color:var(--text-primary);font-size:0.95rem;width:100%}
-        .search-box input::placeholder{color:var(--text-muted)}
-        .search-box .search-icon{width:18px;height:18px;margin-right:0.8rem;opacity:0.6}
-        .stats{display:flex;gap:0.8rem;font-size:0.8rem;flex-wrap:wrap;align-items:center}
-        .stats span{background:var(--bg-card);padding:0.3rem 1rem;border-radius:40px;display:flex;align-items:center;gap:0.4rem;border:1px solid var(--border-color);color:var(--text-muted)}
-        .stats strong{color:var(--accent-light)}
-        .add-btn{background:var(--accent-gradient);border:none;padding:0.5rem 1.5rem;border-radius:60px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.5rem}
-        .add-game-btn{background:linear-gradient(135deg,#22c55e,#16a34a);border:none;padding:0.4rem 1.2rem;border-radius:60px;color:white;font-weight:600;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;min-height:40px}
-        .categories{display:flex;gap:0.6rem;overflow-x:auto;padding-bottom:1rem;margin-bottom:1.5rem}
-        .cat-btn{flex:0 0 auto;background:var(--bg-card);border:1px solid var(--border-color);padding:0.4rem 1.2rem;border-radius:40px;color:var(--text-secondary);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:0.4rem;font-size:0.85rem}
-        .cat-btn img{width:20px;height:20px;border-radius:4px;object-fit:cover}
-        .cat-btn.active{background:var(--accent-gradient);color:white;border-color:var(--accent-light)}
-        .cat-btn .game-badge{background:rgba(34,197,94,0.15);color:#4ade80;font-size:0.55rem;padding:0.05rem 0.4rem;border-radius:20px;margin-left:0.2rem}
-        .script-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin:1rem 0}
-        .script-card{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:var(--radius-card);border:1px solid var(--border-color);transition:0.3s;display:flex;flex-direction:column;overflow:hidden}
-        .script-card:hover{transform:translateY(-6px);border-color:rgba(124,58,237,0.25)}
-        .card-image{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,#1a1a3a,#2a1f55);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--accent-light)}
-        .card-image img{width:100%;height:100%;object-fit:cover}
-        .card-body{padding:1.2rem 1.3rem 1.4rem;display:flex;flex-direction:column;flex:1}
-        .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem}
-        .card-header h3{color:var(--text-primary);font-size:1.1rem;flex:1;display:flex;align-items:center;gap:0.3rem}
-        .card-header h3 img{width:20px;height:20px;border-radius:4px}
-        .fav-btn{background:transparent;border:none;font-size:1.4rem;color:#4a4a6a;cursor:pointer;min-width:44px;min-height:44px}
-        .fav-btn.active{color:#f472b6}
-        .card-category{background:rgba(124,58,237,0.15);padding:0.1rem 0.8rem;border-radius:40px;color:var(--accent-light);font-size:0.6rem;display:inline-block;margin:0.1rem 0 0.4rem;width:fit-content}
-        .card-desc{color:var(--text-secondary);font-size:0.82rem;line-height:1.5;flex:1}
-        .card-features{color:var(--accent-light);font-size:0.65rem;margin:0.3rem 0 0.5rem;display:flex;flex-wrap:wrap;gap:0.3rem}
-        .card-features .tag{background:rgba(167,139,250,0.08);padding:0.05rem 0.6rem;border-radius:20px;color:#c4b5fd}
-        .card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;gap:0.5rem;flex-wrap:wrap}
-        .badge{background:rgba(34,197,94,0.15);padding:0.1rem 0.8rem;border-radius:20px;font-size:0.55rem;color:#4ade80;display:flex;align-items:center;gap:0.2rem}
-        .badge img{width:14px;height:14px}
-        .badge.community{background:rgba(167,139,250,0.15);color:var(--accent-light)}
-        .badge.price-badge{background:rgba(251,191,36,0.15);color:var(--gold);font-weight:700}
-        .get-btn{background:var(--accent-gradient);border:none;padding:0.4rem 1.2rem;border-radius:60px;color:white;font-weight:600;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;min-height:40px}
-        .get-btn img{width:20px;height:20px;border-radius:4px}
-        .get-btn.locked{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
-        .delete-btn{background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.2);padding:0.2rem 0.7rem;border-radius:40px;color:#ff6b6b;cursor:pointer;font-size:0.65rem;min-height:36px}
-        .script-owner{font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;display:flex;align-items:center;gap:0.3rem}
-        .modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:1rem;z-index:999999}
-        .modal-overlay.open{display:flex}
-        .modal-card{background:var(--bg-modal);backdrop-filter:blur(40px);max-width:550px;width:100%;max-height:85vh;overflow-y:auto;border-radius:40px;padding:2rem;border:1px solid var(--border-color);animation:slideUp 0.35s ease}
-        .modal-card.wide{max-width:1000px}
-        @keyframes slideUp{from{transform:translateY(30px)scale(0.96);opacity:0}to{transform:translateY(0)scale(1);opacity:1}}
-        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-        .modal-header h2{color:var(--text-primary);font-size:1.5rem}
-        .modal-close{background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-muted);font-size:1.3rem;cursor:pointer;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-        
-        .task-row{display:flex;gap:0.8rem;margin:0.8rem 0;flex-wrap:wrap}
-        .task-btn{flex:1 1 100px;background:var(--bg-card);border:1px solid rgba(75,59,122,0.4);border-radius:60px;padding:0.6rem 0.2rem;color:var(--text-secondary);font-weight:500;font-size:0.8rem;cursor:pointer;text-align:center;text-decoration:none;min-height:60px}
-        .task-btn.completed{background:rgba(46,125,50,0.3);border-color:#66bb6a;color:#81c784}
-        .task-btn .timer-badge{display:block;font-size:0.7rem;color:var(--accent-light);margin-top:3px}
-        .task-btn img{width:28px;height:28px;display:block;margin:0 auto 4px;border-radius:8px}
-        .task-progress{display:flex;align-items:center;gap:0.8rem;margin:0.6rem 0}
-        .task-progress .bar{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden}
-        .task-progress .bar .fill{height:100%;background:var(--accent-gradient);border-radius:10px;transition:0.4s;width:0%}
-        .reveal-btn{background:var(--accent);border:none;padding:0.8rem;width:100%;border-radius:60px;color:white;font-weight:700;font-size:0.95rem;margin-top:1.2rem;cursor:not-allowed;opacity:0.4}
-        .reveal-btn.active{cursor:pointer;opacity:1;background:var(--accent-gradient)}
-        .code-container{display:none;margin-top:1rem}
-        .code-container.show{display:block}
-        .code-area{background:#0a0b1e;padding:0.7rem 1rem;border-radius:40px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(75,59,122,0.4);gap:0.5rem}
-        .code-area pre{flex:1;word-break:break-all;font-family:monospace;font-size:0.65rem;color:#c4b5fd;white-space:pre-wrap}
-        .copy-btn{background:rgba(42,31,85,0.8);border:1px solid var(--border-color);color:white;padding:0.3rem 1rem;border-radius:40px;cursor:pointer;font-size:0.7rem}
-        .form-group{margin-bottom:1rem}
-        .form-group label{color:var(--text-secondary);font-size:0.8rem;display:block;margin-bottom:0.2rem}
-        .form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:0.7rem 1rem;color:var(--text-primary);font-size:0.85rem;outline:none}
-        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
-        .form-group textarea{min-height:70px;resize:vertical;font-family:monospace}
-        .form-group .helper-text{color:var(--text-muted);font-size:0.65rem;margin-top:0.2rem}
-        .submit-btn{background:var(--accent-gradient);border:none;padding:0.8rem;width:100%;border-radius:60px;color:white;font-weight:700;font-size:0.95rem;cursor:pointer}
-        .submit-btn:disabled{opacity:0.5;cursor:not-allowed}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%)translateY(100px);background:var(--bg-modal);backdrop-filter:blur(20px);padding:0.8rem 2rem;border-radius:60px;color:var(--text-secondary);border:1px solid var(--border-color);z-index:9999999;transition:0.4s;opacity:0;pointer-events:none;font-size:0.85rem;max-width:90%}
-        .toast.show{opacity:1;transform:translateX(-50%)translateY(0)}
-        .footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--border-color);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:var(--text-muted);font-size:0.75rem}
-        .footer a{color:var(--accent-light);text-decoration:none}
-        .footer .social-links{display:flex;gap:0.8rem;align-items:center}
-        .footer .social-links img{width:28px;height:28px;border-radius:6px}
-        .empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-muted)}
-        .loading{text-align:center;padding:3rem;color:var(--accent-light);font-size:1.1rem;grid-column:1/-1}
-        .image-preview{width:100%;height:120px;border-radius:14px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-color);margin-top:0.3rem;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.8rem}
-        .image-preview img{width:100%;height:100%;object-fit:cover}
-        .profile-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border-color);flex-wrap:wrap}
-        .profile-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent)}
-        .profile-info h3{color:var(--text-primary);font-size:1.2rem}
-        .profile-info p{color:var(--text-muted);font-size:0.85rem}
-        .profile-stats{display:flex;gap:2rem;margin:1rem 0;flex-wrap:wrap}
-        .profile-stats .stat{text-align:center;background:var(--bg-card);padding:0.5rem 1.5rem;border-radius:16px;border:1px solid var(--border-color);min-width:80px}
-        .profile-stats .stat .number{color:var(--accent-light);font-size:1.5rem;font-weight:700}
-        .profile-stats .stat .label{color:var(--text-muted);font-size:0.7rem;display:block}
-        .pagination-controls{display:flex;justify-content:center;gap:0.5rem;margin-top:1.5rem;flex-wrap:wrap}
-        .pagination-controls button{background:var(--bg-card);border:1px solid var(--border-color);padding:0.3rem 0.8rem;border-radius:30px;color:var(--text-secondary);cursor:pointer;font-size:0.75rem;min-height:36px}
-        .pagination-controls button.active{background:var(--accent-gradient);color:white}
-        .pagination-controls button:disabled{opacity:0.3;cursor:not-allowed}
-        .auth-section{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap}
-        .auth-btn{background:var(--bg-card);border:1px solid var(--border-color);padding:0.4rem 1.2rem;border-radius:60px;color:var(--text-secondary);cursor:pointer;font-size:0.8rem;display:flex;align-items:center;gap:0.4rem;min-height:40px}
-        .auth-btn img{width:20px;height:20px;border-radius:4px}
-        .auth-btn .user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover}
-        .auth-btn .user-name{color:var(--accent-light);font-weight:500}
-        .auth-btn.admin-btn{background:var(--accent-gradient);color:white}
-        .auth-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem}
-        .auth-tabs button{flex:1;background:var(--bg-card);border:1px solid var(--border-color);padding:0.5rem;border-radius:30px;color:var(--text-secondary);cursor:pointer;font-size:0.85rem}
-        .auth-tabs button.active{background:var(--accent-gradient);color:white}
-        .auth-form{display:none}
-        .auth-form.active{display:block}
-        .auth-divider{display:flex;align-items:center;gap:1rem;margin:1rem 0;color:var(--text-muted);font-size:0.75rem}
-        .auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border-color)}
-        .google-btn-full{width:100%;background:var(--bg-card);border:1px solid var(--border-color);border-radius:60px;padding:0.7rem;color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.9rem}
-        .google-btn-full img{width:20px;height:20px}
-        .auth-error{color:#ff6b6b;font-size:0.8rem;margin-top:0.3rem;display:none}
-        .auth-success{color:#4ade80;font-size:0.8rem;margin-top:0.3rem;display:none}
-        ::-webkit-scrollbar{width:6px;height:6px}
-        ::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
-        ::-webkit-scrollbar-thumb{background:var(--accent-gradient);border-radius:10px}
-        
-        /* ADMIN PANEL STYLES */
-        .admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;border-bottom:1px solid var(--border-color);padding-bottom:1rem}
-        .admin-tabs button{background:var(--bg-card);border:1px solid var(--border-color);padding:0.5rem 1.2rem;border-radius:30px;color:var(--text-secondary);cursor:pointer;font-size:0.85rem;min-height:36px;transition:0.25s}
-        .admin-tabs button.active{background:var(--accent-gradient);color:white;border-color:var(--accent-light)}
-        .admin-tabs button:hover:not(.active){background:rgba(124,58,237,0.15)}
-        .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem}
-        .admin-stat-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;padding:1rem;text-align:center}
-        .admin-stat-card .number{font-size:2rem;font-weight:700;color:var(--accent-light)}
-        .admin-stat-card .label{font-size:0.75rem;color:var(--text-muted);display:block;margin-top:0.2rem}
-        .admin-list{display:flex;flex-direction:column;gap:0.8rem;max-height:500px;overflow-y:auto;padding-right:0.3rem}
-        .admin-list-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
-        .admin-list-item .info{flex:1;min-width:200px}
-        .admin-list-item .info .title{color:var(--text-primary);font-size:0.9rem;font-weight:500;display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap}
-        .admin-list-item .info .sub{color:var(--text-muted);font-size:0.7rem;margin-top:0.2rem}
-        .admin-list-item .actions{display:flex;gap:0.4rem;flex-wrap:wrap}
-        .admin-list-item .actions button{padding:0.3rem 0.8rem;border-radius:20px;border:none;font-size:0.7rem;cursor:pointer;min-height:32px;font-weight:600}
-        .admin-list-item .actions .edit-btn{background:rgba(59,130,246,0.15);color:#60a5fa}
-        .admin-list-item .actions .delete-btn-admin{background:rgba(255,0,0,0.15);color:#ff6b6b}
-        .admin-list-item .actions .view-btn{background:rgba(34,197,94,0.15);color:#4ade80}
-        .admin-actions-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
-        .admin-action-btn{background:var(--accent-gradient);border:none;padding:0.5rem 1.2rem;border-radius:60px;color:white;font-weight:600;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;gap:0.4rem;min-height:38px}
-        .admin-action-btn.green{background:linear-gradient(135deg,#22c55e,#16a34a)}
-        .admin-action-btn.blue{background:linear-gradient(135deg,#3b82f6,#2563eb)}
-        .admin-action-btn.red{background:linear-gradient(135deg,#ef4444,#dc2626)}
-        .admin-search{flex:1;min-width:200px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:40px;padding:0.5rem 1rem;color:var(--text-primary);font-size:0.8rem;outline:none}
-        .admin-search:focus{border-color:var(--accent)}
-        .admin-badge{display:inline-block;padding:0.1rem 0.6rem;border-radius:20px;font-size:0.6rem;font-weight:600;margin-left:0.3rem}
-        .admin-badge.premium{background:rgba(251,191,36,0.15);color:#fbbf24}
-        .admin-badge.community{background:rgba(167,139,250,0.15);color:#a78bfa}
-        .admin-badge.admin-user{background:rgba(239,68,68,0.15);color:#ef4444}
-        
-        .chat-toggle-btn{position:fixed;bottom:30px;right:30px;width:65px;height:65px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;z-index:99999;box-shadow:0 8px 30px rgba(124,58,237,0.5);border:none;color:white}
-        .chat-frame{position:fixed;bottom:110px;right:30px;width:400px;max-width:calc(100vw - 40px);height:600px;max-height:calc(100vh - 130px);border:none;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:99998;display:none;background:#070816}
-        .chat-frame.open{display:block}
-        #cookieConsent{position:fixed;bottom:0;left:0;right:0;background:var(--bg-modal);padding:1rem;text-align:center;border-top:3px solid var(--accent);z-index:999999;display:none;backdrop-filter:blur(20px)}
-        #cookieConsent p{color:var(--text-secondary);margin-bottom:0.7rem;font-size:0.9rem}
-        #cookieConsent .cookie-btn{border:none;padding:0.5rem 2rem;border-radius:60px;cursor:pointer;font-weight:600;background:var(--accent-gradient);color:white}
-        
-        .unlock-choice{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
-        .unlock-option{flex:1;min-width:200px;background:var(--bg-card);border:2px solid var(--border-color);border-radius:20px;padding:1.2rem;cursor:pointer;text-align:center;transition:0.3s}
-        .unlock-option:hover{border-color:var(--accent);transform:translateY(-3px)}
-        .unlock-option.coin-option:hover{border-color:var(--gold)}
-        .unlock-option .option-icon{font-size:3rem;margin-bottom:0.5rem}
-        .unlock-option .option-title{color:var(--text-primary);font-weight:700;font-size:1rem;margin-bottom:0.3rem}
-        .unlock-option .option-desc{color:var(--text-muted);font-size:0.75rem}
-        .unlock-option .option-price{color:var(--gold);font-weight:700;font-size:1.1rem;margin-top:0.3rem}
-        
-        @media (max-width: 768px) {
-            .app{padding:0.8rem !important;border-radius:16px !important}
-            .header{flex-direction:column !important;align-items:stretch !important}
-            .search-box{width:100% !important;max-width:none !important}
-            .script-grid{grid-template-columns:1fr !important}
-            .modal-card{max-width:100% !important;padding:1rem !important}
-            .admin-list-item{flex-direction:column;align-items:flex-start}
-        }
-    </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+:root{
+    --bg-primary:#070816;--bg-card:rgba(255,255,255,0.03);--bg-modal:rgba(16,18,40,0.96);
+    --text-primary:#f0eeff;--text-secondary:#b5b3d6;--text-muted:#6b6b92;
+    --border-color:rgba(167,139,250,0.15);--accent:#7c3aed;--accent-light:#a78bfa;
+    --accent-gradient:linear-gradient(135deg,#7c3aed,#6d28d9);
+    --shadow:0 40px 80px rgba(0,0,0,0.9);--radius:2.5rem;--radius-card:28px;
+    --gold:#fbbf24;
+}
+body.light{--bg-primary:#f0eeff;--bg-card:rgba(255,255,255,0.8);--bg-modal:rgba(255,255,255,0.96);--text-primary:#1a1a3a;--text-secondary:#3a3a5a;--text-muted:#6b6b92;--border-color:rgba(124,58,237,0.2)}
+body.blue{--accent:#3b82f6;--accent-light:#60a5fa;--accent-gradient:linear-gradient(135deg,#3b82f6,#2563eb)}
+body.green{--accent:#22c55e;--accent-light:#4ade80;--accent-gradient:linear-gradient(135deg,#22c55e,#16a34a)}
+body{min-height:100vh;padding:1rem;background:var(--bg-primary);position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url('https://i.postimg.cc/Jn9L0pyt/Gemini-Generated-Image-cyvxamcyvxamcyvx.jpg');background-size:cover;background-position:center;opacity:0.12;z-index:0;pointer-events:none}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 10% 20%,rgba(124,58,237,0.15)0%,transparent 50%),radial-gradient(ellipse at 90% 80%,rgba(167,139,250,0.10)0%,transparent 50%),radial-gradient(ellipse at 50% 50%,rgba(10,11,30,0.95)0%,var(--bg-primary) 100%);z-index:0;pointer-events:none}
+.app{position:relative;z-index:1;max-width:1440px;margin:0 auto;background:var(--bg-modal);backdrop-filter:blur(20px);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);border:1px solid var(--border-color)}
+.coin-display{display:flex;align-items:center;gap:0.3rem;background:var(--bg-card);padding:0.2rem 0.8rem 0.2rem 0.5rem;border-radius:40px;border:1px solid var(--border-color)}
+.coin-icon{font-size:1.2rem;animation:coinPulse 2s ease-in-out infinite}
+@keyframes coinPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.coin-amount{color:var(--gold);font-weight:700;font-size:0.95rem;min-width:30px;text-align:center}
+.coin-shop-btn{background:var(--accent-gradient);border:none;color:white;padding:0.2rem 0.5rem;border-radius:50%;cursor:pointer;font-size:0.8rem;min-width:28px;min-height:28px}
+.daily-tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.6rem;margin:0.5rem 0}
+.daily-task{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;padding:0.6rem 0.8rem;display:flex;align-items:center;gap:0.6rem}
+.daily-task.completed{opacity:0.6;border-color:rgba(74,222,128,0.3)}
+.daily-task .task-icon{font-size:1.5rem}
+.daily-task .task-info{flex:1;min-width:0}
+.daily-task .task-info .task-name{font-size:0.75rem;color:var(--text-primary);font-weight:500}
+.daily-task .task-info .task-desc{font-size:0.6rem;color:var(--text-muted)}
+.daily-task .task-info .task-reward{font-size:0.65rem;color:var(--gold);font-weight:600}
+.claim-all-btn{background:var(--accent-gradient);border:none;padding:0.4rem 1.5rem;border-radius:40px;color:white;font-weight:600;font-size:0.8rem;cursor:pointer;margin-top:0.5rem}
+.claim-all-btn:disabled{opacity:0.4;cursor:not-allowed}
+.section-title{color:var(--text-primary);font-size:1.2rem;font-weight:600;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
+.section-title .coin-reward-total{font-size:0.75rem;color:var(--gold);font-weight:400}
+.section-title .task-progress-text{font-size:0.7rem;color:var(--text-muted)}
+.shop-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:0.6rem 1rem;margin-bottom:0.5rem;flex-wrap:wrap;gap:0.3rem}
+.shop-item .item-info{flex:1;min-width:150px}
+.shop-item .item-info .item-name{color:var(--text-primary);font-size:0.85rem}
+.shop-item .item-info .item-desc{color:var(--text-muted);font-size:0.65rem}
+.shop-item .item-price{color:var(--gold);font-weight:700;font-size:0.9rem;margin:0 0.5rem}
+.shop-item .buy-btn{background:var(--accent-gradient);border:none;padding:0.2rem 1rem;border-radius:30px;color:white;font-weight:600;font-size:0.7rem;cursor:pointer;min-height:34px}
+.shop-item .buy-btn.owned{background:rgba(74,222,128,0.2);color:#4ade80}
+.shop-item .buy-btn:disabled{opacity:0.4;cursor:not-allowed}
+.collection-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:0.8rem;margin:0.5rem 0}
+.collection-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:0.6rem;text-align:center}
+.collection-item .item-icon{font-size:2rem}
+.collection-item .item-name{color:var(--text-primary);font-size:0.8rem;margin-top:0.3rem}
+.collection-item .item-type{color:var(--text-muted);font-size:0.55rem}
+.collection-item .use-btn{background:var(--bg-card);border:1px solid var(--border-color);padding:0.2rem 0.8rem;border-radius:20px;color:var(--text-secondary);font-size:0.6rem;cursor:pointer;margin-top:0.3rem}
+.header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+.logo{display:flex;align-items:center;gap:0.8rem}
+.logo img{height:40px;width:auto}
+.logo h1{font-size:2rem;background:var(--accent-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo span{font-size:0.75rem;color:var(--accent-light);opacity:0.7;display:block}
+.search-box{background:rgba(255,255,255,0.04);border-radius:60px;padding:0.5rem 1.4rem;display:flex;align-items:center;border:1px solid var(--border-color);min-width:200px;flex:1;max-width:400px}
+.search-box input{background:transparent;border:none;outline:none;color:var(--text-primary);font-size:0.95rem;width:100%}
+.search-box input::placeholder{color:var(--text-muted)}
+.stats{display:flex;gap:0.8rem;font-size:0.8rem;flex-wrap:wrap;align-items:center}
+.stats span{background:var(--bg-card);padding:0.3rem 1rem;border-radius:40px;display:flex;align-items:center;gap:0.4rem;border:1px solid var(--border-color);color:var(--text-muted)}
+.stats strong{color:var(--accent-light)}
+.add-btn{background:var(--accent-gradient);border:none;padding:0.5rem 1.5rem;border-radius:60px;color:white;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.5rem}
+.add-game-btn{background:linear-gradient(135deg,#22c55e,#16a34a);border:none;padding:0.4rem 1.2rem;border-radius:60px;color:white;font-weight:600;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;min-height:40px}
+.categories{display:flex;gap:0.6rem;overflow-x:auto;padding-bottom:1rem;margin-bottom:1.5rem}
+.cat-btn{flex:0 0 auto;background:var(--bg-card);border:1px solid var(--border-color);padding:0.4rem 1.2rem;border-radius:40px;color:var(--text-secondary);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:0.4rem;font-size:0.85rem}
+.cat-btn.active{background:var(--accent-gradient);color:white;border-color:var(--accent-light)}
+.script-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin:1rem 0}
+.script-card{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:var(--radius-card);border:1px solid var(--border-color);transition:0.3s;display:flex;flex-direction:column;overflow:hidden}
+.script-card:hover{transform:translateY(-6px);border-color:rgba(124,58,237,0.25)}
+.card-image{width:100%;height:160px;background:linear-gradient(135deg,#1a1a3a,#2a1f55);display:flex;align-items:center;justify-content:center;font-size:3rem;color:var(--accent-light);overflow:hidden}
+.card-image img{width:100%;height:100%;object-fit:cover}
+.card-body{padding:1.2rem 1.3rem 1.4rem;display:flex;flex-direction:column;flex:1}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.3rem}
+.card-header h3{color:var(--text-primary);font-size:1.1rem;flex:1;display:flex;align-items:center;gap:0.3rem}
+.card-header h3 img{width:20px;height:20px;border-radius:4px}
+.fav-btn{background:transparent;border:none;font-size:1.4rem;color:#4a4a6a;cursor:pointer;min-width:44px;min-height:44px}
+.fav-btn.active{color:#f472b6}
+.card-category{background:rgba(124,58,237,0.15);padding:0.1rem 0.8rem;border-radius:40px;color:var(--accent-light);font-size:0.6rem;display:inline-block;margin:0.1rem 0 0.4rem;width:fit-content}
+.card-desc{color:var(--text-secondary);font-size:0.82rem;line-height:1.5;flex:1}
+.card-features{color:var(--accent-light);font-size:0.65rem;margin:0.3rem 0 0.5rem;display:flex;flex-wrap:wrap;gap:0.3rem}
+.card-features .tag{background:rgba(167,139,250,0.08);padding:0.05rem 0.6rem;border-radius:20px;color:#c4b5fd}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:0.5rem;gap:0.5rem;flex-wrap:wrap}
+.badge{background:rgba(34,197,94,0.15);padding:0.1rem 0.8rem;border-radius:20px;font-size:0.55rem;color:#4ade80;display:flex;align-items:center;gap:0.2rem}
+.badge.community{background:rgba(167,139,250,0.15);color:var(--accent-light)}
+.badge.premium{background:rgba(251,191,36,0.15);color:var(--gold)}
+.badge.price-badge{background:rgba(251,191,36,0.15);color:var(--gold);font-weight:700}
+.get-btn{background:var(--accent-gradient);border:none;padding:0.4rem 1.2rem;border-radius:60px;color:white;font-weight:600;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;min-height:40px}
+.get-btn.locked{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.script-owner{font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(24px);display:none;align-items:center;justify-content:center;padding:1rem;z-index:999999}
+.modal-overlay.open{display:flex}
+.modal-card{background:var(--bg-modal);backdrop-filter:blur(40px);max-width:550px;width:100%;max-height:85vh;overflow-y:auto;border-radius:40px;padding:2rem;border:1px solid var(--border-color);animation:slideUp 0.35s ease}
+.modal-card.wide{max-width:1000px}
+@keyframes slideUp{from{transform:translateY(30px)scale(0.96);opacity:0}to{transform:translateY(0)scale(1);opacity:1}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.modal-header h2{color:var(--text-primary);font-size:1.5rem}
+.modal-close{background:rgba(255,255,255,0.05);border:1px solid var(--border-color);color:var(--text-muted);font-size:1.3rem;cursor:pointer;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.task-row{display:flex;gap:0.8rem;margin:0.8rem 0;flex-wrap:wrap}
+.task-btn{flex:1 1 100px;background:var(--bg-card);border:1px solid rgba(75,59,122,0.4);border-radius:60px;padding:0.6rem 0.2rem;color:var(--text-secondary);font-weight:500;font-size:0.8rem;cursor:pointer;text-align:center;text-decoration:none;min-height:60px}
+.task-btn.completed{background:rgba(46,125,50,0.3);border-color:#66bb6a;color:#81c784}
+.task-btn .timer-badge{display:block;font-size:0.7rem;color:var(--accent-light);margin-top:3px}
+.task-btn img{width:28px;height:28px;display:block;margin:0 auto 4px;border-radius:8px}
+.task-progress{display:flex;align-items:center;gap:0.8rem;margin:0.6rem 0}
+.task-progress .bar{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden}
+.task-progress .bar .fill{height:100%;background:var(--accent-gradient);border-radius:10px;transition:0.4s;width:0%}
+.reveal-btn{background:var(--accent);border:none;padding:0.8rem;width:100%;border-radius:60px;color:white;font-weight:700;font-size:0.95rem;margin-top:1.2rem;cursor:not-allowed;opacity:0.4}
+.reveal-btn.active{cursor:pointer;opacity:1;background:var(--accent-gradient)}
+.code-container{display:none;margin-top:1rem}
+.code-container.show{display:block}
+.code-area{background:#0a0b1e;padding:0.7rem 1rem;border-radius:40px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(75,59,122,0.4);gap:0.5rem}
+.code-area pre{flex:1;word-break:break-all;font-family:monospace;font-size:0.65rem;color:#c4b5fd;white-space:pre-wrap}
+.copy-btn{background:rgba(42,31,85,0.8);border:1px solid var(--border-color);color:white;padding:0.3rem 1rem;border-radius:40px;cursor:pointer;font-size:0.7rem}
+.form-group{margin-bottom:1rem}
+.form-group label{color:var(--text-secondary);font-size:0.8rem;display:block;margin-bottom:0.2rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:0.7rem 1rem;color:var(--text-primary);font-size:0.85rem;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{min-height:70px;resize:vertical;font-family:monospace}
+.form-group .helper-text{color:var(--text-muted);font-size:0.65rem;margin-top:0.2rem}
+.submit-btn{background:var(--accent-gradient);border:none;padding:0.8rem;width:100%;border-radius:60px;color:white;font-weight:700;font-size:0.95rem;cursor:pointer}
+.submit-btn:disabled{opacity:0.5;cursor:not-allowed}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%)translateY(100px);background:var(--bg-modal);backdrop-filter:blur(20px);padding:0.8rem 2rem;border-radius:60px;color:var(--text-secondary);border:1px solid var(--border-color);z-index:9999999;transition:0.4s;opacity:0;pointer-events:none;font-size:0.85rem;max-width:90%}
+.toast.show{opacity:1;transform:translateX(-50%)translateY(0)}
+.footer{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--border-color);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:var(--text-muted);font-size:0.75rem}
+.footer a{color:var(--accent-light);text-decoration:none}
+.footer .social-links{display:flex;gap:0.8rem;align-items:center}
+.footer .social-links img{width:28px;height:28px;border-radius:6px}
+.empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:var(--text-muted)}
+.loading{text-align:center;padding:3rem;color:var(--accent-light);font-size:1.1rem;grid-column:1/-1}
+.image-preview{width:100%;height:120px;border-radius:14px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border-color);margin-top:0.3rem;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.8rem}
+.image-preview img{width:100%;height:100%;object-fit:cover}
+.profile-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border-color);flex-wrap:wrap}
+.profile-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--accent)}
+.profile-info h3{color:var(--text-primary);font-size:1.2rem}
+.profile-info p{color:var(--text-muted);font-size:0.85rem}
+.profile-stats{display:flex;gap:2rem;margin:1rem 0;flex-wrap:wrap}
+.profile-stats .stat{text-align:center;background:var(--bg-card);padding:0.5rem 1.5rem;border-radius:16px;border:1px solid var(--border-color);min-width:80px}
+.profile-stats .stat .number{color:var(--accent-light);font-size:1.5rem;font-weight:700}
+.profile-stats .stat .label{color:var(--text-muted);font-size:0.7rem;display:block}
+.pagination-controls{display:flex;justify-content:center;gap:0.5rem;margin-top:1.5rem;flex-wrap:wrap}
+.pagination-controls button{background:var(--bg-card);border:1px solid var(--border-color);padding:0.3rem 0.8rem;border-radius:30px;color:var(--text-secondary);cursor:pointer;font-size:0.75rem;min-height:36px}
+.pagination-controls button.active{background:var(--accent-gradient);color:white}
+.pagination-controls button:disabled{opacity:0.3;cursor:not-allowed}
+.auth-section{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap}
+.auth-btn{background:var(--bg-card);border:1px solid var(--border-color);padding:0.4rem 1.2rem;border-radius:60px;color:var(--text-secondary);cursor:pointer;font-size:0.8rem;display:flex;align-items:center;gap:0.4rem;min-height:40px}
+.auth-btn img{width:20px;height:20px;border-radius:4px}
+.auth-btn .user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.auth-btn .user-name{color:var(--accent-light);font-weight:500}
+.auth-btn.admin-btn{background:var(--accent-gradient);color:white}
+.auth-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem}
+.auth-tabs button{flex:1;background:var(--bg-card);border:1px solid var(--border-color);padding:0.5rem;border-radius:30px;color:var(--text-secondary);cursor:pointer;font-size:0.85rem}
+.auth-tabs button.active{background:var(--accent-gradient);color:white}
+.auth-form{display:none}
+.auth-form.active{display:block}
+.auth-divider{display:flex;align-items:center;gap:1rem;margin:1rem 0;color:var(--text-muted);font-size:0.75rem}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border-color)}
+.google-btn-full{width:100%;background:var(--bg-card);border:1px solid var(--border-color);border-radius:60px;padding:0.7rem;color:var(--text-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.9rem}
+.google-btn-full img{width:20px;height:20px}
+.auth-error{color:#ff6b6b;font-size:0.8rem;margin-top:0.3rem;display:none}
+.auth-success{color:#4ade80;font-size:0.8rem;margin-top:0.3rem;display:none}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
+::-webkit-scrollbar-thumb{background:var(--accent-gradient);border-radius:10px}
+.admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;border-bottom:1px solid var(--border-color);padding-bottom:1rem}
+.admin-tabs button{background:var(--bg-card);border:1px solid var(--border-color);padding:0.5rem 1.2rem;border-radius:30px;color:var(--text-secondary);cursor:pointer;font-size:0.85rem;min-height:36px;transition:0.25s}
+.admin-tabs button.active{background:var(--accent-gradient);color:white;border-color:var(--accent-light)}
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem}
+.admin-stat-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:16px;padding:1rem;text-align:center}
+.admin-stat-card .number{font-size:2rem;font-weight:700;color:var(--accent-light)}
+.admin-stat-card .label{font-size:0.75rem;color:var(--text-muted);display:block;margin-top:0.2rem}
+.admin-list{display:flex;flex-direction:column;gap:0.8rem;max-height:500px;overflow-y:auto;padding-right:0.3rem}
+.admin-list-item{background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:0.8rem 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
+.admin-list-item .info{flex:1;min-width:200px}
+.admin-list-item .info .title{color:var(--text-primary);font-size:0.9rem;font-weight:500;display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap}
+.admin-list-item .info .sub{color:var(--text-muted);font-size:0.7rem;margin-top:0.2rem}
+.admin-list-item .actions{display:flex;gap:0.4rem;flex-wrap:wrap}
+.admin-list-item .actions button{padding:0.3rem 0.8rem;border-radius:20px;border:none;font-size:0.7rem;cursor:pointer;min-height:32px;font-weight:600}
+.admin-list-item .actions .edit-btn{background:rgba(59,130,246,0.15);color:#60a5fa}
+.admin-list-item .actions .delete-btn-admin{background:rgba(255,0,0,0.15);color:#ff6b6b}
+.admin-list-item .actions .view-btn{background:rgba(34,197,94,0.15);color:#4ade80}
+.admin-actions-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.admin-action-btn{background:var(--accent-gradient);border:none;padding:0.5rem 1.2rem;border-radius:60px;color:white;font-weight:600;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;gap:0.4rem;min-height:38px}
+.admin-action-btn.green{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.admin-action-btn.blue{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+.admin-search{flex:1;min-width:200px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:40px;padding:0.5rem 1rem;color:var(--text-primary);font-size:0.8rem;outline:none}
+.admin-badge{display:inline-block;padding:0.1rem 0.6rem;border-radius:20px;font-size:0.6rem;font-weight:600;margin-left:0.3rem}
+.admin-badge.premium{background:rgba(251,191,36,0.15);color:#fbbf24}
+.admin-badge.community{background:rgba(167,139,250,0.15);color:#a78bfa}
+.admin-badge.admin-user{background:rgba(239,68,68,0.15);color:#ef4444}
+.chat-toggle-btn{position:fixed;bottom:30px;right:30px;width:65px;height:65px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;z-index:99999;box-shadow:0 8px 30px rgba(124,58,237,0.5);border:none;color:white}
+.chat-frame{position:fixed;bottom:110px;right:30px;width:400px;max-width:calc(100vw - 40px);height:600px;max-height:calc(100vh - 130px);border:none;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:99998;display:none;background:#070816}
+.chat-frame.open{display:block}
+#cookieConsent{position:fixed;bottom:0;left:0;right:0;background:var(--bg-modal);padding:1rem;text-align:center;border-top:3px solid var(--accent);z-index:999999;display:none;backdrop-filter:blur(20px)}
+#cookieConsent p{color:var(--text-secondary);margin-bottom:0.7rem;font-size:0.9rem}
+#cookieConsent .cookie-btn{border:none;padding:0.5rem 2rem;border-radius:60px;cursor:pointer;font-weight:600;background:var(--accent-gradient);color:white}
+.unlock-choice{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+.unlock-option{flex:1;min-width:200px;background:var(--bg-card);border:2px solid var(--border-color);border-radius:20px;padding:1.2rem;cursor:pointer;text-align:center;transition:0.3s}
+.unlock-option:hover{border-color:var(--accent);transform:translateY(-3px)}
+.unlock-option.coin-option:hover{border-color:var(--gold)}
+.unlock-option .option-icon{font-size:3rem;margin-bottom:0.5rem}
+.unlock-option .option-title{color:var(--text-primary);font-weight:700;font-size:1rem;margin-bottom:0.3rem}
+.unlock-option .option-desc{color:var(--text-muted);font-size:0.75rem}
+.unlock-option .option-price{color:var(--gold);font-weight:700;font-size:1.1rem;margin-top:0.3rem}
+@media (max-width: 768px) {
+    .app{padding:0.8rem !important;border-radius:16px !important}
+    .header{flex-direction:column !important;align-items:stretch !important}
+    .search-box{width:100% !important;max-width:none !important}
+    .script-grid{grid-template-columns:1fr !important}
+    .modal-card{max-width:100% !important;padding:1rem !important}
+    .admin-list-item{flex-direction:column;align-items:flex-start}
+}
+</style>
 </head>
 <body>
 
@@ -255,15 +230,10 @@
     <header class="header">
         <div class="logo">
             <img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Logo">
-            <div>
-                <h1>ScriptHub</h1>
-                <span>🔥 90+ Script & 🎮 Oyunlar</span>
-            </div>
+            <div><h1>ScriptHub</h1><span>🔥 90+ Script & 🎮 Oyunlar</span></div>
         </div>
         <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Script ara..." autocomplete="off">
-            </div>
+            <div class="search-box"><input type="text" id="searchInput" placeholder="Script ara..." autocomplete="off"></div>
             <div class="coin-display">
                 <span class="coin-icon">🪙</span>
                 <span class="coin-amount" id="coinDisplay">0</span>
@@ -275,16 +245,16 @@
                 <span>🌍 <strong id="communityCount">0</strong></span>
             </div>
             <div class="auth-section" id="authSection">
-                <button class="auth-btn" id="loginBtn">🔐 Giriş Yap</button>
+                <button class="auth-btn" onclick="openAuthModal()">🔐 Giriş Yap</button>
             </div>
             <div style="display:flex;gap:0.3rem">
-                <button class="auth-btn" style="padding:0.4rem 0.6rem" data-theme="dark" onclick="setTheme('dark')">🌙</button>
-                <button class="auth-btn" style="padding:0.4rem 0.6rem" data-theme="light" onclick="setTheme('light')">☀️</button>
-                <button class="auth-btn" style="padding:0.4rem 0.6rem" data-theme="blue" onclick="setTheme('blue')">💙</button>
-                <button class="auth-btn" style="padding:0.4rem 0.6rem" data-theme="green" onclick="setTheme('green')">💚</button>
+                <button class="auth-btn" style="padding:0.4rem 0.6rem" onclick="setTheme('dark')">🌙</button>
+                <button class="auth-btn" style="padding:0.4rem 0.6rem" onclick="setTheme('light')">☀️</button>
+                <button class="auth-btn" style="padding:0.4rem 0.6rem" onclick="setTheme('blue')">💙</button>
+                <button class="auth-btn" style="padding:0.4rem 0.6rem" onclick="setTheme('green')">💚</button>
             </div>
-            <button class="add-btn" id="addScriptBtn">➕ Script Ekle</button>
-            <button class="add-game-btn" id="addGameBtn">🎮 Oyun Ekle</button>
+            <button class="add-btn" onclick="openAddScriptModal()">➕ Script Ekle</button>
+            <button class="add-game-btn" onclick="openAddGameModal()">🎮 Oyun Ekle</button>
             <button class="auth-btn admin-btn" id="adminBtn" style="display:none" onclick="openAdminModal()">🔧 Admin</button>
             <button class="auth-btn" style="background:rgba(251,191,36,0.1);color:#fbbf24" onclick="openCollection()">📦 Koleksiyon</button>
         </div>
@@ -303,11 +273,11 @@
         <button class="cat-btn" data-cat="favorites">❤️ Favorilerim</button>
     </div>
 
-    <div id="dailyTasksContainer" style="margin-bottom:1rem">
+    <div id="dailyTasksContainer" style="margin-bottom:1rem;display:none">
         <div class="section-title">
             🎯 Günlük Görevler
             <span class="coin-reward-total" id="dailyTotalReward">🪙 +0 coin</span>
-            <span class="task-progress-text" id="dailyProgressText">(0/8)</span>
+            <span class="task-progress-text" id="dailyProgressText">(0/6)</span>
         </div>
         <div class="daily-tasks" id="dailyTasksList"></div>
         <button class="claim-all-btn" id="claimAllBtn" onclick="claimAllRewards()" disabled>📦 Tümünü Topla</button>
@@ -326,7 +296,6 @@
     </footer>
 </div>
 
-<!-- Çerez -->
 <div id="cookieConsent">
     <p>🍪 Bu site çerez kullanır.</p>
     <button class="cookie-btn" onclick="acceptCookies()">✅ Kabul Et</button>
@@ -335,25 +304,24 @@
 <!-- Auth Modal -->
 <div class="modal-overlay" id="authModal">
     <div class="modal-card">
-        <div class="modal-header"><h2>🔐 Hesabına Giriş Yap</h2><button class="modal-close" onclick="closeAuthModal()">✕</button></div>
+        <div class="modal-header"><h2>🔐 Giriş Yap</h2><button class="modal-close" onclick="closeAuthModal()">✕</button></div>
         <div class="auth-tabs">
             <button class="active" data-tab="login">Giriş Yap</button>
             <button data-tab="register">Kayıt Ol</button>
         </div>
         <div class="auth-form active" id="loginForm">
-            <div class="form-group"><label>E-posta</label><input type="email" id="loginEmail" placeholder="ornek@email.com"></div>
-            <div class="form-group"><label>Şifre</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+            <div class="form-group"><label>E-posta</label><input type="email" id="loginEmail"></div>
+            <div class="form-group"><label>Şifre</label><input type="password" id="loginPassword"></div>
             <div id="loginError" class="auth-error"></div>
             <button class="submit-btn" id="loginSubmitBtn">🚀 Giriş Yap</button>
             <div class="auth-divider">veya</div>
             <button class="google-btn-full" id="googleLoginBtn"><img src="https://www.google.com/favicon.ico"> Google ile Giriş</button>
         </div>
         <div class="auth-form" id="registerForm">
-            <div class="form-group"><label>Kullanıcı Adın *</label><input type="text" id="registerUsername" placeholder="Kullanıcı Adın"></div>
+            <div class="form-group"><label>Kullanıcı Adın *</label><input type="text" id="registerUsername"></div>
             <div class="form-group"><label>E-posta *</label><input type="email" id="registerEmail"></div>
             <div class="form-group"><label>Şifre * (min 6)</label><input type="password" id="registerPassword"></div>
             <div id="registerError" class="auth-error"></div>
-            <div id="registerSuccess" class="auth-success"></div>
             <button class="submit-btn" id="registerSubmitBtn">🚀 Kayıt Ol</button>
             <div class="auth-divider">veya</div>
             <button class="google-btn-full" id="googleRegisterBtn"><img src="https://www.google.com/favicon.ico"> Google ile Kayıt</button>
@@ -400,7 +368,7 @@
                 <input type="number" id="scriptCoinPrice" value="30" min="0" max="9999" required>
                 <div class="helper-text">0 = ücretsiz</div>
             </div>
-            <button type="submit" class="submit-btn" id="addScriptSubmitBtn">🚀 Ekle!</button>
+            <button type="submit" class="submit-btn">🚀 Ekle!</button>
         </form>
     </div>
 </div>
@@ -412,7 +380,7 @@
         <form id="addGameForm">
             <div class="form-group"><label>Oyun Adı *</label><input type="text" id="gameName" required></div>
             <div class="form-group"><label>Oyun Linki *</label><input type="url" id="gameLink" required></div>
-            <div class="form-group"><label>🖼️ Oyun Resmi (URL) *</label><input type="url" id="gameImage" required><div class="image-preview" id="gameImagePreview">🖼️ Önizleme</div></div>
+            <div class="form-group"><label>🖼️ Oyun Resmi (URL) *</label><input type="url" id="gameImage" required></div>
             <div class="form-group"><label>Oyun Açıklaması</label><input type="text" id="gameDesc"></div>
             <button type="submit" class="submit-btn" style="background:linear-gradient(135deg,#22c55e,#16a34a)">🎮 Oyunu Ekle! (🪙 +20 coin)</button>
         </form>
@@ -475,22 +443,6 @@
     </div>
 </div>
 
-<!-- Coin Shop -->
-<div class="modal-overlay" id="coinShopModal">
-    <div class="modal-card wide">
-        <div class="modal-header"><h2>🏪 Coin Mağazası</h2><button class="modal-close" onclick="closeCoinShop()">✕</button></div>
-        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;background:var(--bg-card);padding:0.5rem 1rem;border-radius:16px;border:1px solid var(--border-color)">
-            <span>🪙</span><span style="color:var(--text-secondary);font-size:0.85rem">Bakiyen:</span>
-            <span class="coin-amount" id="shopCoinBalance">0</span>
-        </div>
-        <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
-            <button class="auth-btn" style="background:var(--accent-gradient);color:white" onclick="renderShop('scripts')">📜 Premium</button>
-            <button class="auth-btn" onclick="renderShop('owned')">📦 Koleksiyon</button>
-        </div>
-        <div id="shopContent"></div>
-    </div>
-</div>
-
 <!-- Admin Script Edit Modal -->
 <div class="modal-overlay" id="adminEditModal">
     <div class="modal-card">
@@ -522,6 +474,22 @@
     </div>
 </div>
 
+<!-- Coin Shop -->
+<div class="modal-overlay" id="coinShopModal">
+    <div class="modal-card wide">
+        <div class="modal-header"><h2>🏪 Coin Mağazası</h2><button class="modal-close" onclick="closeCoinShop()">✕</button></div>
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;background:var(--bg-card);padding:0.5rem 1rem;border-radius:16px;border:1px solid var(--border-color)">
+            <span>🪙</span><span style="color:var(--text-secondary);font-size:0.85rem">Bakiyen:</span>
+            <span class="coin-amount" id="shopCoinBalance">0</span>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+            <button class="auth-btn" style="background:var(--accent-gradient);color:white" onclick="renderShop('scripts')">📜 Premium</button>
+            <button class="auth-btn" onclick="renderShop('owned')">📦 Koleksiyon</button>
+        </div>
+        <div id="shopContent"></div>
+    </div>
+</div>
+
 <button class="chat-toggle-btn" onclick="toggleChat()" id="chatBtn">💬</button>
 <iframe class="chat-frame" id="chatFrame" src="https://scripthub.mm2ultimatehub.workers.dev/"></iframe>
 
@@ -529,1155 +497,1065 @@
 
 <script>
 (function(){
-    'use strict';
+'use strict';
 
-    // ========== FIREBASE ==========
-    const firebaseConfig = {
-        apiKey: "AIzaSyB8xU0CUXkzl1AbOBusUxr3J77TU5d6Mlg",
-        authDomain: "scripthub-b7b7b.firebaseapp.com",
-        projectId: "scripthub-b7b7b",
-        storageBucket: "scripthub-b7b7b.firebasestorage.app",
-        messagingSenderId: "962415554423",
-        appId: "1:962415554423:web:9035ce9e4035d6ab6c3b72"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
+// ========== FIREBASE ==========
+const firebaseConfig = {
+    apiKey: "AIzaSyB8xU0CUXkzl1AbOBusUxr3J77TU5d6Mlg",
+    authDomain: "scripthub-b7b7b.firebaseapp.com",
+    projectId: "scripthub-b7b7b",
+    storageBucket: "scripthub-b7b7b.firebasestorage.app",
+    messagingSenderId: "962415554423",
+    appId: "1:962415554423:web:9035ce9e4035d6ab6c3b72"
+};
 
-    const ADMIN_UID = 'WAtZhXqj2KUEib0RaRXMTOAgYpc2';
-    const ITEMS_PER_PAGE = 20;
-    const DEFAULT_UNLOCK_PRICE = 30;
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
 
-    const IMG = {
-        users:'https://i.postimg.cc/rm58SGCq/1786707704031.png',
-        get:'https://i.postimg.cc/3N9mTfJW/0676206d-5160-4133-8935-100c53330d11.jpg'
-    };
-    const DEFAULT_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%231a1a3a"/%3E%3Ctext x="50" y="55" font-size="40" text-anchor="middle" fill="%23a78bfa"%3E⚡%3C/text%3E%3C/svg%3E';
+const ADMIN_UID = 'WAtZhXqj2KUEib0RaRXMTOAgYpc2';
+const ITEMS_PER_PAGE = 20;
+const DEFAULT_UNLOCK_PRICE = 30;
+const IMG_USERS = 'https://i.postimg.cc/rm58SGCq/1786707704031.png';
+const DEFAULT_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%231a1a3a"/%3E%3Ctext x="50" y="55" font-size="40" text-anchor="middle" fill="%23a78bfa"%3E⚡%3C/text%3E%3C/svg%3E';
 
-    const DAILY_TASKS = [
-        { id: 'daily_login', name: 'Günlük Giriş', desc: 'Bugün giriş yap', reward: 10, icon: '✅' },
-        { id: 'daily_view', name: '3 Script Görüntüle', desc: '3 farklı script görüntüle', reward: 15, icon: '👁️' },
-        { id: 'daily_comment', name: '2 Yorum Yap', desc: '2 scripte yorum yap', reward: 15, icon: '💬' },
-        { id: 'daily_fav', name: '2 Favori Ekle', desc: '2 script favorilere ekle', reward: 10, icon: '❤️' },
-        { id: 'daily_add_script', name: 'Script Ekle', desc: '1 yeni script ekle', reward: 25, icon: '📜' },
-        { id: 'daily_add_game', name: 'Oyun Ekle', desc: '1 yeni oyun ekle', reward: 20, icon: '🎮' }
-    ];
+// Kategori ikonları
+const CATEGORY_ICONS = {
+    mm2:'🗡️', bloxfruits:'🍉', petsim:'🐾', dahood:'🔫',
+    bladeball:'⚡', brookhaven:'🏡', other:'🎮'
+};
 
-    // Premium scriptler - İLK AÇILIŞTA FIREBASE'E YAZILACAK
-    const INITIAL_PREMIUM_SCRIPTS = [
-        {id:"p1",name:"Zen X MM2",category:"mm2",desc:"Otomatik kasa, aimbot ve bıçak toplama.",features:["Aimbot","Auto Farm","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",isPremium:true,isCommunity:false,coinPrice:200},
-        {id:"p2",name:"MM2 Sniper Pro",category:"mm2",desc:"Otomatik bıçak toplama, aim ve ESP.",features:["Auto Collect","Aimbot","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",isPremium:true,isCommunity:false,coinPrice:300},
-        {id:"p3",name:"MM2 OP Script",category:"mm2",desc:"Full panel ile ESP, Murderer ve Sheriff araçları.",features:["God Mode","ESP","Auto Kill"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()",isPremium:true,isCommunity:false,coinPrice:250},
-        {id:"p4",name:"MM2 Coin Auto Farm",category:"mm2",desc:"Otomatik coin toplama ve anti AFK.",features:["Auto Farm","Anti AFK"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/bugxiefun/roblox-scripts/refs/heads/main/MM2%20Coin%20Autofarm', true))()",isPremium:true,isCommunity:false,coinPrice:200},
-        {id:"p5",name:"Infinite Fun IY",category:"mm2",desc:"407+ komut ile gelişmiş admin scripti.",features:["ESP","Fullbright","Goto"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Xane123/InfiniteFun_IY/master/source'))()",isPremium:true,isCommunity:false,coinPrice:350},
-        {id:"p6",name:"MM2 Aim Trainer 2",category:"mm2",desc:"Özel hedef eğitim menüsü, key yok.",features:["Full Menu","No Key"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Ewerton99BRYT99/99Hub/refs/heads/main/MM2AimTrainer2.luau'))()",isPremium:true,isCommunity:false,coinPrice:180},
-        {id:"p7",name:"MM2 Auto Farm OP",category:"mm2",desc:"Otomatik coin farm ve anti AFK.",features:["Auto Farm","Anti AFK"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2AutoFarm/script/main/farm.lua'))()",isPremium:true,isCommunity:false,coinPrice:220},
-        {id:"p8",name:"MM2 Hub V2",category:"mm2",desc:"Gelişmiş MM2 menüsü.",features:["ESP","Aimbot"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Hub/script/main/v2.lua'))()",isPremium:true,isCommunity:false,coinPrice:280},
-        {id:"p9",name:"MM2 Coin Farmer",category:"mm2",desc:"Hızlı coin toplama.",features:["Auto Farm"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Farmer/script/main/coin.lua'))()",isPremium:true,isCommunity:false,coinPrice:150},
-        {id:"p10",name:"MM2 God Mode",category:"mm2",desc:"God mode, speed hack ve esp.",features:["God Mode","Speed Hack","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2God/script/main/god.lua'))()",isPremium:true,isCommunity:false,coinPrice:150}
-    ];
+const DAILY_TASKS = [
+    { id: 'daily_login', name: 'Günlük Giriş', desc: 'Bugün giriş yap', reward: 10, icon: '✅' },
+    { id: 'daily_view', name: '3 Script Görüntüle', desc: '3 farklı script görüntüle', reward: 15, icon: '👁️' },
+    { id: 'daily_comment', name: '2 Yorum Yap', desc: '2 scripte yorum yap', reward: 15, icon: '💬' },
+    { id: 'daily_fav', name: '2 Favori Ekle', desc: '2 script favorilere ekle', reward: 10, icon: '❤️' },
+    { id: 'daily_add_script', name: 'Script Ekle', desc: '1 yeni script ekle', reward: 25, icon: '📜' },
+    { id: 'daily_add_game', name: 'Oyun Ekle', desc: '1 yeni oyun ekle', reward: 20, icon: '🎮' }
+];
 
-    const COSMETIC_ITEMS = [
-        { id: 'frame_gold', name: 'Altın Çerçeve', price: 150, type: 'frame', value: 'gold', icon: '🟡' },
-        { id: 'frame_premium', name: 'Premium Çerçeve', price: 200, type: 'frame', value: 'premium', icon: '💎' },
-        { id: 'name_purple', name: 'Mor İsim', price: 100, type: 'nameColor', value: '#a78bfa', icon: '🟣' },
-        { id: 'name_gold', name: 'Altın İsim', price: 200, type: 'nameColor', value: '#fbbf24', icon: '🟡' }
-    ];
+// Premium scriptler - Firebase'e yazılacak
+const INITIAL_PREMIUM_SCRIPTS = [
+    {id:"p1",name:"Zen X MM2",category:"mm2",desc:"Otomatik kasa, aimbot ve bıçak toplama.",features:["Aimbot","Auto Farm","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/7GrandDad/7GrandDad/main/MM2.lua'))()",isPremium:true,isCommunity:false,coinPrice:200},
+    {id:"p2",name:"MM2 Sniper Pro",category:"mm2",desc:"Otomatik bıçak toplama, aim ve ESP.",features:["Auto Collect","Aimbot","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Sniper/script/main/sniper.lua'))()",isPremium:true,isCommunity:false,coinPrice:300},
+    {id:"p3",name:"MM2 OP Script",category:"mm2",desc:"Full panel ile ESP, Murderer ve Sheriff araçları.",features:["God Mode","ESP","Auto Kill"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Roman34296589/SnapSanixHUB/refs/heads/main/SnapSanixHUB.lua'))()",isPremium:true,isCommunity:false,coinPrice:250},
+    {id:"p4",name:"MM2 Coin Auto Farm",category:"mm2",desc:"Otomatik coin toplama ve anti AFK.",features:["Auto Farm","Anti AFK"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/bugxiefun/roblox-scripts/refs/heads/main/MM2%20Coin%20Autofarm', true))()",isPremium:true,isCommunity:false,coinPrice:200},
+    {id:"p5",name:"Infinite Fun IY",category:"mm2",desc:"407+ komut ile gelişmiş admin scripti.",features:["ESP","Fullbright","Goto"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Xane123/InfiniteFun_IY/master/source'))()",isPremium:true,isCommunity:false,coinPrice:350},
+    {id:"p6",name:"MM2 Aim Trainer 2",category:"mm2",desc:"Özel hedef eğitim menüsü, key yok.",features:["Full Menu","No Key"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/Ewerton99BRYT99/99Hub/refs/heads/main/MM2AimTrainer2.luau'))()",isPremium:true,isCommunity:false,coinPrice:180},
+    {id:"p7",name:"MM2 Auto Farm OP",category:"mm2",desc:"Otomatik coin farm ve anti AFK.",features:["Auto Farm","Anti AFK"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2AutoFarm/script/main/farm.lua'))()",isPremium:true,isCommunity:false,coinPrice:220},
+    {id:"p8",name:"MM2 Hub V2",category:"mm2",desc:"Gelişmiş MM2 menüsü.",features:["ESP","Aimbot"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Hub/script/main/v2.lua'))()",isPremium:true,isCommunity:false,coinPrice:280},
+    {id:"p9",name:"MM2 Coin Farmer",category:"mm2",desc:"Hızlı coin toplama.",features:["Auto Farm"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2Farmer/script/main/coin.lua'))()",isPremium:true,isCommunity:false,coinPrice:150},
+    {id:"p10",name:"MM2 God Mode",category:"mm2",desc:"God mode, speed hack ve esp.",features:["God Mode","Speed Hack","ESP"],code:"loadstring(game:HttpGet('https://raw.githubusercontent.com/MM2God/script/main/god.lua'))()",isPremium:true,isCommunity:false,coinPrice:150}
+];
 
-    // ========== STATE ==========
-    let currentUser = null;
-    let userCoins = 0;
-    let purchasedScripts = [];
-    let inventory = [];
-    let dailyProgress = {};
-    let allScripts = [];       // Firebase'den gelen TÜM scriptler
-    let allGames = [];          // Firebase'den gelen TÜM oyunlar
-    let allUsers = [];          // Admin için
-    let favorites = [];
-    let currentCategory = 'all';
-    let searchTerm = '';
-    let currentPage = 1;
-    let currentAdminTab = 'dashboard';
-    let adminSearchTerm = '';
-    let currentShopTab = 'scripts';
-    let pendingUnlockScript = null;
-    let isAdminMode = false;
+// ========== STATE ==========
+let currentUser = null;
+let userCoins = 0;
+let purchasedScripts = [];
+let dailyProgress = {};
+let allScripts = [];
+let allGames = [];
+let allUsers = [];
+let favorites = [];
+let currentCategory = 'all';
+let searchTerm = '';
+let currentPage = 1;
+let currentAdminTab = 'dashboard';
+let pendingUnlockScript = null;
+let isAdminMode = false;
+let modalState = { code: '', scriptId: null, taskStatus: {}, timers: {}, completed: 0 };
 
-    // ========== HELPERS ==========
-    function escapeHtml(str){ if(!str)return ''; const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
-    
-    function showToast(msg, duration=3000){
-        const toast = document.getElementById('toast');
-        document.getElementById('toastMessage').textContent = msg;
-        toast.classList.add('show');
-        clearTimeout(toast._timer);
-        toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
+// ========== HELPERS ==========
+function escapeHtml(str){ if(!str)return ''; const d=document.createElement('div'); d.textContent=str; return d.innerHTML; }
+function showToast(msg, duration=3000){
+    const toast = document.getElementById('toast');
+    document.getElementById('toastMessage').textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
+}
+function isAdmin(user) { return user && user.uid === ADMIN_UID; }
+function updateCoinDisplay() {
+    const cd = document.getElementById('coinDisplay');
+    if (cd) { cd.textContent = userCoins; }
+    const sb = document.getElementById('shopCoinBalance');
+    if (sb) sb.textContent = userCoins;
+}
+
+// ⭐ YENİ: Kategori ikonu döndürür
+function getCategoryIcon(cat) {
+    return CATEGORY_ICONS[cat] || '🎮';
+}
+
+// ⭐ YENİ: Kart resmi - resim yoksa ikon göster
+function getCardImageHTML(script) {
+    if (script.image && script.image.trim()) {
+        return `<img src="${escapeHtml(script.image)}" alt="${escapeHtml(script.name)}" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'font-size:3rem\\'>${getCategoryIcon(script.category)}</div>'">`;
     }
+    return `<div style="font-size:3rem">${getCategoryIcon(script.category)}</div>`;
+}
 
-    function isAdmin(user) { return user && user.uid === ADMIN_UID; }
-
-    function updateCoinDisplay() {
-        const cd = document.getElementById('coinDisplay');
-        if (cd) { cd.textContent = userCoins; cd.style.transform = 'scale(1.3)'; setTimeout(() => cd.style.transform = 'scale(1)', 300); }
-        const sb = document.getElementById('shopCoinBalance');
-        if (sb) sb.textContent = userCoins;
-    }
-
-    function getImageForCategory(cat){ 
-        const imgs = {
-            mm2:'https://i.postimg.cc/rFhbs0Xg/images.jpg',
-            bloxfruits:'https://i.postimg.cc/jScztNGG/no-Filter.jpg',
-            petsim:'https://i.postimg.cc/28fvW2mz/PS99Icon.webp',
-            dahood:'https://i.postimg.cc/s28GgJwX/no-Filter.webp',
-            bladeball:'https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp',
-            brookhaven:'https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp',
-            other:'https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png'
-        };
-        return imgs[cat] || imgs.other;
-    }
-
-    // ========== FIREBASE: SCRIPT/GAME YÜKLEME ==========
-    async function loadAllScripts() {
-        try {
-            const snap = await db.collection('scripts').orderBy('createdAt', 'desc').limit(500).get();
-            allScripts = [];
-            snap.forEach(d => {
-                const data = d.data();
-                allScripts.push({ 
-                    id: d.id, 
-                    ...data,
-                    isPremium: data.isPremium || false,
-                    isCommunity: data.isCommunity !== undefined ? data.isCommunity : true,
-                    coinPrice: data.coinPrice !== undefined ? data.coinPrice : DEFAULT_UNLOCK_PRICE
-                });
-            });
-            return allScripts;
-        } catch(e) { 
-            console.error('loadAllScripts:', e); 
-            return []; 
-        }
-    }
-
-    async function loadAllGames() {
-        try {
-            const snap = await db.collection('games').orderBy('createdAt', 'desc').limit(200).get();
-            allGames = [];
-            snap.forEach(d => { allGames.push({ id: d.id, ...d.data() }); });
-            return allGames;
-        } catch(e) { 
-            console.error('loadAllGames:', e); 
-            return []; 
-        }
-    }
-
-    // ========== İLK AÇILIŞ: PREMIUM SCRİPTLERİ FIREBASE'E YAZ ==========
-    async function seedPremiumScripts() {
-        try {
-            const flag = await db.collection('settings').doc('seed').get();
-            if (flag.exists && flag.data().premiumSeeded) {
-                console.log('Premium scriptler zaten yüklenmiş');
-                return;
+// ========== FIREBASE LOAD ==========
+async function loadAllScripts() {
+    try {
+        const snap = await db.collection('scripts').orderBy('createdAt', 'desc').limit(500).get();
+        allScripts = [];
+        snap.forEach(d => {
+            const data = d.data();
+            // ⭐ ÖNEMLİ: coinPrice her zaman sayı olsun
+            let cp = data.coinPrice;
+            if (cp === undefined || cp === null || isNaN(cp)) {
+                cp = data.isPremium ? 100 : DEFAULT_UNLOCK_PRICE;
             }
-            console.log('Premium scriptler Firebase\'e yükleniyor...');
-            const batch = db.batch();
-            for (const script of INITIAL_PREMIUM_SCRIPTS) {
-                const ref = db.collection('scripts').doc(script.id);
+            cp = parseInt(cp) || 0;
+            allScripts.push({
+                id: d.id,
+                ...data,
+                isPremium: data.isPremium === true,
+                isCommunity: data.isCommunity === true,
+                coinPrice: cp
+            });
+        });
+        return allScripts;
+    } catch(e) { console.error('loadAllScripts:', e); return []; }
+}
+
+async function loadAllGames() {
+    try {
+        const snap = await db.collection('games').orderBy('createdAt', 'desc').limit(200).get();
+        allGames = [];
+        snap.forEach(d => { allGames.push({ id: d.id, ...d.data() }); });
+        return allGames;
+    } catch(e) { console.error(e); return []; }
+}
+
+// ⭐ YENİ: Premium scriptleri FORCE UPDATE et (fiyatları güncelleyecek)
+async function seedPremiumScripts() {
+    try {
+        console.log('Premium scriptler kontrol ediliyor...');
+        const batch = db.batch();
+        let needsWrite = false;
+        
+        for (const script of INITIAL_PREMIUM_SCRIPTS) {
+            const ref = db.collection('scripts').doc(script.id);
+            const doc = await ref.get();
+            if (!doc.exists) {
+                // Yoksa ekle
                 batch.set(ref, {
                     ...script,
                     userName: 'ScriptHub',
                     userId: 'system',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-            }
-            await batch.commit();
-            await db.collection('settings').doc('seed').set({ premiumSeeded: true, date: new Date().toISOString() });
-            console.log('✅ Premium scriptler yüklendi!');
-        } catch(e) {
-            console.error('Seed hatası:', e);
-        }
-    }
-
-    // ========== KULLANICI ==========
-    async function loadUserData(user) {
-        if (!user) return;
-        try {
-            const doc = await db.collection('users').doc(user.uid).get();
-            if (doc.exists) {
-                const data = doc.data();
-                userCoins = data.coins || 0;
-                purchasedScripts = data.purchasedScripts || [];
-                inventory = data.inventory || [];
-                dailyProgress = data.dailyTasks || {};
+                needsWrite = true;
             } else {
-                userCoins = 50;
-                await db.collection('users').doc(user.uid).set({
-                    coins: 50, totalCoinsEarned: 50, purchasedScripts: [], inventory: [], dailyTasks: {},
-                    displayName: user.displayName || 'Kullanıcı',
-                    email: user.email || '',
-                    isAdmin: user.uid === ADMIN_UID,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            }
-            updateCoinDisplay();
-        } catch(e) { console.error(e); userCoins = 50; updateCoinDisplay(); }
-    }
-
-    async function addCoins(amount, reason) {
-        if (!currentUser) return;
-        try {
-            userCoins += amount;
-            await db.collection('users').doc(currentUser.uid).update({
-                coins: firebase.firestore.FieldValue.increment(amount),
-                totalCoinsEarned: firebase.firestore.FieldValue.increment(amount)
-            });
-            updateCoinDisplay();
-        } catch(e) { console.error(e); }
-    }
-
-    async function spendCoins(amount, item) {
-        if (!currentUser) { showToast('❌ Giriş yap!'); return false; }
-        if (userCoins < amount) { showToast(`❌ Yetersiz coin! (${userCoins}/${amount})`); return false; }
-        try {
-            userCoins -= amount;
-            await db.collection('users').doc(currentUser.uid).update({
-                coins: firebase.firestore.FieldValue.increment(-amount)
-            });
-            updateCoinDisplay();
-            showToast(`🪙 -${amount} coin: ${item}`);
-            return true;
-        } catch(e) { return false; }
-    }
-
-    // ========== GÜNLÜK GÖREVLER ==========
-    function getDailyProgress() {
-        if (!currentUser) return { date: new Date().toDateString(), tasks: {} };
-        const today = new Date().toDateString();
-        if (dailyProgress.date !== today) return { date: today, tasks: {} };
-        return dailyProgress;
-    }
-
-    function saveDailyProgress(progress) {
-        if (!currentUser) return;
-        dailyProgress = progress;
-        db.collection('users').doc(currentUser.uid).update({ dailyTasks: progress }).catch(e => console.error(e));
-    }
-
-    async function completeDailyTask(taskId) {
-        if (!currentUser) return false;
-        const progress = getDailyProgress();
-        if (progress.tasks[taskId]) return false;
-        progress.tasks[taskId] = true;
-        progress.date = new Date().toDateString();
-        saveDailyProgress(progress);
-        const task = DAILY_TASKS.find(t => t.id === taskId);
-        if (task) {
-            await addCoins(task.reward, task.name);
-            showToast(`✅ "${task.name}" tamamlandı! 🪙 +${task.reward}`);
-        }
-        renderDailyTasks();
-        return true;
-    }
-
-    async function claimAllRewards() {
-        if (!currentUser) { showToast('❌ Giriş yap!'); return; }
-        const progress = getDailyProgress();
-        const completed = DAILY_TASKS.filter(t => progress.tasks[t.id]);
-        if (completed.length === 0) { showToast('❌ Tamamlanmış görev yok!'); return; }
-        if (progress.claimed) { showToast('✅ Bugün toplandı!'); return; }
-        const totalReward = completed.reduce((sum, t) => sum + t.reward, 0);
-        await addCoins(totalReward, 'Tüm görevler');
-        progress.claimed = true;
-        saveDailyProgress(progress);
-        renderDailyTasks();
-        showToast(`📦 Toplandı! 🪙 +${totalReward}`);
-    }
-
-    function renderDailyTasks() {
-        const container = document.getElementById('dailyTasksContainer');
-        if (!currentUser) { container.style.display = 'none'; return; }
-        container.style.display = 'block';
-        const progress = getDailyProgress();
-        const completedCount = DAILY_TASKS.filter(t => progress.tasks[t.id]).length;
-        const totalReward = DAILY_TASKS.filter(t => progress.tasks[t.id]).reduce((sum, t) => sum + t.reward, 0);
-        document.getElementById('dailyTotalReward').textContent = `🪙 +${totalReward} coin`;
-        document.getElementById('dailyProgressText').textContent = `(${completedCount}/${DAILY_TASKS.length})`;
-        const claimBtn = document.getElementById('claimAllBtn');
-        claimBtn.disabled = completedCount === 0 || progress.claimed;
-        claimBtn.textContent = progress.claimed ? '✅ Toplandı!' : '📦 Tümünü Topla';
-        document.getElementById('dailyTasksList').innerHTML = DAILY_TASKS.map(task => {
-            const done = progress.tasks[task.id] || false;
-            return `
-                <div class="daily-task ${done ? 'completed' : ''}">
-                    <span class="task-icon">${task.icon}</span>
-                    <div class="task-info">
-                        <div class="task-name">${task.name}</div>
-                        <div class="task-desc">${task.desc}</div>
-                        <div class="task-reward">🪙 +${task.reward}</div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    // ========== RENDER SCRIPTS ==========
-    function render() {
-        let filtered = allScripts.filter(s => {
-            let catMatch = currentCategory === 'all' ? true :
-                currentCategory === 'favorites' ? favorites.includes(s.id) :
-                currentCategory === 'community' ? s.isCommunity === true :
-                s.category === currentCategory;
-            let searchMatch = s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                s.desc.toLowerCase().includes(searchTerm.toLowerCase());
-            return catMatch && searchMatch;
-        });
-
-        const totalItems = filtered.length;
-        const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
-        if (currentPage > totalPages) currentPage = totalPages;
-        const start = (currentPage - 1) * ITEMS_PER_PAGE;
-        const paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
-
-        document.getElementById('totalCount').textContent = totalItems;
-        document.getElementById('favCount').textContent = favorites.length;
-        document.getElementById('communityCount').textContent = allScripts.filter(s => s.isCommunity).length;
-
-        if (!paginated.length) {
-            document.getElementById('scriptGrid').innerHTML = `<div class="empty"><div style="font-size:2.5rem">🔍</div><h3>Sonuç bulunamadı</h3></div>`;
-            document.getElementById('paginationControls').innerHTML = '';
-            return;
-        }
-
-        document.getElementById('scriptGrid').innerHTML = paginated.map(s => {
-            const isFav = favorites.includes(s.id);
-            const isOwner = currentUser && s.userId === currentUser.uid;
-            const adminUser = isAdmin(currentUser);
-            const isPurchased = purchasedScripts.includes(s.id);
-            const isUnlocked = isOwner || adminUser || isPurchased || (s.coinPrice === 0);
-            const imageUrl = s.image || getImageForCategory(s.category);
-            const coinPrice = s.coinPrice || 0;
-            const badgeText = s.isPremium ? '⭐ Premium' : '🌍 Topluluk';
-
-            return `
-                <div class="script-card">
-                    <div class="card-image"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(s.name)}" onerror="this.src='${DEFAULT_IMAGE}'"></div>
-                    <div class="card-body">
-                        <div class="card-header">
-                            <h3><img src="${getImageForCategory(s.category)}" style="width:20px;height:20px;border-radius:4px">${escapeHtml(s.name)} ${s.isPremium ? '⭐' : ''}</h3>
-                            <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav('${s.id}')">♥</button>
-                        </div>
-                        <span class="card-category">${s.category.toUpperCase()}</span>
-                        <div class="card-desc">${escapeHtml(s.desc)}</div>
-                        <div class="card-features">${s.features ? s.features.map(f => `<span class="tag">${escapeHtml(f)}</span>`).join('') : ''}</div>
-                        ${s.userName ? `<div class="script-owner">👤 ${escapeHtml(s.userName)}${isOwner ? ' <span style="color:#fbbf24">👑</span>' : ''}</div>` : ''}
-                        <div class="card-footer">
-                            <div style="display:flex;gap:0.3rem;flex-wrap:wrap;align-items:center">
-                                <span class="badge ${s.isCommunity ? 'community' : ''}">${badgeText}</span>
-                                ${!isUnlocked ? `<span class="badge price-badge">🪙 ${coinPrice}</span>` : ''}
-                            </div>
-                            <button class="get-btn ${isUnlocked ? '' : 'locked'}" onclick="handleGet('${s.id}')">
-                                ${isUnlocked ? '📥 GET' : `🔒 🪙${coinPrice}`}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        renderPagination(totalPages);
-    }
-
-    function renderPagination(totalPages) {
-        if (totalPages <= 1) { document.getElementById('paginationControls').innerHTML = ''; return; }
-        let html = `<button ${currentPage <= 1 ? 'disabled' : ''} onclick="gotoPage(${currentPage - 1})">‹</button>`;
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
-                html += `<button class="${i === currentPage ? 'active' : ''}" onclick="gotoPage(${i})">${i}</button>`;
-            }
-        }
-        html += `<button ${currentPage >= totalPages ? 'disabled' : ''} onclick="gotoPage(${currentPage + 1})">›</button>`;
-        document.getElementById('paginationControls').innerHTML = html;
-    }
-
-    window.gotoPage = function(p) { currentPage = p; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
-    window.toggleFav = function(id) {
-        const i = favorites.indexOf(id);
-        if (i > -1) favorites.splice(i, 1); else favorites.push(id);
-        localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
-        render();
-        completeDailyTask('daily_fav');
-    };
-
-    // ========== GET HANDLER ==========
-    window.handleGet = function(id) {
-        const script = allScripts.find(s => s.id === id);
-        if (!script) return;
-        const isOwner = currentUser && script.userId === currentUser.uid;
-        const adminUser = isAdmin(currentUser);
-        const isPurchased = purchasedScripts.includes(id);
-        const isUnlocked = isOwner || adminUser || isPurchased || (script.coinPrice === 0);
-
-        if (isUnlocked) {
-            openTaskModalDirect(script);
-        } else {
-            if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
-            pendingUnlockScript = script;
-            document.getElementById('unlockScriptName').textContent = script.name;
-            document.getElementById('unlockCoinPrice').textContent = `🪙 ${script.coinPrice} coin`;
-            document.getElementById('unlockChoiceModal').classList.add('open');
-        }
-    };
-
-    window.closeUnlockChoice = function() {
-        document.getElementById('unlockChoiceModal').classList.remove('open');
-        pendingUnlockScript = null;
-    };
-
-    document.getElementById('coinUnlockOption').addEventListener('click', async function() {
-        if (!pendingUnlockScript || !currentUser) return;
-        const script = pendingUnlockScript;
-        if (await spendCoins(script.coinPrice, script.name)) {
-            purchasedScripts.push(script.id);
-            await db.collection('users').doc(currentUser.uid).update({
-                purchasedScripts: firebase.firestore.FieldValue.arrayUnion(script.id)
-            });
-            showToast(`✅ "${script.name}" açıldı!`);
-            closeUnlockChoice();
-            openTaskModalDirect(script);
-        }
-    });
-
-    document.getElementById('taskUnlockOption').addEventListener('click', function() {
-        if (!pendingUnlockScript) return;
-        const script = pendingUnlockScript;
-        closeUnlockChoice();
-        openTaskModal(script);
-    });
-
-    // ========== TASK MODAL ==========
-    let modalState = { code: '', scriptId: null, taskStatus: {}, timers: {}, completed: 0 };
-
-    function openTaskModalDirect(script) {
-        modalState.code = script.code;
-        modalState.scriptId = script.id;
-        modalState.completed = 3;
-        modalState.taskStatus = { discord: true, youtube: true, tiktok: true };
-        document.getElementById('modalScriptName').textContent = script.name;
-        document.getElementById('taskStatus').textContent = '3/3';
-        document.getElementById('progressFill').style.width = '100%';
-        document.getElementById('revealCodeBtn').classList.add('active');
-        document.getElementById('revealCodeBtn').textContent = '🔓 Kodu Göster';
-        document.getElementById('codeContainer').classList.remove('show');
-        document.querySelectorAll('.task-btn').forEach(b => { b.classList.add('completed'); b.disabled = true; });
-        document.getElementById('taskModal').classList.add('open');
-    }
-
-    function openTaskModal(script) {
-        modalState.code = script.code;
-        modalState.scriptId = script.id;
-        modalState.completed = 0;
-        modalState.taskStatus = {};
-        document.getElementById('modalScriptName').textContent = script.name;
-        document.getElementById('taskStatus').textContent = '0/3';
-        document.getElementById('progressFill').style.width = '0%';
-        document.getElementById('revealCodeBtn').classList.remove('active');
-        document.getElementById('revealCodeBtn').textContent = '🔐 Kodu Göster';
-        document.getElementById('codeContainer').classList.remove('show');
-        document.querySelectorAll('.task-btn').forEach(b => {
-            b.classList.remove('completed');
-            b.disabled = false;
-            const badge = b.querySelector('.timer-badge');
-            if (badge) badge.remove();
-        });
-        Object.values(modalState.timers).forEach(t => { if (t) clearInterval(t); });
-        modalState.timers = {};
-        document.getElementById('taskModal').classList.add('open');
-    }
-
-    window.closeTaskModal = function() {
-        document.getElementById('taskModal').classList.remove('open');
-        Object.values(modalState.timers).forEach(t => { if (t) clearInterval(t); });
-    };
-
-    document.querySelectorAll('.task-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const task = this.dataset.task;
-            if (modalState.taskStatus[task]) { showToast('⚠️ Zaten tamamlandı'); return; }
-            if (modalState.timers[task]) return;
-            let seconds = 15;
-            this.disabled = true;
-            const badge = document.createElement('span');
-            badge.className = 'timer-badge';
-            badge.textContent = `${seconds}s`;
-            this.appendChild(badge);
-            const interval = setInterval(() => {
-                seconds--;
-                if (seconds <= 0) {
-                    clearInterval(interval);
-                    modalState.timers[task] = null;
-                    this.disabled = false;
-                    this.classList.add('completed');
-                    modalState.taskStatus[task] = true;
-                    modalState.completed++;
-                    document.getElementById('taskStatus').textContent = `${modalState.completed}/3`;
-                    document.getElementById('progressFill').style.width = `${(modalState.completed / 3) * 100}%`;
-                    if (modalState.completed === 3) {
-                        document.getElementById('revealCodeBtn').classList.add('active');
-                        document.getElementById('revealCodeBtn').textContent = '🔓 Kodu Göster';
-                        if (currentUser && modalState.scriptId && !purchasedScripts.includes(modalState.scriptId)) {
-                            purchasedScripts.push(modalState.scriptId);
-                            db.collection('users').doc(currentUser.uid).update({
-                                purchasedScripts: firebase.firestore.FieldValue.arrayUnion(modalState.scriptId)
-                            });
-                        }
-                        showToast('✅ Tüm görevler tamam!');
-                    }
-                    const b = this.querySelector('.timer-badge');
-                    if (b) b.remove();
-                } else {
-                    const b = this.querySelector('.timer-badge');
-                    if (b) b.textContent = `${seconds}s`;
+                // Varsa ve coinPrice yanlışsa güncelle
+                const existing = doc.data();
+                if (existing.coinPrice !== script.coinPrice || existing.isPremium !== true || existing.isCommunity !== false) {
+                    batch.update(ref, {
+                        coinPrice: script.coinPrice,
+                        isPremium: true,
+                        isCommunity: false
+                    });
+                    needsWrite = true;
                 }
-            }, 1000);
-            modalState.timers[task] = interval;
-        });
-    });
-
-    document.getElementById('revealCodeBtn').addEventListener('click', function() {
-        if (!this.classList.contains('active')) { showToast('❌ Önce görevleri tamamla!'); return; }
-        document.getElementById('codeContainer').classList.add('show');
-        document.getElementById('scriptCode').textContent = modalState.code;
-        this.textContent = '✅ Kod hazır!';
-    });
-
-    window.copyCode = function() {
-        const code = document.getElementById('scriptCode').textContent;
-        navigator.clipboard.writeText(code).then(() => showToast('📋 Kopyalandı!'));
-    };
-
-    // ========== ADMIN PANEL ==========
-    window.openAdminModal = function() {
-        if (!isAdmin(currentUser)) { showToast('❌ Yetkin yok!'); return; }
-        document.getElementById('adminModal').classList.add('open');
-        switchAdminTab('dashboard');
-    };
-
-    window.closeAdminModal = function() {
-        document.getElementById('adminModal').classList.remove('open');
-    };
-
-    window.switchAdminTab = function(tab) {
-        currentAdminTab = tab;
-        document.querySelectorAll('#adminTabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-        renderAdminTab();
-    };
-
-    async function renderAdminTab() {
-        const container = document.getElementById('adminContent');
-        if (currentAdminTab === 'dashboard') {
-            await loadAdminData();
-            container.innerHTML = `
-                <div class="admin-stats">
-                    <div class="admin-stat-card"><div class="number">${allScripts.length}</div><span class="label">📜 Toplam Script</span></div>
-                    <div class="admin-stat-card"><div class="number">${allScripts.filter(s => s.isPremium).length}</div><span class="label">⭐ Premium</span></div>
-                    <div class="admin-stat-card"><div class="number">${allScripts.filter(s => s.isCommunity).length}</div><span class="label">🌍 Topluluk</span></div>
-                    <div class="admin-stat-card"><div class="number">${allGames.length}</div><span class="label">🎮 Oyun</span></div>
-                    <div class="admin-stat-card"><div class="number">${allUsers.length}</div><span class="label">👥 Kullanıcı</span></div>
-                </div>
-                <div style="color:var(--text-secondary);font-size:0.85rem;line-height:1.8">
-                    <p>✅ Admin panelinden <strong>her şeyi</strong> yapabilirsin:</p>
-                    <ul style="margin-left:1.5rem;margin-top:0.5rem">
-                        <li>📜 Script ekle / düzenle / sil (Premium & Topluluk)</li>
-                        <li>🎮 Oyun ekle / sil</li>
-                        <li>👥 Kullanıcı coinlerini değiştir</li>
-                        <li>⭐ Premium scriptleri düzenle</li>
-                    </ul>
-                </div>
-            `;
-        } else if (currentAdminTab === 'scripts') {
-            await loadAllScripts();
-            container.innerHTML = `
-                <div class="admin-actions-bar">
-                    <button class="admin-action-btn green" onclick="adminAddScript('premium')">⭐ Premium Script Ekle</button>
-                    <button class="admin-action-btn blue" onclick="adminAddScript('community')">🌍 Topluluk Script Ekle</button>
-                    <input type="text" class="admin-search" id="adminScriptSearch" placeholder="🔍 Script ara..." oninput="filterAdminScripts(this.value)">
-                </div>
-                <div class="admin-list" id="adminScriptsList">
-                    ${renderAdminScriptsList(allScripts)}
-                </div>
-            `;
-        } else if (currentAdminTab === 'games') {
-            await loadAllGames();
-            container.innerHTML = `
-                <div class="admin-actions-bar">
-                    <button class="admin-action-btn green" onclick="adminAddGame()">🎮 Oyun Ekle</button>
-                    <input type="text" class="admin-search" id="adminGameSearch" placeholder="🔍 Oyun ara..." oninput="filterAdminGames(this.value)">
-                </div>
-                <div class="admin-list" id="adminGamesList">
-                    ${renderAdminGamesList(allGames)}
-                </div>
-            `;
-        } else if (currentAdminTab === 'users') {
-            container.innerHTML = `<div class="loading">⏳ Kullanıcılar yükleniyor...</div>`;
-            await loadAllUsers();
-            container.innerHTML = `
-                <div class="admin-actions-bar">
-                    <input type="text" class="admin-search" id="adminUserSearch" placeholder="🔍 Kullanıcı ara..." oninput="filterAdminUsers(this.value)">
-                </div>
-                <div class="admin-list" id="adminUsersList">
-                    ${renderAdminUsersList(allUsers)}
-                </div>
-            `;
+            }
         }
+        
+        if (needsWrite) {
+            await batch.commit();
+            console.log('✅ Premium scriptler güncellendi!');
+        } else {
+            console.log('✅ Premium scriptler zaten doğru');
+        }
+    } catch(e) { console.error('Seed hatası:', e); }
+}
+
+// ========== USER ==========
+async function loadUserData(user) {
+    if (!user) return;
+    try {
+        const doc = await db.collection('users').doc(user.uid).get();
+        if (doc.exists) {
+            const data = doc.data();
+            userCoins = data.coins || 0;
+            purchasedScripts = data.purchasedScripts || [];
+            dailyProgress = data.dailyTasks || {};
+        } else {
+            userCoins = 50;
+            await db.collection('users').doc(user.uid).set({
+                coins: 50, totalCoinsEarned: 50, purchasedScripts: [], inventory: [], dailyTasks: {},
+                displayName: user.displayName || 'Kullanıcı',
+                email: user.email || '',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+        updateCoinDisplay();
+    } catch(e) { console.error(e); userCoins = 50; updateCoinDisplay(); }
+}
+
+async function addCoins(amount) {
+    if (!currentUser) return;
+    try {
+        userCoins += amount;
+        await db.collection('users').doc(currentUser.uid).update({
+            coins: firebase.firestore.FieldValue.increment(amount)
+        });
+        updateCoinDisplay();
+    } catch(e) { console.error(e); }
+}
+
+async function spendCoins(amount, item) {
+    if (!currentUser) { showToast('❌ Giriş yap!'); return false; }
+    if (userCoins < amount) { showToast(`❌ Yetersiz coin! (${userCoins}/${amount})`); return false; }
+    try {
+        userCoins -= amount;
+        await db.collection('users').doc(currentUser.uid).update({
+            coins: firebase.firestore.FieldValue.increment(-amount)
+        });
+        updateCoinDisplay();
+        showToast(`🪙 -${amount} coin: ${item}`);
+        return true;
+    } catch(e) { return false; }
+}
+
+// ========== DAILY ==========
+function getDailyProgress() {
+    if (!currentUser) return { date: new Date().toDateString(), tasks: {} };
+    const today = new Date().toDateString();
+    if (!dailyProgress || dailyProgress.date !== today) return { date: today, tasks: {} };
+    return dailyProgress;
+}
+
+function saveDailyProgress(progress) {
+    if (!currentUser) return;
+    dailyProgress = progress;
+    db.collection('users').doc(currentUser.uid).update({ dailyTasks: progress }).catch(e => console.error(e));
+}
+
+async function completeDailyTask(taskId) {
+    if (!currentUser) return false;
+    const progress = getDailyProgress();
+    if (progress.tasks[taskId]) return false;
+    progress.tasks[taskId] = true;
+    progress.date = new Date().toDateString();
+    saveDailyProgress(progress);
+    const task = DAILY_TASKS.find(t => t.id === taskId);
+    if (task) {
+        await addCoins(task.reward);
+        showToast(`✅ "${task.name}" tamamlandı! 🪙 +${task.reward}`);
+    }
+    renderDailyTasks();
+    return true;
+}
+
+window.claimAllRewards = async function() {
+    if (!currentUser) { showToast('❌ Giriş yap!'); return; }
+    const progress = getDailyProgress();
+    const completed = DAILY_TASKS.filter(t => progress.tasks[t.id]);
+    if (completed.length === 0) { showToast('❌ Tamamlanmış görev yok!'); return; }
+    if (progress.claimed) { showToast('✅ Bugün toplandı!'); return; }
+    const totalReward = completed.reduce((sum, t) => sum + t.reward, 0);
+    await addCoins(totalReward);
+    progress.claimed = true;
+    saveDailyProgress(progress);
+    renderDailyTasks();
+    showToast(`📦 Toplandı! 🪙 +${totalReward}`);
+};
+
+function renderDailyTasks() {
+    const container = document.getElementById('dailyTasksContainer');
+    if (!currentUser) { container.style.display = 'none'; return; }
+    container.style.display = 'block';
+    const progress = getDailyProgress();
+    const completedCount = DAILY_TASKS.filter(t => progress.tasks[t.id]).length;
+    const totalReward = DAILY_TASKS.filter(t => progress.tasks[t.id]).reduce((sum, t) => sum + t.reward, 0);
+    document.getElementById('dailyTotalReward').textContent = `🪙 +${totalReward} coin`;
+    document.getElementById('dailyProgressText').textContent = `(${completedCount}/${DAILY_TASKS.length})`;
+    const claimBtn = document.getElementById('claimAllBtn');
+    claimBtn.disabled = completedCount === 0 || progress.claimed;
+    claimBtn.textContent = progress.claimed ? '✅ Toplandı!' : '📦 Tümünü Topla';
+    document.getElementById('dailyTasksList').innerHTML = DAILY_TASKS.map(task => {
+        const done = progress.tasks[task.id] || false;
+        return `
+            <div class="daily-task ${done ? 'completed' : ''}">
+                <span class="task-icon">${task.icon}</span>
+                <div class="task-info">
+                    <div class="task-name">${task.name}</div>
+                    <div class="task-desc">${task.desc}</div>
+                    <div class="task-reward">🪙 +${task.reward}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ========== RENDER ==========
+function render() {
+    let filtered = allScripts.filter(s => {
+        let catMatch = currentCategory === 'all' ? true :
+            currentCategory === 'favorites' ? favorites.includes(s.id) :
+            currentCategory === 'community' ? s.isCommunity === true :
+            s.category === currentCategory;
+        let searchMatch = (s.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (s.desc || '').toLowerCase().includes(searchTerm.toLowerCase());
+        return catMatch && searchMatch;
+    });
+
+    const totalItems = filtered.length;
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paginated = filtered.slice(start, start + ITEMS_PER_PAGE);
+
+    document.getElementById('totalCount').textContent = totalItems;
+    document.getElementById('favCount').textContent = favorites.length;
+    document.getElementById('communityCount').textContent = allScripts.filter(s => s.isCommunity).length;
+
+    if (!paginated.length) {
+        document.getElementById('scriptGrid').innerHTML = `<div class="empty"><div style="font-size:2.5rem">🔍</div><h3>Sonuç bulunamadı</h3></div>`;
+        document.getElementById('paginationControls').innerHTML = '';
+        return;
     }
 
-    async function loadAdminData() {
+    document.getElementById('scriptGrid').innerHTML = paginated.map(s => {
+        const isFav = favorites.includes(s.id);
+        const isOwner = currentUser && s.userId === currentUser.uid;
+        const adminUser = isAdmin(currentUser);
+        const isPurchased = purchasedScripts.includes(s.id);
+        // ⭐ ÖNEMLİ: coinPrice > 0 ise VE satın alınmamışsa kilitli
+        const isFree = s.coinPrice === 0;
+        const isUnlocked = isOwner || adminUser || isPurchased || isFree;
+        const coinPrice = s.coinPrice;
+
+        return `
+            <div class="script-card">
+                <div class="card-image">${getCardImageHTML(s)}</div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3>${getCategoryIcon(s.category)} ${escapeHtml(s.name)}</h3>
+                        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav('${s.id}')">♥</button>
+                    </div>
+                    <span class="card-category">${(s.category || 'other').toUpperCase()}</span>
+                    <div class="card-desc">${escapeHtml(s.desc || '')}</div>
+                    <div class="card-features">${s.features ? s.features.map(f => `<span class="tag">${escapeHtml(f)}</span>`).join('') : ''}</div>
+                    ${s.userName ? `<div class="script-owner">👤 ${escapeHtml(s.userName)}${isOwner ? ' <span style="color:#fbbf24">👑</span>' : ''}</div>` : ''}
+                    <div class="card-footer">
+                        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;align-items:center">
+                            <span class="badge ${s.isPremium ? 'premium' : 'community'}">${s.isPremium ? '⭐ Premium' : '🌍 Topluluk'}</span>
+                            ${!isUnlocked ? `<span class="badge price-badge">🪙 ${coinPrice}</span>` : ''}
+                            ${isPurchased && !isOwner ? `<span class="badge">✅ Açık</span>` : ''}
+                        </div>
+                        <button class="get-btn ${isUnlocked ? '' : 'locked'}" onclick="handleGet('${s.id}')">
+                            ${isUnlocked ? '📥 GET' : `🔒 🪙${coinPrice}`}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    renderPagination(totalPages);
+}
+
+function renderPagination(totalPages) {
+    if (totalPages <= 1) { document.getElementById('paginationControls').innerHTML = ''; return; }
+    let html = `<button ${currentPage <= 1 ? 'disabled' : ''} onclick="gotoPage(${currentPage - 1})">‹</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
+            html += `<button class="${i === currentPage ? 'active' : ''}" onclick="gotoPage(${i})">${i}</button>`;
+        }
+    }
+    html += `<button ${currentPage >= totalPages ? 'disabled' : ''} onclick="gotoPage(${currentPage + 1})">›</button>`;
+    document.getElementById('paginationControls').innerHTML = html;
+}
+
+window.gotoPage = function(p) { currentPage = p; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+window.toggleFav = function(id) {
+    const i = favorites.indexOf(id);
+    if (i > -1) favorites.splice(i, 1); else favorites.push(id);
+    localStorage.setItem('scriptHubFavs', JSON.stringify(favorites));
+    render();
+    completeDailyTask('daily_fav');
+};
+
+// ⭐ ÖNEMLİ: GET Handler - Kilit kontrolü
+window.handleGet = function(id) {
+    const script = allScripts.find(s => s.id === id);
+    if (!script) return;
+    const isOwner = currentUser && script.userId === currentUser.uid;
+    const adminUser = isAdmin(currentUser);
+    const isPurchased = purchasedScripts.includes(id);
+    const isFree = script.coinPrice === 0;
+    const isUnlocked = isOwner || adminUser || isPurchased || isFree;
+
+    if (isUnlocked) {
+        // Direkt aç
+        openTaskModalDirect(script);
+    } else {
+        // Kilitli - giriş yap ve coin öde veya görev yap
+        if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
+        pendingUnlockScript = script;
+        document.getElementById('unlockScriptName').textContent = script.name;
+        document.getElementById('unlockCoinPrice').textContent = `🪙 ${script.coinPrice} coin`;
+        document.getElementById('unlockChoiceModal').classList.add('open');
+    }
+};
+
+window.closeUnlockChoice = function() {
+    document.getElementById('unlockChoiceModal').classList.remove('open');
+    pendingUnlockScript = null;
+};
+
+document.getElementById('coinUnlockOption').addEventListener('click', async function() {
+    if (!pendingUnlockScript || !currentUser) return;
+    const script = pendingUnlockScript;
+    if (await spendCoins(script.coinPrice, script.name)) {
+        purchasedScripts.push(script.id);
+        await db.collection('users').doc(currentUser.uid).update({
+            purchasedScripts: firebase.firestore.FieldValue.arrayUnion(script.id)
+        });
+        showToast(`✅ "${script.name}" açıldı!`);
+        closeUnlockChoice();
+        openTaskModalDirect(script);
+        render();
+    }
+});
+
+document.getElementById('taskUnlockOption').addEventListener('click', function() {
+    if (!pendingUnlockScript) return;
+    const script = pendingUnlockScript;
+    closeUnlockChoice();
+    openTaskModal(script);
+});
+
+// ========== TASK MODAL ==========
+function openTaskModalDirect(script) {
+    modalState.code = script.code;
+    modalState.scriptId = script.id;
+    modalState.completed = 3;
+    modalState.taskStatus = { discord: true, youtube: true, tiktok: true };
+    document.getElementById('modalScriptName').textContent = script.name;
+    document.getElementById('taskStatus').textContent = '3/3';
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('revealCodeBtn').classList.add('active');
+    document.getElementById('revealCodeBtn').textContent = '🔓 Kodu Göster';
+    document.getElementById('codeContainer').classList.remove('show');
+    document.querySelectorAll('.task-btn').forEach(b => { b.classList.add('completed'); b.disabled = true; });
+    document.getElementById('taskModal').classList.add('open');
+}
+
+function openTaskModal(script) {
+    modalState.code = script.code;
+    modalState.scriptId = script.id;
+    modalState.completed = 0;
+    modalState.taskStatus = {};
+    document.getElementById('modalScriptName').textContent = script.name;
+    document.getElementById('taskStatus').textContent = '0/3';
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('revealCodeBtn').classList.remove('active');
+    document.getElementById('revealCodeBtn').textContent = '🔐 Kodu Göster';
+    document.getElementById('codeContainer').classList.remove('show');
+    document.querySelectorAll('.task-btn').forEach(b => {
+        b.classList.remove('completed');
+        b.disabled = false;
+        const badge = b.querySelector('.timer-badge');
+        if (badge) badge.remove();
+    });
+    Object.values(modalState.timers).forEach(t => { if (t) clearInterval(t); });
+    modalState.timers = {};
+    document.getElementById('taskModal').classList.add('open');
+}
+
+window.closeTaskModal = function() {
+    document.getElementById('taskModal').classList.remove('open');
+    Object.values(modalState.timers).forEach(t => { if (t) clearInterval(t); });
+};
+
+document.querySelectorAll('.task-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const task = this.dataset.task;
+        if (modalState.taskStatus[task]) { showToast('⚠️ Zaten tamamlandı'); return; }
+        if (modalState.timers[task]) return;
+        let seconds = 15;
+        this.disabled = true;
+        const badge = document.createElement('span');
+        badge.className = 'timer-badge';
+        badge.textContent = `${seconds}s`;
+        this.appendChild(badge);
+        const interval = setInterval(() => {
+            seconds--;
+            if (seconds <= 0) {
+                clearInterval(interval);
+                modalState.timers[task] = null;
+                this.disabled = false;
+                this.classList.add('completed');
+                modalState.taskStatus[task] = true;
+                modalState.completed++;
+                document.getElementById('taskStatus').textContent = `${modalState.completed}/3`;
+                document.getElementById('progressFill').style.width = `${(modalState.completed / 3) * 100}%`;
+                if (modalState.completed === 3) {
+                    document.getElementById('revealCodeBtn').classList.add('active');
+                    document.getElementById('revealCodeBtn').textContent = '🔓 Kodu Göster';
+                    if (currentUser && modalState.scriptId && !purchasedScripts.includes(modalState.scriptId)) {
+                        purchasedScripts.push(modalState.scriptId);
+                        db.collection('users').doc(currentUser.uid).update({
+                            purchasedScripts: firebase.firestore.FieldValue.arrayUnion(modalState.scriptId)
+                        });
+                    }
+                    showToast('✅ Tüm görevler tamam!');
+                }
+                const b = this.querySelector('.timer-badge');
+                if (b) b.remove();
+            } else {
+                const b = this.querySelector('.timer-badge');
+                if (b) b.textContent = `${seconds}s`;
+            }
+        }, 1000);
+        modalState.timers[task] = interval;
+    });
+});
+
+document.getElementById('revealCodeBtn').addEventListener('click', function() {
+    if (!this.classList.contains('active')) { showToast('❌ Önce görevleri tamamla!'); return; }
+    document.getElementById('codeContainer').classList.add('show');
+    document.getElementById('scriptCode').textContent = modalState.code;
+    this.textContent = '✅ Kod hazır!';
+});
+
+window.copyCode = function() {
+    const code = document.getElementById('scriptCode').textContent;
+    navigator.clipboard.writeText(code).then(() => showToast('📋 Kopyalandı!'));
+};
+
+// ========== ADMIN ==========
+window.openAdminModal = function() {
+    if (!isAdmin(currentUser)) { showToast('❌ Yetkin yok!'); return; }
+    document.getElementById('adminModal').classList.add('open');
+    switchAdminTab('dashboard');
+};
+window.closeAdminModal = function() { document.getElementById('adminModal').classList.remove('open'); };
+
+window.switchAdminTab = async function(tab) {
+    currentAdminTab = tab;
+    document.querySelectorAll('#adminTabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    const container = document.getElementById('adminContent');
+    container.innerHTML = '<div class="loading">⏳ Yükleniyor...</div>';
+    
+    if (tab === 'dashboard') {
         await Promise.all([loadAllScripts(), loadAllGames()]);
         try {
             const usersSnap = await db.collection('users').limit(500).get();
             allUsers = [];
             usersSnap.forEach(d => allUsers.push({ id: d.id, ...d.data() }));
-        } catch(e) { console.error(e); }
-    }
-
-    async function loadAllUsers() {
+        } catch(e) {}
+        container.innerHTML = `
+            <div class="admin-stats">
+                <div class="admin-stat-card"><div class="number">${allScripts.length}</div><span class="label">📜 Toplam Script</span></div>
+                <div class="admin-stat-card"><div class="number">${allScripts.filter(s => s.isPremium).length}</div><span class="label">⭐ Premium</span></div>
+                <div class="admin-stat-card"><div class="number">${allScripts.filter(s => s.isCommunity).length}</div><span class="label">🌍 Topluluk</span></div>
+                <div class="admin-stat-card"><div class="number">${allGames.length}</div><span class="label">🎮 Oyun</span></div>
+                <div class="admin-stat-card"><div class="number">${allUsers.length}</div><span class="label">👥 Kullanıcı</span></div>
+            </div>
+        `;
+    } else if (tab === 'scripts') {
+        await loadAllScripts();
+        container.innerHTML = `
+            <div class="admin-actions-bar">
+                <button class="admin-action-btn green" onclick="adminAddScript('premium')">⭐ Premium Ekle</button>
+                <button class="admin-action-btn blue" onclick="adminAddScript('community')">🌍 Topluluk Ekle</button>
+                <input type="text" class="admin-search" placeholder="🔍 Ara..." oninput="filterAdminScripts(this.value)">
+            </div>
+            <div class="admin-list" id="adminScriptsList">${renderAdminScriptsList(allScripts)}</div>
+        `;
+    } else if (tab === 'games') {
+        await loadAllGames();
+        container.innerHTML = `
+            <div class="admin-actions-bar">
+                <button class="admin-action-btn green" onclick="openAddGameModal()">🎮 Oyun Ekle</button>
+            </div>
+            <div class="admin-list">${allGames.map(g => `
+                <div class="admin-list-item">
+                    <div class="info"><div class="title">${escapeHtml(g.name)}</div><div class="sub">${escapeHtml(g.link || '')}</div></div>
+                    <div class="actions"><button class="delete-btn-admin" onclick="adminDeleteGame('${g.id}')">🗑️ Sil</button></div>
+                </div>
+            `).join('') || '<div class="empty">Oyun yok</div>'}</div>
+        `;
+    } else if (tab === 'users') {
         try {
             const usersSnap = await db.collection('users').limit(500).get();
             allUsers = [];
             usersSnap.forEach(d => allUsers.push({ id: d.id, ...d.data() }));
-        } catch(e) { console.error(e); }
-    }
-
-    function renderAdminScriptsList(scripts) {
-        if (!scripts.length) return '<div class="empty">Hiç script yok</div>';
-        return scripts.map(s => `
-            <div class="admin-list-item">
-                <div class="info">
-                    <div class="title">
-                        ${escapeHtml(s.name)}
-                        <span class="admin-badge ${s.isPremium ? 'premium' : 'community'}">${s.isPremium ? '⭐ Premium' : '🌍 Topluluk'}</span>
-                        <span style="color:var(--gold)">🪙 ${s.coinPrice || 0}</span>
+        } catch(e) {}
+        container.innerHTML = `
+            <div class="admin-list">${allUsers.map(u => `
+                <div class="admin-list-item">
+                    <div class="info">
+                        <div class="title">${escapeHtml(u.displayName || 'Kullanıcı')} ${u.id === ADMIN_UID ? '<span class="admin-badge admin-user">👑</span>' : ''}</div>
+                        <div class="sub">${escapeHtml(u.email || '')} · 🪙 ${u.coins || 0}</div>
                     </div>
-                    <div class="sub">${escapeHtml(s.userName || 'ScriptHub')} · ${s.category || 'other'}</div>
-                </div>
-                <div class="actions">
-                    <button class="view-btn" onclick="adminViewScript('${s.id}')">👁️ Gör</button>
-                    <button class="edit-btn" onclick="adminEditScript('${s.id}')">✏️ Düzenle</button>
-                    <button class="delete-btn-admin" onclick="adminDeleteScript('${s.id}')">🗑️ Sil</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function renderAdminGamesList(games) {
-        if (!games.length) return '<div class="empty">Hiç oyun yok</div>';
-        return games.map(g => `
-            <div class="admin-list-item">
-                <div class="info">
-                    <div class="title">${escapeHtml(g.name)}</div>
-                    <div class="sub">${escapeHtml(g.link || '')}</div>
-                </div>
-                <div class="actions">
-                    <button class="delete-btn-admin" onclick="adminDeleteGame('${g.id}')">🗑️ Sil</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function renderAdminUsersList(users) {
-        if (!users.length) return '<div class="empty">Hiç kullanıcı yok</div>';
-        return users.map(u => `
-            <div class="admin-list-item">
-                <div class="info">
-                    <div class="title">
-                        ${escapeHtml(u.displayName || 'Kullanıcı')}
-                        ${u.id === ADMIN_UID ? '<span class="admin-badge admin-user">👑 ADMIN</span>' : ''}
+                    <div class="actions">
+                        <button class="edit-btn" onclick="adminEditUserCoins('${u.id}', ${u.coins || 0})">🪙 Coin</button>
                     </div>
-                    <div class="sub">${escapeHtml(u.email || '')} · 🪙 ${u.coins || 0} coin</div>
                 </div>
-                <div class="actions">
-                    <button class="edit-btn" onclick="adminEditUserCoins('${u.id}', ${u.coins || 0})">🪙 Coin Ver/Al</button>
-                    ${u.id !== ADMIN_UID ? `<button class="delete-btn-admin" onclick="adminDeleteUser('${u.id}')">🗑️ Sil</button>` : ''}
-                </div>
-            </div>
-        `).join('');
+            `).join('') || '<div class="empty">Kullanıcı yok</div>'}</div>
+        `;
     }
+};
 
-    window.filterAdminScripts = function(term) {
-        const filtered = allScripts.filter(s => 
-            s.name.toLowerCase().includes(term.toLowerCase()) ||
-            (s.userName || '').toLowerCase().includes(term.toLowerCase())
-        );
-        document.getElementById('adminScriptsList').innerHTML = renderAdminScriptsList(filtered);
-    };
+function renderAdminScriptsList(scripts) {
+    if (!scripts.length) return '<div class="empty">Script yok</div>';
+    return scripts.map(s => `
+        <div class="admin-list-item">
+            <div class="info">
+                <div class="title">
+                    ${escapeHtml(s.name)}
+                    <span class="admin-badge ${s.isPremium ? 'premium' : 'community'}">${s.isPremium ? '⭐ Premium' : '🌍 Topluluk'}</span>
+                    <span style="color:var(--gold)">🪙 ${s.coinPrice}</span>
+                </div>
+                <div class="sub">${escapeHtml(s.userName || 'ScriptHub')} · ${s.category || 'other'}</div>
+            </div>
+            <div class="actions">
+                <button class="edit-btn" onclick="adminEditScript('${s.id}')">✏️ Düzenle</button>
+                <button class="delete-btn-admin" onclick="adminDeleteScript('${s.id}')">🗑️ Sil</button>
+            </div>
+        </div>
+    `).join('');
+}
 
-    window.filterAdminGames = function(term) {
-        const filtered = allGames.filter(g => g.name.toLowerCase().includes(term.toLowerCase()));
-        document.getElementById('adminGamesList').innerHTML = renderAdminGamesList(filtered);
-    };
+window.filterAdminScripts = function(term) {
+    const filtered = allScripts.filter(s => (s.name || '').toLowerCase().includes(term.toLowerCase()));
+    document.getElementById('adminScriptsList').innerHTML = renderAdminScriptsList(filtered);
+};
 
-    window.filterAdminUsers = function(term) {
-        const filtered = allUsers.filter(u => 
-            (u.displayName || '').toLowerCase().includes(term.toLowerCase()) ||
-            (u.email || '').toLowerCase().includes(term.toLowerCase())
-        );
-        document.getElementById('adminUsersList').innerHTML = renderAdminUsersList(filtered);
-    };
+window.adminAddScript = function(type) {
+    isAdminMode = true;
+    document.getElementById('addScriptTitle').textContent = type === 'premium' ? '⭐ Premium Script Ekle' : '🌍 Topluluk Script Ekle';
+    document.getElementById('scriptTypeGroup').style.display = 'block';
+    document.getElementById('scriptType').value = type;
+    document.getElementById('addScriptForm').reset();
+    document.getElementById('scriptType').value = type;
+    document.getElementById('scriptCoinPrice').value = type === 'premium' ? 100 : 30;
+    document.getElementById('addModal').classList.add('open');
+};
 
-    window.adminAddScript = function(type) {
-        isAdminMode = true;
-        document.getElementById('addScriptTitle').textContent = type === 'premium' ? '⭐ Premium Script Ekle' : '🌍 Topluluk Script Ekle';
-        document.getElementById('addScriptInfo').innerHTML = type === 'premium' ? '⭐ Bu script <strong>Premium</strong> olarak eklenecek.' : '🌍 Bu script <strong>Topluluk</strong> olarak eklenecek.';
-        document.getElementById('scriptTypeGroup').style.display = 'block';
-        document.getElementById('scriptType').value = type;
-        document.getElementById('addScriptForm').reset();
-        document.getElementById('scriptType').value = type;
-        document.getElementById('addModal').classList.add('open');
-    };
+window.adminEditScript = function(id) {
+    const s = allScripts.find(x => x.id === id);
+    if (!s) return;
+    document.getElementById('editId').value = s.id;
+    document.getElementById('editName').value = s.name || '';
+    document.getElementById('editCategory').value = s.category || 'mm2';
+    document.getElementById('editDesc').value = s.desc || '';
+    document.getElementById('editFeatures').value = s.features ? s.features.join(', ') : '';
+    document.getElementById('editCode').value = s.code || '';
+    document.getElementById('editImage').value = s.image || '';
+    document.getElementById('editCoinPrice').value = s.coinPrice || 0;
+    document.getElementById('editType').value = s.isPremium ? 'premium' : 'community';
+    document.getElementById('adminEditModal').classList.add('open');
+};
 
-    window.adminAddGame = function() {
-        document.getElementById('addGameModal').classList.add('open');
-    };
+window.closeAdminEdit = function() { document.getElementById('adminEditModal').classList.remove('open'); };
 
-    window.adminViewScript = function(id) {
-        const s = allScripts.find(x => x.id === id);
-        if (!s) return;
-        alert(`📜 ${s.name}\n\n📝 ${s.desc}\n\n💰 ${s.coinPrice} coin\n\n👤 ${s.userName || 'ScriptHub'}\n\n💻 Kod:\n${s.code}`);
-    };
-
-    window.adminEditScript = function(id) {
-        const s = allScripts.find(x => x.id === id);
-        if (!s) return;
-        document.getElementById('editId').value = s.id;
-        document.getElementById('editName').value = s.name || '';
-        document.getElementById('editCategory').value = s.category || 'mm2';
-        document.getElementById('editDesc').value = s.desc || '';
-        document.getElementById('editFeatures').value = s.features ? s.features.join(', ') : '';
-        document.getElementById('editCode').value = s.code || '';
-        document.getElementById('editImage').value = s.image || '';
-        document.getElementById('editCoinPrice').value = s.coinPrice || 0;
-        document.getElementById('editType').value = s.isPremium ? 'premium' : 'community';
-        document.getElementById('adminEditModal').classList.add('open');
-    };
-
-    window.closeAdminEdit = function() {
-        document.getElementById('adminEditModal').classList.remove('open');
-    };
-
-    document.getElementById('adminEditForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        if (!isAdmin(currentUser)) { showToast('❌ Yetkin yok!'); return; }
-        const id = document.getElementById('editId').value;
-        const name = document.getElementById('editName').value.trim();
-        const category = document.getElementById('editCategory').value;
-        const desc = document.getElementById('editDesc').value.trim();
-        const featuresRaw = document.getElementById('editFeatures').value.trim();
-        const code = document.getElementById('editCode').value.trim();
-        const image = document.getElementById('editImage').value.trim();
-        const coinPrice = parseInt(document.getElementById('editCoinPrice').value) || 0;
-        const type = document.getElementById('editType').value;
-        if (!name || !desc || !code) { showToast('❌ Zorunlu alanlar!'); return; }
-        const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
-        try {
-            await db.collection('scripts').doc(id).update({
-                name, category, desc, features, code, image: image || null, coinPrice,
-                isPremium: type === 'premium',
-                isCommunity: type === 'community',
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showToast('✅ Güncellendi!');
-            closeAdminEdit();
-            await loadAllScripts();
-            render();
-            renderAdminTab();
-        } catch(e) { showToast('❌ Hata: ' + e.message); }
-    });
-
-    window.adminDeleteScript = async function(id) {
-        if (!isAdmin(currentUser)) return;
-        if (!confirm('Silmek istediğine emin misin?')) return;
-        try {
-            await db.collection('scripts').doc(id).delete();
-            showToast('🗑️ Silindi!');
-            await loadAllScripts();
-            render();
-            renderAdminTab();
-        } catch(e) { showToast('❌ Hata!'); }
-    };
-
-    window.adminDeleteGame = async function(id) {
-        if (!isAdmin(currentUser)) return;
-        if (!confirm('Silmek istediğine emin misin?')) return;
-        try {
-            await db.collection('games').doc(id).delete();
-            showToast('🗑️ Silindi!');
-            await loadAllGames();
-            renderAdminTab();
-        } catch(e) { showToast('❌ Hata!'); }
-    };
-
-    window.adminEditUserCoins = async function(userId, currentCoins) {
-        if (!isAdmin(currentUser)) return;
-        const amount = prompt(`Kullanıcının mevcut coini: ${currentCoins}\n\nNe kadar coin vermek/almak istiyorsun?\n(Pozitif = ver, Negatif = al)`, '0');
-        if (amount === null) return;
-        const amt = parseInt(amount);
-        if (isNaN(amt)) { showToast('❌ Geçersiz!'); return; }
-        try {
-            await db.collection('users').doc(userId).update({
-                coins: firebase.firestore.FieldValue.increment(amt)
-            });
-            showToast(`✅ ${amt > 0 ? '+' : ''}${amt} coin!`);
-            await loadAllUsers();
-            renderAdminTab();
-        } catch(e) { showToast('❌ Hata!'); }
-    };
-
-    window.adminDeleteUser = async function(userId) {
-        if (!isAdmin(currentUser) || userId === ADMIN_UID) return;
-        if (!confirm('Bu kullanıcıyı silmek istediğine emin misin?')) return;
-        try {
-            await db.collection('users').doc(userId).delete();
-            showToast('🗑️ Silindi!');
-            await loadAllUsers();
-            renderAdminTab();
-        } catch(e) { showToast('❌ Hata!'); }
-    };
-
-    // ========== ADD SCRIPT/GAME FORM ==========
-    document.getElementById('addScriptForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        if (!currentUser) { showToast('❌ Giriş yap!'); return; }
-        const name = document.getElementById('scriptName').value.trim();
-        const category = document.getElementById('scriptCategory').value;
-        const desc = document.getElementById('scriptDesc').value.trim();
-        const featuresRaw = document.getElementById('scriptFeatures').value.trim();
-        const code = document.getElementById('scriptCodeInput').value.trim();
-        const image = document.getElementById('scriptImage').value.trim();
-        const coinPrice = parseInt(document.getElementById('scriptCoinPrice').value) || 0;
-        if (!name || !desc || !code) { showToast('❌ Zorunlu alanlar!'); return; }
-        const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
-        
-        let type = 'community';
-        if (isAdminMode) type = document.getElementById('scriptType').value;
-        else if (isAdmin(currentUser)) type = 'premium';
-        
-        const data = {
-            name, category, desc, features, code,
-            image: image || null, coinPrice,
+document.getElementById('adminEditForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!isAdmin(currentUser)) { showToast('❌ Yetkin yok!'); return; }
+    const id = document.getElementById('editId').value;
+    const name = document.getElementById('editName').value.trim();
+    const category = document.getElementById('editCategory').value;
+    const desc = document.getElementById('editDesc').value.trim();
+    const featuresRaw = document.getElementById('editFeatures').value.trim();
+    const code = document.getElementById('editCode').value.trim();
+    const image = document.getElementById('editImage').value.trim();
+    const coinPrice = parseInt(document.getElementById('editCoinPrice').value) || 0;
+    const type = document.getElementById('editType').value;
+    if (!name || !desc || !code) { showToast('❌ Zorunlu alanlar!'); return; }
+    const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+    try {
+        await db.collection('scripts').doc(id).update({
+            name, category, desc, features, code, image: image || null, coinPrice,
             isPremium: type === 'premium',
             isCommunity: type === 'community',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showToast('✅ Güncellendi!');
+        closeAdminEdit();
+        await loadAllScripts();
+        render();
+        switchAdminTab('scripts');
+    } catch(e) { showToast('❌ Hata: ' + e.message); }
+});
+
+window.adminDeleteScript = async function(id) {
+    if (!isAdmin(currentUser)) return;
+    if (!confirm('Silmek istediğine emin misin?')) return;
+    try {
+        await db.collection('scripts').doc(id).delete();
+        showToast('🗑️ Silindi!');
+        await loadAllScripts();
+        render();
+        switchAdminTab('scripts');
+    } catch(e) { showToast('❌ Hata!'); }
+};
+
+window.adminDeleteGame = async function(id) {
+    if (!isAdmin(currentUser)) return;
+    if (!confirm('Sil?')) return;
+    try {
+        await db.collection('games').doc(id).delete();
+        showToast('🗑️ Silindi!');
+        await loadAllGames();
+        switchAdminTab('games');
+    } catch(e) { showToast('❌ Hata!'); }
+};
+
+window.adminEditUserCoins = async function(userId, currentCoins) {
+    if (!isAdmin(currentUser)) return;
+    const amount = prompt(`Mevcut: ${currentCoins}\n\nNe kadar? (Pozitif=ver, Negatif=al)`, '0');
+    if (amount === null) return;
+    const amt = parseInt(amount);
+    if (isNaN(amt)) return;
+    try {
+        await db.collection('users').doc(userId).update({
+            coins: firebase.firestore.FieldValue.increment(amt)
+        });
+        showToast(`✅ ${amt > 0 ? '+' : ''}${amt} coin!`);
+        switchAdminTab('users');
+    } catch(e) { showToast('❌ Hata!'); }
+};
+
+// ========== ADD SCRIPT/GAME ==========
+window.openAddScriptModal = function() {
+    if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
+    isAdminMode = false;
+    document.getElementById('addScriptTitle').textContent = '➕ Yeni Script Ekle';
+    document.getElementById('addScriptInfo').innerHTML = '🌍 Herkes görecek! 🪙 +25 coin kazan!';
+    document.getElementById('scriptTypeGroup').style.display = 'none';
+    document.getElementById('scriptCoinPrice').value = '30';
+    document.getElementById('addModal').classList.add('open');
+};
+window.openAddGameModal = function() {
+    if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
+    document.getElementById('addGameModal').classList.add('open');
+};
+window.closeAddModal = function() { document.getElementById('addModal').classList.remove('open'); isAdminMode = false; document.getElementById('scriptTypeGroup').style.display = 'none'; };
+window.closeAddGameModal = function() { document.getElementById('addGameModal').classList.remove('open'); };
+
+document.getElementById('addScriptForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!currentUser) { showToast('❌ Giriş yap!'); return; }
+    const name = document.getElementById('scriptName').value.trim();
+    const category = document.getElementById('scriptCategory').value;
+    const desc = document.getElementById('scriptDesc').value.trim();
+    const featuresRaw = document.getElementById('scriptFeatures').value.trim();
+    const code = document.getElementById('scriptCodeInput').value.trim();
+    const image = document.getElementById('scriptImage').value.trim();
+    const coinPrice = parseInt(document.getElementById('scriptCoinPrice').value) || 0;
+    if (!name || !desc || !code) { showToast('❌ Zorunlu alanlar!'); return; }
+    const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
+    
+    let type = 'community';
+    if (isAdminMode) type = document.getElementById('scriptType').value;
+    else if (isAdmin(currentUser)) type = 'premium';
+    
+    const data = {
+        name, category, desc, features, code,
+        image: image || null, coinPrice,
+        isPremium: type === 'premium',
+        isCommunity: type === 'community',
+        userId: currentUser.uid,
+        userName: currentUser.displayName || 'Anonim',
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    try {
+        await db.collection('scripts').add(data);
+        showToast('✅ Script eklendi!');
+        this.reset();
+        document.getElementById('imagePreview').innerHTML = '🖼️ Önizleme';
+        closeAddModal();
+        await loadAllScripts();
+        render();
+        if (currentAdminTab === 'scripts') switchAdminTab('scripts');
+        if (!isAdminMode) completeDailyTask('daily_add_script');
+    } catch(e) { showToast('❌ Hata: ' + e.message); }
+});
+
+document.getElementById('addGameForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!currentUser) return;
+    const name = document.getElementById('gameName').value.trim();
+    const link = document.getElementById('gameLink').value.trim();
+    const image = document.getElementById('gameImage').value.trim();
+    const desc = document.getElementById('gameDesc').value.trim();
+    if (!name || !link || !image) { showToast('❌ Zorunlu alanlar!'); return; }
+    try {
+        await db.collection('games').add({
+            name, link, image, desc: desc || name,
             userId: currentUser.uid,
             userName: currentUser.displayName || 'Anonim',
-            userEmail: currentUser.email || '',
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        
-        try {
-            await db.collection('scripts').add(data);
-            showToast('✅ Script eklendi!');
-            this.reset();
-            document.getElementById('imagePreview').innerHTML = '🖼️ Önizleme';
-            closeAddModal();
-            isAdminMode = false;
-            document.getElementById('scriptTypeGroup').style.display = 'none';
-            document.getElementById('addScriptTitle').textContent = '➕ Yeni Script Ekle';
-            document.getElementById('addScriptInfo').innerHTML = '🌍 Herkes görecek! 🪙 +25 coin kazan!';
-            await loadAllScripts();
-            render();
-            if (currentAdminTab === 'scripts') renderAdminTab();
-            if (!isAdmin(currentUser)) completeDailyTask('daily_add_script');
-        } catch(e) { showToast('❌ Hata: ' + e.message); }
+        });
+        showToast('🎮 Oyun eklendi!');
+        this.reset();
+        closeAddGameModal();
+        await loadAllGames();
+        render();
+        completeDailyTask('daily_add_game');
+    } catch(e) { showToast('❌ Hata!'); }
+});
+
+// ========== AUTH ==========
+function updateAuthUI(user) {
+    currentUser = user;
+    const section = document.getElementById('authSection');
+    if (user) {
+        const name = user.displayName || user.email || 'Kullanıcı';
+        section.innerHTML = `<button class="auth-btn" onclick="openProfileModal()"><img src="${user.photoURL || IMG_USERS}" class="user-avatar" onerror="this.src='${IMG_USERS}'"><span class="user-name">${escapeHtml(name)}</span></button>`;
+        loadUserData(user);
+        renderDailyTasks();
+        if (isAdmin(user)) document.getElementById('adminBtn').style.display = 'flex';
+    } else {
+        section.innerHTML = `<button class="auth-btn" onclick="openAuthModal()">🔐 Giriş Yap</button>`;
+        document.getElementById('dailyTasksContainer').style.display = 'none';
+        document.getElementById('adminBtn').style.display = 'none';
+        userCoins = 0;
+        updateCoinDisplay();
+    }
+}
+
+window.openAuthModal = function() { document.getElementById('authModal').classList.add('open'); };
+window.closeAuthModal = function() { document.getElementById('authModal').classList.remove('open'); };
+
+window.openProfileModal = function() {
+    if (!currentUser) return;
+    document.getElementById('profileModal').classList.add('open');
+    document.getElementById('profileContent').innerHTML = `
+        <div class="profile-header">
+            <img src="${currentUser.photoURL || IMG_USERS}" class="profile-avatar" onerror="this.src='${IMG_USERS}'">
+            <div class="profile-info">
+                <h3>${escapeHtml(currentUser.displayName || 'Kullanıcı')}</h3>
+                <p>📧 ${escapeHtml(currentUser.email)}</p>
+            </div>
+        </div>
+        <div class="profile-stats">
+            <div class="stat"><div class="number">${allScripts.filter(s => s.userId === currentUser.uid).length}</div><span class="label">📜 Script</span></div>
+            <div class="stat"><div class="number">${favorites.length}</div><span class="label">❤️ Favori</span></div>
+            <div class="stat"><div class="number">${userCoins}</div><span class="label">🪙 Coin</span></div>
+            <div class="stat"><div class="number">${purchasedScripts.length}</div><span class="label">📦 Satın</span></div>
+        </div>
+        <button class="submit-btn" onclick="logout()" style="background:linear-gradient(135deg,#ef4444,#dc2626)">👋 Çıkış Yap</button>
+    `;
+};
+window.closeProfileModal = function() { document.getElementById('profileModal').classList.remove('open'); };
+window.logout = function() { auth.signOut(); closeProfileModal(); showToast('👋 Çıkış yapıldı!'); };
+
+document.querySelectorAll('.auth-tabs button').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+        document.getElementById(this.dataset.tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
     });
+});
 
-    document.getElementById('addGameForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        if (!currentUser) { showToast('❌ Giriş yap!'); return; }
-        const name = document.getElementById('gameName').value.trim();
-        const link = document.getElementById('gameLink').value.trim();
-        const image = document.getElementById('gameImage').value.trim();
-        const desc = document.getElementById('gameDesc').value.trim();
-        if (!name || !link || !image) { showToast('❌ Zorunlu alanlar!'); return; }
-        try {
-            await db.collection('games').add({
-                name, link, image, desc: desc || name,
-                userId: currentUser.uid,
-                userName: currentUser.displayName || 'Anonim',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            showToast('🎮 Oyun eklendi!');
-            this.reset();
-            closeAddGameModal();
-            await loadAllGames();
-            render();
-            if (currentAdminTab === 'games') renderAdminTab();
-            completeDailyTask('daily_add_game');
-        } catch(e) { showToast('❌ Hata!'); }
-    });
+document.getElementById('loginSubmitBtn').addEventListener('click', async function() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    const errorDiv = document.getElementById('loginError');
+    if (!email || !password) { errorDiv.textContent = '❌ Tüm alanları doldur!'; errorDiv.style.display = 'block'; return; }
+    errorDiv.style.display = 'none';
+    this.disabled = true; this.textContent = '⏳...';
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        closeAuthModal();
+        showToast('✅ Hoş geldin!');
+        completeDailyTask('daily_login');
+    } catch(error) {
+        errorDiv.textContent = '❌ ' + error.message;
+        errorDiv.style.display = 'block';
+    } finally { this.disabled = false; this.textContent = '🚀 Giriş Yap'; }
+});
 
-    window.closeAddModal = function() {
-        document.getElementById('addModal').classList.remove('open');
-        isAdminMode = false;
-        document.getElementById('scriptTypeGroup').style.display = 'none';
-    };
-    window.closeAddGameModal = function() {
-        document.getElementById('addGameModal').classList.remove('open');
-    };
+document.getElementById('registerSubmitBtn').addEventListener('click', async function() {
+    const username = document.getElementById('registerUsername').value.trim();
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value.trim();
+    const errorDiv = document.getElementById('registerError');
+    if (!username || !email || !password) { errorDiv.textContent = '❌ Tüm alanları doldur!'; errorDiv.style.display = 'block'; return; }
+    if (password.length < 6) { errorDiv.textContent = '❌ Şifre min 6 karakter!'; errorDiv.style.display = 'block'; return; }
+    this.disabled = true; this.textContent = '⏳...';
+    try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, password);
+        await userCred.user.updateProfile({ displayName: username });
+        closeAuthModal();
+        showToast('✅ Hoş geldin, ' + username + '!');
+        completeDailyTask('daily_login');
+    } catch(error) {
+        errorDiv.textContent = '❌ ' + error.message;
+        errorDiv.style.display = 'block';
+    } finally { this.disabled = false; this.textContent = '🚀 Kayıt Ol'; }
+});
 
-    // ========== AUTH ==========
-    function updateAuthUI(user) {
-        currentUser = user;
-        const section = document.getElementById('authSection');
-        if (user) {
-            const name = user.displayName || user.email || 'Kullanıcı';
-            section.innerHTML = `<button class="auth-btn" onclick="openProfileModal()"><img src="${user.photoURL || IMG.users}" class="user-avatar" onerror="this.src='${IMG.users}'"><span class="user-name">${escapeHtml(name)}</span></button>`;
-            loadUserData(user);
-            renderDailyTasks();
-            if (isAdmin(user)) document.getElementById('adminBtn').style.display = 'flex';
+document.getElementById('googleLoginBtn').addEventListener('click', async function() {
+    try {
+        await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        closeAuthModal();
+        showToast('✅ Google giriş!');
+    } catch(e) { showToast('❌ ' + e.message); }
+});
+
+document.getElementById('googleRegisterBtn').addEventListener('click', async function() {
+    try {
+        await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        closeAuthModal();
+        showToast('✅ Google kayıt!');
+    } catch(e) { showToast('❌ ' + e.message); }
+});
+
+// ========== SHOP ==========
+window.openCoinShop = function() {
+    if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
+    document.getElementById('coinShopModal').classList.add('open');
+    renderShop('scripts');
+};
+window.closeCoinShop = function() { document.getElementById('coinShopModal').classList.remove('open'); };
+window.openCollection = function() {
+    if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
+    document.getElementById('coinShopModal').classList.add('open');
+    renderShop('owned');
+};
+
+window.renderShop = function(tab) {
+    const container = document.getElementById('shopContent');
+    document.getElementById('shopCoinBalance').textContent = userCoins;
+    if (tab === 'scripts') {
+        const premiumScripts = allScripts.filter(s => s.isPremium);
+        container.innerHTML = `<div style="color:var(--text-secondary);font-size:0.8rem;margin-bottom:0.5rem">⭐ Premium scriptler (${premiumScripts.length})</div>` +
+            premiumScripts.map(item => {
+                const owned = purchasedScripts.includes(item.id);
+                return `
+                    <div class="shop-item">
+                        <div class="item-info">
+                            <div class="item-name">${escapeHtml(item.name)}</div>
+                            <div class="item-desc">${escapeHtml(item.desc)}</div>
+                        </div>
+                        <span class="item-price">🪙 ${item.coinPrice}</span>
+                        <button class="buy-btn ${owned ? 'owned' : ''}" onclick="buyScript('${item.id}', ${item.coinPrice})" ${owned ? 'disabled' : ''}>
+                            ${owned ? '✅ Sahipsin' : '🛒 Satın Al'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+    } else if (tab === 'owned') {
+        const ownedScripts = allScripts.filter(s => purchasedScripts.includes(s.id));
+        if (!ownedScripts.length) {
+            container.innerHTML = `<div class="empty"><div style="font-size:2.5rem">📭</div><p>Henüz bir şey satın almadın</p></div>`;
         } else {
-            section.innerHTML = `<button class="auth-btn" onclick="openAuthModal()">🔐 Giriş Yap</button>`;
-            document.getElementById('dailyTasksContainer').style.display = 'none';
-            document.getElementById('adminBtn').style.display = 'none';
-            userCoins = 0;
-            updateCoinDisplay();
+            container.innerHTML = `<div class="collection-grid">` +
+                ownedScripts.map(s => `
+                    <div class="collection-item">
+                        <div class="item-icon">${getCategoryIcon(s.category)}</div>
+                        <div class="item-name">${escapeHtml(s.name)}</div>
+                        <div class="item-type">${s.isPremium ? 'Premium' : 'Topluluk'}</div>
+                        <button class="use-btn" onclick="closeCoinShop();handleGet('${s.id}')">▶️ Kullan</button>
+                    </div>
+                `).join('') + `</div>`;
         }
     }
+};
 
-    window.openAuthModal = function() { document.getElementById('authModal').classList.add('open'); };
-    window.closeAuthModal = function() { document.getElementById('authModal').classList.remove('open'); };
-
-    window.openProfileModal = function() {
-        if (!currentUser) return;
-        document.getElementById('profileModal').classList.add('open');
-        document.getElementById('profileContent').innerHTML = `
-            <div class="profile-header">
-                <img src="${currentUser.photoURL || IMG.users}" class="profile-avatar" onerror="this.src='${IMG.users}'">
-                <div class="profile-info">
-                    <h3>${escapeHtml(currentUser.displayName || 'Kullanıcı')}</h3>
-                    <p>📧 ${escapeHtml(currentUser.email)}</p>
-                </div>
-            </div>
-            <div class="profile-stats">
-                <div class="stat"><div class="number">${allScripts.filter(s => s.userId === currentUser.uid).length}</div><span class="label">📜 Script</span></div>
-                <div class="stat"><div class="number">${favorites.length}</div><span class="label">❤️ Favori</span></div>
-                <div class="stat"><div class="number">${userCoins}</div><span class="label">🪙 Coin</span></div>
-                <div class="stat"><div class="number">${purchasedScripts.length}</div><span class="label">📦 Satın</span></div>
-            </div>
-            <button class="submit-btn" onclick="logout()" style="background:linear-gradient(135deg,#ef4444,#dc2626)">👋 Çıkış Yap</button>
-        `;
-    };
-    window.closeProfileModal = function() { document.getElementById('profileModal').classList.remove('open'); };
-
-    window.logout = function() {
-        auth.signOut();
-        closeProfileModal();
-        showToast('👋 Çıkış yapıldı!');
-    };
-
-    document.querySelectorAll('.auth-tabs button').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.auth-tabs button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            document.getElementById(this.dataset.tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+window.buyScript = async function(id, price) {
+    if (!currentUser) return;
+    if (purchasedScripts.includes(id)) { showToast('❌ Zaten satın alındı!'); return; }
+    const script = allScripts.find(s => s.id === id);
+    if (await spendCoins(price, script?.name || 'Script')) {
+        purchasedScripts.push(id);
+        await db.collection('users').doc(currentUser.uid).update({
+            purchasedScripts: firebase.firestore.FieldValue.arrayUnion(id)
         });
-    });
-
-    document.getElementById('loginSubmitBtn').addEventListener('click', async function() {
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value.trim();
-        const errorDiv = document.getElementById('loginError');
-        if (!email || !password) { errorDiv.textContent = '❌ Tüm alanları doldur!'; errorDiv.style.display = 'block'; return; }
-        errorDiv.style.display = 'none';
-        this.disabled = true; this.textContent = '⏳...';
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            closeAuthModal();
-            showToast('✅ Hoş geldin!');
-            completeDailyTask('daily_login');
-        } catch(error) {
-            errorDiv.textContent = '❌ ' + error.message;
-            errorDiv.style.display = 'block';
-        } finally { this.disabled = false; this.textContent = '🚀 Giriş Yap'; }
-    });
-
-    document.getElementById('registerSubmitBtn').addEventListener('click', async function() {
-        const username = document.getElementById('registerUsername').value.trim();
-        const email = document.getElementById('registerEmail').value.trim();
-        const password = document.getElementById('registerPassword').value.trim();
-        const errorDiv = document.getElementById('registerError');
-        if (!username || !email || !password) { errorDiv.textContent = '❌ Tüm alanları doldur!'; errorDiv.style.display = 'block'; return; }
-        if (password.length < 6) { errorDiv.textContent = '❌ Şifre min 6 karakter!'; errorDiv.style.display = 'block'; return; }
-        this.disabled = true; this.textContent = '⏳...';
-        try {
-            const userCred = await auth.createUserWithEmailAndPassword(email, password);
-            await userCred.user.updateProfile({ displayName: username });
-            closeAuthModal();
-            showToast('✅ Hoş geldin, ' + username + '!');
-            completeDailyTask('daily_login');
-        } catch(error) {
-            errorDiv.textContent = '❌ ' + error.message;
-            errorDiv.style.display = 'block';
-        } finally { this.disabled = false; this.textContent = '🚀 Kayıt Ol'; }
-    });
-
-    document.getElementById('googleLoginBtn').addEventListener('click', async function() {
-        try {
-            await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-            closeAuthModal();
-            showToast('✅ Google giriş!');
-        } catch(e) { showToast('❌ ' + e.message); }
-    });
-
-    document.getElementById('googleRegisterBtn').addEventListener('click', async function() {
-        try {
-            await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-            closeAuthModal();
-            showToast('✅ Google kayıt!');
-        } catch(e) { showToast('❌ ' + e.message); }
-    });
-
-    // ========== SHOP ==========
-    window.openCoinShop = function() {
-        if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
-        document.getElementById('coinShopModal').classList.add('open');
+        showToast(`✅ "${script.name}" satın alındı!`);
         renderShop('scripts');
-    };
-    window.closeCoinShop = function() { document.getElementById('coinShopModal').classList.remove('open'); };
+        render();
+    }
+};
 
-    window.openCollection = function() {
-        if (!currentUser) { showToast('❌ Giriş yap!'); openAuthModal(); return; }
-        document.getElementById('coinShopModal').classList.add('open');
-        renderShop('owned');
-    };
+// ========== FILTERS ==========
+document.getElementById('searchInput').addEventListener('input', function() {
+    searchTerm = this.value;
+    currentPage = 1;
+    render();
+});
 
-    window.renderShop = function(tab) {
-        const container = document.getElementById('shopContent');
-        document.getElementById('shopCoinBalance').textContent = userCoins;
-        if (tab === 'scripts') {
-            const premiumScripts = allScripts.filter(s => s.isPremium);
-            container.innerHTML = `<div style="color:var(--text-secondary);font-size:0.8rem;margin-bottom:0.5rem">⭐ Premium scriptler</div>` +
-                premiumScripts.map(item => {
-                    const owned = purchasedScripts.includes(item.id);
-                    return `
-                        <div class="shop-item">
-                            <div class="item-info">
-                                <div class="item-name">${escapeHtml(item.name)}</div>
-                                <div class="item-desc">${escapeHtml(item.desc)}</div>
-                            </div>
-                            <span class="item-price">🪙 ${item.coinPrice}</span>
-                            <button class="buy-btn ${owned ? 'owned' : ''}" onclick="buyScript('${item.id}', ${item.coinPrice})" ${owned ? 'disabled' : ''}>
-                                ${owned ? '✅ Sahipsin' : '🛒 Satın Al'}
-                            </button>
-                        </div>
-                    `;
-                }).join('');
-        } else if (tab === 'owned') {
-            const ownedScripts = allScripts.filter(s => purchasedScripts.includes(s.id));
-            if (!ownedScripts.length) {
-                container.innerHTML = `<div class="empty"><div style="font-size:2.5rem">📭</div><p>Henüz bir şey satın almadın</p></div>`;
-            } else {
-                container.innerHTML = `<div class="collection-grid">` +
-                    ownedScripts.map(s => `
-                        <div class="collection-item">
-                            <div class="item-icon">📜</div>
-                            <div class="item-name">${escapeHtml(s.name)}</div>
-                            <div class="item-type">Premium Script</div>
-                            <button class="use-btn" onclick="handleGet('${s.id}')">▶️ Kullan</button>
-                        </div>
-                    `).join('') + `</div>`;
-            }
-        }
-    };
-
-    window.buyScript = async function(id, price) {
-        if (!currentUser) return;
-        if (purchasedScripts.includes(id)) { showToast('❌ Zaten satın alındı!'); return; }
-        const script = allScripts.find(s => s.id === id);
-        if (await spendCoins(price, script?.name || 'Script')) {
-            purchasedScripts.push(id);
-            await db.collection('users').doc(currentUser.uid).update({
-                purchasedScripts: firebase.firestore.FieldValue.arrayUnion(id)
-            });
-            showToast(`✅ "${script.name}" satın alındı!`);
-            renderShop('scripts');
-            render();
-        }
-    };
-
-    // ========== FILTERS ==========
-    document.getElementById('searchInput').addEventListener('input', function() {
-        searchTerm = this.value;
+document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentCategory = this.dataset.cat;
         currentPage = 1;
         render();
     });
+});
 
-    document.querySelectorAll('.cat-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentCategory = this.dataset.cat;
-            currentPage = 1;
-            render();
+// ========== THEME ==========
+window.setTheme = function(theme) {
+    document.body.className = theme;
+    localStorage.setItem('scriptHubTheme', theme);
+};
+setTheme(localStorage.getItem('scriptHubTheme') || 'dark');
+
+window.acceptCookies = function() {
+    document.getElementById('cookieConsent').style.display = 'none';
+    localStorage.setItem('cookieConsent', 'true');
+};
+
+window.toggleChat = function() {
+    const frame = document.getElementById('chatFrame');
+    const btn = document.getElementById('chatBtn');
+    frame.classList.toggle('open');
+    btn.textContent = frame.classList.contains('open') ? '✕' : '💬';
+};
+
+// ========== INIT ==========
+async function init() {
+    favorites = JSON.parse(localStorage.getItem('scriptHubFavs')) || [];
+    
+    console.log('🚀 ScriptHub başlatılıyor...');
+    
+    // 1. Premium scriptleri Firebase'e yaz/güncelle
+    await seedPremiumScripts();
+    
+    // 2. Tüm scriptleri ve oyunları çek
+    await Promise.all([loadAllScripts(), loadAllGames()]);
+    
+    console.log('📜 Toplam script:', allScripts.length);
+    console.log('⭐ Premium:', allScripts.filter(s => s.isPremium).length);
+    console.log('🌍 Topluluk:', allScripts.filter(s => s.isCommunity).length);
+    
+    auth.onAuthStateChanged(async user => {
+        updateAuthUI(user);
+        if (user) {
+            await loadUserData(user);
+            renderDailyTasks();
+        }
+        render();
+    });
+    
+    render();
+    
+    if (!localStorage.getItem('cookieConsent')) {
+        document.getElementById('cookieConsent').style.display = 'block';
+    }
+    
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
         });
     });
+}
 
-    // ========== THEME ==========
-    window.setTheme = function(theme) {
-        document.body.className = theme;
-        localStorage.setItem('scriptHubTheme', theme);
-    };
-    setTheme(localStorage.getItem('scriptHubTheme') || 'dark');
-
-    // ========== COOKIE ==========
-    window.acceptCookies = function() {
-        document.getElementById('cookieConsent').style.display = 'none';
-        localStorage.setItem('cookieConsent', 'true');
-    };
-
-    // ========== CHAT ==========
-    window.toggleChat = function() {
-        const frame = document.getElementById('chatFrame');
-        const btn = document.getElementById('chatBtn');
-        frame.classList.toggle('open');
-        btn.textContent = frame.classList.contains('open') ? '✕' : '💬';
-    };
-
-    // ========== INIT ==========
-    async function init() {
-        favorites = JSON.parse(localStorage.getItem('scriptHubFavs')) || [];
-
-        // Premium scriptleri Firebase'e yükle (ilk seferde)
-        await seedPremiumScripts();
-
-        // Tüm scriptleri ve oyunları Firebase'den çek
-        await Promise.all([loadAllScripts(), loadAllGames()]);
-
-        auth.onAuthStateChanged(async user => {
-            updateAuthUI(user);
-            if (user) {
-                await loadUserData(user);
-                renderDailyTasks();
-            }
-            render();
-        });
-
-        render();
-
-        if (!localStorage.getItem('cookieConsent')) {
-            document.getElementById('cookieConsent').style.display = 'block';
-        }
-
-        // Click dışarıda modal kapama
-        document.querySelectorAll('.modal-overlay').forEach(m => {
-            m.addEventListener('click', function(e) {
-                if (e.target === this) this.classList.remove('open');
-            });
-        });
-    }
-
-    init();
+init();
 })();
 </script>
 
 </body>
-    </html>
+</html>
