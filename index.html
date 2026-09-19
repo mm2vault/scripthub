@@ -30,6 +30,8 @@
     <style>
         /* ScriptHub v2 polish */
 
+
+        .admin-dashboard-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-bottom:1rem}.admin-stat-icon{font-size:1.1rem}.admin-toolbar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}.admin-tab{border:1px solid var(--border-color);background:var(--bg-card);color:var(--text-secondary);border-radius:12px;padding:.55rem .7rem;font-size:.68rem;cursor:pointer}.admin-tab.active{background:rgba(167,139,250,.15);color:var(--text-primary);border-color:var(--accent-light)}.admin-activity-card{padding:1rem;border:1px solid var(--border-color);border-radius:16px;background:var(--bg-card);color:var(--text-secondary);font-size:.75rem}.admin-activity-card h3{color:var(--text-primary)}@media(max-width:600px){.admin-dashboard-grid{grid-template-columns:repeat(2,1fr)}}
         .detail-btn{background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-secondary);border-radius:20px;padding:.25rem .7rem;font-size:.6rem;cursor:pointer;transition:.2s;min-height:32px}.detail-btn:hover{border-color:var(--accent-light);color:var(--text-primary);transform:translateY(-1px)}.script-detail-hero{display:grid;grid-template-columns:180px 1fr;gap:1.2rem;align-items:start;margin-bottom:1.2rem}.script-detail-hero img,.script-detail-cover{width:180px;height:130px;object-fit:cover;border-radius:20px;background:var(--bg-card);border:1px solid var(--border-color)}.script-detail-meta{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}.script-detail-chip{padding:.25rem .65rem;border-radius:20px;background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-secondary);font-size:.65rem}.script-detail-section{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-color)}.script-detail-code{background:#05050c;border:1px solid var(--border-color);border-radius:14px;padding:1rem;max-height:220px;overflow:auto;white-space:pre-wrap;color:#d8d5ff;font:12px/1.55 monospace}.script-detail-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}@media(max-width:600px){.script-detail-hero{grid-template-columns:1fr}.script-detail-hero img,.script-detail-cover{width:100%;height:180px}}
         .leaderboard-list-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;margin:.45rem 0;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px}
         .leaderboard-list-item .rank{min-width:58px;color:var(--text-secondary);font-size:.78rem}.leaderboard-list-item .info{flex:1;min-width:0}.leaderboard-list-item .title{color:var(--text-primary);font-weight:600}.leaderboard-list-item .sub{color:var(--text-muted);font-size:.65rem;margin-top:.15rem}.leaderboard-list-item .score{color:var(--gold);font-weight:700;font-size:.82rem}
@@ -1516,6 +1518,10 @@
         } catch(e) {}
     }
 
+    window.resolveReport=async function(id){if(!isAdmin(currentUser))return;await db.collection('reports').doc(id).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('✅ Rapor çözüldü');renderAdminPanel();};
+    window.adminInspectUser=async function(uid){if(!isAdmin(currentUser))return;const d=await db.collection('users').doc(uid).get();const x=d.data()||{};alert('Kullanıcı: '+(x.displayName||'Kullanıcı')+'\nE-posta: '+(x.email||'')+'\nCoin: '+(x.coins||0)+'\nSatın alınan: '+((x.purchasedScripts||[]).length));};
+    window.deleteReportedTarget=async function(reportId){if(!isAdmin(currentUser))return;const d=await db.collection('reports').doc(reportId).get();const x=d.data()||{};if(x.targetType==='script'&&x.targetId)await db.collection('scripts').doc(x.targetId).delete();if(x.targetType==='comment'&&x.scriptId&&x.targetId)await db.collection('scripts').doc(x.scriptId).collection('comments').doc(x.targetId).delete();await db.collection('reports').doc(reportId).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('🗑️ İçerik ve rapor işlendi');renderAdminPanel();};
+
     // ========== SCRIPT DETAILS ==========
     function ensureScriptDetailModal(){
         if(document.getElementById('scriptDetailModal')) return;
@@ -1551,29 +1557,69 @@
     }
 
     async function renderAdminPanel() {
-        const allScripts = getAllScripts();
-        document.getElementById('adminContent').innerHTML = `
-            <div class="admin-stats">
-                <div class="admin-stat-card"><div class="number">${allScripts.length}</div><span class="label">📜 Script</span></div>
-                <div class="admin-stat-card"><div class="number">${communityScripts.length}</div><span class="label">🌍 Topluluk</span></div>
-                <div class="admin-stat-card"><div class="number">${communityGames.length + 7}</div><span class="label">🎮 Oyun</span></div>
-            </div>
-            <div class="admin-list">
-                ${allScripts.slice(0, 30).map(s => `
+        const content=document.getElementById('adminContent');
+        content.innerHTML='<div class="empty-state"><div class="icon">⏳</div><p>Yönetim verileri yükleniyor...</p></div>';
+        try{
+            const [usersSnap,scriptsSnap,gamesSnap,reportsSnap]=await Promise.all([
+                db.collection('users').limit(500).get(),
+                db.collection('scripts').limit(500).get(),
+                db.collection('games').limit(200).get(),
+                db.collection('reports').where('status','==','open').limit(100).get().catch(()=>({empty:true,forEach:()=>{}}))
+            ]);
+            let totalViews=0,totalComments=0;
+            scriptsSnap.forEach(d=>{
+                const x=d.data(); totalViews+=Number(x.views||0);
+                totalComments+=Number(x.commentCount||0);
+            });
+            const reportsCount=reportsSnap.size||0;
+            const recent=[];
+            scriptsSnap.forEach(d=>{const x=d.data();recent.push({id:d.id,...x});});
+            recent.sort((a,b)=>{
+                const ta=a.createdAt?.toMillis?a.createdAt.toMillis():Number(a.createdAt||0);
+                const tb=b.createdAt?.toMillis?b.createdAt.toMillis():Number(b.createdAt||0);
+                return tb-ta;
+            });
+            const stats=[
+                ['👥','Kullanıcı',usersSnap.size],['📜','Script',scriptsSnap.size],
+                ['🎮','Oyun',gamesSnap.size],['🚨','Açık Rapor',reportsCount],
+                ['👁️','Görüntülenme',totalViews],['💬','Yorum',totalComments]
+            ];
+            content.innerHTML=`
+                <div class="admin-dashboard-grid">${stats.map(x=>`<div class="admin-stat-card"><div class="admin-stat-icon">${x[0]}</div><div class="number">${Number(x[2]).toLocaleString('tr-TR')}</div><span class="label">${x[1]}</span></div>`).join('')}</div>
+                <div class="admin-toolbar">
+                    <button class="admin-tab active" data-admin-tab="scripts">📜 Scriptler</button>
+                    <button class="admin-tab" data-admin-tab="reports">🚨 Raporlar (${reportsCount})</button>
+                    <button class="admin-tab" data-admin-tab="users">👥 Kullanıcılar</button>
+                    <button class="admin-tab" data-admin-tab="activity">📊 Aktivite</button>
+                </div>
+                <div id="adminTabContent"></div>
+            `;
+            const tabContent=document.getElementById('adminTabContent');
+            const showScripts=()=>{
+                tabContent.innerHTML=`<div class="admin-list">${recent.slice(0,50).map(s=>`
                     <div class="admin-list-item">
-                        <div class="info">
-                            <div class="title">${escapeHtml(s.name)} ${s.isPremium ? '⭐' : '🌍'} <span style="color:var(--gold)">🪙${s.coinPrice || 0}</span></div>
-                            <div class="sub">${escapeHtml(s.userName || 'Premium')}</div>
-                        </div>
-                        <div class="actions">
-                            <button class="edit-btn" onclick="adminEditScript('${s.id}')">✏️</button>
-                            <button class="delete-btn-admin" onclick="adminDeleteAnyScript('${s.id}')">🗑️</button>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
+                        <div class="info"><div class="title">${escapeHtml(s.name||'İsimsiz')} ${s.isPremium?'⭐':''} <span style="color:var(--gold)">🪙${Number(s.coinPrice||0)}</span></div>
+                        <div class="sub">${escapeHtml(s.userName||'Anonim')} · ${s.isCommunity?'Topluluk':'Premium'} · 👁️ ${Number(s.views||0)}</div></div>
+                        <div class="actions"><button class="edit-btn" onclick="adminEditScript('${s.id}')">✏️</button><button class="delete-btn-admin" onclick="adminDeleteAnyScript('${s.id}')">🗑️</button></div>
+                    </div>`).join('')||'<div class="empty-state"><p>Script bulunamadı.</p></div>'}</div>`;
+            };
+            const showReports=async()=>{
+                const snap=await db.collection('reports').where('status','==','open').limit(100).get().catch(()=>null);
+                if(!snap||snap.empty){tabContent.innerHTML='<div class="empty-state"><div class="icon">✅</div><p>Açık rapor yok.</p></div>';return;}
+                const rows=[]; snap.forEach(d=>{const x=d.data();rows.push(`<div class="admin-list-item"><div class="info"><div class="title">🚨 ${escapeHtml(x.reason||'Rapor')}</div><div class="sub">${escapeHtml(x.targetName||x.targetId||'Bilinmeyen')} · ${escapeHtml(x.reporterName||'Anonim')}</div><div style="color:var(--text-muted);font-size:.65rem;margin-top:.2rem">${escapeHtml(x.details||'Detay yok')}</div></div><div class="actions"><button class="edit-btn" onclick="resolveReport('${d.id}')">✅</button><button class="delete-btn-admin" onclick="deleteReportedTarget('${d.id}')">🗑️ Sil</button></div></div>`);});
+                tabContent.innerHTML='<div class="admin-list">'+rows.join('')+'</div>';
+            };
+            const showUsers=async()=>{
+                const rows=[]; usersSnap.forEach(d=>{const x=d.data();rows.push(`<div class="admin-list-item"><div class="info"><div class="title">👤 ${escapeHtml(x.displayName||'Kullanıcı')}</div><div class="sub">${escapeHtml(x.email||'')} · 🪙 ${Number(x.coins||0)} · 📦 ${(x.purchasedScripts||[]).length}</div></div><div class="actions"><button class="edit-btn" onclick="adminInspectUser('${d.id}')">👁️</button></div></div>`);});
+                tabContent.innerHTML='<div class="admin-list">'+rows.join('')+'</div>';
+            };
+            const showActivity=()=>{tabContent.innerHTML=`<div class="admin-activity-card"><h3>📊 Sistem Özeti</h3><p>Toplam kullanıcı: <b>${usersSnap.size}</b></p><p>Toplam script: <b>${scriptsSnap.size}</b></p><p>Toplam oyun: <b>${gamesSnap.size}</b></p><p>Açık rapor: <b>${reportsCount}</b></p><p>Panel yenilendi: <b>${new Date().toLocaleString('tr-TR')}</b></p></div>`;};
+            const tabs={scripts:showScripts,reports:showReports,users:showUsers,activity:showActivity};
+            document.querySelectorAll('.admin-tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');tabs[b.dataset.adminTab]();}));
+            showScripts();
+        }catch(e){console.error(e);content.innerHTML='<div class="empty-state"><div class="icon">⚠️</div><p>Admin verileri yüklenemedi.</p></div>';}
     }
+
 
     window.adminEditScript = function(scriptId) {
         const script = getAllScripts().find(s => s.id === scriptId);
