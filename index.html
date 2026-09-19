@@ -1522,6 +1522,18 @@
     window.adminInspectUser=async function(uid){if(!isAdmin(currentUser))return;const d=await db.collection('users').doc(uid).get();const x=d.data()||{};alert('Kullanıcı: '+(x.displayName||'Kullanıcı')+'\nE-posta: '+(x.email||'')+'\nCoin: '+(x.coins||0)+'\nSatın alınan: '+((x.purchasedScripts||[]).length));};
     window.deleteReportedTarget=async function(reportId){if(!isAdmin(currentUser))return;const d=await db.collection('reports').doc(reportId).get();const x=d.data()||{};if(x.targetType==='script'&&x.targetId)await db.collection('scripts').doc(x.targetId).delete();if(x.targetType==='comment'&&x.scriptId&&x.targetId)await db.collection('scripts').doc(x.scriptId).collection('comments').doc(x.targetId).delete();await db.collection('reports').doc(reportId).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('🗑️ İçerik ve rapor işlendi');renderAdminPanel();};
 
+    async function reportScript(scriptId){
+        if(!currentUser){showToast('❌ Raporlamak için giriş yapmalısın!');openAuthModal();return;}
+        const s=getAllScripts().find(x=>x.id===scriptId); if(!s)return;
+        const reason=prompt('Rapor nedeni? (Örn: spam, zararlı içerik, yanlış kategori)');
+        if(!reason||!reason.trim())return;
+        try{
+            await db.collection('reports').add({targetType:'script',targetId:scriptId,targetName:s.name||'Script',reporterId:currentUser.uid,reporterName:currentUser.displayName||'Anonim',reason:reason.trim(),details:'',status:'open',createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+            showToast('🚨 Rapor adminlere gönderildi.');
+        }catch(e){showToast('❌ Rapor gönderilemedi.');}
+    }
+    window.reportScript=reportScript;
+
     // ========== SCRIPT DETAILS ==========
     function ensureScriptDetailModal(){
         if(document.getElementById('scriptDetailModal')) return;
@@ -1961,6 +1973,7 @@
                                 ${isOwner ? `<button class="edit-script-btn" onclick="openEditScriptModal('${s.id}')" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.15);border-radius:20px;padding:0.05rem 0.6rem;color:var(--accent-light);font-size:0.55rem;cursor:pointer">✏️ Düzenle</button>` : ''}
                                 ${canDelete ? `<button class="delete-btn" data-id="${s.id}"><img src="${IMG.delete}" alt="Sil"> Sil</button>` : ''}
                                 <button class="detail-btn" onclick="openScriptDetails('${s.id}')">ℹ️ Detay</button>
+                                <button class="detail-btn" onclick="reportScript('${s.id}')">🚨 Rapor</button>
                                 <button class="get-btn ${isUnlocked ? '' : 'locked'}" data-id="${s.id}">
                                     ${isUnlocked ? `<img src="${IMG.get}" alt="GET"> GET` : `🔒 ${coinPrice > 0 ? '🪙 '+coinPrice : 'Aç'}`}
                                 </button>
