@@ -29,6 +29,9 @@
 
     <style>
         /* ScriptHub v2 polish */
+        .leaderboard-list-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;margin:.45rem 0;background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px}
+        .leaderboard-list-item .rank{min-width:58px;color:var(--text-secondary);font-size:.78rem}.leaderboard-list-item .info{flex:1;min-width:0}.leaderboard-list-item .title{color:var(--text-primary);font-weight:600}.leaderboard-list-item .sub{color:var(--text-muted);font-size:.65rem;margin-top:.15rem}.leaderboard-list-item .score{color:var(--gold);font-weight:700;font-size:.82rem}
+
         :focus-visible{outline:2px solid var(--accent-light);outline-offset:3px}
         ::selection{background:var(--accent);color:#fff}
         img{content-visibility:auto}
@@ -1325,12 +1328,28 @@
         leaderboardModal.classList.remove('open');
         document.body.style.overflow = '';
     }
-    function renderLeaderboard() {
-        document.getElementById('leaderboardContent').innerHTML = `
-            <div class="leaderboard-list">
-                <div class="empty-state"><div class="icon">🏆</div><p>Liderlik tablosu yakında!</p></div>
-            </div>
-        `;
+    async function renderLeaderboard() {
+        const el = document.getElementById('leaderboardContent');
+        el.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>Liderlik tablosu yükleniyor...</p></div>';
+        try {
+            const snap = await db.collection('users').orderBy('totalCoinsEarned','desc').limit(25).get();
+            if (snap.empty) {
+                el.innerHTML = '<div class="empty-state"><div class="icon">🏆</div><p>Henüz liderlik verisi yok.</p></div>';
+                return;
+            }
+            const rows = [];
+            snap.forEach((doc, index) => {
+                const d = doc.data();
+                const name = escapeHtml(d.displayName || 'Kullanıcı');
+                const coins = Number(d.totalCoinsEarned || d.coins || 0);
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+                rows.push(`<div class="leaderboard-list-item"><div class="rank">${medal} <strong>#${index+1}</strong></div><div class="info"><div class="title">${name}</div><div class="sub">Toplam kazanılan coin</div></div><div class="score">🪙 ${coins.toLocaleString('tr-TR')}</div></div>`);
+            });
+            el.innerHTML = rows.join('');
+        } catch (e) {
+            console.error(e);
+            el.innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Liderlik tablosu şu anda yüklenemiyor.</p></div>';
+        }
     }
 
     // ========== FIREBASE ==========
