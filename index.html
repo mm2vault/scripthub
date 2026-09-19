@@ -2770,5 +2770,160 @@
 })();
 </script>
 
+
+<!-- ScriptHub Cosmetic Studio patch -->
+<style>
+.cosmetic-preview{height:100px;border-radius:18px;border:1px solid var(--border-color);position:relative;overflow:hidden;margin-bottom:.6rem;background:linear-gradient(135deg,#10122c,#25134d)}
+.cosmetic-preview::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(167,139,250,.5),transparent 35%),radial-gradient(circle at 80% 80%,rgba(59,130,246,.35),transparent 35%)}
+.cosmetic-preview .cosmetic-avatar{position:absolute;left:18px;bottom:12px;width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3)}
+.cosmetic-preview .cosmetic-name{position:absolute;left:78px;bottom:22px;font-weight:800;color:#fff;font-size:1rem}
+.cosmetic-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;padding:.7rem;transition:.25s}
+.cosmetic-card:hover{transform:translateY(-3px);border-color:var(--accent-light)}
+.cosmetic-card .rarity{font-size:.58rem;padding:.18rem .5rem;border-radius:999px;background:rgba(167,139,250,.12);color:var(--accent-light)}
+.cosmetic-card .cosmetic-meta{display:flex;justify-content:space-between;gap:.4rem;align-items:center;margin-top:.4rem}
+.cosmetic-card .cosmetic-price{color:var(--gold);font-weight:800;font-size:.75rem}
+.cosmetic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.7rem}
+.profile-cosmetic-card{position:relative;overflow:hidden;border-radius:22px;border:1px solid var(--border-color);min-height:170px;padding:1rem;margin-bottom:1rem;background:#0c0d20}
+.profile-cosmetic-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.75}
+.profile-cosmetic-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 15%,rgba(7,8,22,.92) 100%)}
+.profile-cosmetic-content{position:relative;z-index:1;display:flex;align-items:end;min-height:145px;gap:.8rem}
+.profile-cosmetic-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:4px solid #a78bfa;box-shadow:0 0 25px rgba(167,139,250,.45)}
+.profile-cosmetic-name{font-size:1.15rem;font-weight:800;margin-bottom:.15rem}
+.profile-cosmetic-badges{display:flex;gap:.3rem;flex-wrap:wrap}
+.profile-cosmetic-badge{font-size:.58rem;padding:.2rem .5rem;border-radius:999px;background:rgba(255,255,255,.12);color:#fff}
+@media(max-width:600px){.cosmetic-grid{grid-template-columns:1fr 1fr}.profile-cosmetic-card{min-height:150px}}
+</style>
+<script>
+(function(){
+  'use strict';
+  const DEFAULT_COSMETICS = [
+    {id:'frame_gold',name:'Altın Çerçeve',price:150,type:'frame',value:'gold',icon:'🟡',rarity:'Rare',desc:'Profil avatarına altın çerçeve.'},
+    {id:'frame_premium',name:'Premium Çerçeve',price:200,type:'frame',value:'premium',icon:'💎',rarity:'Epic',desc:'Parlayan premium avatar çerçevesi.'},
+    {id:'frame_fire',name:'Inferno Frame',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş enerjili profil çerçevesi.'},
+    {id:'frame_ice',name:'Frost Frame',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali temalı çerçeve.'},
+    {id:'name_purple',name:'Mor Glow',price:100,type:'nameColor',value:'#a78bfa',icon:'🟣',rarity:'Common',desc:'Mor neon isim efekti.'},
+    {id:'name_gold',name:'Altın Glow',price:200,type:'nameColor',value:'#fbbf24',icon:'🟡',rarity:'Rare',desc:'Altın parlayan isim.'},
+    {id:'name_rainbow',name:'Rainbow',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Animasyonlu rainbow isim.'},
+    {id:'name_neon',name:'Cyber Neon',price:750,type:'nameColor',value:'neon',icon:'⚡',rarity:'Legendary',desc:'Cyberpunk neon isim efekti.'},
+    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Hareketli galaksi tarzı profil arka planı.'},
+    {id:'bg_aurora',name:'Aurora',price:700,type:'background',value:'aurora',icon:'🌈',rarity:'Legendary',desc:'Aurora ışıkları temalı profil arka planı.'},
+    {id:'bg_cyber',name:'Cyber City',price:550,type:'background',value:'cyber',icon:'🌃',rarity:'Epic',desc:'Neon şehir temalı profil arka planı.'},
+    {id:'badge_og',name:'OG Member',price:400,type:'badge',value:'og',icon:'🏆',rarity:'Rare',desc:'Eski üye tarzı profil rozeti.'},
+    {id:'badge_creator',name:'Creator',price:800,type:'badge',value:'creator',icon:'🎨',rarity:'Legendary',desc:'İçerik üreticisi rozeti.'}
+  ];
+  const bgMap={
+    galaxy:'radial-gradient(circle at 20% 30%,#7c3aed55,transparent 30%),radial-gradient(circle at 80% 70%,#2563eb55,transparent 30%),linear-gradient(135deg,#08051b,#17104a,#020617)',
+    aurora:'radial-gradient(circle at 30% 60%,#22c55e55,transparent 28%),radial-gradient(circle at 70% 30%,#06b6d455,transparent 30%),linear-gradient(135deg,#03151b,#10133a,#160b31)',
+    cyber:'linear-gradient(135deg,#080014,#26104d 45%,#071b2b)'
+  };
+  function catalog(){ return [...DEFAULT_COSMETICS]; }
+  function owned(id){ return Array.isArray(inventory)&&inventory.some(x=>x.id===id); }
+  function item(id){ return catalog().find(x=>x.id===id); }
+  function active(type){ return (inventory||[]).find(x=>x.type===type&&x.active); }
+
+  function cosmeticCard(x){
+    const have=owned(x.id), on=active(x.type)?.id===x.id;
+    return '<div class="cosmetic-card">'+
+      '<div class="cosmetic-preview" style="'+(x.type==='background'?'background:'+bgMap[x.value]+';':'')+'">'+
+      '<img class="cosmetic-avatar" src="'+(currentUser?.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'">'+
+      '<div class="cosmetic-name" style="'+(x.type==='nameColor'&&x.value!=='rainbow'&&x.value!=='neon'?'color:'+x.value+';text-shadow:0 0 14px '+x.value+';':'')+'">'+escapeHtml(currentUser?.displayName||'ScriptHub')+'</div></div>'+
+      '<div style="display:flex;justify-content:space-between;gap:.3rem;align-items:center"><strong style="font-size:.78rem">'+x.icon+' '+escapeHtml(x.name)+'</strong><span class="rarity">'+x.rarity+'</span></div>'+
+      '<div style="font-size:.6rem;color:var(--text-muted);min-height:28px;margin-top:.2rem">'+escapeHtml(x.desc)+'</div>'+
+      '<div class="cosmetic-meta"><span class="cosmetic-price">'+(have?'Sahipsin':'🪙 '+x.price)+'</span>'+
+      (have?'<button class="buy-btn '+(on?'owned':'')+'" onclick="toggleCosmetic(\''+x.id+'\')">'+(on?'✅ Aktif':'🎨 Kuşan')+'</button>':
+      '<button class="buy-btn" onclick="purchaseCosmetic(\''+x.id+'\','+x.price+')">🛒 Al</button>')+'</div></div>';
+  }
+
+  async function loadDynamicCosmetics(){
+    try{
+      const snap=await db.collection('cosmetics').where('enabled','==',true).get();
+      const dynamic=[]; snap.forEach(d=>dynamic.push({id:d.id,...d.data()}));
+      return [...catalog(),...dynamic.filter(d=>!catalog().some(x=>x.id===d.id))];
+    }catch(e){return catalog();}
+  }
+
+  window.purchaseCosmetic=async function(id,price){
+    if(!currentUser){showToast('❌ Giriş yapın!');return;}
+    const x=item(id);
+    if(owned(id)){showToast('❌ Zaten sahipsin!');return;}
+    if(!x){showToast('❌ Kozmetik bulunamadı!');return;}
+    if(await spendCoins(Number(price),x.name)){
+      const obj={...x,active:false};
+      inventory=[...(inventory||[]),obj];
+      await db.collection('users').doc(currentUser.uid).update({inventory});
+      showToast('✨ '+x.name+' envanterine eklendi!');
+      renderCosmeticShop();
+      renderProfile();
+    }
+  };
+
+  window.toggleCosmetic=async function(id){
+    if(!currentUser)return;
+    const x=(inventory||[]).find(i=>i.id===id); if(!x)return;
+    inventory=(inventory||[]).map(i=>i.type===x.type?{...i,active:i.id===id?!i.active:false}:i);
+    await db.collection('users').doc(currentUser.uid).update({inventory});
+    showToast((x.active?'↩️ ':'✨ ')+x.name+(x.active?' çıkarıldı!':' kuşanıldı!'));
+    renderCosmeticShop();
+    renderProfile();
+  };
+
+  async function renderCosmeticShop(){
+    const c=document.getElementById('shopContent'); if(!c)return;
+    const all=await loadDynamicCosmetics();
+    c.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem"><div><strong>✨ Profil Stüdyosu</strong><div style="font-size:.62rem;color:var(--text-muted)">Çerçeve, isim efekti, arka plan ve rozetlerini seç.</div></div><span style="color:var(--gold);font-weight:800">🪙 '+userCoins+'</span></div>'+
+      '<div class="cosmetic-grid">'+all.map(cosmeticCard).join('')+'</div>';
+  }
+
+  const oldSwitch=window.switchShopTab;
+  window.switchShopTab=function(tab){
+    currentShopTab=tab;
+    document.querySelectorAll('.shop-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.shopTab===tab));
+    if(tab==='cosmetics'){renderCosmeticShop();return;}
+    if(typeof oldSwitch==='function')oldSwitch(tab);
+  };
+
+  function decorateProfile(){
+    const content=document.getElementById('profileContent'); if(!content||!currentUser)return;
+    const old=content.querySelector('.profile-cosmetic-card'); if(old)old.remove();
+    const frame=active('frame'), name=active('nameColor'), bg=active('background');
+    const badges=(inventory||[]).filter(i=>i.type==='badge'&&i.active);
+    if(!frame&&!name&&!bg&&!badges.length)return;
+    const card=document.createElement('div'); card.className='profile-cosmetic-card';
+    if(bg) card.style.background=bgMap[bg.value]||bg.value;
+    const border=frame?.value==='gold'?'#fbbf24':frame?.value==='premium'?'#a78bfa':frame?.value==='fire'?'#fb7185':frame?.value==='ice'?'#67e8f9':'rgba(255,255,255,.2)';
+    card.innerHTML='<div class="profile-cosmetic-shade"></div><div class="profile-cosmetic-content"><img class="profile-cosmetic-avatar" style="border-color:'+border+';box-shadow:0 0 25px '+border+'88" src="'+(currentUser.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'"><div><div class="profile-cosmetic-name">'+escapeHtml(currentUser.displayName||'Kullanıcı')+'</div><div class="profile-cosmetic-badges">'+badges.map(b=>'<span class="profile-cosmetic-badge">'+b.icon+' '+escapeHtml(b.name)+'</span>').join('')+'</div></div></div>';
+    const nameEl=card.querySelector('.profile-cosmetic-name');
+    if(name){if(name.value==='rainbow')nameEl.style.background='linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#c084fc)';else if(name.value==='neon')nameEl.style.color='#67e8f9';else nameEl.style.color=name.value;nameEl.style.textShadow='0 0 15px currentColor';}
+    content.insertBefore(card,content.firstChild);
+  }
+
+  const observer=new MutationObserver(()=>{if(document.getElementById('profileModal')?.classList.contains('open'))decorateProfile();});
+  observer.observe(document.body,{childList:true,subtree:true});
+  window.addEventListener('load',()=>setTimeout(decorateProfile,500));
+
+  // Admin: inject a small cosmetics manager into the existing admin panel.
+  function injectAdminCosmetics(){
+    if(!currentUser||!isAdmin(currentUser))return;
+    const panel=document.querySelector('#adminContent');
+    if(!panel||panel.querySelector('#cosmeticAdminBox'))return;
+    const box=document.createElement('div');box.id='cosmeticAdminBox';box.style.cssText='margin-top:1rem;padding:1rem;border:1px solid var(--border-color);border-radius:18px;background:var(--bg-card)';
+    box.innerHTML='<h3 style="margin-bottom:.35rem">✨ Kozmetik Mağazası</h3><p style="font-size:.65rem;color:var(--text-muted);margin-bottom:.7rem">Hazır kozmetiklerin fiyatlarını ve aktiflik durumunu yönetebilir, Firebase Storage bağlantısı olan yeni görselleri katalog koleksiyonuna ekleyebilirsin.</p><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="admin-tab" id="seedCosmeticsBtn">📦 Kozmetikleri Firebase\'e Aktar</button><button class="admin-tab" id="addCosmeticBtn">➕ Yeni Kozmetik</button></div><div id="cosmeticAdminList" style="margin-top:.7rem"></div>';
+    panel.appendChild(box);
+    box.querySelector('#seedCosmeticsBtn').onclick=async()=>{try{const batch=db.batch();catalog().forEach(x=>batch.set(db.collection('cosmetics').doc(x.id),{...x,enabled:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}));await batch.commit();showToast('✅ Kozmetikler Firebase\'e aktarıldı.');renderCosmeticAdminList();}catch(e){showToast('❌ Aktarılamadı.');}};
+    box.querySelector('#addCosmeticBtn').onclick=async()=>{
+      const name=prompt('Kozmetik adı:');if(!name)return;
+      const price=parseInt(prompt('Coin fiyatı:','500'),10);if(!Number.isFinite(price)||price<1)return;
+      const type=prompt('Tip: frame / nameColor / background / badge','background');if(!['frame','nameColor','background','badge'].includes(type))return;
+      const value=prompt('Değer (ör. galaxy veya #a78bfa):','galaxy')||'galaxy';
+      const id='custom_'+Date.now();
+      try{await db.collection('cosmetics').doc(id).set({id,name,price,type,value,icon:'✨',rarity:'Epic',desc:'Topluluk kozmetiği',enabled:true,createdAt:firebase.firestore.FieldValue.serverTimestamp()});showToast('✅ Kozmetik eklendi!');renderCosmeticAdminList();}catch(e){showToast('❌ Eklenemedi.');}
+    };
+    async function renderCosmeticAdminList(){const list=box.querySelector('#cosmeticAdminList');try{const snap=await db.collection('cosmetics').orderBy('name').limit(100).get();list.innerHTML=[...snap.docs].map(d=>{const x=d.data();return '<div style="display:flex;justify-content:space-between;gap:.5rem;padding:.45rem 0;border-top:1px solid var(--border-color);font-size:.7rem"><span>'+escapeHtml(x.icon||'✨')+' '+escapeHtml(x.name)+' · 🪙 '+Number(x.price||0)+'</span><button class="delete-btn" onclick="adminToggleCosmetic(\''+d.id+'\')">'+(x.enabled===false?'Aç':'Kapat')+'</button></div>'}).join('')||'<span style="color:var(--text-muted)">Henüz Firebase kozmetiği yok.</span>';}catch(e){list.innerHTML='<span style="color:var(--text-muted)">Kozmetik listesi yüklenemedi.</span>';}}
+    renderCosmeticAdminList();
+  }
+  window.adminToggleCosmetic=async function(id){if(!currentUser||!isAdmin(currentUser))return;try{const r=db.collection('cosmetics').doc(id),s=await r.get();await r.update({enabled:s.data()?.enabled===false});showToast('✅ Kozmetik durumu güncellendi.');injectAdminCosmetics();}catch(e){showToast('❌ İşlem başarısız.');}};
+  const adminObs=new MutationObserver(()=>injectAdminCosmetics());adminObs.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
