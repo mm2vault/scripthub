@@ -1,0 +1,82 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function admin() {
+      return signedIn() && request.auth.uid == 'WAtZhXqj2KUEib0RaRXMTOAgYpc2';
+    }
+
+    function owner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create: if owner(uid);
+      // ScriptHub currently manages coins, inventory and daily progress from the client.
+      // These fields should be moved behind a trusted server/Cloud Function for full anti-cheat protection.
+      allow update: if owner(uid) || admin();
+      allow delete: if admin();
+
+      match /coinLedger/{entryId} {
+        allow read: if owner(uid) || admin();
+        allow create: if owner(uid) || admin();
+        allow update, delete: if admin();
+      }
+    }
+
+    match /scripts/{scriptId} {
+      allow read: if true;
+      allow create: if signedIn();
+      allow update, delete: if admin() ||
+        (signedIn() && resource.data.userId == request.auth.uid);
+
+      match /ratings/{ratingId} {
+        allow read: if true;
+        allow create, update: if signedIn() && ratingId == request.auth.uid;
+        allow delete: if admin() || (signedIn() && ratingId == request.auth.uid);
+      }
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if signedIn();
+        allow update, delete: if admin() ||
+          (signedIn() && resource.data.userId == request.auth.uid);
+      }
+
+      match /views/{viewId} {
+        allow read: if true;
+        allow create, update: if signedIn();
+        allow delete: if admin();
+      }
+    }
+
+    match /games/{gameId} {
+      allow read: if true;
+      allow create: if signedIn();
+      allow update, delete: if admin() ||
+        (signedIn() && resource.data.userId == request.auth.uid);
+    }
+
+    match /reports/{reportId} {
+      allow create: if signedIn();
+      allow read: if admin() ||
+        (signedIn() && resource.data.userId == request.auth.uid);
+      allow update, delete: if admin();
+    }
+
+    match /cosmetics/{cosmeticId} {
+      allow read: if true;
+      allow create, update, delete: if admin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
