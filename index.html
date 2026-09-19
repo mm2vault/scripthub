@@ -21,12 +21,11 @@
     <meta name="google-adsense-account" content="ca-pub-1079812363517680">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1079812363517680" crossorigin="anonymous"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js" defer></script>
+    
     <style>
         /* ScriptHub v2 polish */
 
@@ -403,7 +402,7 @@
     <div class="status-strip" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span>ScriptHub aktif · Topluluk içerikleri düzenli olarak güncelleniyor</span></div>
     <header class="header">
         <div class="logo">
-            <img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="ScriptHub Logo">
+            <img loading="lazy" decoding="async" src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="ScriptHub Logo">
             <div>
                 <h1>ScriptHub</h1>
                 <span>🔥 90+ Script & 🎮 Oyunlar</span>
@@ -411,7 +410,7 @@
         </div>
         <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center">
             <div class="search-box">
-                <img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Ara" class="search-icon">
+                <img loading="lazy" decoding="async" src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Ara" class="search-icon">
                 <input type="text" id="searchInput" placeholder="Script veya oyun ara..." autocomplete="off">
             </div>
             <div class="coin-display">
@@ -420,12 +419,12 @@
                 <button class="coin-shop-btn" onclick="openCoinShop()" title="Coin Mağazası">🏪</button>
             </div>
             <div class="stats">
-                <span><img src="https://i.postimg.cc/4N6JK1Ns/f34b5473-fea8-40e9-a4af-f26a66b92534.jpg" alt="Toplam"> <strong id="totalCount">0</strong></span>
-                <span><img src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favori"> <strong id="favCount">0</strong></span>
-                <span><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk"> <strong id="communityCount">0</strong></span>
+                <span><img loading="lazy" decoding="async" src="https://i.postimg.cc/4N6JK1Ns/f34b5473-fea8-40e9-a4af-f26a66b92534.jpg" alt="Toplam"> <strong id="totalCount">0</strong></span>
+                <span><img loading="lazy" decoding="async" src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favori"> <strong id="favCount">0</strong></span>
+                <span><img loading="lazy" decoding="async" src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk"> <strong id="communityCount">0</strong></span>
             </div>
             <div class="auth-section" id="authSection">
-                <button class="auth-btn" id="loginBtn"><img src="https://i.postimg.cc/xdgmwFsB/7ed5b6f5-a917-4d66-975c-4b78e8183462.jpg" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>
+                <button class="auth-btn" id="loginBtn"><img loading="lazy" decoding="async" src="https://i.postimg.cc/xdgmwFsB/7ed5b6f5-a917-4d66-975c-4b78e8183462.jpg" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>
             </div>
             <div class="theme-controls">
                 <button class="theme-btn dark active" data-theme="dark">🌙</button>
@@ -441,7 +440,7 @@
                 <span class="notification-bell" id="notificationBell">🔔<span class="dot" id="notifDot"></span></span>
                 <div class="notification-list" id="notificationList"></div>
             </div>
-            <button class="add-btn" id="addScriptBtn"><img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> Script Ekle</button>
+            <button class="add-btn" id="addScriptBtn"><img loading="lazy" decoding="async" src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="Ekle"> Script Ekle</button>
             <button class="add-game-btn" id="addGameBtn">🎮 Oyun Ekle</button>
             <button class="auth-btn admin-btn" id="adminBtn" style="display:none" onclick="openAdminModal()">🔧 Admin</button>
             <button class="auth-btn" id="collectionBtn" style="background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.2);color:#fbbf24" onclick="openCollection()">📦 Koleksiyon</button>
@@ -470,16 +469,16 @@
     </div>
 
     <div class="categories" id="categoryFilter">
-        <button class="cat-btn active" data-cat="all"><img src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Hepsi" class="cat-icon"> Hepsi</button>
-        <button class="cat-btn" data-cat="mm2"><img src="https://i.postimg.cc/rFhbs0Xg/images.jpg" alt="MM2" class="cat-icon"> MM2</button>
-        <button class="cat-btn" data-cat="bloxfruits"><img src="https://i.postimg.cc/jScztNGG/no-Filter.jpg" alt="Blox Fruits" class="cat-icon"> Blox Fruits</button>
-        <button class="cat-btn" data-cat="petsim"><img src="https://i.postimg.cc/28fvW2mz/PS99Icon.webp" alt="Pet Sim" class="cat-icon"> Pet Sim 99</button>
-        <button class="cat-btn" data-cat="dahood"><img src="https://i.postimg.cc/s28GgJwX/no-Filter.webp" alt="Da Hood" class="cat-icon"> Da Hood</button>
-        <button class="cat-btn" data-cat="bladeball"><img src="https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp" alt="Blade Ball" class="cat-icon"> Blade Ball</button>
-        <button class="cat-btn" data-cat="brookhaven"><img src="https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp" alt="Brookhaven" class="cat-icon"> Brookhaven</button>
-        <button class="cat-btn" data-cat="other"><img src="https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png" alt="Diğer" class="cat-icon"> Diğer</button>
-        <button class="cat-btn" data-cat="community"><img src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk" class="cat-icon"> Topluluk</button>
-        <button class="cat-btn" data-cat="favorites"><img src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favoriler" class="cat-icon"> Favorilerim</button>
+        <button class="cat-btn active" data-cat="all"><img loading="lazy" decoding="async" src="https://i.postimg.cc/yYcNmHjy/Gold-glowing-star-icon-with-sparkle-effects-Premium-featured.jpg" alt="Hepsi" class="cat-icon"> Hepsi</button>
+        <button class="cat-btn" data-cat="mm2"><img loading="lazy" decoding="async" src="https://i.postimg.cc/rFhbs0Xg/images.jpg" alt="MM2" class="cat-icon"> MM2</button>
+        <button class="cat-btn" data-cat="bloxfruits"><img loading="lazy" decoding="async" src="https://i.postimg.cc/jScztNGG/no-Filter.jpg" alt="Blox Fruits" class="cat-icon"> Blox Fruits</button>
+        <button class="cat-btn" data-cat="petsim"><img loading="lazy" decoding="async" src="https://i.postimg.cc/28fvW2mz/PS99Icon.webp" alt="Pet Sim" class="cat-icon"> Pet Sim 99</button>
+        <button class="cat-btn" data-cat="dahood"><img loading="lazy" decoding="async" src="https://i.postimg.cc/s28GgJwX/no-Filter.webp" alt="Da Hood" class="cat-icon"> Da Hood</button>
+        <button class="cat-btn" data-cat="bladeball"><img loading="lazy" decoding="async" src="https://i.postimg.cc/gkDwZpNw/no-Filter-(1).webp" alt="Blade Ball" class="cat-icon"> Blade Ball</button>
+        <button class="cat-btn" data-cat="brookhaven"><img loading="lazy" decoding="async" src="https://i.postimg.cc/yYdKLz7P/no-Filter-(2).webp" alt="Brookhaven" class="cat-icon"> Brookhaven</button>
+        <button class="cat-btn" data-cat="other"><img loading="lazy" decoding="async" src="https://i.postimg.cc/d12QcRfB/Gemini-Generated-Image-q6hh2jq6hh2jq6hh.png" alt="Diğer" class="cat-icon"> Diğer</button>
+        <button class="cat-btn" data-cat="community"><img loading="lazy" decoding="async" src="https://i.postimg.cc/rm58SGCq/1786707704031.png" alt="Topluluk" class="cat-icon"> Topluluk</button>
+        <button class="cat-btn" data-cat="favorites"><img loading="lazy" decoding="async" src="https://i.postimg.cc/8CWwDsm9/ca015d95-e2e8-48ec-9308-79afdfa05d5d.jpg" alt="Favoriler" class="cat-icon"> Favorilerim</button>
         <button class="cat-btn" data-cat="games" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.2)">
             <span style="font-size:1.1rem">🎮</span> Oyunlar
             <span class="game-badge" id="gameCountBadge">7 OYUN</span>
@@ -502,9 +501,9 @@
     <footer class="footer">
         <span>© 2026 ScriptHub · 🔥 90+ Script & 🎮 Oyunlar</span>
         <div class="social-links">
-            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank"><img src="https://i.postimg.cc/PNHNpXLz/a726bade-6679-40fc-ba33-e10c5283e106.jpg" alt="Discord"><span class="social-label">Discord</span></a>
-            <a href="https://youtube.com/@mm2_ultimatehub" target="_blank"><img src="https://i.postimg.cc/Jt8tDryy/Gemini-Generated-Image-nj6ud2nj6ud2nj6u.png" alt="YouTube"><span class="social-label">YouTube</span></a>
-            <a href="https://www.tiktok.com/@mm2_ultimatehub" target="_blank"><img src="https://i.postimg.cc/HjmjcYJb/Gemini-Generated-Image-nj6ud2nj6ud2nj6u(1).png" alt="TikTok"><span class="social-label">TikTok</span></a>
+            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank"><img loading="lazy" decoding="async" src="https://i.postimg.cc/PNHNpXLz/a726bade-6679-40fc-ba33-e10c5283e106.jpg" alt="Discord"><span class="social-label">Discord</span></a>
+            <a href="https://youtube.com/@mm2_ultimatehub" target="_blank"><img loading="lazy" decoding="async" src="https://i.postimg.cc/Jt8tDryy/Gemini-Generated-Image-nj6ud2nj6ud2nj6u.png" alt="YouTube"><span class="social-label">YouTube</span></a>
+            <a href="https://www.tiktok.com/@mm2_ultimatehub" target="_blank"><img loading="lazy" decoding="async" src="https://i.postimg.cc/HjmjcYJb/Gemini-Generated-Image-nj6ud2nj6ud2nj6u(1).png" alt="TikTok"><span class="social-label">TikTok</span></a>
         </div>
     </footer>
 </div>
@@ -560,7 +559,7 @@
             <div id="loginError" class="auth-error"></div>
             <button class="submit-btn" id="loginSubmitBtn">🚀 Giriş Yap</button>
             <div class="auth-divider">veya</div>
-            <button class="google-btn-full" id="googleLoginBtn"><img src="https://www.google.com/favicon.ico" alt="Google"> Google ile Giriş Yap</button>
+            <button class="google-btn-full" id="googleLoginBtn"><img loading="lazy" decoding="async" src="https://www.google.com/favicon.ico" alt="Google"> Google ile Giriş Yap</button>
         </div>
         <div class="auth-form" id="registerForm">
             <div class="form-group"><label>Kullanıcı Adın *</label><input type="text" id="registerUsername" placeholder="Kullanıcı Adın"></div>
@@ -569,8 +568,8 @@
             <div class="avatar-selection">
                 <div class="title">🖼️ Profil Fotoğrafını Seç</div>
                 <div class="avatar-options" id="avatarOptions">
-                    <div class="avatar-option selected" data-avatar="https://i.postimg.cc/HnwDsKJg/24a54c075ae7a7e7ae16d69e2766cefe.jpg" onclick="selectAvatar(this)"><img src="https://i.postimg.cc/HnwDsKJg/24a54c075ae7a7e7ae16d69e2766cefe.jpg" alt="Avatar 1"></div>
-                    <div class="avatar-option" data-avatar="https://i.postimg.cc/kMKdcVTT/1aa5e264dd077f5d1b17fec8f3f4406b.jpg" onclick="selectAvatar(this)"><img src="https://i.postimg.cc/kMKdcVTT/1aa5e264dd077f5d1b17fec8f3f4406b.jpg" alt="Avatar 2"></div>
+                    <div class="avatar-option selected" data-avatar="https://i.postimg.cc/HnwDsKJg/24a54c075ae7a7e7ae16d69e2766cefe.jpg" onclick="selectAvatar(this)"><img loading="lazy" decoding="async" src="https://i.postimg.cc/HnwDsKJg/24a54c075ae7a7e7ae16d69e2766cefe.jpg" alt="Avatar 1"></div>
+                    <div class="avatar-option" data-avatar="https://i.postimg.cc/kMKdcVTT/1aa5e264dd077f5d1b17fec8f3f4406b.jpg" onclick="selectAvatar(this)"><img loading="lazy" decoding="async" src="https://i.postimg.cc/kMKdcVTT/1aa5e264dd077f5d1b17fec8f3f4406b.jpg" alt="Avatar 2"></div>
                     <div class="avatar-option" id="uploadAvatarOption" onclick="document.getElementById('avatarFileInput').click()"><span class="upload-icon">📤</span></div>
                 </div>
                 <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
@@ -580,7 +579,7 @@
             <div id="registerSuccess" class="auth-success"></div>
             <button class="submit-btn" id="registerSubmitBtn">🚀 Kayıt Ol</button>
             <div class="auth-divider">veya</div>
-            <button class="google-btn-full" id="googleRegisterBtn"><img src="https://www.google.com/favicon.ico" alt="Google"> Google ile Kayıt Ol</button>
+            <button class="google-btn-full" id="googleRegisterBtn"><img loading="lazy" decoding="async" src="https://www.google.com/favicon.ico" alt="Google"> Google ile Kayıt Ol</button>
         </div>
     </div>
 </div>
@@ -659,9 +658,9 @@
         <div style="color:var(--accent-light);font-size:0.85rem;margin-bottom:1rem">3 görevi tamamla, scripti bedava aç.</div>
         <div style="margin:0.8rem 0;color:var(--text-secondary);font-size:0.9rem">📜 <strong id="modalScriptName" style="color:var(--accent-light)">—</strong></div>
         <div class="task-row">
-            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank" class="task-btn" data-task="discord"><img src="https://i.postimg.cc/PNHNpXLz/a726bade-6679-40fc-ba33-e10c5283e106.jpg" alt="Discord">Discord</a>
-            <a href="https://youtube.com/@mm2_ultimatehub?si=zrK7n1GtWiLojNId" target="_blank" class="task-btn" data-task="youtube"><img src="https://i.postimg.cc/Jt8tDryy/Gemini-Generated-Image-nj6ud2nj6ud2nj6u.png" alt="YouTube">YouTube</a>
-            <a href="https://www.tiktok.com/@mm2_ultimatehub?_r=1&_t=ZS-98sBwntDeIk" target="_blank" class="task-btn" data-task="tiktok"><img src="https://i.postimg.cc/HjmjcYJb/Gemini-Generated-Image-nj6ud2nj6ud2nj6u(1).png" alt="TikTok">TikTok</a>
+            <a href="https://discord.gg/Bpn6bYFHsm" target="_blank" class="task-btn" data-task="discord"><img loading="lazy" decoding="async" src="https://i.postimg.cc/PNHNpXLz/a726bade-6679-40fc-ba33-e10c5283e106.jpg" alt="Discord">Discord</a>
+            <a href="https://youtube.com/@mm2_ultimatehub?si=zrK7n1GtWiLojNId" target="_blank" class="task-btn" data-task="youtube"><img loading="lazy" decoding="async" src="https://i.postimg.cc/Jt8tDryy/Gemini-Generated-Image-nj6ud2nj6ud2nj6u.png" alt="YouTube">YouTube</a>
+            <a href="https://www.tiktok.com/@mm2_ultimatehub?_r=1&_t=ZS-98sBwntDeIk" target="_blank" class="task-btn" data-task="tiktok"><img loading="lazy" decoding="async" src="https://i.postimg.cc/HjmjcYJb/Gemini-Generated-Image-nj6ud2nj6ud2nj6u(1).png" alt="TikTok">TikTok</a>
         </div>
         <div class="task-progress"><span class="label" id="taskStatus">0/3</span><div class="bar"><div class="fill" id="progressFill"></div></div></div>
         <button class="reveal-btn" id="revealCodeBtn">🔐 Kodu Göster</button>
@@ -1234,7 +1233,7 @@
         if (user) {
             const name = user.displayName || user.email || 'Kullanıcı';
             const photo = user.photoURL || IMG.users;
-            authSection.innerHTML = `<button class="auth-btn" id="profileBtn" style="gap:0.5rem"><img src="${photo}" alt="Avatar" class="user-avatar" onerror="this.src='${IMG.users}'"><span class="user-name">${escapeHtml(name)}</span></button>`;
+            authSection.innerHTML = `<button class="auth-btn" id="profileBtn" style="gap:0.5rem"><img loading="lazy" decoding="async" src="${photo}" alt="Avatar" class="user-avatar" onerror="this.src='${IMG.users}'"><span class="user-name">${escapeHtml(name)}</span></button>`;
             document.getElementById('profileBtn')?.addEventListener('click', openProfileModal);
             loadUserData(user);
             renderDailyTasks();
@@ -1242,7 +1241,7 @@
             if (isAdmin(user)) adminBtn.style.display = 'flex';
             else adminBtn.style.display = 'none';
         } else {
-            authSection.innerHTML = `<button class="auth-btn" id="loginBtn"><img src="${IMG.login}" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>`;
+            authSection.innerHTML = `<button class="auth-btn" id="loginBtn"><img loading="lazy" decoding="async" src="${IMG.login}" alt="Giriş" style="width:20px;height:20px;border-radius:4px"> Giriş Yap</button>`;
             document.getElementById('loginBtn')?.addEventListener('click', openAuthModal);
             document.getElementById('dailyTasksContainer').style.display = 'none';
             adminBtn.style.display = 'none';
@@ -1266,7 +1265,7 @@
         const userFavs = favorites.filter(id => !id.startsWith('p'));
         const html = `
             <div class="profile-header">
-                <img src="${currentUser.photoURL || IMG.users}" class="profile-avatar" onerror="this.src='${IMG.users}'">
+                <img loading="lazy" decoding="async" src="${currentUser.photoURL || IMG.users}" class="profile-avatar" onerror="this.src='${IMG.users}'">
                 <div class="profile-info">
                     <h3>${escapeHtml(currentUser.displayName || 'Kullanıcı')}</h3>
                     <p>📧 ${escapeHtml(currentUser.email)}</p>
@@ -1297,7 +1296,7 @@
         const html=`
             <form id="profileEditForm">
                 <div style="text-align:center;margin-bottom:1.5rem">
-                    <img src="${currentUser.photoURL||IMG.users}" class="profile-edit-avatar" id="editAvatar" onerror="this.src='${IMG.users}'">
+                    <img loading="lazy" decoding="async" src="${currentUser.photoURL||IMG.users}" class="profile-edit-avatar" id="editAvatar" onerror="this.src='${IMG.users}'">
                 </div>
                 <div class="form-group"><label>👤 Kullanıcı Adı</label><input type="text" id="editUsername" value="${escapeHtml(currentUser.displayName||'')}" required></div>
                 <div class="form-group"><label>📧 E-posta</label><input type="email" value="${escapeHtml(currentUser.email||'')}" disabled style="opacity:0.6"></div>
@@ -1365,17 +1364,15 @@
     // ========== FIREBASE ==========
     async function loadCommunityScripts(){
         try{
-            const snap=await db.collection('scripts').orderBy('createdAt','desc').limit(500).get();
-            communityScripts=[]; 
+            // Açılışta yalnızca ana script listesini getir. Yorum/rating/view istatistikleri
+            // detay modalı açıldığında gerektiğinde yüklenir; böylece N+1 Firebase sorguları kalkar.
+            const snap=await db.collection('scripts').orderBy('createdAt','desc').limit(150).get();
+            communityScripts=[];
             snap.forEach(d=>{
                 const data=d.data();
-                // ✅ DÜZELTME 3: coinPrice'ı güvenli sayı yap
                 let cp = data.coinPrice;
-                if (cp === undefined || cp === null || isNaN(cp)) {
-                    cp = data.isPremium ? 100 : DEFAULT_UNLOCK_PRICE;
-                }
+                if (cp === undefined || cp === null || isNaN(cp)) cp = data.isPremium ? 100 : DEFAULT_UNLOCK_PRICE;
                 cp = parseInt(cp) || 0;
-                
                 communityScripts.push({
                     id:d.id,
                     ...data,
@@ -1384,16 +1381,6 @@
                     coinPrice: cp
                 });
             });
-            for(const s of communityScripts){
-                try {
-                    const ratingSnap=await db.collection('scripts').doc(s.id).collection('ratings').doc('stats').get();
-                    if(ratingSnap.exists) ratings[s.id]=ratingSnap.data();
-                    const commentSnap=await db.collection('scripts').doc(s.id).collection('comments').orderBy('time','desc').limit(10).get();
-                    comments[s.id]=[]; commentSnap.forEach(c=>comments[s.id].push(c.data()));
-                    const viewSnap=await db.collection('scripts').doc(s.id).collection('views').doc('stats').get();
-                    viewCounts[s.id]=viewSnap.exists ? (viewSnap.data().count||0) : 0;
-                } catch(e) {}
-            }
             return communityScripts;
         }catch(e){console.error(e); return [];}
     }
@@ -1941,7 +1928,7 @@
                     <div class="card-image">${getCardImageHTML(s)}</div>
                     <div class="card-body">
                         <div class="card-header">
-                            <h3><img src="${getImageForCategory(s.category)}" style="width:20px;height:20px;border-radius:4px" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(s.name)} ${isPremium ? '⭐' : ''}</h3>
+                            <h3><img loading="lazy" decoding="async" src="${getImageForCategory(s.category)}" style="width:20px;height:20px;border-radius:4px" onerror="this.src='${DEFAULT_IMAGE}'">${escapeHtml(s.name)} ${isPremium ? '⭐' : ''}</h3>
                             <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${s.id}">♥</button>
                         </div>
                         <span class="card-category">${(s.category||'other').toUpperCase()} ${isCommunity ? '· 🌍' : ''}</span>
@@ -1952,7 +1939,7 @@
                             <span style="color:var(--text-muted);font-size:0.6rem;margin-left:0.3rem">👁️ ${views}</span>
                         </div>
                         <div class="card-features">${s.features ? s.features.map(f => `<span class="tag">${escapeHtml(f)}</span>`).join('') : ''}</div>
-                        ${s.userName ? `<div class="script-owner"><img src="${IMG.users}" style="width:14px;height:14px">${escapeHtml(s.userName)}${isOwner ? ' <span class="badge" style="background:rgba(251,191,36,0.15);color:#fbbf24;font-size:0.5rem;padding:0.05rem 0.5rem;border-radius:20px">👑 Sahibim</span>' : ''}</div>` : ''}
+                        ${s.userName ? `<div class="script-owner"><img loading="lazy" decoding="async" src="${IMG.users}" style="width:14px;height:14px">${escapeHtml(s.userName)}${isOwner ? ' <span class="badge" style="background:rgba(251,191,36,0.15);color:#fbbf24;font-size:0.5rem;padding:0.05rem 0.5rem;border-radius:20px">👑 Sahibim</span>' : ''}</div>` : ''}
                         <div class="comment-section">
                             ${isPremium ? `<div style="color:var(--text-muted);font-size:0.65rem;text-align:center;padding:0.3rem">⭐ Premium yorum kapalı</div>` : `
                                 <div style="max-height:80px;overflow-y:auto;margin-bottom:0.3rem">
@@ -1972,17 +1959,17 @@
                         </div>
                         <div class="card-footer">
                             <div style="display:flex;gap:0.3rem;flex-wrap:wrap;align-items:center">
-                                <span class="badge ${isCommunity ? 'community' : ''}"><img src="${badgeImg}" style="width:14px;height:14px">${badgeText}</span>
+                                <span class="badge ${isCommunity ? 'community' : ''}"><img loading="lazy" decoding="async" src="${badgeImg}" style="width:14px;height:14px">${badgeText}</span>
                                 ${!isUnlocked ? `<span class="badge price-badge">🪙 ${coinPrice}</span>` : ''}
                                 ${isUnlocked && !isOwner && !isAdminUser ? `<span class="badge" style="background:rgba(74,222,128,0.15);color:#4ade80">✅ Açık</span>` : ''}
                             </div>
                             <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
                                 ${isOwner ? `<button class="edit-script-btn" onclick="openEditScriptModal('${s.id}')" style="background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.15);border-radius:20px;padding:0.05rem 0.6rem;color:var(--accent-light);font-size:0.55rem;cursor:pointer">✏️ Düzenle</button>` : ''}
-                                ${canDelete ? `<button class="delete-btn" data-id="${s.id}"><img src="${IMG.delete}" alt="Sil"> Sil</button>` : ''}
+                                ${canDelete ? `<button class="delete-btn" data-id="${s.id}"><img loading="lazy" decoding="async" src="${IMG.delete}" alt="Sil"> Sil</button>` : ''}
                                 <button class="detail-btn" onclick="openScriptDetails('${s.id}')">ℹ️ Detay</button>
                                 <button class="detail-btn" onclick="reportScript('${s.id}')">🚨 Rapor</button>
                                 <button class="get-btn ${isUnlocked ? '' : 'locked'}" data-id="${s.id}">
-                                    ${isUnlocked ? `<img src="${IMG.get}" alt="GET"> GET` : `🔒 ${coinPrice > 0 ? '🪙 '+coinPrice : 'Aç'}`}
+                                    ${isUnlocked ? `<img loading="lazy" decoding="async" src="${IMG.get}" alt="GET"> GET` : `🔒 ${coinPrice > 0 ? '🪙 '+coinPrice : 'Aç'}`}
                                 </button>
                             </div>
                         </div>
@@ -2124,7 +2111,7 @@
             uploadedAvatarUrl = e.target.result;
             selectedAvatar = e.target.result;
             const uploadOption = document.getElementById('uploadAvatarOption');
-            uploadOption.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover">`;
+            uploadOption.innerHTML = `<img loading="lazy" decoding="async" src="${e.target.result}" style="width:100%;height:100%;object-fit:cover">`;
             uploadOption.classList.add('selected');
             document.querySelectorAll('.avatar-option').forEach(el => { if (el.id !== 'uploadAvatarOption') el.classList.remove('selected'); });
             document.getElementById('avatarStatus').textContent = '✅ Yüklendi!';
@@ -2164,14 +2151,14 @@
             }
             const reader = new FileReader();
             reader.onload = e => {
-                preview.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%;max-height:180px;border-radius:12px;object-fit:cover">';
+                preview.innerHTML = '<img loading="lazy" decoding="async" src="' + e.target.result + '" style="max-width:100%;max-height:180px;border-radius:12px;object-fit:cover">';
                 if (urlInput) urlInput.value = '';
             };
             reader.readAsDataURL(file);
         });
         urlInput?.addEventListener('input', function() {
             if (!this.value.trim()) return;
-            preview.innerHTML = '<img src="' + this.value.trim().replace(/"/g, '&quot;') + '" style="max-width:100%;max-height:180px;border-radius:12px;object-fit:cover" onerror="this.parentElement.innerHTML=\'🖼️ Resim önizlemesi burada\'">';
+            preview.innerHTML = '<img loading="lazy" decoding="async" src="' + this.value.trim().replace(/"/g, '&quot;') + '" style="max-width:100%;max-height:180px;border-radius:12px;object-fit:cover" onerror="this.parentElement.innerHTML=\'🖼️ Resim önizlemesi burada\'">';
             if (input) input.value = '';
         });
     }
@@ -2414,10 +2401,13 @@
         if (savedNotifs) notifications = JSON.parse(savedNotifs);
         updateNotificationUI();
 
-        // ✅ DÜZELTME 7: Premium scriptleri Firebase'e yaz (ilk seferde)
-        await seedPremiumScripts();
-
+        // Ana listeyi önce göster; ağır/ikincil işlemler ilk ekranı bloke etmesin.
+        render();
         await Promise.all([loadCommunityScripts(), loadCommunityGames()]);
+        render();
+
+        // Premium seed'i kullanıcı arayüzünü bekletmeden arka planda çalıştır.
+        setTimeout(() => seedPremiumScripts().catch(console.error), 1200);
 
         auth.onAuthStateChanged(async user => {
             updateAuthUI(user);
@@ -2427,8 +2417,6 @@
                 render();
             }
         });
-
-        render();
 
         if (!localStorage.getItem('scriptHubWelcomed')) {
             addNotification('👋 ScriptHub\'a hoş geldin! 🪙 Coin kazan, ödüllerin topla!', 'welcome');
