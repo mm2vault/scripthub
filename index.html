@@ -50,7 +50,7 @@
             <div class="coin-display">
                 <span class="coin-icon">🪙</span>
                 <span class="coin-amount" id="coinDisplay">0</span>
-                <button class="coin-shop-btn" onclick="openCoinShop()" title="Coin Mağazası">🏪</button>
+                <button class="shop-main-btn" onclick="openCoinShop()" title="Mağazayı Aç">✨ Mağaza</button>
             </div>
             <div class="stats">
                 <span><img loading="lazy" decoding="async" src="https://i.postimg.cc/4N6JK1Ns/f34b5473-fea8-40e9-a4af-f26a66b92534.jpg" alt="Toplam"> <strong id="totalCount">0</strong></span>
@@ -381,15 +381,15 @@
 <!-- Coin Shop -->
 <div class="modal-overlay" id="coinShopModal">
     <div class="modal-card wide">
-        <div class="modal-header"><h2>🏪 Coin Mağazası</h2><button class="modal-close" id="closeCoinShopModal">✕</button></div>
+        <div class="modal-header"><h2>✨ ScriptHub Mağazası</h2><button class="modal-close" id="closeCoinShopModal">✕</button></div>
         <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;background:var(--bg-card);padding:0.5rem 1rem;border-radius:16px;border:1px solid var(--border-color)">
             <span style="font-size:1.2rem">🪙</span>
             <span style="color:var(--text-secondary);font-size:0.85rem">Bakiyen:</span>
             <span class="coin-amount" id="shopCoinBalance" style="font-size:1.2rem">0</span>
         </div>
         <div class="shop-tabs">
-            <button class="active" data-shop-tab="scripts" onclick="switchShopTab('scripts')">📜 Premium</button>
-            <button data-shop-tab="cosmetics" onclick="switchShopTab('cosmetics')">✨ Kozmetikler</button>
+            <button class="active" data-shop-tab="scripts" onclick="switchShopTab('scripts')">📜 Scriptler</button>
+            <button data-shop-tab="cosmetics" onclick="switchShopTab('cosmetics')">✨ Profil</button><button data-shop-tab="scriptFrames" onclick="switchShopTab('scriptFrames')">🖼️ Script Çerçeveleri</button>
             <button data-shop-tab="owned" onclick="switchShopTab('owned')">📦 Koleksiyon</button>
         </div>
         <div id="shopContent"></div>
