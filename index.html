@@ -2528,6 +2528,19 @@
 
 })();
 
+<style>
+/* Cosmetic visual polish */
+.cosmetic-preview{min-height:122px;background:#0b0d20!important}
+.cosmetic-preview .cosmetic-media{opacity:1;object-fit:cover;transition:transform .35s ease,filter .35s ease}
+.cosmetic-card:hover .cosmetic-media{transform:scale(1.04);filter:saturate(1.12)}
+.cosmetic-card .buy-btn{min-height:34px;padding:.45rem .7rem;border-radius:10px}
+.cosmetic-card .rarity{white-space:nowrap}
+.cosmetic-card{overflow:hidden}
+.profile-cosmetic-bg{opacity:.9}
+.profile-cosmetic-card.has-media .profile-cosmetic-shade{background:linear-gradient(180deg,rgba(7,8,22,.05) 10%,rgba(7,8,22,.94) 100%)}
+@media(max-width:600px){.cosmetic-preview{min-height:105px}.cosmetic-grid{gap:.55rem}.cosmetic-card{padding:.55rem}.cosmetic-card .cosmetic-meta{align-items:stretch}.cosmetic-card .buy-btn{width:100%}}
+</style>
+
 /* ================== ScriptHub Stability Enhancements ================== */
 (function(){
   const style=document.createElement('style');
@@ -2819,11 +2832,11 @@
 (function(){
   'use strict';
   const DEFAULT_COSMETICS = [
-    {id:'frame_gold',name:'Royal Gold',price:150,type:'frame',value:'gold',icon:'👑',rarity:'Rare',desc:'Altın ışıklı premium avatar çerçevesi.'},
-    {id:'frame_fire',name:'Inferno',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş ve kor temalı hareketli görünüm.'},
-    {id:'frame_ice',name:'Frostbite',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali ve soğuk neon çerçeve.'},
-    {id:'name_rainbow',name:'Prism Name',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Renkleri sürekli akan gökkuşağı isim efekti.'},
-    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay, nebula ve yıldız temalı profil arka planı.'}
+    {id:'frame_gold',name:'Royal Gold',price:150,type:'frame',value:'gold',icon:'👑',rarity:'Rare',desc:'Altın ışıklı premium avatar çerçevesi.',imageUrl:'assets/cosmetics/royal-gold.svg'},
+    {id:'frame_fire',name:'Inferno',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş ve kor temalı çerçeve.',imageUrl:'assets/cosmetics/inferno.svg'},
+    {id:'frame_ice',name:'Frostbite',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali ve soğuk neon çerçeve.',imageUrl:'assets/cosmetics/frostbite.svg'},
+    {id:'name_rainbow',name:'Prism Name',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Renkleri akan gökkuşağı isim efekti.',imageUrl:'assets/cosmetics/prism-name.svg'},
+    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay, nebula ve yıldız temalı profil arka planı.',imageUrl:'assets/cosmetics/galaxy-rift.svg'}
   ];
   const bgMap={
     galaxy:'radial-gradient(circle at 20% 30%,#7c3aed55,transparent 30%),radial-gradient(circle at 80% 70%,#2563eb55,transparent 30%),linear-gradient(135deg,#08051b,#17104a,#020617)',
@@ -2910,7 +2923,7 @@
     const badges=(inventory||[]).filter(i=>i.type==='badge'&&i.active);
     if(!frame&&!name&&!bg&&!badges.length)return;
     const card=document.createElement('div'); card.className='profile-cosmetic-card';
-    if(bg) card.style.background=bgMap[bg.value]||bg.value;
+    if(bg){ const bgSrc=bg.mediaUrl||bg.imageUrl; if(bgSrc){ card.style.background='url("'+bgSrc.replace(/"/g,'&quot;')+'") center/cover no-repeat'; card.classList.add('has-media'); } else card.style.background=bgMap[bg.value]||bg.value; }
     const border=frame?.value==='gold'?'#fbbf24':frame?.value==='premium'?'#a78bfa':frame?.value==='fire'?'#fb7185':frame?.value==='ice'?'#67e8f9':'rgba(255,255,255,.2)';
     card.innerHTML='<div class="profile-cosmetic-shade"></div><div class="profile-cosmetic-content"><img class="profile-cosmetic-avatar" style="border-color:'+border+';box-shadow:0 0 25px '+border+'88" src="'+(currentUser.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'"><div><div class="profile-cosmetic-name">'+escapeHtml(currentUser.displayName||'Kullanıcı')+'</div><div class="profile-cosmetic-badges">'+badges.map(b=>'<span class="profile-cosmetic-badge">'+b.icon+' '+escapeHtml(b.name)+'</span>').join('')+'</div></div></div>';
     const nameEl=card.querySelector('.profile-cosmetic-name');
