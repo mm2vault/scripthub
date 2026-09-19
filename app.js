@@ -1956,7 +1956,8 @@ window.deleteCommunityGame=async function(id){
         renderProfile,
         renderShop,
         loadCommunityGames,
-        get communityGames(){ return communityGames; }
+        get communityGames(){ return communityGames; },
+        render
     };
 
 })();
