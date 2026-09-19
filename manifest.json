@@ -1,0 +1,11 @@
+{
+  "name": "ScriptHub",
+  "short_name": "ScriptHub",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070816",
+  "theme_color": "#7c3aed",
+  "lang": "tr",
+  "description": "Roblox scriptleri, oyunlar ve topluluk içerikleri.",
+  "icons": []
+}
