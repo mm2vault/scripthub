@@ -2110,18 +2110,19 @@ window.deleteCommunityGame=async function(id){
     SH.renderProfile();
   };
 
-  async function renderCosmeticShop(){
+  async function renderCosmeticShop(scriptFramesOnly=false){
     const c=document.getElementById('shopContent'); if(!c)return;
     const all=await loadCatalog();
-    c.innerHTML='<div class="cosmetic-studio-head"><div><strong>✨ Profil Stüdyosu</strong><div>Profilini çerçeve, isim efekti ve arka planla kişiselleştir.</div></div><span>🪙 '+SH.userCoins+'</span></div><div class="cosmetic-grid">'+all.map(card).join('')+'</div>';
+    const shown=scriptFramesOnly?all.filter(x=>x.type==='scriptFrame'):all;
+    c.innerHTML='<div class="cosmetic-studio-head"><div><strong>'+ (scriptFramesOnly?'🖼️ Script Çerçeveleri':'✨ Profil Stüdyosu') +'</strong><div>'+ (scriptFramesOnly?'Script kartlarının görünüşünü değiştir.':'Profilini çerçeve, isim efekti ve arka planla kişiselleştir.') +'</div></div><span>🪙 '+SH.userCoins+'</span></div><div class="cosmetic-grid">'+shown.map(card).join('')+'</div>';
   }
   window.renderCosmeticShop=renderCosmeticShop;
 
   const oldSwitch=window.switchShopTab;
   window.switchShopTab=function(tab){
-    if(tab==='cosmetics'){
+    if(tab==='cosmetics'||tab==='scriptFrames'){
       document.querySelectorAll('.shop-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.shopTab===tab));
-      renderCosmeticShop();
+      renderCosmeticShop(tab==='scriptFrames');
       return;
     }
     if(typeof oldSwitch==='function')oldSwitch(tab);
