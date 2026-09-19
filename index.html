@@ -985,37 +985,63 @@
     }
 
     async function addCoins(amount, reason) {
-        if (!currentUser) return;
+        if (!currentUser) return false;
+        amount = Math.floor(Number(amount));
+        if (!Number.isFinite(amount) || amount <= 0) return false;
         try {
-            userCoins += amount;
-            await db.collection('users').doc(currentUser.uid).update({
+            const ref = db.collection('users').doc(currentUser.uid);
+            await ref.update({
                 coins: firebase.firestore.FieldValue.increment(amount),
                 totalCoinsEarned: firebase.firestore.FieldValue.increment(amount)
             });
+            userCoins += amount;
             updateCoinDisplay();
-            if (amount > 0) {
-                showToast(`🪙 +${amount} coin kazandın! (${reason})`);
-                addNotification(`🪙 +${amount} coin kazandın! (${reason})`, 'coin');
-            }
-        } catch(e) { console.error(e); }
+            await ref.collection('coinLedger').add({
+                type:'earn', amount, reason:String(reason||''),
+                createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(()=>{});
+            showToast(`🪙 +${amount} coin kazandın! (${reason})`);
+            addNotification(`🪙 +${amount} coin kazandın! (${reason})`, 'coin');
+            return true;
+        } catch(e) {
+            console.error('Coin ekleme hatası:',e);
+            showToast('❌ Coin eklenemedi, tekrar dene.');
+            return false;
+        }
     }
 
     async function spendCoins(amount, item) {
         if (!currentUser) { showToast('❌ Lütfen giriş yapın!'); return false; }
-        if (userCoins < amount) {
-            showToast(`❌ Yeterli coinin yok! (${userCoins}/${amount})`);
-            return false;
-        }
+        amount = Math.floor(Number(amount));
+        if (!Number.isFinite(amount) || amount <= 0) return false;
+        const ref = db.collection('users').doc(currentUser.uid);
         try {
-            userCoins -= amount;
-            await db.collection('users').doc(currentUser.uid).update({
-                coins: firebase.firestore.FieldValue.increment(-amount)
+            let newBalance = 0;
+            await db.runTransaction(async tx => {
+                const snap = await tx.get(ref);
+                const balance = Number(snap.data()?.coins || 0);
+                if (balance < amount) throw new Error('INSUFFICIENT_COINS');
+                newBalance = balance - amount;
+                tx.update(ref,{coins:newBalance});
             });
+            userCoins = newBalance;
             updateCoinDisplay();
+            await ref.collection('coinLedger').add({
+                type:'spend', amount, item:String(item||''),
+                createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(()=>{});
             showToast(`🪙 -${amount} coin harcadın: ${item}`);
             addNotification(`🪙 -${amount} coin harcadın: ${item}`, 'coin');
             return true;
-        } catch(e) { console.error(e); return false; }
+        } catch(e) {
+            if(e.message==='INSUFFICIENT_COINS'){
+                showToast(`❌ Yeterli coinin yok! (${userCoins}/${amount})`);
+            } else {
+                console.error('Coin harcama hatası:',e);
+                showToast('❌ Coin harcanamadı, tekrar dene.');
+            }
+            return false;
+        }
     }
 
     function getDailyProgress() {
@@ -1042,7 +1068,7 @@
         saveDailyProgress(progress);
         const task = DAILY_TASKS.find(t => t.id === taskId);
         if (task) {
-            await addCoins(task.reward, task.name);
+            showToast(`🎯 ${task.name} tamamlandı! Ödülünü "Tümünü Topla" ile alabilirsin.`);
         }
         renderDailyTasks();
         return true;
@@ -1264,6 +1290,7 @@
         const userScripts = communityScripts.filter(s => s.userId === currentUser.uid);
         const userFavs = favorites.filter(id => !id.startsWith('p'));
         const html = `
+            <div class="profile-banner"></div>
             <div class="profile-header">
                 <img loading="lazy" decoding="async" src="${currentUser.photoURL || IMG.users}" class="profile-avatar" onerror="this.src='${IMG.users}'">
                 <div class="profile-info">
@@ -1277,6 +1304,12 @@
                 <div class="stat"><div class="number">${userFavs.length}</div><span class="label">❤️ Favori</span></div>
                 <div class="stat"><div class="number">${userCoins}</div><span class="label">🪙 Coin</span></div>
                 <div class="stat"><div class="number">${purchasedScripts.length}</div><span class="label">📦 Satın Alınan</span></div>
+            </div>
+            <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin:-.5rem 0 1rem">
+                <span class="badge community">✨ Topluluk Üyesi</span>
+                ${userScripts.length >= 5 ? '<span class="badge" style="background:rgba(251,191,36,.15);color:#fbbf24">🏆 Üretici</span>' : ''}
+                ${favorites.length >= 10 ? '<span class="badge" style="background:rgba(244,114,182,.15);color:#f472b6">❤️ Koleksiyoncu</span>' : ''}
+                ${purchasedScripts.length >= 5 ? '<span class="badge" style="background:rgba(59,130,246,.15);color:#60a5fa">💎 Destekçi</span>' : ''}
             </div>
             <div class="profile-actions">
                 <button class="backup-btn" onclick="backupUserData()">💾 Yedekle</button>
@@ -1513,7 +1546,34 @@
 
     window.adminToggleBan=async function(uid,banned){if(!isAdmin(currentUser))return;await db.collection('users').doc(uid).update({banned:!banned,bannedAt:!banned?firebase.firestore.FieldValue.serverTimestamp():null,bannedBy:!banned?currentUser.uid:null});showToast(!banned?'🚫 Kullanıcı engellendi':'🔓 Kullanıcının engeli kaldırıldı');renderAdminPanel();};
     window.resolveReport=async function(id){if(!isAdmin(currentUser))return;await db.collection('reports').doc(id).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('✅ Rapor çözüldü');renderAdminPanel();};
-    window.adminInspectUser=async function(uid){if(!isAdmin(currentUser))return;const d=await db.collection('users').doc(uid).get();const x=d.data()||{};alert('Kullanıcı: '+(x.displayName||'Kullanıcı')+'\nE-posta: '+(x.email||'')+'\nCoin: '+(x.coins||0)+'\nSatın alınan: '+((x.purchasedScripts||[]).length));};
+    window.adminInspectUser=async function(uid){
+        if(!isAdmin(currentUser))return;
+        const d=await db.collection('users').doc(uid).get();
+        const x=d.data()||{};
+        const action=prompt(
+            'Kullanıcı: '+(x.displayName||'Kullanıcı')+
+            '\\nE-posta: '+(x.email||'')+
+            '\\nCoin: '+(x.coins||0)+
+            '\\nSatın alınan: '+((x.purchasedScripts||[]).length)+
+            '\\n\\nCoin eklemek için pozitif, çıkarmak için negatif sayı gir:'
+        );
+        if(action===null || action.trim()==='') return;
+        const delta=parseInt(action,10);
+        if(!Number.isFinite(delta)||delta===0){showToast('❌ Geçerli bir coin miktarı gir.');return;}
+        try{
+            await db.collection('users').doc(uid).update({
+                coins:firebase.firestore.FieldValue.increment(delta),
+                totalCoinsEarned:delta>0?firebase.firestore.FieldValue.increment(delta):firebase.firestore.FieldValue.increment(0)
+            });
+            await db.collection('users').doc(uid).collection('coinLedger').add({
+                type:delta>0?'admin_grant':'admin_deduct',
+                amount:Math.abs(delta),delta,by:currentUser.uid,
+                createdAt:firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast((delta>0?'🪙 +':'🪙 ')+delta+' coin uygulandı.');
+            renderAdminPanel();
+        }catch(e){showToast('❌ Coin işlemi başarısız: '+e.message);}
+    };
     window.deleteReportedTarget=async function(reportId){if(!isAdmin(currentUser))return;const d=await db.collection('reports').doc(reportId).get();const x=d.data()||{};if(x.targetType==='script'&&x.targetId)await db.collection('scripts').doc(x.targetId).delete();if(x.targetType==='comment'&&x.scriptId&&x.targetId)await db.collection('scripts').doc(x.scriptId).collection('comments').doc(x.targetId).delete();await db.collection('reports').doc(reportId).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('🗑️ İçerik ve rapor işlendi');renderAdminPanel();};
 
     async function reportScript(scriptId){
