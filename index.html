@@ -603,7 +603,7 @@
             <div class="form-group"><label>Açıklama *</label><input type="text" id="scriptDesc" placeholder="Script ne işe yarıyor?" required></div>
             <div class="form-group"><label>Özellikler (virgülle ayır)</label><input type="text" id="scriptFeatures" placeholder="Örn: Aimbot, ESP, Auto Farm"></div>
             <div class="form-group"><label>Script Kodu *</label><textarea id="scriptCodeInput" placeholder="loadstring(...)()" required></textarea></div>
-            <div class="form-group"><label>🖼️ Resim URL'si (isteğe bağlı)</label><input type="url" id="scriptImage" placeholder="https://i.imgur.com/resim.png"><div class="image-preview" id="imagePreview">🖼️ Resim önizlemesi burada</div></div>
+            <div class="form-group"><label>🖼️ Script Resmi</label><div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center"><input type="url" id="scriptImage" placeholder="Resim linki (isteğe bağlı)" style="flex:1;min-width:220px"><label for="scriptImageFile" class="submit-btn" style="cursor:pointer;margin:0;padding:.55rem 1rem">📁 Galeriden Seç</label><input type="file" id="scriptImageFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden></div><div class="image-preview" id="imagePreview">🖼️ Resim önizlemesi burada</div><div class="helper-text">Link bilmiyorsan direkt galeriden bir resim seçebilirsin. Maksimum 5 MB.</div></div>
             <div class="form-group">
                 <label>🪙 Açma Fiyatı (Coin) *</label>
                 <input type="number" id="scriptCoinPrice" placeholder="Örn: 30" min="0" max="9999" value="30" required>
@@ -621,7 +621,7 @@
         <form id="addGameForm">
             <div class="form-group"><label>Oyun Adı *</label><input type="text" id="gameName" required></div>
             <div class="form-group"><label>Oyun Linki *</label><input type="url" id="gameLink" required></div>
-            <div class="form-group"><label>🖼️ Oyun Resmi (URL) *</label><input type="url" id="gameImage" required><div class="image-preview" id="gameImagePreview">🖼️ Resim önizlemesi</div></div>
+            <div class="form-group"><label>🖼️ Oyun Resmi</label><div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center"><input type="url" id="gameImage" placeholder="Resim linki (isteğe bağlı)" style="flex:1;min-width:220px"><label for="gameImageFile" class="submit-btn" style="cursor:pointer;margin:0;padding:.55rem 1rem;background:linear-gradient(135deg,#22c55e,#16a34a)">📁 Galeriden Seç</label><input type="file" id="gameImageFile" accept="image/png,image/jpeg,image/webp,image/gif" hidden></div><div class="image-preview" id="gameImagePreview">🖼️ Resim önizlemesi</div><div class="helper-text">Link bilmiyorsan direkt galeriden bir resim seçebilirsin. Maksimum 5 MB.</div></div>
             <div class="form-group"><label>Oyun Açıklaması</label><input type="text" id="gameDesc"></div>
             <button type="submit" class="submit-btn" style="background:linear-gradient(135deg,#22c55e,#16a34a)">🎮 Oyunu Ekle! (🪙 +20 coin)</button>
         </form>
@@ -786,6 +786,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const auth = firebase.auth();
+    const storage = firebase.storage();
 
     const ADMIN_UID = 'WAtZhXqj2KUEib0RaRXMTOAgYpc2';
     const ITEMS_PER_PAGE = 20;
@@ -2131,6 +2132,53 @@
         reader.readAsDataURL(file);
     });
 
+    async function uploadCommunityImage(file, kind) {
+        if (!file || !currentUser) return null;
+        if (!file.type.startsWith('image/')) { showToast('❌ Sadece resim dosyası seçebilirsin!'); return null; }
+        if (file.size > 5 * 1024 * 1024) { showToast('❌ Resim 5 MB\'dan küçük olmalı!'); return null; }
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+        const path = 'community-images/' + currentUser.uid + '/' + kind + '-' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + ext;
+        try {
+            const ref = storage.ref(path);
+            const snapshot = await ref.put(file, { contentType: file.type, cacheControl: 'public,max-age=31536000' });
+            return await snapshot.ref.getDownloadURL();
+        } catch (error) {
+            console.error('Image upload error:', error);
+            showToast('❌ Resim yüklenemedi: ' + error.message);
+            return null;
+        }
+    }
+
+    function setupImagePicker(inputId, urlId, previewId) {
+        const input = document.getElementById(inputId);
+        const urlInput = document.getElementById(urlId);
+        const preview = document.getElementById(previewId);
+        if (!input) return;
+        input.addEventListener('change', function() {
+            const file = this.files?.[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/') || file.size > 5 * 1024 * 1024) {
+                showToast('❌ Geçersiz resim veya 5 MB üzeri dosya!');
+                this.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = e => {
+                preview.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%;max-height:180px;border-radius:12px;object-fit:cover">';
+                if (urlInput) urlInput.value = '';
+            };
+            reader.readAsDataURL(file);
+        });
+        urlInput?.addEventListener('input', function() {
+            if (!this.value.trim()) return;
+            preview.innerHTML = '<img src="' + this.value.trim().replace(/"/g, '&quot;') + '" style="max-width:100%;max-height:180px;border-radius:12px;object-fit:cover" onerror="this.parentElement.innerHTML=\'🖼️ Resim önizlemesi burada\'">';
+            if (input) input.value = '';
+        });
+    }
+
+    setupImagePicker('scriptImageFile', 'scriptImage', 'imagePreview');
+    setupImagePicker('gameImageFile', 'gameImage', 'gameImagePreview');
+
     document.getElementById('addScriptForm')?.addEventListener('submit', async function(e) {
         e.preventDefault();
         const name = document.getElementById('scriptName').value.trim();
@@ -2138,7 +2186,13 @@
         const desc = document.getElementById('scriptDesc').value.trim();
         const featuresRaw = document.getElementById('scriptFeatures').value.trim();
         const code = document.getElementById('scriptCodeInput').value.trim();
-        const image = document.getElementById('scriptImage').value.trim();
+        let image = document.getElementById('scriptImage').value.trim();
+        const imageFile = document.getElementById('scriptImageFile')?.files?.[0];
+        if (imageFile) {
+            showToast('⏳ Script resmi yükleniyor...');
+            image = await uploadCommunityImage(imageFile, 'script');
+            if (!image) return;
+        }
         const coinPrice = parseInt(document.getElementById('scriptCoinPrice').value) || 0;
         if (!name || !desc || !code) { showToast('❌ Zorunlu alanları doldur!'); return; }
         const features = featuresRaw ? featuresRaw.split(',').map(f => f.trim()).filter(f => f) : [];
@@ -2159,9 +2213,15 @@
         e.preventDefault();
         const name = document.getElementById('gameName').value.trim();
         const link = document.getElementById('gameLink').value.trim();
-        const image = document.getElementById('gameImage').value.trim();
+        let image = document.getElementById('gameImage').value.trim();
+        const imageFile = document.getElementById('gameImageFile')?.files?.[0];
+        if (imageFile) {
+            showToast('⏳ Oyun resmi yükleniyor...');
+            image = await uploadCommunityImage(imageFile, 'game');
+            if (!image) return;
+        }
         const desc = document.getElementById('gameDesc').value.trim();
-        if (!name || !link || !image) { showToast('❌ Zorunlu alanları doldur!'); return; }
+        if (!name || !link || !image) { showToast('❌ Oyun adı, linki ve resmi gerekli!'); return; }
         const data = { name, link, image, desc: desc || `${name}`, userName: currentUser?.displayName || 'Anonim', userId: currentUser?.uid };
         if (await addGameToFirebase(data)) {
             addGameModal.classList.remove('open');
