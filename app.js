@@ -1941,9 +1941,31 @@ window.deleteCommunityGame=async function(id){
     if(uid===currentUser.uid){userCoins=Math.max(0,userCoins+delta);updateCoinDisplay();}
     renderAdminPanel();
   };
+    window.ScriptHub = {
+        get currentUser(){ return currentUser; },
+        get inventory(){ return inventory; },
+        set inventory(v){ inventory=v; },
+        get userCoins(){ return userCoins; },
+        get db(){ return db; },
+        get storage(){ return storage; },
+        get IMG(){ return IMG; },
+        isAdmin,
+        escapeHtml,
+        showToast,
+        spendCoins,
+        renderProfile,
+        renderShop,
+        loadCommunityGames,
+        get communityGames(){ return communityGames; }
+    };
+
 })();
 
+
+
 /* ===== separated inline block ===== */
+
+
 
 (function(){
   'use strict';
@@ -2011,163 +2033,183 @@ window.deleteCommunityGame=async function(id){
   networkStatus();
 })();
 
+
+
 /* ===== separated inline block ===== */
+
 
 (function(){
   'use strict';
-  const DEFAULT_COSMETICS = [
+  const SH=window.ScriptHub;
+  if(!SH) return;
+
+  const DEFAULT_COSMETICS=[
     {id:'frame_gold',name:'Royal Gold',price:150,type:'frame',value:'gold',icon:'👑',rarity:'Rare',desc:'Altın ışıklı premium avatar çerçevesi.',preview:'gold'},
     {id:'frame_fire',name:'Inferno',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş ve kor temalı çerçeve.',preview:'fire'},
     {id:'frame_ice',name:'Frostbite',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali ve soğuk neon çerçeve.',preview:'ice'},
     {id:'name_rainbow',name:'Prism Name',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Renkleri akan gökkuşağı isim efekti.',preview:'rainbow'},
-    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay, nebula ve yıldız temalı profil arka planı.',preview:'galaxy'}
+    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay ve nebula temalı profil arka planı.',preview:'galaxy'}
   ];
   const bgMap={
     galaxy:'radial-gradient(circle at 20% 30%,#7c3aed55,transparent 30%),radial-gradient(circle at 80% 70%,#2563eb55,transparent 30%),linear-gradient(135deg,#08051b,#17104a,#020617)',
     aurora:'radial-gradient(circle at 30% 60%,#22c55e55,transparent 28%),radial-gradient(circle at 70% 30%,#06b6d455,transparent 30%),linear-gradient(135deg,#03151b,#10133a,#160b31)',
     cyber:'linear-gradient(135deg,#080014,#26104d 45%,#071b2b)'
   };
-  let cosmeticCatalog=[...DEFAULT_COSMETICS];
-  function catalog(){ return [...cosmeticCatalog]; }
-  function owned(id){ return Array.isArray(inventory)&&inventory.some(x=>x.id===id); }
-  function item(id){ return catalog().find(x=>x.id===id); }
-  function active(type){ return (inventory||[]).find(x=>x.type===type&&x.active); }
+  let catalog=[...DEFAULT_COSMETICS];
 
-  function cosmeticCard(x){
+  const owned=id=>Array.isArray(SH.inventory)&&SH.inventory.some(x=>x.id===id);
+  const item=id=>catalog.find(x=>x.id===id);
+  const active=type=>(SH.inventory||[]).find(x=>x.type===type&&x.active);
+
+  function mediaHTML(x){
+    if(!x.mediaUrl)return '';
+    if(String(x.mediaType||'').startsWith('video/'))
+      return '<video class="cosmetic-media" src="'+SH.escapeHtml(x.mediaUrl)+'" autoplay muted loop playsinline></video>';
+    return '<img class="cosmetic-media" src="'+SH.escapeHtml(x.mediaUrl)+'" alt="" onerror="this.remove()">';
+  }
+
+  function card(x){
     const have=owned(x.id), on=active(x.type)?.id===x.id;
-    const previewClass=x.preview||x.value||'default';
-    const bgStyle=x.type==='background'&&x.mediaUrl ? 'background:url(\\''+escapeHtml(x.mediaUrl)+'\\') center/cover no-repeat;' : (x.type==='background' ? 'background:'+(bgMap[x.value]||'')+';' : '');
-    const media=x.mediaUrl&&x.type!=='background' ? '<img class="cosmetic-media" src="'+escapeHtml(x.mediaUrl)+'" alt="" onerror="this.style.display=\\'none\\'">' : '';
-    return '<div class="cosmetic-card">'+
-      '<div class="cosmetic-preview preview-'+escapeHtml(previewClass)+' cosmetic-'+escapeHtml(x.type)+'" style="'+bgStyle+'">'+media+
-      '<img class="cosmetic-avatar" src="'+(currentUser?.photoURL||IMG.users)+'" onerror="this.src=\\''+IMG.users+'\\'">'+
-      '<div class="cosmetic-name">'+escapeHtml(currentUser?.displayName||'ScriptHub')+'</div></div>'+
-      '<div style="display:flex;justify-content:space-between;gap:.3rem;align-items:center"><strong style="font-size:.78rem">'+(x.icon||'✨')+' '+escapeHtml(x.name)+'</strong><span class="rarity">'+escapeHtml(x.rarity||'Common')+'</span></div>'+
-      '<div style="font-size:.6rem;color:var(--text-muted);min-height:28px;margin-top:.2rem">'+escapeHtml(x.desc||'Özel profil kozmetiği')+'</div>'+
-      '<div class="cosmetic-meta"><span class="cosmetic-price">'+(have?'Sahipsin':'🪙 '+x.price)+'</span>'+
-      (have?'<button class="buy-btn '+(on?'owned':'')+'" onclick="toggleCosmetic(\\''+x.id+'\\')">'+(on?'✅ Aktif':'🎨 Kuşan')+'</button>':
-      '<button class="buy-btn" onclick="purchaseCosmetic(\\''+x.id+'\\','+x.price+')">🛒 Al</button>')+'</div></div>';
+    const bg=x.type==='background'?(x.mediaUrl?'background-image:url(&quot;'+SH.escapeHtml(x.mediaUrl)+'&quot;)':'background:'+((bgMap[x.value])||'')):'';
+    return '<div class="cosmetic-card"><div class="cosmetic-preview preview-'+SH.escapeHtml(x.preview||x.value||'default')+'" style="'+bg+'">'+mediaHTML(x)+'<img class="cosmetic-avatar" src="'+(SH.currentUser?.photoURL||SH.IMG.users)+'"><div class="cosmetic-name">'+SH.escapeHtml(SH.currentUser?.displayName||'ScriptHub')+'</div></div><div class="cosmetic-card-title"><strong>'+(x.icon||'✨')+' '+SH.escapeHtml(x.name)+'</strong><span class="rarity">'+SH.escapeHtml(x.rarity||'Common')+'</span></div><div class="cosmetic-desc">'+SH.escapeHtml(x.desc||'Özel profil kozmetiği')+'</div><div class="cosmetic-meta"><span class="cosmetic-price">'+(have?'Sahipsin':'🪙 '+Number(x.price||0))+'</span>'+(have?'<button class="buy-btn '+(on?'owned':'')+'" onclick="toggleCosmetic(\''+x.id+'\')">'+(on?'✅ Aktif':'🎨 Kuşan')+'</button>':'<button class="buy-btn" onclick="purchaseCosmetic(\''+x.id+'\','+Number(x.price||0)+')">🛒 Al</button>')+'</div></div>';
   }
 
-  async function loadDynamicCosmetics(){
+  async function loadCatalog(){
     try{
-      const snap=await db.collection('cosmetics').where('enabled','==',true).get();
+      const snap=await SH.db.collection('cosmetics').where('enabled','==',true).get();
       const dynamic=[]; snap.forEach(d=>dynamic.push({id:d.id,...d.data()}));
-      cosmeticCatalog=[...DEFAULT_COSMETICS,...dynamic.filter(d=>!DEFAULT_COSMETICS.some(x=>x.id===d.id))];
-    }catch(e){
-      cosmeticCatalog=[...DEFAULT_COSMETICS];
-    }
-    return catalog();
+      catalog=[...DEFAULT_COSMETICS,...dynamic.filter(d=>!DEFAULT_COSMETICS.some(x=>x.id===d.id))];
+    }catch(e){ catalog=[...DEFAULT_COSMETICS]; }
+    return catalog;
   }
 
-  window.purchaseCosmetic=async function(id,price){
-    if(!currentUser){showToast('❌ Giriş yapın!');return;}
-    if(owned(id)){showToast('❌ Zaten sahipsin!');return;}
+  window.purchaseCosmetic=async function(id){
     const x=item(id);
-    if(!x){showToast('❌ Kozmetik bulunamadı!');return;}
-    const finalPrice=Number(x.price??price);
-    if(!Number.isFinite(finalPrice)||finalPrice<1){showToast('❌ Kozmetik fiyatı geçersiz!');return;}
-    if(await spendCoins(finalPrice,x.name)){
-      const obj={...x,active:false};
-      inventory=[...(inventory||[]),obj];
-      await db.collection('users').doc(currentUser.uid).update({inventory});
-      showToast('✨ '+x.name+' envanterine eklendi!');
-      renderCosmeticShop();
-      renderProfile();
+    if(!SH.currentUser){SH.showToast('❌ Giriş yapın!');return;}
+    if(!x||owned(id)){SH.showToast('❌ Kozmetik zaten sende veya bulunamadı.');return;}
+    const price=Math.max(1,Number(x.price||0));
+    if(await SH.spendCoins(price,x.name)){
+      SH.inventory=[...(SH.inventory||[]),{...x,active:false}];
+      await SH.db.collection('users').doc(SH.currentUser.uid).update({inventory:SH.inventory});
+      SH.showToast('✨ '+x.name+' envanterine eklendi!');
+      render();
     }
+    renderCosmeticShop();
   };
 
   window.toggleCosmetic=async function(id){
-    if(!currentUser)return;
-    const x=(inventory||[]).find(i=>i.id===id); if(!x)return;
-    inventory=(inventory||[]).map(i=>i.type===x.type?{...i,active:i.id===id?!i.active:false}:i);
-    await db.collection('users').doc(currentUser.uid).update({inventory});
-    showToast((x.active?'↩️ ':'✨ ')+x.name+(x.active?' çıkarıldı!':' kuşanıldı!'));
+    if(!SH.currentUser)return;
+    const target=(SH.inventory||[]).find(x=>x.id===id);
+    if(!target)return;
+    SH.inventory=(SH.inventory||[]).map(x=>x.type===target.type?{...x,active:x.id===id?!target.active:false}:x);
+    await SH.db.collection('users').doc(SH.currentUser.uid).update({inventory:SH.inventory});
+    SH.showToast((target.active?'↩️ ':'✨ ')+target.name+(target.active?' çıkarıldı!':' kuşanıldı!'));
     renderCosmeticShop();
-    renderProfile();
+    SH.renderProfile();
   };
 
   async function renderCosmeticShop(){
     const c=document.getElementById('shopContent'); if(!c)return;
-    const all=await loadDynamicCosmetics();
-    c.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem"><div><strong>✨ Profil Stüdyosu</strong><div style="font-size:.62rem;color:var(--text-muted)">Çerçeve, isim efekti, arka plan ve rozetlerini seç.</div></div><span style="color:var(--gold);font-weight:800">🪙 '+userCoins+'</span></div>'+
-      '<div class="cosmetic-grid">'+all.map(cosmeticCard).join('')+'</div>';
+    const all=await loadCatalog();
+    c.innerHTML='<div class="cosmetic-studio-head"><div><strong>✨ Profil Stüdyosu</strong><div>Profilini çerçeve, isim efekti ve arka planla kişiselleştir.</div></div><span>🪙 '+SH.userCoins+'</span></div><div class="cosmetic-grid">'+all.map(card).join('')+'</div>';
   }
+  window.renderCosmeticShop=renderCosmeticShop;
 
-  const oldSwitch=window.switchShopTab || switchShopTab;
+  const oldSwitch=window.switchShopTab;
   window.switchShopTab=function(tab){
-    currentShopTab=tab;
-    document.querySelectorAll('.shop-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.shopTab===tab));
-    if(tab==='cosmetics'){renderCosmeticShop();return;}
+    if(tab==='cosmetics'){
+      document.querySelectorAll('.shop-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.shopTab===tab));
+      renderCosmeticShop();
+      return;
+    }
     if(typeof oldSwitch==='function')oldSwitch(tab);
   };
 
   function decorateProfile(){
-    const content=document.getElementById('profileContent'); if(!content||!currentUser)return;
-    const old=content.querySelector('.profile-cosmetic-card'); if(old)old.remove();
-    const frame=active('frame'), name=active('nameColor'), bg=active('background');
-    const badges=(inventory||[]).filter(i=>i.type==='badge'&&i.active);
+    const content=document.getElementById('profileContent');
+    if(!content||!SH.currentUser)return;
+    content.querySelector('.profile-cosmetic-card')?.remove();
+    const frame=active('frame'),name=active('nameColor'),bg=active('background');
+    const badges=(SH.inventory||[]).filter(x=>x.type==='badge'&&x.active);
     if(!frame&&!name&&!bg&&!badges.length)return;
-    const card=document.createElement('div'); card.className='profile-cosmetic-card';
-    if(bg){ const bgSrc=bg.mediaUrl||bg.imageUrl; if(bgSrc){ card.style.background='url("'+bgSrc.replace(/"/g,'&quot;')+'") center/cover no-repeat'; card.classList.add('has-media'); } else card.style.background=bgMap[bg.value]||bg.value; }
-    const border=frame?.value==='gold'?'#fbbf24':frame?.value==='premium'?'#a78bfa':frame?.value==='fire'?'#fb7185':frame?.value==='ice'?'#67e8f9':'rgba(255,255,255,.2)';
-    card.innerHTML='<div class="profile-cosmetic-shade"></div><div class="profile-cosmetic-content"><img class="profile-cosmetic-avatar" style="border-color:'+border+';box-shadow:0 0 25px '+border+'88" src="'+(currentUser.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'"><div><div class="profile-cosmetic-name">'+escapeHtml(currentUser.displayName||'Kullanıcı')+'</div><div class="profile-cosmetic-badges">'+badges.map(b=>'<span class="profile-cosmetic-badge">'+b.icon+' '+escapeHtml(b.name)+'</span>').join('')+'</div></div></div>';
-    const nameEl=card.querySelector('.profile-cosmetic-name');
-    if(name){if(name.value==='rainbow')nameEl.style.background='linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#c084fc)';else if(name.value==='neon')nameEl.style.color='#67e8f9';else nameEl.style.color=name.value;nameEl.style.textShadow='0 0 15px currentColor';}
-    content.insertBefore(card,content.firstChild);
+    const cardEl=document.createElement('div'); cardEl.className='profile-cosmetic-card';
+    if(bg)cardEl.style.background=bg.mediaUrl?'url("'+bg.mediaUrl.replace(/"/g,'&quot;')+'") center/cover':(bgMap[bg.value]||bg.value);
+    const border=frame?.value==='gold'?'#fbbf24':frame?.value==='fire'?'#fb7185':frame?.value==='ice'?'#67e8f9':'#a78bfa';
+    cardEl.innerHTML='<div class="profile-cosmetic-shade"></div><div class="profile-cosmetic-content"><img class="profile-cosmetic-avatar" style="border-color:'+border+'" src="'+(SH.currentUser.photoURL||SH.IMG.users)+'"><div><div class="profile-cosmetic-name">'+SH.escapeHtml(SH.currentUser.displayName||'Kullanıcı')+'</div><div class="profile-cosmetic-badges">'+badges.map(x=>'<span class="profile-cosmetic-badge">'+(x.icon||'✨')+' '+SH.escapeHtml(x.name)+'</span>').join('')+'</div></div></div>';
+    const n=cardEl.querySelector('.profile-cosmetic-name');
+    if(name?.value==='rainbow'){n.style.background='linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#c084fc)';n.style.webkitBackgroundClip='text';n.style.color='transparent';}
+    else if(name?.value)n.style.color=name.value;
+    content.insertBefore(cardEl,content.firstChild);
   }
+  window.decorateScriptHubProfile=decorateProfile;
 
-  const observer=new MutationObserver(()=>{if(document.getElementById('profileModal')?.classList.contains('open'))decorateProfile();});
-  observer.observe(document.body,{childList:true,subtree:true});
-  window.addEventListener('load',()=>setTimeout(decorateProfile,500));
-
-  // Admin: inject a small cosmetics manager into the existing admin panel.
-  function injectAdminCosmetics(){
-    if(!currentUser||!isAdmin(currentUser))return;
-    const panel=document.querySelector('#adminContent');
-    if(!panel||panel.querySelector('#cosmeticAdminBox'))return;
-    const box=document.createElement('div');box.id='cosmeticAdminBox';box.style.cssText='margin-top:1rem;padding:1rem;border:1px solid var(--border-color);border-radius:18px;background:var(--bg-card)';
-    box.innerHTML='<h3 style="margin-bottom:.35rem">✨ Kozmetik Mağazası</h3><p style="font-size:.65rem;color:var(--text-muted);margin-bottom:.7rem">Hazır kozmetiklerin fiyatlarını ve aktiflik durumunu yönetebilir, Firebase Storage bağlantısı olan yeni görselleri katalog koleksiyonuna ekleyebilirsin.</p><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="admin-tab" id="seedCosmeticsBtn">📦 Kozmetikleri Firebase\'e Aktar</button><button class="admin-tab" id="addCosmeticBtn">➕ Yeni Kozmetik</button><button class="admin-tab" id="uploadCosmeticBtn">🖼️ Görsel / GIF Ekle</button></div><input id="cosmeticMediaFile" type="file" accept="image/*,video/mp4,video/webm" style="display:none"><div id="cosmeticUploadHint" style="font-size:.62rem;color:var(--text-muted);margin-top:.5rem">PNG/JPG/WebP/GIF · MP4/WebM · maksimum 8 MB</div><div id="cosmeticAdminList" style="margin-top:.7rem"></div>';
+  function injectAdmin(){
+    if(!SH.currentUser||!SH.isAdmin(SH.currentUser))return;
+    const panel=document.getElementById('adminContent'); if(!panel||panel.querySelector('#cosmeticAdminBox'))return;
+    const box=document.createElement('div'); box.id='cosmeticAdminBox'; box.className='cosmetic-admin-box';
+    box.innerHTML='<div class="cosmetic-admin-title"><div><strong>✨ Kozmetik Yönetimi</strong><small>Canva\'dan hazırladığın PNG / GIF / MP4 / WebM dosyalarını buradan ekleyebilirsin.</small></div><span>👑 ADMIN</span></div><div class="cosmetic-admin-actions"><button class="admin-tab" id="addCosmeticBtn">➕ Bilgiyle Ekle</button><button class="admin-tab" id="uploadCosmeticBtn">🖼️ Görsel / GIF / Video Yükle</button></div><input id="cosmeticMediaFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4,video/webm" hidden><div id="cosmeticAdminList" class="cosmetic-admin-list"></div>';
     panel.appendChild(box);
-    box.querySelector('#seedCosmeticsBtn').onclick=async()=>{try{const batch=db.batch();catalog().forEach(x=>batch.set(db.collection('cosmetics').doc(x.id),{...x,enabled:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}));await batch.commit();showToast('✅ Kozmetikler Firebase\'e aktarıldı.');renderCosmeticAdminList();}catch(e){showToast('❌ Aktarılamadı.');}};
     box.querySelector('#uploadCosmeticBtn').onclick=()=>box.querySelector('#cosmeticMediaFile').click();
-    box.querySelector('#cosmeticMediaFile').onchange=async(ev)=>{
-      const file=ev.target.files?.[0]; if(!file||!currentUser||!isAdmin(currentUser))return;
-      if(file.size>8*1024*1024){showToast('❌ Dosya 8 MB altında olmalı.');ev.target.value='';return;}
-      if(!/^image\/(png|jpeg|webp|gif)$/.test(file.type)&&!/^video\/(mp4|webm)$/.test(file.type)){showToast('❌ PNG/JPG/WebP/GIF/MP4/WebM kullan.');ev.target.value='';return;}
-      const name=prompt('Kozmetik adı:',file.name.replace(/\.[^.]+$/,'').slice(0,40)); if(!name){ev.target.value='';return;}
-      const type=prompt('Tip: frame / nameColor / background / badge','background'); if(!['frame','nameColor','background','badge'].includes(type)){ev.target.value='';return;}
+    box.querySelector('#cosmeticMediaFile').onchange=async e=>{
+      const file=e.target.files?.[0]; if(!file)return;
+      if(file.size>8*1024*1024){SH.showToast('❌ Dosya 8 MB altında olmalı.');e.target.value='';return;}
+      const ok=/^image\/(png|jpeg|webp|gif)$/.test(file.type)||/^video\/(mp4|webm)$/.test(file.type);
+      if(!ok){SH.showToast('❌ PNG/JPG/WebP/GIF/MP4/WebM kullan.');e.target.value='';return;}
+      const name=prompt('Kozmetik adı:',file.name.replace(/\.[^.]+$/,'').slice(0,40)); if(!name)return;
+      const type=prompt('Tip: frame / nameColor / background / badge','background'); if(!['frame','nameColor','background','badge'].includes(type))return;
       const price=Math.max(1,parseInt(prompt('Coin fiyatı:','500'),10)||500);
       const rarity=prompt('Nadirlik: Common / Rare / Epic / Legendary','Epic')||'Epic';
-      const desc=prompt('Açıklama:','Özel topluluk kozmetiği')||'Özel topluluk kozmetiği';
+      const desc=prompt('Açıklama:','Canva ile hazırlanan özel kozmetik')||'Özel kozmetik';
       const id='media_'+Date.now();
       try{
-        showToast('⏳ Kozmetik yükleniyor...');
+        SH.showToast('⏳ Yükleniyor...');
         const safe=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');
-        const ref=storage.ref('cosmetic-media/'+currentUser.uid+'/'+id+'-'+safe);
-        const snap=await ref.put(file,{contentType:file.type,customMetadata:{cosmeticId:id}});
+        const ref=SH.storage.ref('cosmetic-media/'+SH.currentUser.uid+'/'+id+'-'+safe);
+        const snap=await ref.put(file,{contentType:file.type});
         const mediaUrl=await snap.ref.getDownloadURL();
-        await db.collection('cosmetics').doc(id).set({id,name,price,type,icon:'✨',rarity,desc,enabled:true,mediaUrl,mediaType:file.type,createdBy:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-        showToast('✅ Kozmetik eklendi ve mağazada yayınlandı!');
-        ev.target.value=''; renderCosmeticAdminList(); renderCosmeticShop();
-      }catch(e){console.error(e);showToast('❌ Kozmetik yüklenemedi.');}
+        await SH.db.collection('cosmetics').doc(id).set({id,name,price,type,icon:'✨',rarity,desc,enabled:true,mediaUrl,mediaType:file.type,createdBy:SH.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        SH.showToast('✅ Kozmetik mağazaya eklendi!');
+        e.target.value=''; renderCosmeticAdminList(); renderCosmeticShop();
+      }catch(err){console.error(err);SH.showToast('❌ Kozmetik yüklenemedi.');}
     };
     box.querySelector('#addCosmeticBtn').onclick=async()=>{
-      const name=prompt('Kozmetik adı:');if(!name)return;
-      const price=parseInt(prompt('Coin fiyatı:','500'),10);if(!Number.isFinite(price)||price<1)return;
-      const type=prompt('Tip: frame / nameColor / background / badge','background');if(!['frame','nameColor','background','badge'].includes(type))return;
+      const name=prompt('Kozmetik adı:'); if(!name)return;
+      const price=Math.max(1,parseInt(prompt('Coin fiyatı:','500'),10)||500);
+      const type=prompt('Tip: frame / nameColor / background / badge','background'); if(!['frame','nameColor','background','badge'].includes(type))return;
       const value=prompt('Değer (ör. galaxy veya #a78bfa):','galaxy')||'galaxy';
       const id='custom_'+Date.now();
-      try{await db.collection('cosmetics').doc(id).set({id,name,price,type,value,icon:'✨',rarity:'Epic',desc:'Topluluk kozmetiği',enabled:true,createdAt:firebase.firestore.FieldValue.serverTimestamp()});showToast('✅ Kozmetik eklendi!');renderCosmeticAdminList();}catch(e){showToast('❌ Eklenemedi.');}
+      await SH.db.collection('cosmetics').doc(id).set({id,name,price,type,value,icon:'✨',rarity:'Epic',desc:'Özel kozmetik',enabled:true,createdBy:SH.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      SH.showToast('✅ Kozmetik eklendi!'); renderCosmeticAdminList();
     };
-    async function renderCosmeticAdminList(){const list=box.querySelector('#cosmeticAdminList');try{const snap=await db.collection('cosmetics').orderBy('name').limit(100).get();list.innerHTML=[...snap.docs].map(d=>{const x=d.data();return '<div style="display:flex;justify-content:space-between;gap:.5rem;padding:.45rem 0;border-top:1px solid var(--border-color);font-size:.7rem"><span>'+escapeHtml(x.icon||'✨')+' '+escapeHtml(x.name)+' · 🪙 '+Number(x.price||0)+'</span><button class="delete-btn" onclick="adminToggleCosmetic(\''+d.id+'\')">'+(x.enabled===false?'Aç':'Kapat')+'</button></div>'}).join('')||'<span style="color:var(--text-muted)">Henüz Firebase kozmetiği yok.</span>';}catch(e){list.innerHTML='<span style="color:var(--text-muted)">Kozmetik listesi yüklenemedi.</span>';}}
+    async function renderCosmeticAdminList(){
+      const list=box.querySelector('#cosmeticAdminList');
+      try{
+        const snap=await SH.db.collection('cosmetics').orderBy('name').limit(100).get();
+        list.innerHTML=[...snap.docs].map(d=>{const x=d.data();return '<div class="cosmetic-admin-row"><span>'+(x.icon||'✨')+' '+SH.escapeHtml(x.name)+' · 🪙 '+Number(x.price||0)+(x.mediaUrl?' · 🖼️':'')+'</span><button class="delete-btn" onclick="adminToggleCosmetic(\''+d.id+'\')">'+(x.enabled===false?'Aç':'Kapat')+'</button></div>';}).join('')||'<span>Henüz eklenmiş özel kozmetik yok.</span>';
+      }catch(err){list.innerHTML='<span>Kozmetik listesi yüklenemedi.</span>';}
+    }
     renderCosmeticAdminList();
   }
-  window.adminToggleCosmetic=async function(id){if(!currentUser||!isAdmin(currentUser))return;try{const r=db.collection('cosmetics').doc(id),s=await r.get();await r.update({enabled:s.data()?.enabled===false});showToast('✅ Kozmetik durumu güncellendi.');injectAdminCosmetics();}catch(e){showToast('❌ İşlem başarısız.');}};
-  const adminObs=new MutationObserver(()=>injectAdminCosmetics());adminObs.observe(document.body,{childList:true,subtree:true});
+  window.adminToggleCosmetic=async function(id){
+    if(!SH.currentUser||!SH.isAdmin(SH.currentUser))return;
+    const ref=SH.db.collection('cosmetics').doc(id), snap=await ref.get();
+    await ref.update({enabled:snap.data()?.enabled===false});
+    SH.showToast('✅ Kozmetik durumu güncellendi.');
+    injectAdmin();
+  };
+
+  const obs=new MutationObserver(()=>{
+    if(document.getElementById('adminContent'))injectAdmin();
+    if(document.getElementById('profileModal')?.classList.contains('open'))decorateProfile();
+  });
+  obs.observe(document.body,{childList:true,subtree:true});
+  window.addEventListener('load',()=>setTimeout(()=>{injectAdmin();decorateProfile();},500));
 })();
 
+
 /* ===== separated inline block ===== */
+
+
 
 (function(){
   function runShortcutAction(){
