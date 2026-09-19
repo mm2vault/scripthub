@@ -7,5 +7,17 @@
   "theme_color": "#7c3aed",
   "lang": "tr",
   "description": "Roblox scriptleri, oyunlar ve topluluk içerikleri.",
-  "icons": []
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {"name":"Script Ekle","short_name":"Script Ekle","url":"./?action=add-script"},
+    {"name":"Profil","short_name":"Profil","url":"./?action=profile"},
+    {"name":"Coin Mağazası","short_name":"Coin","url":"./?action=shop"}
+  ]
 }
