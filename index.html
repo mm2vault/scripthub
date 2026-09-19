@@ -1538,6 +1538,22 @@
         wrap.addEventListener('click',e=>{if(e.target===wrap)closeScriptDetails();});
     }
     function closeScriptDetails(){const m=document.getElementById('scriptDetailModal');if(m)m.classList.remove('open');document.body.style.overflow='';}
+    async function loadScriptDetailsStats(scriptId) {
+        try {
+            const [ratingSnap, commentSnap, viewSnap] = await Promise.all([
+                db.collection('scripts').doc(scriptId).collection('ratings').doc('stats').get(),
+                db.collection('scripts').doc(scriptId).collection('comments').orderBy('time','desc').limit(10).get(),
+                db.collection('scripts').doc(scriptId).collection('views').doc('stats').get()
+            ]);
+            if (ratingSnap.exists) ratings[scriptId] = ratingSnap.data();
+            comments[scriptId] = [];
+            commentSnap.forEach(d => comments[scriptId].push(d.data()));
+            viewCounts[scriptId] = viewSnap.exists ? (viewSnap.data().count || 0) : 0;
+        } catch (e) {
+            console.warn('Script detay istatistikleri yüklenemedi:', e);
+        }
+    }
+
     async function openScriptDetails(scriptId){
         ensureScriptDetailModal();
         const s=getAllScripts().find(x=>x.id===scriptId); if(!s){showToast('❌ Script bulunamadı!');return;}
@@ -1546,6 +1562,10 @@
         document.getElementById('detailTitle').textContent=s.name||'Script Detayı';
         document.getElementById('scriptDetailContent').innerHTML='<div class="script-detail-hero"><div class="script-detail-cover">'+getCardImageHTML(s)+'</div><div><h3 style="color:var(--text-primary);font-size:1.25rem">'+escapeHtml(s.name)+'</h3><div class="script-detail-meta"><span class="script-detail-chip">📂 '+escapeHtml((s.category||'other').toUpperCase())+'</span><span class="script-detail-chip">⭐ '+(rating.count?rating.avg.toFixed(1):'Puan yok')+'</span><span class="script-detail-chip">👁️ '+views+'</span><span class="script-detail-chip">💬 '+((comments[s.id]||[]).length)+'</span></div><p style="color:var(--text-secondary);line-height:1.6;font-size:.82rem">'+escapeHtml(s.desc||'Açıklama yok.')+'</p><div class="script-detail-actions"><button class="get-btn '+(unlocked?'':'locked')+'" onclick="closeScriptDetails();document.querySelector(\'.get-btn[data-id=\\\''+s.id+'\\\']\')?.click()">'+(unlocked?'🔓 Kodu Aç':'🔒 '+(s.coinPrice||0)+' Coin')+'</button><button class="detail-btn" onclick="navigator.clipboard.writeText(location.href+\'#script-\'+encodeURIComponent(\''+s.id+'\'));showToast(\'🔗 Script bağlantısı kopyalandı!\')">🔗 Paylaş</button></div></div></div><div class="script-detail-section"><h3 style="color:var(--text-primary);font-size:.9rem;margin-bottom:.5rem">🏷️ Özellikler</h3><div class="script-detail-meta">'+((s.features||[]).length?(s.features||[]).map(f=>'<span class="script-detail-chip">#'+escapeHtml(f)+'</span>').join(''):'<span style="color:var(--text-muted);font-size:.7rem">Özellik belirtilmemiş.</span>')+'</div></div><div class="script-detail-section"><h3 style="color:var(--text-primary);font-size:.9rem;margin-bottom:.5rem">💬 Son Yorumlar</h3>'+((comments[s.id]||[]).slice(0,5).map(x=>'<div style="padding:.45rem 0;border-bottom:1px solid var(--border-color);font-size:.72rem"><strong style="color:var(--accent-light)">'+escapeHtml(x.user||'Anonim')+'</strong> <span style="color:var(--text-secondary)">'+escapeHtml(x.text||'')+'</span></div>').join('')||'<span style="color:var(--text-muted);font-size:.7rem">Henüz yorum yok.</span>')+'</div><div class="script-detail-section"><h3 style="color:var(--text-primary);font-size:.9rem;margin-bottom:.5rem">🧩 Kod</h3><div class="script-detail-code">'+(unlocked?escapeHtml(s.code||'Kod yok.'):'🔒 Kodu görmek için scripti açman gerekiyor.')+'</div></div>';
         document.getElementById('scriptDetailModal').classList.add('open');document.body.style.overflow='hidden';
+        if (ratings[s.id] === undefined || comments[s.id] === undefined || viewCounts[s.id] === undefined) {
+            await loadScriptDetailsStats(s.id);
+            openScriptDetails(s.id);
+        }
     }
     window.openScriptDetails=openScriptDetails;
 
