@@ -2461,6 +2461,7 @@
 
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(e => console.log(e));
 
+    window.openProfileModal = openProfileModal;
     window.openCoinShop = openCoinShop;
     window.openCollection = openCollection;
     window.switchShopTab = switchShopTab;
@@ -2775,6 +2776,7 @@
 <style>
 .cosmetic-preview{height:100px;border-radius:18px;border:1px solid var(--border-color);position:relative;overflow:hidden;margin-bottom:.6rem;background:linear-gradient(135deg,#10122c,#25134d)}
 .cosmetic-preview::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(167,139,250,.5),transparent 35%),radial-gradient(circle at 80% 80%,rgba(59,130,246,.35),transparent 35%)}
+.cosmetic-preview .cosmetic-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82}
 .cosmetic-preview .cosmetic-avatar{position:absolute;left:18px;bottom:12px;width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3)}
 .cosmetic-preview .cosmetic-name{position:absolute;left:78px;bottom:22px;font-weight:800;color:#fff;font-size:1rem}
 .cosmetic-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;padding:.7rem;transition:.25s}
@@ -2816,7 +2818,8 @@
     aurora:'radial-gradient(circle at 30% 60%,#22c55e55,transparent 28%),radial-gradient(circle at 70% 30%,#06b6d455,transparent 30%),linear-gradient(135deg,#03151b,#10133a,#160b31)',
     cyber:'linear-gradient(135deg,#080014,#26104d 45%,#071b2b)'
   };
-  function catalog(){ return [...DEFAULT_COSMETICS]; }
+  let cosmeticCatalog=[...DEFAULT_COSMETICS];
+  function catalog(){ return [...cosmeticCatalog]; }
   function owned(id){ return Array.isArray(inventory)&&inventory.some(x=>x.id===id); }
   function item(id){ return catalog().find(x=>x.id===id); }
   function active(type){ return (inventory||[]).find(x=>x.type===type&&x.active); }
@@ -2824,7 +2827,8 @@
   function cosmeticCard(x){
     const have=owned(x.id), on=active(x.type)?.id===x.id;
     return '<div class="cosmetic-card">'+
-      '<div class="cosmetic-preview" style="'+(x.type==='background'?'background:'+bgMap[x.value]+';':'')+'">'+
+      '<div class="cosmetic-preview" style="'+(x.type==='background'?'background:'+((x.mediaUrl||x.imageUrl)?'url(\\''+(x.mediaUrl||x.imageUrl)+'\\') center/cover no-repeat':(bgMap[x.value]||'linear-gradient(135deg,#10122c,#25134d)'))+';':'')+'">'+
+      ((x.mediaUrl||x.imageUrl)&&x.type!=='background'?'<img class="cosmetic-media" src="'+escapeHtml(x.mediaUrl||x.imageUrl)+'" alt="" onerror="this.style.display=\\'none\\'">':'')+
       '<img class="cosmetic-avatar" src="'+(currentUser?.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'">'+
       '<div class="cosmetic-name" style="'+(x.type==='nameColor'&&x.value!=='rainbow'&&x.value!=='neon'?'color:'+x.value+';text-shadow:0 0 14px '+x.value+';':'')+'">'+escapeHtml(currentUser?.displayName||'ScriptHub')+'</div></div>'+
       '<div style="display:flex;justify-content:space-between;gap:.3rem;align-items:center"><strong style="font-size:.78rem">'+x.icon+' '+escapeHtml(x.name)+'</strong><span class="rarity">'+x.rarity+'</span></div>'+
@@ -2838,16 +2842,21 @@
     try{
       const snap=await db.collection('cosmetics').where('enabled','==',true).get();
       const dynamic=[]; snap.forEach(d=>dynamic.push({id:d.id,...d.data()}));
-      return [...catalog(),...dynamic.filter(d=>!catalog().some(x=>x.id===d.id))];
-    }catch(e){return catalog();}
+      cosmeticCatalog=[...DEFAULT_COSMETICS,...dynamic.filter(d=>!DEFAULT_COSMETICS.some(x=>x.id===d.id))];
+    }catch(e){
+      cosmeticCatalog=[...DEFAULT_COSMETICS];
+    }
+    return catalog();
   }
 
   window.purchaseCosmetic=async function(id,price){
     if(!currentUser){showToast('❌ Giriş yapın!');return;}
-    const x=item(id);
     if(owned(id)){showToast('❌ Zaten sahipsin!');return;}
+    const x=item(id);
     if(!x){showToast('❌ Kozmetik bulunamadı!');return;}
-    if(await spendCoins(Number(price),x.name)){
+    const finalPrice=Number(x.price??price);
+    if(!Number.isFinite(finalPrice)||finalPrice<1){showToast('❌ Kozmetik fiyatı geçersiz!');return;}
+    if(await spendCoins(finalPrice,x.name)){
       const obj={...x,active:false};
       inventory=[...(inventory||[]),obj];
       await db.collection('users').doc(currentUser.uid).update({inventory});
@@ -2874,7 +2883,7 @@
       '<div class="cosmetic-grid">'+all.map(cosmeticCard).join('')+'</div>';
   }
 
-  const oldSwitch=window.switchShopTab;
+  const oldSwitch=window.switchShopTab || switchShopTab;
   window.switchShopTab=function(tab){
     currentShopTab=tab;
     document.querySelectorAll('.shop-tabs button').forEach(b=>b.classList.toggle('active',b.dataset.shopTab===tab));
