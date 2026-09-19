@@ -2808,6 +2808,7 @@
 <style>
 .cosmetic-frame-gold{border:3px solid #fbbf24!important;box-shadow:0 0 18px #fbbf2466}.cosmetic-frame-premium{border:3px solid #a78bfa!important;box-shadow:0 0 18px #a78bfa66}.cosmetic-frame-fire{border:3px solid #fb7185!important;box-shadow:0 0 20px #fb718588}.cosmetic-frame-ice{border:3px solid #67e8f9!important;box-shadow:0 0 20px #67e8f988}.cosmetic-name_rainbow .cosmetic-name{background:linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent!important;background-size:300% 100%;animation:shRainbow 3s linear infinite}.cosmetic-name_neon .cosmetic-name{color:#67e8f9!important;text-shadow:0 0 6px #67e8f9,0 0 18px #22d3ee}@keyframes shRainbow{to{background-position:300% 0}}
 .cosmetic-preview{height:100px;border-radius:18px;border:1px solid var(--border-color);position:relative;overflow:hidden;margin-bottom:.6rem;background:linear-gradient(135deg,#10122c,#25134d)}
+.cosmetic-preview.preview-gold{background:radial-gradient(circle at 20% 25%,#fef3c7aa,transparent 22%),linear-gradient(135deg,#160b02,#f59e0b,#451a03)}.cosmetic-preview.preview-fire{background:radial-gradient(circle at 25% 80%,#facc15aa,transparent 18%),linear-gradient(135deg,#450a0a,#ea580c,#7f1d1d)}.cosmetic-preview.preview-ice{background:radial-gradient(circle at 75% 25%,#a5f3fcaa,transparent 20%),linear-gradient(135deg,#082f49,#0e7490,#172554)}.cosmetic-preview.preview-rainbow{background:linear-gradient(110deg,#f43f5e,#f59e0b,#22c55e,#3b82f6,#a855f7);background-size:300% 100%;animation:shRainbow 5s linear infinite}.cosmetic-preview.preview-galaxy{background:radial-gradient(circle at 25% 30%,#a855f7aa,transparent 18%),radial-gradient(circle at 75% 70%,#2563eb88,transparent 20%),linear-gradient(135deg,#020617,#312e81,#020617)}
 .cosmetic-preview::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(167,139,250,.5),transparent 35%),radial-gradient(circle at 80% 80%,rgba(59,130,246,.35),transparent 35%)}
 .cosmetic-preview .cosmetic-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82}
 .cosmetic-preview .cosmetic-avatar{position:absolute;left:18px;bottom:12px;width:48px;height:48px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3)}
@@ -2832,11 +2833,11 @@
 (function(){
   'use strict';
   const DEFAULT_COSMETICS = [
-    {id:'frame_gold',name:'Royal Gold',price:150,type:'frame',value:'gold',icon:'👑',rarity:'Rare',desc:'Altın ışıklı premium avatar çerçevesi.',imageUrl:'assets/cosmetics/royal-gold.svg'},
-    {id:'frame_fire',name:'Inferno',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş ve kor temalı çerçeve.',imageUrl:'assets/cosmetics/inferno.svg'},
-    {id:'frame_ice',name:'Frostbite',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali ve soğuk neon çerçeve.',imageUrl:'assets/cosmetics/frostbite.svg'},
-    {id:'name_rainbow',name:'Prism Name',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Renkleri akan gökkuşağı isim efekti.',imageUrl:'assets/cosmetics/prism-name.svg'},
-    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay, nebula ve yıldız temalı profil arka planı.',imageUrl:'assets/cosmetics/galaxy-rift.svg'}
+    {id:'frame_gold',name:'Royal Gold',price:150,type:'frame',value:'gold',icon:'👑',rarity:'Rare',desc:'Altın ışıklı premium avatar çerçevesi.',preview:'gold'},
+    {id:'frame_fire',name:'Inferno',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş ve kor temalı çerçeve.',preview:'fire'},
+    {id:'frame_ice',name:'Frostbite',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali ve soğuk neon çerçeve.',preview:'ice'},
+    {id:'name_rainbow',name:'Prism Name',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Renkleri akan gökkuşağı isim efekti.',preview:'rainbow'},
+    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay, nebula ve yıldız temalı profil arka planı.',preview:'galaxy'}
   ];
   const bgMap={
     galaxy:'radial-gradient(circle at 20% 30%,#7c3aed55,transparent 30%),radial-gradient(circle at 80% 70%,#2563eb55,transparent 30%),linear-gradient(135deg,#08051b,#17104a,#020617)',
