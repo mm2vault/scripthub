@@ -2852,16 +2852,18 @@
 
   function cosmeticCard(x){
     const have=owned(x.id), on=active(x.type)?.id===x.id;
+    const previewClass=x.preview||x.value||'default';
+    const bgStyle=x.type==='background'&&x.mediaUrl ? 'background:url(\\''+escapeHtml(x.mediaUrl)+'\\') center/cover no-repeat;' : (x.type==='background' ? 'background:'+(bgMap[x.value]||'')+';' : '');
+    const media=x.mediaUrl&&x.type!=='background' ? '<img class="cosmetic-media" src="'+escapeHtml(x.mediaUrl)+'" alt="" onerror="this.style.display=\\'none\\'">' : '';
     return '<div class="cosmetic-card">'+
-      '<div class="cosmetic-preview cosmetic-'+escapeHtml(x.type)+' cosmetic-'+escapeHtml(x.value)+'" style="'+(x.type==='background'?'background:'+((x.mediaUrl||x.imageUrl)?'url(\\''+(x.mediaUrl||x.imageUrl)+'\\') center/cover no-repeat':(bgMap[x.value]||'linear-gradient(135deg,#10122c,#25134d)'))+';':'')+'">'+
-      ((x.mediaUrl||x.imageUrl)&&x.type!=='background'?'<img class="cosmetic-media" src="'+escapeHtml(x.mediaUrl||x.imageUrl)+'" alt="" onerror="this.style.display=\\'none\\'">':'')+
-      '<img class="cosmetic-avatar" src="'+(currentUser?.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'">'+
-      '<div class="cosmetic-name" style="'+(x.type==='nameColor'&&x.value!=='rainbow'&&x.value!=='neon'?'color:'+x.value+';text-shadow:0 0 14px '+x.value+';':'')+'">'+escapeHtml(currentUser?.displayName||'ScriptHub')+'</div></div>'+
-      '<div style="display:flex;justify-content:space-between;gap:.3rem;align-items:center"><strong style="font-size:.78rem">'+x.icon+' '+escapeHtml(x.name)+'</strong><span class="rarity">'+x.rarity+'</span></div>'+
-      '<div style="font-size:.6rem;color:var(--text-muted);min-height:28px;margin-top:.2rem">'+escapeHtml(x.desc)+'</div>'+
+      '<div class="cosmetic-preview preview-'+escapeHtml(previewClass)+' cosmetic-'+escapeHtml(x.type)+'" style="'+bgStyle+'">'+media+
+      '<img class="cosmetic-avatar" src="'+(currentUser?.photoURL||IMG.users)+'" onerror="this.src=\\''+IMG.users+'\\'">'+
+      '<div class="cosmetic-name">'+escapeHtml(currentUser?.displayName||'ScriptHub')+'</div></div>'+
+      '<div style="display:flex;justify-content:space-between;gap:.3rem;align-items:center"><strong style="font-size:.78rem">'+(x.icon||'✨')+' '+escapeHtml(x.name)+'</strong><span class="rarity">'+escapeHtml(x.rarity||'Common')+'</span></div>'+
+      '<div style="font-size:.6rem;color:var(--text-muted);min-height:28px;margin-top:.2rem">'+escapeHtml(x.desc||'Özel profil kozmetiği')+'</div>'+
       '<div class="cosmetic-meta"><span class="cosmetic-price">'+(have?'Sahipsin':'🪙 '+x.price)+'</span>'+
-      (have?'<button class="buy-btn '+(on?'owned':'')+'" onclick="toggleCosmetic(\''+x.id+'\')">'+(on?'✅ Aktif':'🎨 Kuşan')+'</button>':
-      '<button class="buy-btn" onclick="purchaseCosmetic(\''+x.id+'\','+x.price+')">🛒 Al</button>')+'</div></div>';
+      (have?'<button class="buy-btn '+(on?'owned':'')+'" onclick="toggleCosmetic(\\''+x.id+'\\')">'+(on?'✅ Aktif':'🎨 Kuşan')+'</button>':
+      '<button class="buy-btn" onclick="purchaseCosmetic(\\''+x.id+'\\','+x.price+')">🛒 Al</button>')+'</div></div>';
   }
 
   async function loadDynamicCosmetics(){
