@@ -2774,6 +2774,7 @@
 
 <!-- ScriptHub Cosmetic Studio patch -->
 <style>
+.cosmetic-frame-gold{border:3px solid #fbbf24!important;box-shadow:0 0 18px #fbbf2466}.cosmetic-frame-premium{border:3px solid #a78bfa!important;box-shadow:0 0 18px #a78bfa66}.cosmetic-frame-fire{border:3px solid #fb7185!important;box-shadow:0 0 20px #fb718588}.cosmetic-frame-ice{border:3px solid #67e8f9!important;box-shadow:0 0 20px #67e8f988}.cosmetic-name_rainbow .cosmetic-name{background:linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#c084fc);-webkit-background-clip:text;background-clip:text;color:transparent!important;background-size:300% 100%;animation:shRainbow 3s linear infinite}.cosmetic-name_neon .cosmetic-name{color:#67e8f9!important;text-shadow:0 0 6px #67e8f9,0 0 18px #22d3ee}@keyframes shRainbow{to{background-position:300% 0}}
 .cosmetic-preview{height:100px;border-radius:18px;border:1px solid var(--border-color);position:relative;overflow:hidden;margin-bottom:.6rem;background:linear-gradient(135deg,#10122c,#25134d)}
 .cosmetic-preview::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(167,139,250,.5),transparent 35%),radial-gradient(circle at 80% 80%,rgba(59,130,246,.35),transparent 35%)}
 .cosmetic-preview .cosmetic-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82}
@@ -2827,7 +2828,7 @@
   function cosmeticCard(x){
     const have=owned(x.id), on=active(x.type)?.id===x.id;
     return '<div class="cosmetic-card">'+
-      '<div class="cosmetic-preview" style="'+(x.type==='background'?'background:'+((x.mediaUrl||x.imageUrl)?'url(\\''+(x.mediaUrl||x.imageUrl)+'\\') center/cover no-repeat':(bgMap[x.value]||'linear-gradient(135deg,#10122c,#25134d)'))+';':'')+'">'+
+      '<div class="cosmetic-preview cosmetic-'+escapeHtml(x.type)+' cosmetic-'+escapeHtml(x.value)+'" style="'+(x.type==='background'?'background:'+((x.mediaUrl||x.imageUrl)?'url(\\''+(x.mediaUrl||x.imageUrl)+'\\') center/cover no-repeat':(bgMap[x.value]||'linear-gradient(135deg,#10122c,#25134d)'))+';':'')+'">'+
       ((x.mediaUrl||x.imageUrl)&&x.type!=='background'?'<img class="cosmetic-media" src="'+escapeHtml(x.mediaUrl||x.imageUrl)+'" alt="" onerror="this.style.display=\\'none\\'">':'')+
       '<img class="cosmetic-avatar" src="'+(currentUser?.photoURL||IMG.users)+'" onerror="this.src=\''+IMG.users+'\'">'+
       '<div class="cosmetic-name" style="'+(x.type==='nameColor'&&x.value!=='rainbow'&&x.value!=='neon'?'color:'+x.value+';text-shadow:0 0 14px '+x.value+';':'')+'">'+escapeHtml(currentUser?.displayName||'ScriptHub')+'</div></div>'+
