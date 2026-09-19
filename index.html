@@ -395,7 +395,26 @@
             .card-image{height:120px !important}
         }
     </style>
-</head>
+
+<style id="scripthub-cosmetic-polish">
+.cosmetic-preview{height:128px!important;border-radius:20px!important;background:#080a18!important;box-shadow:inset 0 0 35px rgba(0,0,0,.35),0 8px 24px rgba(0,0,0,.18)}
+.cosmetic-preview:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 35%,rgba(0,0,0,.45));pointer-events:none}
+.cosmetic-card{padding:.8rem!important;border-radius:22px!important;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important}
+.cosmetic-card:hover{transform:translateY(-5px) scale(1.01)!important;box-shadow:0 16px 38px rgba(0,0,0,.28)}
+.cosmetic-card .buy-btn{min-height:36px;border-radius:12px!important}
+.cosmetic-preview.cosmetic-gold{background:radial-gradient(circle at 20% 20%,#fef3c755,transparent 28%),linear-gradient(135deg,#211407,#6b4510 48%,#140d05)!important}
+.cosmetic-preview.cosmetic-fire{background:radial-gradient(circle at 25% 70%,#fb718566,transparent 30%),radial-gradient(circle at 75% 25%,#f9731655,transparent 30%),linear-gradient(135deg,#210607,#7f1d1d 48%,#140507)!important}
+.cosmetic-preview.cosmetic-ice{background:radial-gradient(circle at 25% 30%,#67e8f988,transparent 28%),radial-gradient(circle at 80% 75%,#60a5fa55,transparent 30%),linear-gradient(135deg,#061526,#164e63 48%,#07101f)!important}
+.cosmetic-preview.cosmetic-rainbow{background:conic-gradient(from 90deg,#f87171,#fbbf24,#4ade80,#22d3ee,#818cf8,#e879f9,#f87171)!important;animation:shCosmicHue 7s linear infinite}
+.cosmetic-preview.cosmetic-galaxy{background:radial-gradient(circle at 25% 35%,#c084fc99 0 2px,transparent 3px),radial-gradient(circle at 70% 25%,#fff 0 1px,transparent 2px),radial-gradient(circle at 82% 72%,#60a5fa 0 2px,transparent 3px),radial-gradient(circle at 35% 75%,#a78bfa 0 1px,transparent 2px),linear-gradient(135deg,#030014,#17104a 50%,#020617)!important;background-size:120px 120px,170px 170px,140px 140px,190px 190px,100% 100%!important;animation:shGalaxy 10s linear infinite}
+@keyframes shCosmicHue{to{filter:hue-rotate(360deg)}}@keyframes shGalaxy{to{background-position:120px 0,-170px 20px,140px -10px,-190px 15px,0 0}}
+.cosmetic-preview .cosmetic-avatar{width:56px!important;height:56px!important;left:18px!important;bottom:15px!important;border-width:3px!important;z-index:2}
+.cosmetic-preview .cosmetic-name{left:88px!important;bottom:30px!important;font-size:1.02rem!important;z-index:2}
+.cosmetic-frame-gold .cosmetic-avatar{border-color:#fbbf24;box-shadow:0 0 22px #fbbf2488}
+.cosmetic-frame-fire .cosmetic-avatar{border-color:#fb7185;box-shadow:0 0 24px #fb718588}
+.cosmetic-frame-ice .cosmetic-avatar{border-color:#67e8f9;box-shadow:0 0 24px #67e8f988}
+@media(max-width:600px){.cosmetic-grid{grid-template-columns:1fr 1fr!important;gap:.55rem}.cosmetic-preview{height:112px!important}.cosmetic-card{padding:.55rem!important}.cosmetic-preview .cosmetic-avatar{width:46px!important;height:46px!important}.cosmetic-preview .cosmetic-name{left:74px!important;font-size:.82rem!important}}
+</style></head>
 <body>
 
 <div class="app" id="app">
@@ -2800,19 +2819,11 @@
 (function(){
   'use strict';
   const DEFAULT_COSMETICS = [
-    {id:'frame_gold',name:'Altın Çerçeve',price:150,type:'frame',value:'gold',icon:'🟡',rarity:'Rare',desc:'Profil avatarına altın çerçeve.'},
-    {id:'frame_premium',name:'Premium Çerçeve',price:200,type:'frame',value:'premium',icon:'💎',rarity:'Epic',desc:'Parlayan premium avatar çerçevesi.'},
-    {id:'frame_fire',name:'Inferno Frame',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş enerjili profil çerçevesi.'},
-    {id:'frame_ice',name:'Frost Frame',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali temalı çerçeve.'},
-    {id:'name_purple',name:'Mor Glow',price:100,type:'nameColor',value:'#a78bfa',icon:'🟣',rarity:'Common',desc:'Mor neon isim efekti.'},
-    {id:'name_gold',name:'Altın Glow',price:200,type:'nameColor',value:'#fbbf24',icon:'🟡',rarity:'Rare',desc:'Altın parlayan isim.'},
-    {id:'name_rainbow',name:'Rainbow',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Animasyonlu rainbow isim.'},
-    {id:'name_neon',name:'Cyber Neon',price:750,type:'nameColor',value:'neon',icon:'⚡',rarity:'Legendary',desc:'Cyberpunk neon isim efekti.'},
-    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Hareketli galaksi tarzı profil arka planı.'},
-    {id:'bg_aurora',name:'Aurora',price:700,type:'background',value:'aurora',icon:'🌈',rarity:'Legendary',desc:'Aurora ışıkları temalı profil arka planı.'},
-    {id:'bg_cyber',name:'Cyber City',price:550,type:'background',value:'cyber',icon:'🌃',rarity:'Epic',desc:'Neon şehir temalı profil arka planı.'},
-    {id:'badge_og',name:'OG Member',price:400,type:'badge',value:'og',icon:'🏆',rarity:'Rare',desc:'Eski üye tarzı profil rozeti.'},
-    {id:'badge_creator',name:'Creator',price:800,type:'badge',value:'creator',icon:'🎨',rarity:'Legendary',desc:'İçerik üreticisi rozeti.'}
+    {id:'frame_gold',name:'Royal Gold',price:150,type:'frame',value:'gold',icon:'👑',rarity:'Rare',desc:'Altın ışıklı premium avatar çerçevesi.'},
+    {id:'frame_fire',name:'Inferno',price:650,type:'frame',value:'fire',icon:'🔥',rarity:'Legendary',desc:'Ateş ve kor temalı hareketli görünüm.'},
+    {id:'frame_ice',name:'Frostbite',price:600,type:'frame',value:'ice',icon:'❄️',rarity:'Legendary',desc:'Buz kristali ve soğuk neon çerçeve.'},
+    {id:'name_rainbow',name:'Prism Name',price:500,type:'nameColor',value:'rainbow',icon:'🌈',rarity:'Epic',desc:'Renkleri sürekli akan gökkuşağı isim efekti.'},
+    {id:'bg_galaxy',name:'Galaxy Rift',price:600,type:'background',value:'galaxy',icon:'🌌',rarity:'Epic',desc:'Derin uzay, nebula ve yıldız temalı profil arka planı.'}
   ];
   const bgMap={
     galaxy:'radial-gradient(circle at 20% 30%,#7c3aed55,transparent 30%),radial-gradient(circle at 80% 70%,#2563eb55,transparent 30%),linear-gradient(135deg,#08051b,#17104a,#020617)',
