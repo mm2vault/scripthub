@@ -1280,7 +1280,7 @@ window.deleteCommunityGame=async function(id){
             const coinPrice = s.coinPrice || 0;
 
             return `
-                <div class="script-card">
+                <div class="script-card ${((inventory||[]).find(i=>i.type==='scriptFrame'&&i.active)?.value||'') ? 'script-frame-'+((inventory||[]).find(i=>i.type==='scriptFrame'&&i.active)?.value||'') : ''}">
                     <div class="card-image">${getCardImageHTML(s)}</div>
                     <div class="card-body">
                         <div class="card-header">
@@ -2056,6 +2056,7 @@ window.deleteCommunityGame=async function(id){
     aurora:'radial-gradient(circle at 30% 60%,#22c55e55,transparent 28%),radial-gradient(circle at 70% 30%,#06b6d455,transparent 30%),linear-gradient(135deg,#03151b,#10133a,#160b31)',
     cyber:'linear-gradient(135deg,#080014,#26104d 45%,#071b2b)'
   };
+  DEFAULT_COSMETICS.push({id:'script_frame_neon',name:'Neon Script',price:300,type:'scriptFrame',value:'neon',icon:'⚡',rarity:'Epic',desc:'Script kartlarına neon çerçeve.'},{id:'script_frame_gold',name:'Royal Script',price:350,type:'scriptFrame',value:'gold',icon:'👑',rarity:'Legendary',desc:'Script kartlarına altın çerçeve.'});
   let catalog=[...DEFAULT_COSMETICS];
 
   const owned=id=>Array.isArray(SH.inventory)&&SH.inventory.some(x=>x.id===id);
