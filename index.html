@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>ScriptHub · 90+ Script & Oyunlar</title>
+    <title>ScriptHub · Roblox Script & Oyun Merkezi</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#7c3aed">
+    <meta name="description" content="ScriptHub — Roblox scriptleri, oyunlar ve topluluk içerikleri. Scriptleri keşfet, favorile ve incele.">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="ScriptHub · Roblox Script & Oyun Merkezi">
+    <meta property="og:description" content="Roblox scriptlerini ve topluluk içeriklerini keşfet.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png">
@@ -20,6 +28,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
 
     <style>
+        /* ScriptHub v2 polish */
+        :focus-visible{outline:2px solid var(--accent-light);outline-offset:3px}
+        ::selection{background:var(--accent);color:#fff}
+        img{content-visibility:auto}
+        button,input,select,textarea{font:inherit}
+        .app{isolation:isolate}
+        .status-strip{display:flex;align-items:center;justify-content:center;gap:.55rem;margin:-.8rem 0 1.2rem;padding:.55rem .8rem;border:1px solid var(--border-color);background:var(--bg-card);border-radius:999px;color:var(--text-secondary);font-size:.72rem;text-align:center}
+        .status-strip .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px rgba(74,222,128,.8);flex:none}
+        @media(max-width:720px){body{padding:.35rem}.app{padding:1rem;border-radius:1.5rem}.logo h1{font-size:1.55rem}.search-box{order:3;max-width:none;width:100%;min-width:0}.stats{width:100%;justify-content:center}.script-grid{grid-template-columns:1fr;gap:1rem}.status-strip{border-radius:14px;margin:-.3rem 0 1rem;font-size:.66rem}}
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
         :root{
             --bg-primary:#070816;
@@ -375,6 +393,7 @@
 <body>
 
 <div class="app" id="app">
+    <div class="status-strip" role="status" aria-live="polite"><span class="dot" aria-hidden="true"></span><span>ScriptHub aktif · Topluluk içerikleri düzenli olarak güncelleniyor</span></div>
     <header class="header">
         <div class="logo">
             <img src="https://i.postimg.cc/vT1sHWqq/Gemini-Generated-Image-xefq68xefq68xefq.png" alt="ScriptHub Logo">
