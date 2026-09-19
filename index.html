@@ -1518,6 +1518,7 @@
         } catch(e) {}
     }
 
+    window.adminToggleBan=async function(uid,banned){if(!isAdmin(currentUser))return;await db.collection('users').doc(uid).update({banned:!banned,bannedAt:!banned?firebase.firestore.FieldValue.serverTimestamp():null,bannedBy:!banned?currentUser.uid:null});showToast(!banned?'🚫 Kullanıcı engellendi':'🔓 Kullanıcının engeli kaldırıldı');renderAdminPanel();};
     window.resolveReport=async function(id){if(!isAdmin(currentUser))return;await db.collection('reports').doc(id).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('✅ Rapor çözüldü');renderAdminPanel();};
     window.adminInspectUser=async function(uid){if(!isAdmin(currentUser))return;const d=await db.collection('users').doc(uid).get();const x=d.data()||{};alert('Kullanıcı: '+(x.displayName||'Kullanıcı')+'\nE-posta: '+(x.email||'')+'\nCoin: '+(x.coins||0)+'\nSatın alınan: '+((x.purchasedScripts||[]).length));};
     window.deleteReportedTarget=async function(reportId){if(!isAdmin(currentUser))return;const d=await db.collection('reports').doc(reportId).get();const x=d.data()||{};if(x.targetType==='script'&&x.targetId)await db.collection('scripts').doc(x.targetId).delete();if(x.targetType==='comment'&&x.scriptId&&x.targetId)await db.collection('scripts').doc(x.scriptId).collection('comments').doc(x.targetId).delete();await db.collection('reports').doc(reportId).update({status:'resolved',resolvedAt:firebase.firestore.FieldValue.serverTimestamp(),resolvedBy:currentUser.uid});showToast('🗑️ İçerik ve rapor işlendi');renderAdminPanel();};
@@ -1622,7 +1623,7 @@
                 tabContent.innerHTML='<div class="admin-list">'+rows.join('')+'</div>';
             };
             const showUsers=async()=>{
-                const rows=[]; usersSnap.forEach(d=>{const x=d.data();rows.push(`<div class="admin-list-item"><div class="info"><div class="title">👤 ${escapeHtml(x.displayName||'Kullanıcı')}</div><div class="sub">${escapeHtml(x.email||'')} · 🪙 ${Number(x.coins||0)} · 📦 ${(x.purchasedScripts||[]).length}</div></div><div class="actions"><button class="edit-btn" onclick="adminInspectUser('${d.id}')">👁️</button></div></div>`);});
+                const rows=[]; usersSnap.forEach(d=>{const x=d.data();rows.push(`<div class="admin-list-item"><div class="info"><div class="title">👤 ${escapeHtml(x.displayName||'Kullanıcı')}</div><div class="sub">${escapeHtml(x.email||'')} · 🪙 ${Number(x.coins||0)} · 📦 ${(x.purchasedScripts||[]).length}</div></div><div class="actions"><button class="edit-btn" onclick="adminInspectUser('${d.id}')">👁️</button><button class="delete-btn-admin" onclick="adminToggleBan('${d.id}', ${!!x.banned})">${x.banned?'🔓':'🚫'}</button></div></div>`);});
                 tabContent.innerHTML='<div class="admin-list">'+rows.join('')+'</div>';
             };
             const showActivity=()=>{tabContent.innerHTML=`<div class="admin-activity-card"><h3>📊 Sistem Özeti</h3><p>Toplam kullanıcı: <b>${usersSnap.size}</b></p><p>Toplam script: <b>${scriptsSnap.size}</b></p><p>Toplam oyun: <b>${gamesSnap.size}</b></p><p>Açık rapor: <b>${reportsCount}</b></p><p>Panel yenilendi: <b>${new Date().toLocaleString('tr-TR')}</b></p></div>`;};
