@@ -2606,5 +2606,109 @@
 
 </script>
 
+
+<!-- ScriptHub v3 UX/Performance patch -->
+<style>
+  /* Keep the existing ScriptHub look; improve touch, mobile and media reliability. */
+  html{overflow-x:hidden}
+  body{overscroll-behavior-x:none}
+  .modal-card{overscroll-behavior:contain}
+  .modal-overlay{overscroll-behavior:contain}
+  .script-card img,.game-card img,.profile-avatar,.profile-edit-avatar{background:var(--bg-card)}
+  .profile-banner{min-height:110px;border-radius:20px;background:
+    radial-gradient(circle at 15% 20%,rgba(167,139,250,.28),transparent 34%),
+    radial-gradient(circle at 85% 70%,rgba(59,130,246,.18),transparent 38%),
+    linear-gradient(135deg,rgba(124,58,237,.28),rgba(10,11,30,.2));border:1px solid var(--border-color)}
+  .mobile-action-bar{display:none}
+  @media(max-width:600px){
+    .app{width:100%;min-width:0}
+    .header{margin-bottom:1rem}
+    .search-box{width:100%;max-width:none}
+    .script-grid{grid-template-columns:1fr!important}
+    .modal-overlay{padding:.4rem}
+    .modal-card,.modal-card.wide{width:100%;max-width:none;max-height:94dvh;padding:1rem;border-radius:24px}
+    .form-group input,.form-group select,.form-group textarea{font-size:16px}
+    .profile-header{align-items:center;text-align:center}
+    .profile-info{min-width:0;width:100%}
+    .profile-stats{justify-content:center;width:100%;gap:.5rem}
+    .profile-stats .stat{flex:1;min-width:0;padding:.55rem}
+    .admin-toolbar{overflow-x:auto;flex-wrap:nowrap;padding-bottom:.35rem}
+    .admin-tab{flex:0 0 auto}
+    .mobile-action-bar{display:flex;position:sticky;bottom:0;z-index:5;gap:.5rem;margin-top:1rem;padding:.5rem;background:var(--bg-modal);border-top:1px solid var(--border-color)}
+    .mobile-action-bar button{flex:1}
+  }
+  @media(min-width:601px) and (max-width:1024px){
+    .script-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+    .modal-card.wide{max-width:94vw}
+  }
+</style>
+<script>
+(function(){
+  'use strict';
+  const DEFAULT_IMG = "data:image/svg+xml,%3Csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"%3E%3Crect width=\"100\" height=\"100\" fill=\"%231a1a3a\"/%3E%3Ctext x=\"50\" y=\"58\" font-size=\"42\" text-anchor=\"middle\" fill=\"%23a78bfa\"%3E⚡%3C/text%3E%3C/svg%3E";
+
+  function repairImages(root=document){
+    root.querySelectorAll && root.querySelectorAll('img').forEach(img=>{
+      if(img.dataset.shRepairBound) return;
+      img.dataset.shRepairBound='1';
+      img.loading=img.loading||'lazy';
+      img.decoding=img.decoding||'async';
+      img.addEventListener('error',function(){
+        if(this.dataset.shFallback) return;
+        this.dataset.shFallback='1';
+        this.src=DEFAULT_IMG;
+      },{once:true});
+    });
+  }
+  repairImages();
+  new MutationObserver(()=>repairImages()).observe(document.documentElement,{childList:true,subtree:true});
+
+  // Close menus/modals reliably on Escape and allow background scrolling again.
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape') return;
+    const open=[...document.querySelectorAll('.modal-overlay.open')].pop();
+    if(open){
+      const close=open.querySelector('.modal-close');
+      if(close) close.click();
+      else open.classList.remove('open');
+      if(!document.querySelector('.modal-overlay.open')) document.body.style.overflow='';
+    }
+  },{capture:true});
+
+  // Prevent accidental form resubmits with Enter in single-line fields.
+  document.addEventListener('keydown',e=>{
+    if(e.key!=='Enter') return;
+    const el=e.target;
+    if(el && el.matches('input[type="text"],input[type="url"],input[type="number"]') && el.closest('.modal-card')){
+      const form=el.closest('form');
+      if(form && !el.closest('.comment-input')) e.stopPropagation();
+    }
+  });
+
+  // Make external links safer without touching existing URLs.
+  document.querySelectorAll('a[target="_blank"]').forEach(a=>{
+    const rel=(a.getAttribute('rel')||'').split(/\s+/).filter(Boolean);
+    if(!rel.includes('noopener')) rel.push('noopener');
+    if(!rel.includes('noreferrer')) rel.push('noreferrer');
+    a.setAttribute('rel',rel.join(' '));
+  });
+
+  // Offline/online status gives the user a useful signal without changing the design.
+  function networkStatus(){
+    let el=document.getElementById('shNetworkStatus');
+    if(!el){
+      el=document.createElement('div'); el.id='shNetworkStatus';
+      el.style.cssText='position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:10000000;padding:.45rem .8rem;border-radius:999px;font-size:.7rem;display:none;border:1px solid var(--border-color);background:var(--bg-modal);color:var(--text-secondary);backdrop-filter:blur(16px)';
+      document.body.appendChild(el);
+    }
+    el.textContent=navigator.onLine?'':'📡 İnternet bağlantısı yok — kayıtlı içerikler kullanılabilir.';
+    el.style.display=navigator.onLine?'none':'block';
+  }
+  window.addEventListener('online',networkStatus);
+  window.addEventListener('offline',networkStatus);
+  networkStatus();
+})();
+</script>
+
 </body>
 </html>
