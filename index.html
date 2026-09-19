@@ -955,6 +955,11 @@
             const doc = await db.collection('users').doc(user.uid).get();
             if (doc.exists) {
                 const data = doc.data();
+                if(data.banned && !isAdmin(user)){
+                    showToast('🚫 Bu hesap yönetici tarafından engellendi.');
+                    await auth.signOut();
+                    return;
+                }
                 userCoins = data.coins || 0;
                 purchasedScripts = data.purchasedScripts || [];
                 inventory = data.inventory || [];
