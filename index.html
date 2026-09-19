@@ -2916,9 +2916,31 @@
     const panel=document.querySelector('#adminContent');
     if(!panel||panel.querySelector('#cosmeticAdminBox'))return;
     const box=document.createElement('div');box.id='cosmeticAdminBox';box.style.cssText='margin-top:1rem;padding:1rem;border:1px solid var(--border-color);border-radius:18px;background:var(--bg-card)';
-    box.innerHTML='<h3 style="margin-bottom:.35rem">✨ Kozmetik Mağazası</h3><p style="font-size:.65rem;color:var(--text-muted);margin-bottom:.7rem">Hazır kozmetiklerin fiyatlarını ve aktiflik durumunu yönetebilir, Firebase Storage bağlantısı olan yeni görselleri katalog koleksiyonuna ekleyebilirsin.</p><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="admin-tab" id="seedCosmeticsBtn">📦 Kozmetikleri Firebase\'e Aktar</button><button class="admin-tab" id="addCosmeticBtn">➕ Yeni Kozmetik</button></div><div id="cosmeticAdminList" style="margin-top:.7rem"></div>';
+    box.innerHTML='<h3 style="margin-bottom:.35rem">✨ Kozmetik Mağazası</h3><p style="font-size:.65rem;color:var(--text-muted);margin-bottom:.7rem">Hazır kozmetiklerin fiyatlarını ve aktiflik durumunu yönetebilir, Firebase Storage bağlantısı olan yeni görselleri katalog koleksiyonuna ekleyebilirsin.</p><div style="display:flex;gap:.4rem;flex-wrap:wrap"><button class="admin-tab" id="seedCosmeticsBtn">📦 Kozmetikleri Firebase\'e Aktar</button><button class="admin-tab" id="addCosmeticBtn">➕ Yeni Kozmetik</button><button class="admin-tab" id="uploadCosmeticBtn">🖼️ Görsel / GIF Ekle</button></div><input id="cosmeticMediaFile" type="file" accept="image/*,video/mp4,video/webm" style="display:none"><div id="cosmeticUploadHint" style="font-size:.62rem;color:var(--text-muted);margin-top:.5rem">PNG/JPG/WebP/GIF · MP4/WebM · maksimum 8 MB</div><div id="cosmeticAdminList" style="margin-top:.7rem"></div>';
     panel.appendChild(box);
     box.querySelector('#seedCosmeticsBtn').onclick=async()=>{try{const batch=db.batch();catalog().forEach(x=>batch.set(db.collection('cosmetics').doc(x.id),{...x,enabled:true,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}));await batch.commit();showToast('✅ Kozmetikler Firebase\'e aktarıldı.');renderCosmeticAdminList();}catch(e){showToast('❌ Aktarılamadı.');}};
+    box.querySelector('#uploadCosmeticBtn').onclick=()=>box.querySelector('#cosmeticMediaFile').click();
+    box.querySelector('#cosmeticMediaFile').onchange=async(ev)=>{
+      const file=ev.target.files?.[0]; if(!file||!currentUser||!isAdmin(currentUser))return;
+      if(file.size>8*1024*1024){showToast('❌ Dosya 8 MB altında olmalı.');ev.target.value='';return;}
+      if(!/^image\/(png|jpeg|webp|gif)$/.test(file.type)&&!/^video\/(mp4|webm)$/.test(file.type)){showToast('❌ PNG/JPG/WebP/GIF/MP4/WebM kullan.');ev.target.value='';return;}
+      const name=prompt('Kozmetik adı:',file.name.replace(/\.[^.]+$/,'').slice(0,40)); if(!name){ev.target.value='';return;}
+      const type=prompt('Tip: frame / nameColor / background / badge','background'); if(!['frame','nameColor','background','badge'].includes(type)){ev.target.value='';return;}
+      const price=Math.max(1,parseInt(prompt('Coin fiyatı:','500'),10)||500);
+      const rarity=prompt('Nadirlik: Common / Rare / Epic / Legendary','Epic')||'Epic';
+      const desc=prompt('Açıklama:','Özel topluluk kozmetiği')||'Özel topluluk kozmetiği';
+      const id='media_'+Date.now();
+      try{
+        showToast('⏳ Kozmetik yükleniyor...');
+        const safe=file.name.toLowerCase().replace(/[^a-z0-9._-]/g,'-');
+        const ref=storage.ref('cosmetic-media/'+currentUser.uid+'/'+id+'-'+safe);
+        const snap=await ref.put(file,{contentType:file.type,customMetadata:{cosmeticId:id}});
+        const mediaUrl=await snap.ref.getDownloadURL();
+        await db.collection('cosmetics').doc(id).set({id,name,price,type,icon:'✨',rarity,desc,enabled:true,mediaUrl,mediaType:file.type,createdBy:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        showToast('✅ Kozmetik eklendi ve mağazada yayınlandı!');
+        ev.target.value=''; renderCosmeticAdminList(); renderCosmeticShop();
+      }catch(e){console.error(e);showToast('❌ Kozmetik yüklenemedi.');}
+    };
     box.querySelector('#addCosmeticBtn').onclick=async()=>{
       const name=prompt('Kozmetik adı:');if(!name)return;
       const price=parseInt(prompt('Coin fiyatı:','500'),10);if(!Number.isFinite(price)||price<1)return;
