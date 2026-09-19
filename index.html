@@ -2447,6 +2447,163 @@
     init();
 
 })();
+
+/* ================== ScriptHub Stability Enhancements ================== */
+(function(){
+  const style=document.createElement('style');
+  style.textContent=`
+    img[data-sh-img]{content-visibility:auto;contain-intrinsic-size:320px 180px}
+    .image-upload-progress{height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:8px}
+    .image-upload-progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-light));transition:width .2s}
+    .profile-banner{min-height:92px;border-radius:16px;margin:-.25rem -.25rem 1rem;background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(59,130,246,.18));position:relative;overflow:hidden}
+    .profile-banner:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.12),transparent 35%)}
+    .shortcut-hint{font-size:.58rem;color:var(--text-muted);opacity:.8;margin-left:.35rem}
+  `;
+  document.head.appendChild(style);
+
+  // Keep every existing image URL intact. Only add browser-side loading hints.
+  function optimizeImages(){
+    document.querySelectorAll('img:not([data-sh-img])').forEach(img=>{
+      img.dataset.shImg='1';
+      if(!img.hasAttribute('loading')) img.loading='lazy';
+      if(!img.hasAttribute('decoding')) img.decoding='async';
+      img.addEventListener('error',()=>{img.dataset.shBroken='1'}, {once:true});
+    });
+  }
+  const mo=new MutationObserver(()=>requestAnimationFrame(optimizeImages));
+  mo.observe(document.documentElement,{childList:true,subtree:true});
+  optimizeImages();
+
+  // Keyboard shortcuts: Ctrl/Cmd+K search, / focus search, Esc close overlays,
+  // Alt+P profile, Alt+A admin, Alt+S add script.
+  document.addEventListener('keydown',function(e){
+    const tag=(e.target&&e.target.tagName||'').toLowerCase();
+    const typing=['input','textarea','select'].includes(tag) || e.target?.isContentEditable;
+    if(e.key==='Escape'){
+      const open=document.querySelector('.modal-overlay.open');
+      if(open){
+        const close=open.querySelector('.modal-close');
+        if(close) close.click();
+        else {open.classList.remove('open');document.body.style.overflow='';}
+      }
+      return;
+    }
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){
+      e.preventDefault();
+      const s=document.getElementById('searchInput');
+      if(s){s.focus();s.select();}
+      return;
+    }
+    if(!typing && e.key==='/'){
+      e.preventDefault();
+      const s=document.getElementById('searchInput');
+      if(s){s.focus();s.select();}
+      return;
+    }
+    if(e.altKey && e.key.toLowerCase()==='p' && currentUser){e.preventDefault();openProfileModal();return;}
+    if(e.altKey && e.key.toLowerCase()==='a' && currentUser && isAdmin(currentUser)){e.preventDefault();openAdminModal();return;}
+    if(e.altKey && e.key.toLowerCase()==='s' && currentUser){e.preventDefault();document.getElementById('addScriptBtn')?.click();return;}
+  });
+
+  // Safer coin bookkeeping: retain the existing balance and add a lightweight ledger.
+  // It does not rewrite or remove any existing coin data.
+  const originalAddCoins=window.addCoins || addCoins;
+  if(typeof originalAddCoins==='function'){
+    window.addCoins=async function(amount,reason){
+      const before=userCoins;
+      const result=await originalAddCoins(amount,reason);
+      if(currentUser && amount>0 && userCoins>=before){
+        db.collection('users').doc(currentUser.uid).collection('coinLedger').add({
+          type:'earn',amount:Number(amount),reason:String(reason||''),createdAt:firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(()=>{});
+      }
+      return result;
+    };
+  }
+  const originalSpendCoins=window.spendCoins || spendCoins;
+  if(typeof originalSpendCoins==='function'){
+    window.spendCoins=async function(amount,item){
+      const before=userCoins;
+      const ok=await originalSpendCoins(amount,item);
+      if(ok && currentUser && userCoins<before){
+        db.collection('users').doc(currentUser.uid).collection('coinLedger').add({
+          type:'spend',amount:Number(amount),item:String(item||''),createdAt:firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(()=>{});
+      }
+      return ok;
+    };
+  }
+
+  // Profile polish without changing the existing visual language.
+  const oldRenderProfile=window.renderProfile || renderProfile;
+  if(typeof oldRenderProfile==='function'){
+    window.renderProfile=function(){
+      oldRenderProfile();
+      const content=document.getElementById('profileContent');
+      if(!content || !currentUser) return;
+      const head=content.querySelector('.profile-header');
+      if(head && !content.querySelector('.profile-banner')){
+        const banner=document.createElement('div');
+        banner.className='profile-banner';
+        head.parentNode.insertBefore(banner,head);
+      }
+    };
+  }
+
+  // Preserve all existing image URLs; optimize only newly selected uploads.
+  async function compressImageForUpload(file,maxSide=1600,quality=.84){
+    if(!file || !file.type.startsWith('image/')) return file;
+    if(file.size<900*1024 && file.type!=='image/gif') return file;
+    if(file.type==='image/gif' || file.type==='image/svg+xml') return file;
+    return await new Promise(resolve=>{
+      const img=new Image();
+      const url=URL.createObjectURL(file);
+      img.onload=()=>{
+        try{
+          const scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
+          const canvas=document.createElement('canvas');
+          canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+          canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+          const ctx=canvas.getContext('2d',{alpha:true});
+          ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          canvas.toBlob(blob=>{
+            URL.revokeObjectURL(url);
+            if(blob && blob.size<file.size){
+              resolve(new File([blob],(file.name||'image')+'.webp',{type:'image/webp',lastModified:Date.now()}));
+            }else resolve(file);
+          },'image/webp',quality);
+        }catch(_){URL.revokeObjectURL(url);resolve(file);}
+      };
+      img.onerror=()=>{URL.revokeObjectURL(url);resolve(file)};
+      img.src=url;
+    });
+  }
+
+  const originalUpload=window.uploadCommunityImage || uploadCommunityImage;
+  if(typeof originalUpload==='function'){
+    window.uploadCommunityImage=async function(file,kind){
+      const optimized=await compressImageForUpload(file);
+      return originalUpload(optimized,kind);
+    };
+  }
+
+  // Admin coin controls + ledger, kept inside the existing admin panel.
+  window.adminGrantCoins=async function(uid,delta){
+    if(!currentUser || !isAdmin(currentUser) || !uid) return;
+    delta=parseInt(delta,10);
+    if(!Number.isFinite(delta)||delta===0) return;
+    const ref=db.collection('users').doc(uid);
+    await ref.set({
+      coins:firebase.firestore.FieldValue.increment(delta),
+      totalCoinsEarned:delta>0?firebase.firestore.FieldValue.increment(delta):firebase.firestore.FieldValue.increment(0)
+    },{merge:true});
+    await ref.collection('coinLedger').add({type:delta>0?'admin_grant':'admin_deduct',amount:Math.abs(delta),delta,by:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    showToast((delta>0?'🪙 +':'🪙 ')+delta+' coin uygulandı.');
+    if(uid===currentUser.uid){userCoins=Math.max(0,userCoins+delta);updateCoinDisplay();}
+    renderAdminPanel();
+  };
+})();
+
 </script>
 
 </body>
