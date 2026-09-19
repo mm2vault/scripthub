@@ -2925,5 +2925,49 @@
   const adminObs=new MutationObserver(()=>injectAdminCosmetics());adminObs.observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+
+<script>
+(function(){
+  function runShortcutAction(){
+    const p=new URLSearchParams(location.search), action=p.get('action');
+    if(!action)return;
+    const go=()=>{
+      if(action==='add-script') document.getElementById('addScriptBtn')?.click();
+      else if(action==='profile') window.openProfileModal?.();
+      else if(action==='shop') window.openCoinShop?.();
+      if(action) history.replaceState({},'',location.pathname+location.hash);
+    };
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(go,700),{once:true});
+    else setTimeout(go,700);
+  }
+  runShortcutAction();
+
+  // Profile avatar upload: uses the existing profile-media Storage namespace.
+  const profileObs=new MutationObserver(()=>{
+    const form=document.getElementById('profileEditForm');
+    if(!form||form.querySelector('#profileAvatarFile'))return;
+    const wrap=document.createElement('div');
+    wrap.className='form-group';
+    wrap.innerHTML='<label>📤 Avatar Dosyası</label><input type="file" id="profileAvatarFile" accept="image/*"><div id="profileUploadStatus" style="font-size:.6rem;color:var(--text-muted);margin-top:.3rem">JPG/PNG/WebP · maksimum 8 MB</div>';
+    const url=document.getElementById('editAvatarUrl')?.parentElement;
+    (url||form).after(wrap);
+    const file=form.querySelector('#profileAvatarFile');
+    file.addEventListener('change',async()=>{
+      const f=file.files?.[0]; if(!f||!currentUser)return;
+      if(!f.type.startsWith('image/')||f.size>8*1024*1024){showToast('❌ Görsel 8 MB altında olmalı.');return;}
+      const st=document.getElementById('profileUploadStatus'); st.textContent='⏳ Yükleniyor...';
+      try{
+        const ref=storage.ref('profile-media/'+currentUser.uid+'/avatar-'+Date.now());
+        const snap=await ref.put(f,{contentType:f.type});
+        const url=await snap.ref.getDownloadURL();
+        document.getElementById('editAvatarUrl').value=url;
+        document.getElementById('editAvatar').src=url;
+        st.textContent='✅ Avatar yüklendi. Kaydetmeyi unutma.';
+      }catch(e){st.textContent='❌ Yükleme başarısız.';showToast('❌ Avatar yüklenemedi.');}
+    });
+  });
+  profileObs.observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
