@@ -533,3 +533,34 @@
 .cosmetic-name-rainbow{background:linear-gradient(90deg,#f87171,#fbbf24,#4ade80,#60a5fa,#c084fc,#f87171);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:shNameRainbow 3s linear infinite}
 @keyframes shNameRainbow{to{background-position:300% 0}}
 @media(max-width:600px){.preview-avatar-wrap{left:12px;bottom:13px;width:46px;height:46px}.preview-frame-layer{inset:-7px}.profile-avatar-wrap.sh-profile-avatar-wrap{width:70px;height:70px}.sh-profile-avatar-wrap .profile-cosmetic-avatar{width:64px;height:64px}.profile-frame-media{inset:-11px;width:calc(100% + 22px);height:calc(100% + 22px)}}
+
+
+/* Cosmetics V3 final */
+.shop-main-btn{background:linear-gradient(135deg,#7c3aed,#a855f7);border:0;color:#fff;border-radius:999px;padding:.45rem .85rem;cursor:pointer;font-weight:800;font-size:.72rem;min-height:38px;box-shadow:0 6px 20px rgba(124,58,237,.22)}
+.shop-main-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(124,58,237,.35)}
+.cosmetic-v3-card{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border:1px solid var(--border-color);border-radius:20px;padding:.7rem;overflow:hidden}
+.cosmetic-v3-preview{height:150px;border-radius:16px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 20%,rgba(124,58,237,.35),transparent 55%),#080a18;border:1px solid rgba(167,139,250,.18);display:grid;place-items:center}
+.cosmetic-v3-avatar{width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #fff;position:relative;z-index:2}
+.cosmetic-v3-frame{position:absolute;width:94px;height:94px;object-fit:contain;z-index:3;pointer-events:none}
+.cosmetic-v3-title{display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin:.55rem 0 .3rem;color:var(--text-primary);font-weight:800;font-size:.8rem}
+.cosmetic-v3-title span{font-size:.55rem;color:var(--accent-light);padding:.2rem .45rem;border-radius:999px;background:rgba(167,139,250,.1)}
+.cosmetic-v3-desc{color:var(--text-muted);font-size:.62rem;line-height:1.4;min-height:34px}
+.cosmetic-v3-actions{display:flex;justify-content:space-between;align-items:center;gap:.4rem;margin-top:.5rem}
+.cosmetic-v3-price{color:var(--gold);font-weight:900;font-size:.72rem}
+.cosmetic-v3-actions button{border:0;border-radius:10px;padding:.5rem .65rem;background:var(--accent-gradient);color:#fff;font-size:.65rem;font-weight:800;cursor:pointer}
+.cosmetic-v3-actions button:disabled{opacity:.55;cursor:default}
+.cosmetic-v3-head{padding:.85rem;border:1px solid var(--border-color);border-radius:16px;background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(59,130,246,.05));margin-bottom:.8rem}
+.cosmetic-v3-head strong{color:var(--text-primary);font-size:.9rem}.cosmetic-v3-head p{color:var(--text-muted);font-size:.65rem;margin-top:.2rem}
+.cosmetic-v3-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+.cosmetic-v3-admin{padding:1rem;border:1px solid var(--border-color);border-radius:18px;background:rgba(124,58,237,.07);margin-bottom:1rem}
+.cosmetic-v3-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.cosmetic-v3-admin input,.cosmetic-v3-admin select{width:100%;background:var(--bg-card);border:1px solid var(--border-color);color:var(--text-primary);border-radius:11px;padding:.65rem}
+.cosmetic-v3-admin .wide{grid-column:1/-1}
+.cosmetic-v3-upload{display:flex;align-items:center;justify-content:center;border:1px dashed var(--accent-light);border-radius:11px;padding:.65rem;color:var(--accent-light);font-size:.7rem;cursor:pointer}
+.cosmetic-v3-admin .submit-btn{margin:0}
+.script-card.script-frame-neon{position:relative;border:2px solid #67e8f9!important;box-shadow:0 0 28px rgba(34,211,238,.28)!important}
+.script-card.script-frame-gold{position:relative;border:2px solid #fbbf24!important;box-shadow:0 0 28px rgba(251,191,36,.28)!important}
+.sh-script-frame-media{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:fill!important;z-index:30!important;pointer-events:none!important}
+.sh-profile-frame{position:absolute;inset:-13px;width:calc(100% + 26px);height:calc(100% + 26px);object-fit:contain;z-index:5;pointer-events:none}
+@media(max-width:700px){.cosmetic-v3-grid{grid-template-columns:1fr 1fr}.cosmetic-v3-admin-grid{grid-template-columns:1fr}.cosmetic-v3-admin .wide{grid-column:auto}}
+@media(max-width:430px){.cosmetic-v3-grid{grid-template-columns:1fr}}
